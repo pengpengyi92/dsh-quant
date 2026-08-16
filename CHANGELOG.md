@@ -4,6 +4,29 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.18.0] - 2026-08-16
+
+### Added
+- `quant_market_fetch` A-share providers: `sina` (free daily/minute klines,
+  no credentials) and `tencent` (qfq forward-adjusted daily klines) —
+  fulfills the "simple free data-source interfaces" positioning
+- `quant_factor_evaluate` gains `rankIc` (Spearman) and `icDecay` (horizon
+  1..N IC decay curve) — backward compatible
+- `quant_factor_neutralize`: group z-score (industry-style) / OLS style
+  residual / plain z-score, all hand-testable
+- `quant_walk_forward`: rolling OLS train → out-of-sample predict with OOS
+  IC/RankIC and per-window weights — the minimal honest ML workflow
+- `quant_drawdown`: underwater series, max/current drawdown, per-peak
+  periods with recovery tracking
+- `quant_execute_sim`: order execution simulation (slippage, latency,
+  two-sided fees, long-only position cap) — the no-live-trading execution
+  framework
+- `quant_research_pipeline`: one-call PDAT→PET chain (data → quality →
+  stats → indicators → backtest → metrics → risk → drawdown → fund → factor
+  → report → charts)
+- 149 unit tests (+36) + 4 loader composition + live verification incl.
+  sina/tencent A-share klines
+
 ## [0.17.0] - 2026-08-16
 
 ### Added

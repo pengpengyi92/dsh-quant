@@ -17,7 +17,7 @@
 fork/pull 下来 → `npm ci` → `npm test` 即可通过、直接使用（详见
 [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md)）。官方工具集（bash/fs/web/terminal/subagent…）目前没有技术指标——本插件填补这个空白。指标与回测为纯函数实现，零外部依赖，可离线验证；行情获取走免费公共 API，无需凭据。
 
-**37 个 `quant_*` 工具 · 6 大域模块 · 110+ 单元测试 · 零外部依赖**。定位全景见置顶 [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9)。
+**42 个 `quant_*` 工具 · 6 大域模块 · 149 单元测试 · 零外部依赖**。定位全景见置顶 [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9)。
 
 ## 快速安装（dsh 用户）
 
@@ -31,7 +31,7 @@ npm i dsh-quant
 - name: 'dsh-quant'
 ```
 
-37 个工具自动注册，指标 / 回测 / 因子 / 风控 / 基金模拟 / 生态影响力开箱即用。
+42 个工具自动注册，指标 / 回测 / 因子 / 风控 / 基金模拟 / 生态影响力开箱即用。一条 `quant_research_pipeline` 跑通 PDAT→PET 全链路。
 
 ## 🖥️ UI 工作台（dsh-quant-ui）
 
@@ -49,6 +49,7 @@ npm i dsh-quant
 | `quant_data_advice` | `dataType` + `budget`（free/low/institutional）+ `purpose`（research/backtest/official）| `{ recommendations: [{ rank, name, reason }] }`（决策树排序）| — |
 | `quant_series_stats` | `values: number[]` | `{ count, mean, std, min, max, median, skew, kurtosis, autocorr1, annualizedVol, totalReturnPct }` | —（取数后第一步）|
 | `quant_var_backtest` | `returns` + `varSeries` + `confidence=0.95` | `{ failures, expected, lrStat, pValue, passed, periods }`（Kupiec POF 检验）| —（VaR 模型准不准的标准答案）|
+| `quant_drawdown` | `equity: number[]` | `{ underwater(对齐), maxDrawdownPct, currentDrawdownPct, periods(峰/谷/恢复/深度/时长), ongoing }` | —（回撤段分析）|
 | `quant_resample` | `candles` + `period`（week=7根/month=30根）| `{ candles }`（OHLCV 周期聚合，7×24 市场）| — |
 | `quant_report` | strategy/metrics/risk/factor/fund（各模块输出）| `{ report }`（Markdown 研究报告）| —（R&D 结论生成）|
 | `quant_repo_stats` | `owner` + `repo` | `{ stars, forks, watchers, openIssues, openPullRequests, topics, latestRelease, … }`（GitHub 公共 API，无需凭据）| —（生态数据）|
@@ -58,13 +59,17 @@ npm i dsh-quant
 | `quant_fund` | `equityCurve` + `initialCapital=1e8` + `managementFeeRate=0.02` + `performanceFeeRate=0.2` | `{ initialCapital, finalNavNet, finalAum, peakNav, peakAum, gross/netReturnPct, fees, navNet }` | —（模拟量化私募：净值 1.00 起步，管理费按日，提成高水位 20%）|
 | `quant_metrics` | `equityCurve` + `trades?` | `{ totalReturnPct, maxDrawdownPct, sharpe, annualizedVol, calmar, sortino, winRate, profitFactor, avgPeriodReturnPct, tradeMetrics }`（必有：收益/回撤/夏普）| —（指标目录 METRIC_CATALOG 供 UI 勾选）|
 | `quant_chart` | `kind`（candles/series/annotations）+ 对应数据 | 结构化图表数据（dsh-chart 协议：K线+叠加+标记 / 多序列 / 标注可视化）| —（UI 路线数据面）|
-| `quant_factor_evaluate` | `factorValues` + `forwardReturns`（factor[i] 预测 ret[i+1]）+ `quantiles=5` + `window=20` | `{ ic, icir, icSeries, quantileReturns, longShort, turnover, autocorr1, n }`（alphalens 指标集）| — |
+| `quant_execute_sim` | `close` + `orders[{index, side, quantity?/valueFraction?}]` + `initialCash?` + `feeRate?` + `slippageBps?` + `latencyBars?` | `{ fills, equityCurve, finalEquity, totalReturnPct, totalFee, totalSlippageCost, tradeCount, unfilledCount, cash, position }` | —（交易执行框架，无实盘）|
+| `quant_research_pipeline` | `symbol?` + `interval?` + `limit?` + `provider?` + `candles?` + 策略/基金参数 | `{ candles, quality, stats, metrics, risk, drawdown, fund, factor, report, charts }` | —（PDAT→PET 全链路一键研究）|
+| `quant_factor_evaluate` | `factorValues` + `forwardReturns`（factor[i] 预测 ret[i+1]）+ `quantiles=5` + `window=20` + `decayHorizons=5` | `{ ic, rankIc, icDecay, icir, icSeries, quantileReturns, longShort, turnover, autocorr1, n }`（alphalens 指标集 + RankIC/IC衰减）| — |
+| `quant_factor_neutralize` | `factorValues` + `groups?` + `styleFactors?` + `method?` | `{ values(标准化后), method, groupCount, styleCount, rSquared }` | —（分组 z-score / OLS 残差中性化）|
+| `quant_walk_forward` | `returns` + `features[][]` + `trainWindow` + `testWindow` + `step?` | `{ predictions(null 对齐), oosIc, oosRankIc, oosCount, windows, trainR2Mean }` | —（滚动训练/样本外，无未来函数）|
 | `quant_factor_combine` | `factors: number[][]`（等长）+ `weights?` | `{ signal(rank 0..1), effectiveWeights, factorCount }` | —（z-score 加权 + 截面排序）|
 | `quant_series_quality` | `values: number[]`, `jumpThreshold=0.2` | `{ count, missingCount, zOutliers, jumps, longestConstantRun, healthy }` | —（序列级质量）|
 | `quant_data_annotate` | `values: number[]`, `jumpThreshold=0.2` | `{ count, annotations: [{index, label, severity, detail}], summary }` | —（点级标注，致敬 Scale AI）|
 | `quant_data_quality` | `candles`（quant_market_fetch 输出）| `{ count, highBelowLow, nonPositive, timeNotIncreasing, timeGaps, extremeMoves, healthy }` | —（分析前健康检查）|
 | `quant_data_guide` | `query`（渠道名/数据类型，如 "tushare"/"财务"）或 `channel`（精确渠道名）| `{ query, results: [{ name, url, cost, dataTypes, setup, tutorialUrls, bestFor, … }] }` | —（内置 8 大 A 股数据渠道知识库）|
-| `quant_market_fetch` | `symbol: string`（如 BTCUSDT）, `interval: 1m…1M`, `limit: 1-1000`, `provider: binance/okx/bybit` | `{ symbol, interval, provider, candles: [{openTime, open, high, low, close, volume}] }` | — |
+| `quant_market_fetch` | `symbol: string`（如 BTCUSDT / sh600000）, `interval: 1m…1M`, `limit: 1-1000`, `provider: binance/okx/bybit/sina/tencent` | `{ symbol, interval, provider, candles: [{openTime, open, high, low, close, volume}] }` | — |
 | `quant_sma` | `values: number[]`, `window: integer` | `{ values: (number\|null)[], window }` | index `window-1` |
 | `quant_ema` | `values: number[]`, `window: integer` | `{ values: (number\|null)[], window }` | index `window-1`（seed = 前 window 均值，alpha = 2/(w+1)）|
 | `quant_rsi` | `values: number[]`, `window: integer = 14` | `{ values: (number\|null)[], window }` | index `window`（Wilder 平滑）|
@@ -131,6 +136,7 @@ schema 前缀稳定（工具集与顺序不变则复用）；结果追加在可�
 
 | 版本 | 日期 | 更新 |
 |---|---|---|
+| 0.18.0 | 2026-08-16 | 链路补全：A股免费行情（新浪/腾讯前复权）+ RankIC/IC衰减 + 因子中性化 + Walk-forward + 回撤分析 + 执行模拟 + 端到端管线（37→42 工具）|
 | 0.17.0 | 2026-08-16 | 开源生态域 dsh-community：quant_repo_stats / quant_npm_stats / quant_oss_pulse（0-100 影响力评分）|
 | 0.16.0 | 2026-08-16 | 域驱动重构：dsh-data/alpha/ml/risk/execution ↔ PDAT/PAAT/PCPT/PRT/PET + 交易所容错链（Binance→OKX→Bybit）|
 | 0.15.0 | 2026-08-16 | Kupiec VaR 回测 + 周期聚合 + 研究报告生成；100 单元测试里程碑 |

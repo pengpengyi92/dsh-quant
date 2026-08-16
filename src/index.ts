@@ -29,6 +29,12 @@ import { generateReport } from './dsh-execution/report.js'
 import { fetchRepoStats } from './dsh-community/github.js'
 import { fetchNpmStats } from './dsh-community/npm.js'
 import { ossPulse } from './dsh-community/pulse.js'
+import { factorNeutralize } from './dsh-alpha/factor.js'
+import { walkForward } from './dsh-ml/walkforward.js'
+import { drawdownAnalysis } from './dsh-risk/drawdown.js'
+import { executeSimulate } from './dsh-execution/execute.js'
+import { researchPipeline } from './dsh-execution/pipeline.js'
+import { assertAShareSymbol } from './dsh-data/market.js'
 
 // ── 纯函数再导出：非 dsh 环境（任意 Node 项目）直接 import 使用 ──
 // 注意：本插件仍是纯 named-export 函数插件（无 default export），Loader 不受影响。
@@ -45,6 +51,11 @@ export { resampleCandles } from './dsh-data/resample.js'
 export { fetchRepoStats, parseRepoStats } from './dsh-community/github.js'
 export { fetchNpmStats, parseNpmStats } from './dsh-community/npm.js'
 export { ossPulse } from './dsh-community/pulse.js'
+export { factorNeutralize } from './dsh-alpha/factor.js'
+export { walkForward } from './dsh-ml/walkforward.js'
+export { drawdownAnalysis } from './dsh-risk/drawdown.js'
+export { executeSimulate } from './dsh-execution/execute.js'
+export { researchPipeline } from './dsh-execution/pipeline.js'
 
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
@@ -233,14 +244,17 @@ export function apply(ctx: Context) {
   ctx.tools.register(defineTool({
     name: 'quant_market_fetch',
     description:
-      'Fetch OHLCV candles for a symbol from the Binance public API (no credentials). ' +
+      'Fetch OHLCV candles for a symbol from free public APIs (no credentials). ' +
       'Returns structured candles (openTime in Unix ms, open/high/low/close/volume). ' +
+      'Crypto providers binance/okx/bybit use symbols like BTCUSDT; ' +
+      'A-share providers sina/tencent use sh/sz/bj + 6 digits (e.g. sh600000); ' +
+      'tencent returns qfq (forward-adjusted) daily klines. ' +
       'Feed the close values into quant_sma / quant_ema / quant_rsi / quant_macd / ' +
-      'quant_bollinger / quant_atr for indicators. Symbols use exchange format (e.g. BTCUSDT).',
+      'quant_bollinger / quant_atr for indicators.',
     parameters: {
       symbol: {
         type: 'string', required: true,
-        description: 'Trading pair in exchange format, uppercase letters and digits (e.g. BTCUSDT, ETHUSDT)',
+        description: 'Trading pair (e.g. BTCUSDT) or A-share code (e.g. sh600000, sz000001, bj430047)',
       },
       interval: {
         type: 'string', enum: INTERVALS,
@@ -252,7 +266,7 @@ export function apply(ctx: Context) {
       },
       provider: {
         type: 'string', enum: MARKET_PROVIDERS,
-        description: 'Exchange provider: binance (default) / okx / bybit',
+        description: 'Data provider: binance (default) / okx / bybit / sina / tencent',
       },
     },
     output: {
@@ -288,15 +302,17 @@ export function apply(ctx: Context) {
     },
     isConcurrencySafe: () => true,
     async execute(args, exec) {
-      if (!/^[A-Z0-9]+$/.test(args.symbol)) {
-        throw new Error(`invalid symbol "${args.symbol}": expected uppercase letters and digits, e.g. BTCUSDT`)
+      const provider = args.provider ?? 'binance'
+      if (provider === 'sina' || provider === 'tencent') {
+        assertAShareSymbol(args.symbol)
+      } else if (!/^[A-Z0-9]+$/.test(args.symbol)) {
+        throw new Error(`invalid symbol "${args.symbol}": crypto providers expect uppercase letters and digits, e.g. BTCUSDT`)
       }
       const interval = args.interval ?? '1d'
       const limit = args.limit ?? 100
       if (!Number.isInteger(limit) || limit < 1 || limit > 1000) {
         throw new Error(`limit must be an integer in [1, 1000], got ${limit}`)
       }
-      const provider = args.provider ?? 'binance'
       const signal = AbortSignal.any([exec.signal, AbortSignal.timeout(15_000)])
       const candles = await fetchKlines(args.symbol, interval, limit, signal, provider)
       if (candles.length === 0) throw new Error(`no candles returned for ${args.symbol} ${interval}`)
@@ -1161,8 +1177,8 @@ export function apply(ctx: Context) {
     name: 'quant_factor_evaluate',
     description:
       'Evaluate a predictive factor against forward returns (alphalens-style): IC (Pearson of factor vs next-period return), ' +
-      'ICIR (rolling-IC stability), quantile bucket returns (default 5 groups by factor value), long-short spread, ' +
-      'turnover (group-change frequency) and factor autocorrelation. ' +
+      'RankIC (Spearman rank correlation), IC decay across horizons, ICIR (rolling-IC stability), quantile bucket returns ' +
+      '(default 5 groups by factor value), long-short spread, turnover (group-change frequency) and factor autocorrelation. ' +
       'Pass single-asset time series (factor[i] predicts forwardReturns[i+1]) or flattened cross-sections. ' +
       'This plugin ships methods, not data — adapt your own series.',
     parameters: {
@@ -1170,12 +1186,15 @@ export function apply(ctx: Context) {
       forwardReturns: { type: 'array', items: { type: 'number' }, required: true, description: 'Next-period returns aligned so factor[i] predicts forwardReturns[i+1]' },
       quantiles: { type: 'integer', description: 'Number of quantile buckets, default 5' },
       window: { type: 'integer', description: 'Rolling-IC window, default 20' },
+      decayHorizons: { type: 'integer', description: 'IC decay horizons, default 5' },
     },
     output: {
       schema: {
         type: 'object',
         properties: {
           ic: { type: 'number' , required: true},
+          rankIc: { type: 'number' , required: true},
+          icDecay: { type: 'array', items: { type: 'number' }, required: true},
           icir: { type: 'number' , required: true},
           icSeries: { type: 'array', items: { type: 'number' }, required: true},
           quantileReturns: {
@@ -1200,13 +1219,14 @@ export function apply(ctx: Context) {
       },
       render: (args, value) => [{
         type: 'text',
-        text: `factor eval (n=${value.n}): IC ${value.ic.toFixed(4)}, ICIR ${value.icir.toFixed(3)}, ` +
+        text: `factor eval (n=${value.n}): IC ${value.ic.toFixed(4)}, RankIC ${value.rankIc.toFixed(4)}, ICIR ${value.icir.toFixed(3)}, ` +
+          `IC decay [${value.icDecay.map((x: number) => x.toFixed(3)).join(', ')}], ` +
           `long-short ${value.longShort.toFixed(4)}, turnover ${value.turnover.toFixed(3)}, autocorr ${value.autocorr1.toFixed(3)}`
       }],
     },
     isConcurrencySafe: () => true,
     async execute(args) {
-      return factorEvaluate(args.factorValues, args.forwardReturns, args.quantiles, args.window)
+      return factorEvaluate(args.factorValues, args.forwardReturns, args.quantiles, args.window, args.decayHorizons)
     },
   }))
 
@@ -1794,6 +1814,356 @@ export function apply(ctx: Context) {
         openPullRequests: args.openPullRequests,
         daysSinceRelease: args.daysSinceRelease,
       })
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_factor_neutralize',
+    description:
+      'Neutralize a factor: strip group or style exposures and z-score standardize (mean 0, std 1). ' +
+      'Method is inferred from inputs — styleFactors → ols regression residual, groups → within-group z-score ' +
+      '(simple industry neutralization), otherwise plain cross-sectional z-score. ' +
+      'groups/styleFactors must align with the factor array. This plugin ships methods, not data.',
+    parameters: {
+      factorValues: { type: 'array', items: { type: 'number' }, required: true, description: 'Factor values over time or cross-section' },
+      groups: {
+        type: 'array', items: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+        description: 'Optional group labels (e.g. industry codes) aligned with factorValues',
+      },
+      styleFactors: {
+        type: 'array', items: { type: 'array', items: { type: 'number' } },
+        description: 'Optional style factors (e.g. market cap) to regress out; each aligned with factorValues',
+      },
+      method: { type: 'string', enum: ['group', 'ols', 'zscore'], description: 'Optional explicit method; inferred when omitted' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          values: { type: 'array', items: { type: 'number' }, required: true },
+          method: { type: 'string', enum: ['group', 'ols', 'zscore'], required: true },
+          groupCount: { type: 'integer', required: true },
+          styleCount: { type: 'integer', required: true },
+          rSquared: { oneOf: [{ type: 'number' }, { type: 'null' }], required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `factor neutralized (${value.method}): ${value.values.length} values` +
+          `${value.rSquared !== null ? `, ols R2 ${value.rSquared.toFixed(4)}` : ''}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return factorNeutralize(args.factorValues, {
+        groups: args.groups,
+        styleFactors: args.styleFactors,
+        method: args.method,
+      })
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_walk_forward',
+    description:
+      'Walk-forward training and evaluation: rolling linear regression (intercept + features) trained only on ' +
+      'past data, predicting the next-period return out-of-sample. features[t] predicts returns[t+1]. ' +
+      'Returns out-of-sample predictions (null in train regions), OOS IC/RankIC and per-window model weights — ' +
+      'the minimal honest ML workflow (no look-ahead). This plugin ships methods, not data.',
+    parameters: {
+      returns: { type: 'array', items: { type: 'number' }, required: true, description: 'Period returns, oldest first' },
+      features: {
+        type: 'array', items: { type: 'array', items: { type: 'number' } },
+        required: true,
+        description: 'Feature series, each equal to returns length; features[t] predicts returns[t+1]',
+      },
+      trainWindow: { type: 'integer', required: true, description: 'Training window length (>= 2)' },
+      testWindow: { type: 'integer', required: true, description: 'Out-of-sample window length (>= 1)' },
+      step: { type: 'integer', description: 'Advance per walk step, default = testWindow' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          predictions: { type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] }, required: true },
+          oosIc: { type: 'number', required: true },
+          oosRankIc: { type: 'number', required: true },
+          oosCount: { type: 'integer', required: true },
+          windows: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                trainStart: { type: 'integer', required: true },
+                trainEnd: { type: 'integer', required: true },
+                testStart: { type: 'integer', required: true },
+                testEnd: { type: 'integer', required: true },
+                intercept: { type: 'number', required: true },
+                weights: { type: 'array', items: { type: 'number' }, required: true },
+                trainR2: { type: 'number', required: true },
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+          trainR2Mean: { type: 'number', required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{
+        type: 'text',
+        text: `walk-forward: ${value.windows.length} windows, ${value.oosCount} OOS predictions, ` +
+          `OOS IC ${value.oosIc.toFixed(4)}, OOS RankIC ${value.oosRankIc.toFixed(4)}, mean train R2 ${value.trainR2Mean.toFixed(4)}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return walkForward(args.returns, args.features, args.trainWindow, args.testWindow, args.step)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_drawdown',
+    description:
+      'Drawdown analysis of an equity curve: underwater series (aligned, 0 at new highs, negative in drawdown), ' +
+      'max drawdown, current drawdown, and one period per new high (peak, trough, recovery, depth, duration). ' +
+      'Recovery means the curve returns to the previous high. Feed backtest equity curves or fund NAV series.',
+    parameters: {
+      equity: { type: 'array', items: { type: 'number' }, required: true, description: 'Positive equity/NAV series, oldest first' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          underwater: { type: 'array', items: { type: 'number' }, required: true },
+          maxDrawdownPct: { type: 'number', required: true },
+          currentDrawdownPct: { type: 'number', required: true },
+          periods: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                peakIndex: { type: 'integer', required: true },
+                troughIndex: { type: 'integer', required: true },
+                recoveryIndex: { oneOf: [{ type: 'integer' }, { type: 'null' }], required: true },
+                depthPct: { type: 'number', required: true },
+                durationBars: { type: 'integer', required: true },
+                recoveryBars: { oneOf: [{ type: 'integer' }, { type: 'null' }], required: true },
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+          ongoing: {
+            oneOf: [
+              {
+                type: 'object',
+                properties: {
+                  peakIndex: { type: 'integer', required: true },
+                  troughIndex: { type: 'integer', required: true },
+                  recoveryIndex: { oneOf: [{ type: 'integer' }, { type: 'null' }], required: true },
+                  depthPct: { type: 'number', required: true },
+                  durationBars: { type: 'integer', required: true },
+                  recoveryBars: { oneOf: [{ type: 'integer' }, { type: 'null' }], required: true },
+                },
+                additionalProperties: false,
+              },
+              { type: 'null' },
+            ],
+            required: true,
+          },
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{
+        type: 'text',
+        text: `drawdown: max ${value.maxDrawdownPct.toFixed(2)}%, current ${value.currentDrawdownPct.toFixed(2)}%, ` +
+          `${value.periods.length} periods (${value.ongoing === null ? 'recovered' : 'in drawdown'})`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return drawdownAnalysis(args.equity)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_execute_sim',
+    description:
+      'Simulate order execution on a close series (no live trading): orders fill at the close of the bar after ' +
+      'the signal (plus optional latency), with optional slippage (bps) and per-side fee rate. Long-only spot ' +
+      'semantics — sells are capped by current position. Sizing by quantity or by fraction of current equity. ' +
+      'Returns fills, normalized equity curve, total fees and slippage cost. Feed backtest signals to add realism.',
+    parameters: {
+      close: { type: 'array', items: { type: 'number' }, required: true, description: 'Close prices, oldest first' },
+      orders: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            index: { type: 'integer', required: true },
+            side: { type: 'string', enum: ['buy', 'sell'], required: true },
+            quantity: { type: 'number', description: 'Exact quantity (alternative to valueFraction)' },
+            valueFraction: { type: 'number', description: 'Fraction of current equity (0-1) (alternative to quantity)' },
+          },
+          additionalProperties: false,
+        },
+        required: true,
+        description: 'Orders with signal bar index; fills happen at index+1+latencyBars close',
+      },
+      initialCash: { type: 'number', description: 'Initial cash, default 1' },
+      feeRate: { type: 'number', description: 'Fee rate per side, default 0.001' },
+      slippageBps: { type: 'number', description: 'Slippage in basis points, default 0' },
+      latencyBars: { type: 'integer', description: 'Fill latency in bars, default 0' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          fills: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                orderIndex: { type: 'integer', required: true },
+                side: { type: 'string', enum: ['buy', 'sell'], required: true },
+                fillIndex: { type: 'integer', required: true },
+                fillPrice: { type: 'number', required: true },
+                quantity: { type: 'number', required: true },
+                value: { type: 'number', required: true },
+                fee: { type: 'number', required: true },
+                slippageCost: { type: 'number', required: true },
+                cashAfter: { type: 'number', required: true },
+                positionAfter: { type: 'number', required: true },
+                equityAfter: { type: 'number', required: true },
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+          equityCurve: { type: 'array', items: { type: 'number' }, required: true },
+          finalEquity: { type: 'number', required: true },
+          totalReturnPct: { type: 'number', required: true },
+          totalFee: { type: 'number', required: true },
+          totalSlippageCost: { type: 'number', required: true },
+          tradeCount: { type: 'integer', required: true },
+          unfilledCount: { type: 'integer', required: true },
+          cash: { type: 'number', required: true },
+          position: { type: 'number', required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{
+        type: 'text',
+        text: `execution sim: ${value.tradeCount} fills, ${value.unfilledCount} unfilled, ` +
+          `return ${value.totalReturnPct.toFixed(2)}%, fees ${value.totalFee.toFixed(4)}, slippage ${value.totalSlippageCost.toFixed(4)}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return executeSimulate(args.close, args.orders, {
+        initialCash: args.initialCash,
+        feeRate: args.feeRate,
+        slippageBps: args.slippageBps,
+        latencyBars: args.latencyBars,
+      })
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_research_pipeline',
+    description:
+      'Run the full PDAT→PET research chain in one call: fetch candles (or pass them) → data quality → ' +
+      'stats → SMA overlay → dual-MA backtest → performance metrics → risk metrics → drawdown → fund ' +
+      'simulation (1e8 capital, NAV 1.00, 2% mgmt + 20% HWM performance fee) → momentum factor evaluation ' +
+      '→ Markdown report → chart data. Crypto symbols like BTCUSDT; A-share codes like sh600000 (sina/tencent). ' +
+      'Returns one bundle ready for research notes or UI rendering.',
+    parameters: {
+      symbol: { type: 'string', description: 'Symbol, default BTCUSDT' },
+      interval: { type: 'string', enum: INTERVALS, description: 'Candle interval, default 1d' },
+      limit: { type: 'integer', description: 'Candles to fetch (>= 30), default 120' },
+      provider: { type: 'string', enum: MARKET_PROVIDERS, description: 'Provider, default binance (crypto falls back across binance/okx/bybit)' },
+      candles: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            openTime: { type: 'integer', required: true },
+            open: { type: 'number', required: true },
+            high: { type: 'number', required: true },
+            low: { type: 'number', required: true },
+            close: { type: 'number', required: true },
+            volume: { type: 'number', required: true },
+          },
+          additionalProperties: false,
+        },
+        description: 'Optional candle array (>= 30) to skip network fetch',
+      },
+      fast: { type: 'integer', description: 'Fast MA, default 5' },
+      slow: { type: 'integer', description: 'Slow MA, default 20' },
+      feeRate: { type: 'number', description: 'Backtest fee rate per side, default 0.001' },
+      stopLoss: { type: 'number', description: 'Optional stop-loss fraction (e.g. 0.05)' },
+      takeProfit: { type: 'number', description: 'Optional take-profit fraction (e.g. 0.15)' },
+      factorWindow: { type: 'integer', description: 'Factor-eval rolling window, default 20' },
+      initialCapital: { type: 'number', description: 'Fund initial capital, default 100000000' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          symbol: { type: 'string', required: true },
+          provider: { type: 'string', required: true },
+          interval: { type: 'string', required: true },
+          candles: {
+            type: 'object',
+            properties: {
+              count: { type: 'integer', required: true },
+              from: { type: 'integer', required: true },
+              to: { type: 'integer', required: true },
+            },
+            additionalProperties: false,
+            required: true,
+          },
+          quality: { type: 'object', additionalProperties: true, required: true },
+          stats: { type: 'object', additionalProperties: true, required: true },
+          metrics: { type: 'object', additionalProperties: true, required: true },
+          risk: { type: 'object', additionalProperties: true, required: true },
+          drawdown: { type: 'object', additionalProperties: true, required: true },
+          fund: { type: 'object', additionalProperties: true, required: true },
+          factor: { type: 'object', additionalProperties: true, required: true },
+          report: { type: 'string', required: true },
+          charts: { type: 'object', additionalProperties: true, required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => {
+        const m = value.metrics as Record<string, number | null>
+        return [{
+          type: 'text',
+          text: `${value.symbol} ${value.interval} pipeline: ${value.candles.count} candles, ` +
+            `return ${m.totalReturnPct?.toFixed(2) ?? 'n/a'}%, maxDD ${m.maxDrawdownPct?.toFixed(2) ?? 'n/a'}% — ` +
+            `report below:\n\n${value.report}`,
+        }]
+      },
+    },
+    isConcurrencySafe: () => true,
+    async execute(args, exec) {
+      const signal = AbortSignal.any([exec.signal, AbortSignal.timeout(20_000)])
+      return researchPipeline({
+        symbol: args.symbol,
+        interval: args.interval,
+        limit: args.limit,
+        provider: args.provider,
+        candles: args.candles,
+        fast: args.fast,
+        slow: args.slow,
+        feeRate: args.feeRate,
+        stopLoss: args.stopLoss,
+        takeProfit: args.takeProfit,
+        factorWindow: args.factorWindow,
+        initialCapital: args.initialCapital,
+      }, signal) as never
     },
   }))
 }

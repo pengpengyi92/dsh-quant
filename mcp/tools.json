@@ -1,8 +1,8 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T15:23:51.205Z",
-  "toolCount": 37,
+  "generatedAt": "2026-08-16T16:13:40.641Z",
+  "toolCount": 42,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
     {
@@ -175,13 +175,13 @@
     },
     {
       "name": "quant_market_fetch",
-      "description": "Fetch OHLCV candles for a symbol from the Binance public API (no credentials). Returns structured candles (openTime in Unix ms, open/high/low/close/volume). Feed the close values into quant_sma / quant_ema / quant_rsi / quant_macd / quant_bollinger / quant_atr for indicators. Symbols use exchange format (e.g. BTCUSDT).",
+      "description": "Fetch OHLCV candles for a symbol from free public APIs (no credentials). Returns structured candles (openTime in Unix ms, open/high/low/close/volume). Crypto providers binance/okx/bybit use symbols like BTCUSDT; A-share providers sina/tencent use sh/sz/bj + 6 digits (e.g. sh600000); tencent returns qfq (forward-adjusted) daily klines. Feed the close values into quant_sma / quant_ema / quant_rsi / quant_macd / quant_bollinger / quant_atr for indicators.",
       "parameters": {
         "type": "object",
         "properties": {
           "symbol": {
             "type": "string",
-            "description": "Trading pair in exchange format, uppercase letters and digits (e.g. BTCUSDT, ETHUSDT)"
+            "description": "Trading pair (e.g. BTCUSDT) or A-share code (e.g. sh600000, sz000001, bj430047)"
           },
           "interval": {
             "type": "string",
@@ -210,11 +210,13 @@
           },
           "provider": {
             "type": "string",
-            "description": "Exchange provider: binance (default) / okx / bybit",
+            "description": "Data provider: binance (default) / okx / bybit / sina / tencent",
             "enum": [
               "binance",
               "okx",
-              "bybit"
+              "bybit",
+              "sina",
+              "tencent"
             ]
           }
         },
@@ -821,7 +823,7 @@
     },
     {
       "name": "quant_factor_evaluate",
-      "description": "Evaluate a predictive factor against forward returns (alphalens-style): IC (Pearson of factor vs next-period return), ICIR (rolling-IC stability), quantile bucket returns (default 5 groups by factor value), long-short spread, turnover (group-change frequency) and factor autocorrelation. Pass single-asset time series (factor[i] predicts forwardReturns[i+1]) or flattened cross-sections. This plugin ships methods, not data — adapt your own series.",
+      "description": "Evaluate a predictive factor against forward returns (alphalens-style): IC (Pearson of factor vs next-period return), RankIC (Spearman rank correlation), IC decay across horizons, ICIR (rolling-IC stability), quantile bucket returns (default 5 groups by factor value), long-short spread, turnover (group-change frequency) and factor autocorrelation. Pass single-asset time series (factor[i] predicts forwardReturns[i+1]) or flattened cross-sections. This plugin ships methods, not data — adapt your own series.",
       "parameters": {
         "type": "object",
         "properties": {
@@ -846,6 +848,10 @@
           "window": {
             "type": "integer",
             "description": "Rolling-IC window, default 20"
+          },
+          "decayHorizons": {
+            "type": "integer",
+            "description": "IC decay horizons, default 5"
           }
         },
         "required": [
@@ -1314,7 +1320,7 @@
     },
     {
       "name": "quant_repo_stats",
-      "description": "Fetch live GitHub ecosystem stats for a public repository (no credentials): stars, forks, watchers, open issues, open pull requests, topics, language, license and latest release. Feed the numbers into quant_oss_pulse to score open-source influence.",
+      "description": "Fetch live GitHub ecosystem stats for a public repository (no credentials required): stars, forks, watchers, open issues, open pull requests, topics, language, license and latest release. Uses the GITHUB_TOKEN environment variable automatically when present (higher rate limit); unauthenticated requests are limited to 60 per hour per IP. Feed the numbers into quant_oss_pulse to score open-source influence.",
       "parameters": {
         "type": "object",
         "properties": {
@@ -1383,6 +1389,302 @@
         "required": [
           "stars"
         ]
+      }
+    },
+    {
+      "name": "quant_factor_neutralize",
+      "description": "Neutralize a factor: strip group or style exposures and z-score standardize (mean 0, std 1). Method is inferred from inputs — styleFactors → ols regression residual, groups → within-group z-score (simple industry neutralization), otherwise plain cross-sectional z-score. groups/styleFactors must align with the factor array. This plugin ships methods, not data.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "factorValues": {
+            "type": "array",
+            "description": "Factor values over time or cross-section",
+            "items": {
+              "type": "number"
+            }
+          },
+          "groups": {
+            "type": "array",
+            "description": "Optional group labels (e.g. industry codes) aligned with factorValues",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            }
+          },
+          "styleFactors": {
+            "type": "array",
+            "description": "Optional style factors (e.g. market cap) to regress out; each aligned with factorValues",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          "method": {
+            "type": "string",
+            "description": "Optional explicit method; inferred when omitted",
+            "enum": [
+              "group",
+              "ols",
+              "zscore"
+            ]
+          }
+        },
+        "required": [
+          "factorValues"
+        ]
+      }
+    },
+    {
+      "name": "quant_walk_forward",
+      "description": "Walk-forward training and evaluation: rolling linear regression (intercept + features) trained only on past data, predicting the next-period return out-of-sample. features[t] predicts returns[t+1]. Returns out-of-sample predictions (null in train regions), OOS IC/RankIC and per-window model weights — the minimal honest ML workflow (no look-ahead). This plugin ships methods, not data.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "returns": {
+            "type": "array",
+            "description": "Period returns, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "features": {
+            "type": "array",
+            "description": "Feature series, each equal to returns length; features[t] predicts returns[t+1]",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          "trainWindow": {
+            "type": "integer",
+            "description": "Training window length (>= 2)"
+          },
+          "testWindow": {
+            "type": "integer",
+            "description": "Out-of-sample window length (>= 1)"
+          },
+          "step": {
+            "type": "integer",
+            "description": "Advance per walk step, default = testWindow"
+          }
+        },
+        "required": [
+          "returns",
+          "features",
+          "trainWindow",
+          "testWindow"
+        ]
+      }
+    },
+    {
+      "name": "quant_drawdown",
+      "description": "Drawdown analysis of an equity curve: underwater series (aligned, 0 at new highs, negative in drawdown), max drawdown, current drawdown, and one period per new high (peak, trough, recovery, depth, duration). Recovery means the curve returns to the previous high. Feed backtest equity curves or fund NAV series.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "equity": {
+            "type": "array",
+            "description": "Positive equity/NAV series, oldest first",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "equity"
+        ]
+      }
+    },
+    {
+      "name": "quant_execute_sim",
+      "description": "Simulate order execution on a close series (no live trading): orders fill at the close of the bar after the signal (plus optional latency), with optional slippage (bps) and per-side fee rate. Long-only spot semantics — sells are capped by current position. Sizing by quantity or by fraction of current equity. Returns fills, normalized equity curve, total fees and slippage cost. Feed backtest signals to add realism.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "close": {
+            "type": "array",
+            "description": "Close prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "orders": {
+            "type": "array",
+            "description": "Orders with signal bar index; fills happen at index+1+latencyBars close",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "index": {
+                  "type": "integer"
+                },
+                "side": {
+                  "type": "string",
+                  "enum": [
+                    "buy",
+                    "sell"
+                  ]
+                },
+                "quantity": {
+                  "type": "number",
+                  "description": "Exact quantity (alternative to valueFraction)"
+                },
+                "valueFraction": {
+                  "type": "number",
+                  "description": "Fraction of current equity (0-1) (alternative to quantity)"
+                }
+              },
+              "required": [
+                "index",
+                "side"
+              ]
+            }
+          },
+          "initialCash": {
+            "type": "number",
+            "description": "Initial cash, default 1"
+          },
+          "feeRate": {
+            "type": "number",
+            "description": "Fee rate per side, default 0.001"
+          },
+          "slippageBps": {
+            "type": "number",
+            "description": "Slippage in basis points, default 0"
+          },
+          "latencyBars": {
+            "type": "integer",
+            "description": "Fill latency in bars, default 0"
+          }
+        },
+        "required": [
+          "close",
+          "orders"
+        ]
+      }
+    },
+    {
+      "name": "quant_research_pipeline",
+      "description": "Run the full PDAT→PET research chain in one call: fetch candles (or pass them) → data quality → stats → SMA overlay → dual-MA backtest → performance metrics → risk metrics → drawdown → fund simulation (1e8 capital, NAV 1.00, 2% mgmt + 20% HWM performance fee) → momentum factor evaluation → Markdown report → chart data. Crypto symbols like BTCUSDT; A-share codes like sh600000 (sina/tencent). Returns one bundle ready for research notes or UI rendering.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Symbol, default BTCUSDT"
+          },
+          "interval": {
+            "type": "string",
+            "description": "Candle interval, default 1d",
+            "enum": [
+              "1m",
+              "3m",
+              "5m",
+              "15m",
+              "30m",
+              "1h",
+              "2h",
+              "4h",
+              "6h",
+              "8h",
+              "12h",
+              "1d",
+              "3d",
+              "1w",
+              "1M"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Candles to fetch (>= 30), default 120"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Provider, default binance (crypto falls back across binance/okx/bybit)",
+            "enum": [
+              "binance",
+              "okx",
+              "bybit",
+              "sina",
+              "tencent"
+            ]
+          },
+          "candles": {
+            "type": "array",
+            "description": "Optional candle array (>= 30) to skip network fetch",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "openTime": {
+                  "type": "integer"
+                },
+                "open": {
+                  "type": "number"
+                },
+                "high": {
+                  "type": "number"
+                },
+                "low": {
+                  "type": "number"
+                },
+                "close": {
+                  "type": "number"
+                },
+                "volume": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "openTime",
+                "open",
+                "high",
+                "low",
+                "close",
+                "volume"
+              ]
+            }
+          },
+          "fast": {
+            "type": "integer",
+            "description": "Fast MA, default 5"
+          },
+          "slow": {
+            "type": "integer",
+            "description": "Slow MA, default 20"
+          },
+          "feeRate": {
+            "type": "number",
+            "description": "Backtest fee rate per side, default 0.001"
+          },
+          "stopLoss": {
+            "type": "number",
+            "description": "Optional stop-loss fraction (e.g. 0.05)"
+          },
+          "takeProfit": {
+            "type": "number",
+            "description": "Optional take-profit fraction (e.g. 0.15)"
+          },
+          "factorWindow": {
+            "type": "integer",
+            "description": "Factor-eval rolling window, default 20"
+          },
+          "initialCapital": {
+            "type": "number",
+            "description": "Fund initial capital, default 100000000"
+          }
+        }
       }
     }
   ]

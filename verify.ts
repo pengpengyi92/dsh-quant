@@ -32,7 +32,7 @@ async function fetchWithFallback(symbol: string, interval: string, limit: number
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 37) throw new Error(`expected 37 tools, got ${names.length}`)
+if (names.length !== 42) throw new Error(`expected 42 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -328,6 +328,56 @@ console.log('hand-computed:   3 stars → score 56 / grade C ✓')
 const badRepo = await call('quant_repo_stats', { owner: 'not a repo', repo: 'x' })
 assert(badRepo.isError, 'invalid owner must be an error')
 console.log('isError path:    invalid owner → isError ✓')
+
+// 20) A 股免费行情（新浪日线 + 腾讯前复权日线，公共接口无凭据）
+console.log('\n=== A-share market (live sina + tencent) ===')
+const sinaA = await call('quant_market_fetch', { symbol: 'sh600000', interval: '1d', limit: 5, provider: 'sina' })
+assert(!sinaA.isError, `sina fetch should succeed: ${sinaA.error}`)
+assert(sinaA.value.candles.length === 5, 'sina should return 5 candles')
+console.log('sina sh600000:   ', sinaA.value.candles[0]?.open, '→', sinaA.value.candles[4]?.close, `(${sinaA.value.candles.length} daily candles)`)
+const tencentA = await call('quant_market_fetch', { symbol: 'sh600000', interval: '1d', limit: 5, provider: 'tencent' })
+assert(!tencentA.isError, `tencent fetch should succeed: ${tencentA.error}`)
+assert(tencentA.value.candles.length === 5, 'tencent should return 5 candles')
+console.log('tencent qfq:     ', tencentA.value.candles[0]?.open, '→', tencentA.value.candles[4]?.close, '(forward-adjusted)')
+const badAShare = await call('quant_market_fetch', { symbol: '600000', interval: '1d', provider: 'sina' })
+assert(badAShare.isError, 'invalid A-share symbol must be an error')
+console.log('isError path:    invalid A-share symbol → isError ✓')
+
+// 21) 回撤分析 + 执行模拟 + walk-forward（真实 BTC 回测数据）
+console.log('\n=== drawdown / execution / walk-forward (real data) ===')
+const dd2 = await call('quant_drawdown', { equity: bt.value.equityCurve })
+assert(!dd2.isError && dd2.value.maxDrawdownPct >= 0 && dd2.value.underwater.length === 120, 'drawdown should succeed')
+console.log('drawdown:        max', dd2.value.maxDrawdownPct.toFixed(2) + '%', '| periods', dd2.value.periods.length, '| ongoing', dd2.value.ongoing === null ? 'no' : 'yes')
+const ex = await call('quant_execute_sim', {
+  close: btCloses,
+  orders: [
+    { index: 10, side: 'buy', valueFraction: 0.5 },
+    { index: 30, side: 'sell', valueFraction: 1 },
+  ],
+  initialCash: 1_000_000, feeRate: 0.001, slippageBps: 10,
+})
+assert(!ex.isError && ex.value.tradeCount === 2, 'execute sim should fill both orders')
+console.log('execute sim:     ', ex.value.tradeCount, 'fills | return', ex.value.totalReturnPct.toFixed(2) + '%', '| fees', ex.value.totalFee.toFixed(2), '| slippage', ex.value.totalSlippageCost.toFixed(2))
+const rets2 = btCloses.slice(1).map((c, i) => c / btCloses[i]! - 1)
+const wf = await call('quant_walk_forward', {
+  returns: [0, ...rets2],
+  features: [[0, ...rets2]], // features[t] = returns[t] → 完美线性，OOS IC 应 ≈ 1
+  trainWindow: 30, testWindow: 10,
+})
+assert(!wf.isError, 'walk-forward should succeed')
+assert(wf.value.windows.length >= 1 && wf.value.oosCount > 0, 'walk-forward should produce OOS predictions')
+console.log('walk-forward:    ', wf.value.windows.length, 'windows | OOS n', wf.value.oosCount, '| OOS IC', wf.value.oosIc.toFixed(4))
+
+// 22) 端到端研究管线（真实行情 → PDAT→PET 全链路）
+console.log('\n=== research pipeline (live BTC, full chain) ===')
+const pipe = await call('quant_research_pipeline', { symbol: 'BTCUSDT', interval: '1d', limit: 120, fast: 5, slow: 20 })
+assert(!pipe.isError, `pipeline should succeed: ${pipe.error}`)
+assert(pipe.value.candles.count === 120, 'pipeline candle count')
+assert(pipe.value.fund.navNet.length === 120, 'pipeline fund series length')
+assert(pipe.value.report.includes('Quant Research Report'), 'pipeline report')
+assert(pipe.value.charts.candles.kind === 'candles' && pipe.value.charts.equity.kind === 'series', 'pipeline charts')
+console.log('pipeline:        120 candles → return', pipe.value.metrics.totalReturnPct.toFixed(2) + '%', '| maxDD', pipe.value.metrics.maxDrawdownPct.toFixed(2) + '%', '| NAV', pipe.value.fund.finalNavNet.toFixed(4))
+console.log('                 drawdown periods', pipe.value.drawdown.periods.length, '| factor n', pipe.value.factor.n)
 
 console.log('\n✅ all quant-indicators checks passed')
 
