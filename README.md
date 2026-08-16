@@ -75,6 +75,17 @@ quant_market_fetch(symbol: BTCUSDT, interval: 1d, limit: 100)
 
 schema 前缀稳定（工具集与顺序不变则复用）；结果追加在可复用前缀之后。
 
+## 迭代记录（NEWS）
+
+| 版本 | 日期 | 更新 |
+|---|---|---|
+| 0.3.0 | 2026-08-16 | 策略族（布林带突破 / RSI 反转）+ 止损止盈 + exitReason |
+| 0.2.0 | 2026-08-16 | +6 指标（KDJ / W%R / CCI / OBV / ADX / ROC）|
+| 0.1.1 | 2026-08-16 | 开源协作设施（CI + 自动发布流水线 + 模板）|
+| 0.1.0 | 2026-08-16 | 首发：行情 + 6 指标 + 双均线回测/网格 |
+
+完整更新记录见 [NEWS.md](NEWS.md) 与 [CHANGELOG.md](CHANGELOG.md)。
+
 ## 已知限制与后续路线
 
 - **单一数据源（Binance 公共 API）**：只覆盖加密市场，无需凭据。A 股（akshare 需 Python 子进程）等作为后续 provider。
