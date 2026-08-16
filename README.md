@@ -16,6 +16,7 @@
 | `quant_bollinger` | `values: number[]`, `window=20`, `multiplier=2` | `{ upper, middle, lower, window, multiplier }` | index `window-1`（总体标准差）|
 | `quant_atr` | `high/low/close: number[]`, `window=14` | `{ values: (number\|null)[], window }` | index `window`（Wilder 平滑）|
 | `quant_backtest` | `close: number[]`, `fast=10`, `slow=30`, `feeRate=0.001` | `{ totalReturnPct, maxDrawdownPct, sharpe, position, equityCurve, trades }` | 首笔交易在首次交叉确认后一根 |
+| `quant_backtest_grid` | `close: number[]`, `fastMin=3`, `fastMax=10`, `slowMin=10`, `slowMax=30`, `feeRate=0.001` | `{ results(按收益降序), best, fastRange, slowRange, feeRate }` | —（网格搜索，跳过 fast >= slow）|
 
 ### 典型链路（模型视角）
 
@@ -83,7 +84,7 @@ cd quant-indicators && tsc -p tsconfig.json
 ## 验证
 
 ```sh
-# 纯函数数值正确性 + 行情解析 + 回测（22 用例，node:test，零依赖）
+# 纯函数数值正确性 + 行情解析 + 回测（30 用例，node:test，零依赖）
 cd deepseek-harness && pnpm exec tsx --test ../quant-indicators/tests/indicators.spec.ts ../quant-indicators/tests/market.spec.ts ../quant-indicators/tests/backtest.spec.ts
 
 # REAL-composition：cordis.yml 经真实 Loader boot（4 用例：注册可见/管线/isError/HMR-safety）

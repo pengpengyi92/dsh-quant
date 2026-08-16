@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { backtestMaCross } from '../src/backtest.ts'
+import { backtestGrid, backtestMaCross } from '../src/backtest.ts'
 
 test('backtest: V 形序列 — 一次买入持有到末尾（open trade）', () => {
   const close = [10, 9, 8, 7, 6, 5, 6, 7, 8, 9, 10, 11, 12]
@@ -68,4 +68,44 @@ test('backtest: 真实数据冒烟（BTC 日线 close 序列）', () => {
   assert.equal(out.position.length, 200)
   for (const v of out.equityCurve) assert.ok(v > 0)
   assert.ok(out.sharpe > -100 && out.sharpe < 100) // 数值合理
+})
+
+test('backtestGrid: 小网格结果正确且按收益降序', () => {
+  const close = [10, 9, 8, 7, 6, 5, 6, 7, 8, 9, 10, 11, 12]
+  const out = backtestGrid(close, 2, 2, 3, 3, 0.001) // 只有 (2,3) 一个组合
+  assert.equal(out.results.length, 1)
+  assert.equal(out.best.fast, 2)
+  assert.equal(out.best.slow, 3)
+  // 与单点回测一致
+  const single = backtestMaCross(close, 2, 3, 0.001)
+  assert.ok(Math.abs(out.best.totalReturnPct - single.totalReturnPct) < 1e-9)
+  assert.equal(out.results[0]!.trades, 1)
+})
+
+test('backtestGrid: 多组合排序 + 跳过 fast >= slow', () => {
+  const close = [10, 9, 8, 7, 6, 5, 6, 7, 8, 9, 10, 11, 12]
+  const out = backtestGrid(close, 2, 3, 2, 3, 0.001)
+  // 合法组合：fast=2,slow=3（(2,2)(3,2)(3,3) 被跳过）
+  assert.equal(out.results.length, 1)
+  assert.equal(out.results[0]!.fast, 2)
+  assert.equal(out.results[0]!.slow, 3)
+})
+
+test('backtestGrid: 收益降序', () => {
+  // 构造一个 (2,3) 明显优于 (3,4) 的序列：用确定性序列验证排序方向
+  const close = Array.from({ length: 100 }, (_, i) => 100 + Math.sin(i / 5) * 20 + (i % 10) * 2)
+  const out = backtestGrid(close, 2, 3, 3, 4, 0.001)
+  const returns = out.results.map(r => r.totalReturnPct)
+  for (let i = 1; i < returns.length; i++) {
+    assert.ok(returns[i - 1]! >= returns[i]!, `results not sorted at ${i}`)
+  }
+  assert.equal(out.results.length, 3) // (2,3)(2,4)(3,4)
+  assert.equal(out.best.totalReturnPct, returns[0])
+})
+
+test('backtestGrid: 前置条件', () => {
+  assert.throws(() => backtestGrid([1, 2, 3], 5, 2, 3, 4, 0), /fastMin must be <= fastMax/)
+  assert.throws(() => backtestGrid([1, 2, 3], 2, 2, 3, 3, -1), /feeRate/)
+  // 所有组合都非法（fast 范围全 >= slow 范围）→ 抛错
+  assert.throws(() => backtestGrid([1, 2, 3, 4, 5], 5, 5, 1, 1, 0), /no valid/)
 })

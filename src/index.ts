@@ -15,7 +15,7 @@
 import type { Context } from '@deepseek-ai/cordis'
 import { defineTool } from '@deepseek-ai/dsh-tools'
 import { atr, bollinger, ema, macd, rsi, sma } from './indicators.js'
-import { backtestMaCross } from './backtest.js'
+import { backtestGrid, backtestMaCross } from './backtest.js'
 import { INTERVALS, fetchKlines } from './market.js'
 
 export const name = 'quant-indicators'
@@ -327,6 +327,95 @@ export function apply(ctx: Context) {
       const slow = args.slow ?? 30
       const feeRate = args.feeRate ?? 0.001
       return backtestMaCross(args.close, fast, slow, feeRate)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_backtest_grid',
+    description:
+      'Grid-search the fast/slow windows of the dual-MA crossover strategy: run quant_backtest for every ' +
+      '(fast, slow) pair in the given ranges and return results sorted by total return with the best combo. ' +
+      'Pairs where fast >= slow are skipped. Use to find promising parameters before deeper analysis.',
+    parameters: {
+      close: { type: 'array', items: { type: 'number' }, required: true, description: 'Close prices, oldest first' },
+      fastMin: { type: 'integer', description: 'Fast window lower bound, default 3' },
+      fastMax: { type: 'integer', description: 'Fast window upper bound, default 10' },
+      slowMin: { type: 'integer', description: 'Slow window lower bound, default 10' },
+      slowMax: { type: 'integer', description: 'Slow window upper bound, default 30' },
+      feeRate: { type: 'number', description: 'Round-trip fee rate applied per side, default 0.001' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          results: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                fast: { type: 'integer' , required: true},
+                slow: { type: 'integer' , required: true},
+                totalReturnPct: { type: 'number' , required: true},
+                maxDrawdownPct: { type: 'number' , required: true},
+                sharpe: { type: 'number' , required: true},
+                trades: { type: 'integer' , required: true},
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+          best: {
+            type: 'object',
+            properties: {
+              fast: { type: 'integer' , required: true},
+              slow: { type: 'integer' , required: true},
+              totalReturnPct: { type: 'number' , required: true},
+              maxDrawdownPct: { type: 'number' , required: true},
+              sharpe: { type: 'number' , required: true},
+              trades: { type: 'integer' , required: true},
+            },
+            additionalProperties: false,
+            required: true,
+          },
+          fastRange: {
+            type: 'object',
+            properties: {
+              min: { type: 'integer' , required: true},
+              max: { type: 'integer' , required: true},
+            },
+            additionalProperties: false,
+            required: true,
+          },
+          slowRange: {
+            type: 'object',
+            properties: {
+              min: { type: 'integer' , required: true},
+              max: { type: 'integer' , required: true},
+            },
+            additionalProperties: false,
+            required: true,
+          },
+          feeRate: { type: 'number' , required: true},
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `grid search ${value.fastRange.min}-${value.fastRange.max} × ${value.slowRange.min}-${value.slowRange.max}: ` +
+          `${value.results.length} combos, best ${value.best.fast}/${value.best.slow} ` +
+          `total ${value.best.totalReturnPct.toFixed(2)}%, maxDD ${value.best.maxDrawdownPct.toFixed(2)}%, ` +
+          `${value.best.trades} trades`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      if (args.close.length === 0) throw new Error('close must not be empty')
+      const fastMin = args.fastMin ?? 3
+      const fastMax = args.fastMax ?? 10
+      const slowMin = args.slowMin ?? 10
+      const slowMax = args.slowMax ?? 30
+      const feeRate = args.feeRate ?? 0.001
+      return backtestGrid(args.close, fastMin, fastMax, slowMin, slowMax, feeRate)
     },
   }))
 }

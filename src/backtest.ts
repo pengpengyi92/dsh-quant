@@ -167,3 +167,70 @@ function computeSharpe(equity: readonly number[]): number {
   // 年化：假设日频（365），sqrt(365)
   return (mean / std) * Math.sqrt(365)
 }
+
+export interface GridResult {
+  fast: number
+  slow: number
+  totalReturnPct: number
+  maxDrawdownPct: number
+  sharpe: number
+  trades: number
+}
+
+export interface BacktestGridOutput {
+  /** 按总收益降序排列的所有组合结果 */
+  results: GridResult[]
+  /** 总收益最高的组合 */
+  best: GridResult
+  fastRange: { min: number; max: number }
+  slowRange: { min: number; max: number }
+  feeRate: number
+}
+
+/**
+ * 双均线参数网格搜索：对 fast ∈ [fastMin, fastMax]、slow ∈ [slowMin, slowMax]
+ * 的每个 (fast, slow) 组合（要求 fast < slow）跑 backtestMaCross，
+ * 返回按总收益降序的结果列表与最佳组合。纯计算，零依赖。
+ */
+export function backtestGrid(
+  close: readonly number[],
+  fastMin: number,
+  fastMax: number,
+  slowMin: number,
+  slowMax: number,
+  feeRate: number,
+): BacktestGridOutput {
+  for (const [v, name] of [[fastMin, 'fastMin'], [fastMax, 'fastMax'], [slowMin, 'slowMin'], [slowMax, 'slowMax']] as const) {
+    if (!Number.isInteger(v) || v < 1) throw new RangeError(`${name} must be a positive integer, got ${v}`)
+  }
+  if (fastMin > fastMax) throw new RangeError('fastMin must be <= fastMax')
+  if (slowMin > slowMax) throw new RangeError('slowMin must be <= slowMax')
+  if (!Number.isFinite(feeRate) || feeRate < 0) throw new RangeError(`feeRate must be >= 0, got ${feeRate}`)
+
+  const results: GridResult[] = []
+  for (let fast = fastMin; fast <= fastMax; fast++) {
+    for (let slow = slowMin; slow <= slowMax; slow++) {
+      if (fast >= slow) continue // 非法组合跳过
+      const out = backtestMaCross(close, fast, slow, feeRate)
+      results.push({
+        fast,
+        slow,
+        totalReturnPct: out.totalReturnPct,
+        maxDrawdownPct: out.maxDrawdownPct,
+        sharpe: out.sharpe,
+        trades: out.trades.length,
+      })
+    }
+  }
+  results.sort((a, b) => b.totalReturnPct - a.totalReturnPct)
+  if (results.length === 0) {
+    throw new RangeError('no valid (fast, slow) combinations in the given ranges')
+  }
+  return {
+    results,
+    best: results[0]!,
+    fastRange: { min: fastMin, max: fastMax },
+    slowRange: { min: slowMin, max: slowMax },
+    feeRate,
+  }
+}

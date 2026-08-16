@@ -23,7 +23,7 @@ const call = (name: string, args: Record<string, unknown>) =>
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 8) throw new Error(`expected 8 tools, got ${names.length}`)
+if (names.length !== 9) throw new Error(`expected 9 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -119,6 +119,18 @@ assert(Number.isFinite(bt.value.totalReturnPct) && Number.isFinite(bt.value.maxD
 const e2eEma = await call('quant_ema', { values: btCloses, window: 20 })
 assert(!e2eEma.isError, 'ema on fetched closes should work')
 console.log('full chain:      fetch(120) → backtest ✓ | ema(20) first-non-null:', JSON.stringify(e2eEma.value.values.find(v => v !== null)?.toFixed(2)))
+
+// 6) quant_backtest_grid（真实行情 → 参数网格搜索）
+console.log('\n=== quant_backtest_grid (real data) ===')
+const grid = await call('quant_backtest_grid', { close: btCloses, fastMin: 3, fastMax: 5, slowMin: 10, slowMax: 20, feeRate: 0.001 })
+console.log('grid:            isError:', grid.isError, '| combos:', grid.value?.results?.length, '| best:', JSON.stringify(grid.value?.best))
+assert(!grid.isError, 'grid should succeed')
+assert(grid.value.results.length > 0, 'grid should have results')
+assert(grid.value.best.totalReturnPct >= grid.value.results[0].totalReturnPct - 1e-9, 'best is top result')
+
+const bad9 = await call('quant_backtest_grid', { close: btCloses, fastMin: 5, fastMax: 3 })
+console.log('grid bad range:  isError:', bad9.isError, '| error:', JSON.stringify(bad9.error))
+assert(bad9.isError, 'invalid grid range must be an error')
 
 console.log('\n✅ all quant-indicators checks passed')
 

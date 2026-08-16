@@ -32,7 +32,7 @@ await ctx.loader.await()
 console.log('✅ Loader booted via real node_modules resolution')
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('tools:', names.join(', '))
-if (names.length !== 8) throw new Error(`expected 8 tools, got ${names.length}`)
+if (names.length !== 9) throw new Error(`expected 9 tools, got ${names.length}`)
 
 const r = await ctx.tools.execute({
   callId: 'consumer-1',
