@@ -40,8 +40,9 @@
     "test:verify": "tsx verify.ts"
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "^0.1.0-rc.5",
-    "@deepseek-ai/dsh-tools": "^0.1.0-rc.5"
+    "@deepseek-ai/cordis": "^4.0.0",
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.5",
+    "@deepseek-ai/dsh-system-prompt": "^0.1.0-rc.5"
   },
   "devDependencies": {
     "@deepseek-ai/cordis": "workspace:^",
