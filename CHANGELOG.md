@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.9.0] - 2026-08-16
+
+### Added
+- `quant_series_stats`: descriptive statistics (skew/kurtosis/autocorr/annVol)
+- `quant_data_quality`: OHLCV health check with healthy flag
+- 5 hand-computed unit cases; live BTC verification
+
+### Fixed
+- candlesCheck now inspects the first candle too (high<low / non-positive)
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.8.0] - 2026-08-16
 
 ### Added

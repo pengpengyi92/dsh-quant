@@ -1,8 +1,8 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T10:29:08.521Z",
-  "toolCount": 21,
+  "generatedAt": "2026-08-16T10:37:49.122Z",
+  "toolCount": 23,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
     {
@@ -703,6 +703,73 @@
         },
         "required": [
           "dataType"
+        ]
+      }
+    },
+    {
+      "name": "quant_series_stats",
+      "description": "Descriptive statistics for a numeric series: count, mean, std, min/max, median, skewness, excess kurtosis, lag-1 autocorrelation, annualized volatility (sqrt(365) of period returns) and total return %. Run this first after fetching data to understand the series before applying indicators or backtests.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "description": "Numeric series (e.g. closes), oldest first",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "values"
+        ]
+      }
+    },
+    {
+      "name": "quant_data_quality",
+      "description": "Check OHLCV candle health before analysis: high<low violations, non-positive prices, non-increasing timestamps, time gaps (uneven intervals), and extreme moves (>50% close change). Returns counts per issue plus a healthy flag. Feed quant_market_fetch candles directly.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "candles": {
+            "type": "array",
+            "description": "OHLCV candles as returned by quant_market_fetch",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "openTime": {
+                  "type": "integer"
+                },
+                "open": {
+                  "type": "number"
+                },
+                "high": {
+                  "type": "number"
+                },
+                "low": {
+                  "type": "number"
+                },
+                "close": {
+                  "type": "number"
+                },
+                "volume": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "openTime",
+                "open",
+                "high",
+                "low",
+                "close",
+                "volume"
+              ]
+            }
+          }
+        },
+        "required": [
+          "candles"
         ]
       }
     }

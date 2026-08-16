@@ -18,6 +18,7 @@ import { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR
 import { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './backtest.js'
 import { INTERVALS, MARKET_PROVIDERS, fetchKlines } from './market.js'
 import { adviseChannels, compareChannels, findChannel, searchChannels } from './data-guide.js'
+import { candlesCheck, seriesStats } from './stats.js'
 
 // ── 纯函数再导出：非 dsh 环境（任意 Node 项目）直接 import 使用 ──
 // 注意：本插件仍是纯 named-export 函数插件（无 default export），Loader 不受影响。
@@ -25,6 +26,7 @@ export { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR
 export { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './backtest.js'
 export { fetchKlines, parseKlines, parseOkxKlines, parseBybitKlines, INTERVALS, MARKET_PROVIDERS } from './market.js'
 export { DATA_CHANNELS, adviseChannels, compareChannels, findChannel, searchChannels } from './data-guide.js'
+export { candlesCheck, seriesStats } from './stats.js'
 
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
@@ -952,6 +954,99 @@ export function apply(ctx: Context) {
         throw new Error(`no channel covers data type "${args.dataType}"`)
       }
       return { recommendations }
+    },
+  }))
+  ctx.tools.register(defineTool({
+    name: 'quant_series_stats',
+    description:
+      'Descriptive statistics for a numeric series: count, mean, std, min/max, median, skewness, excess ' +
+      'kurtosis, lag-1 autocorrelation, annualized volatility (sqrt(365) of period returns) and total return %. ' +
+      'Run this first after fetching data to understand the series before applying indicators or backtests.',
+    parameters: {
+      values: { type: 'array', items: { type: 'number' }, required: true, description: 'Numeric series (e.g. closes), oldest first' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          count: { type: 'integer' , required: true},
+          mean: { type: 'number' , required: true},
+          std: { type: 'number' , required: true},
+          min: { type: 'number' , required: true},
+          max: { type: 'number' , required: true},
+          median: { type: 'number' , required: true},
+          skew: { type: 'number' , required: true},
+          kurtosis: { type: 'number' , required: true},
+          autocorr1: { type: 'number' , required: true},
+          annualizedVol: { type: 'number' , required: true},
+          totalReturnPct: { type: 'number' , required: true},
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `stats (n=${value.count}): mean ${value.mean.toFixed(4)}, std ${value.std.toFixed(4)}, ` +
+          `min ${value.min}, max ${value.max}, skew ${value.skew.toFixed(3)}, kurt ${value.kurtosis.toFixed(3)}, ` +
+          `annVol ${value.annualizedVol.toFixed(2)}%, total ${value.totalReturnPct.toFixed(2)}%`
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return seriesStats(args.values)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_data_quality',
+    description:
+      'Check OHLCV candle health before analysis: high<low violations, non-positive prices, ' +
+      'non-increasing timestamps, time gaps (uneven intervals), and extreme moves (>50% close change). ' +
+      'Returns counts per issue plus a healthy flag. Feed quant_market_fetch candles directly.',
+    parameters: {
+      candles: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            openTime: { type: 'integer', required: true },
+            open: { type: 'number', required: true },
+            high: { type: 'number', required: true },
+            low: { type: 'number', required: true },
+            close: { type: 'number', required: true },
+            volume: { type: 'number', required: true },
+          },
+          additionalProperties: false,
+        },
+        required: true,
+        description: 'OHLCV candles as returned by quant_market_fetch',
+      },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          count: { type: 'integer' , required: true},
+          highBelowLow: { type: 'integer' , required: true},
+          nonPositive: { type: 'integer' , required: true},
+          timeNotIncreasing: { type: 'integer' , required: true},
+          timeGaps: { type: 'integer' , required: true},
+          extremeMoves: { type: 'integer' , required: true},
+          healthy: { type: 'boolean' , required: true},
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: value.healthy
+          ? `data quality: healthy (${value.count} candles)`
+          : `data quality: ${value.count} candles, issues — high<low ${value.highBelowLow}, ` +
+            `nonPositive ${value.nonPositive}, time ${value.timeNotIncreasing}, gaps ${value.timeGaps}, ` +
+            `extremeMoves ${value.extremeMoves}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return candlesCheck(args.candles)
     },
   }))
 }
