@@ -4,6 +4,20 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.6.0] - 2026-08-16
+
+### Added
+- `quant_data_guide`: built-in A-share data channel knowledge base (8 channels: akshare, baostock, tushare, Wind, iFinD, SSE, SZSE, CSI) queryable by channel name or data type — channel navigation, not data APIs
+- 6 knowledge-base unit cases
+
+### Changed
+- **Package renamed to `dsh-quant`** (DeepQuant Harness). Tool prefix `quant_*` and all tool schemas stay unchanged; previous name keeps serving 0.1-0.5.
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.5.0] - 2026-08-16
 
 ### Added

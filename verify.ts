@@ -23,7 +23,7 @@ const call = (name: string, args: Record<string, unknown>) =>
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 18) throw new Error(`expected 18 tools, got ${names.length}`)
+if (names.length !== 19) throw new Error(`expected 19 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -196,6 +196,21 @@ assert(Math.abs(lastOkx - lastByb) / lastByb < 0.02, `cross-exchange close misma
 // 非法 provider 由 enum 拒绝
 const badP = await call('quant_market_fetch', { symbol: 'BTCUSDT', interval: '1d', provider: 'kraken' })
 assert(badP.isError, 'unknown provider must be an error')
+
+
+// 11) 数据渠道指南（知识库查询）
+console.log('\n=== data guide ===')
+const g1 = await call('quant_data_guide', { query: 'tushare' })
+const g2 = await call('quant_data_guide', { query: '财务' })
+const g3 = await call('quant_data_guide', { channel: 'akshare' })
+assert(!g1.isError && !g2.isError && !g3.isError, 'guide queries should succeed')
+assert(g1.value.results[0].name === 'tushare' && g1.value.results[0].url === 'https://tushare.pro', 'exact channel')
+assert(g2.value.results.length >= 3, 'data-type search should hit multiple channels')
+assert(g3.value.results.length === 1 && g3.value.results[0].category === 'python-lib', 'channel detail')
+const g4 = await call('quant_data_guide', { channel: 'nope' })
+assert(g4.isError, 'unknown channel must be an error')
+console.log('guide "tushare":', g1.value.results[0].displayName, '| cost:', g1.value.results[0].cost.slice(0, 24), '…')
+console.log('guide "财务" hits:', g2.value.results.map(r => r.name).join(', '))
 
 console.log('\n✅ all quant-indicators checks passed')
 

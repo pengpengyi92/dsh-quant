@@ -1,5 +1,14 @@
 # News
 
+## 0.6.0 — 2026-08-16
+
+**数据渠道指南 + 更名**
+
+- 新增 `quant_data_guide`：A 股 8 大数据渠道知识库（akshare/baostock/tushare/Wind/iFinD/上交所/深交所/中证指数），按渠道名或数据类型查询，返回费用/接入/教程
+- **更名 `dsh-quant-indicators` → `dsh-quant`**（DeepQuant Harness）；工具前缀 `quant_*` 不变，向后兼容
+- 6 个知识库单测
+
+
 ## 0.5.0 — 2026-08-16
 
 **多交易所行情数据源**

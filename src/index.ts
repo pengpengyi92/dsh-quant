@@ -17,6 +17,7 @@ import { defineTool } from '@deepseek-ai/dsh-tools'
 import { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './indicators.js'
 import { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './backtest.js'
 import { INTERVALS, MARKET_PROVIDERS, fetchKlines } from './market.js'
+import { findChannel, searchChannels } from './data-guide.js'
 
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
@@ -782,6 +783,69 @@ export function apply(ctx: Context) {
     async execute(args) {
       const feeRate = args.feeRate ?? 0.001
       return backtestPortfolio(args.assets, args.weights, args.rebalanceEvery, feeRate)
+    },
+  }))
+  ctx.tools.register(defineTool({
+    name: 'quant_data_guide',
+    description:
+      'Guide to China A-share / financial data channels: query by channel name (akshare, baostock, tushare, ' +
+      'wind, ifind, sse, szse, csindex) or by data type (行情/财务/宏观/期货/指数/基金…). ' +
+      'Returns structured channel info: url, cost, data types, setup steps, tutorials, best-for. ' +
+      'This plugin ships channel knowledge, not data APIs — users bring their own credentials and budgets.',
+    parameters: {
+      query: {
+        type: 'string',
+        description: 'Channel name or data type to search, e.g. "tushare", "日线行情", "财务" (omit when channel is given)',
+      },
+      channel: {
+        type: 'string',
+        description: 'Exact channel name to fetch one detailed record (takes precedence over query)',
+      },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          query: { type: 'string' , required: true},
+          results: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' , required: true},
+                displayName: { type: 'string' , required: true},
+                category: { type: 'string' , required: true},
+                url: { type: 'string' , required: true},
+                cost: { type: 'string' , required: true},
+                dataTypes: { type: 'array', items: { type: 'string' }, required: true},
+                setup: { type: 'array', items: { type: 'string' }, required: true},
+                tutorialUrls: { type: 'array', items: { type: 'string' }, required: true},
+                bestFor: { type: 'string' , required: true},
+                notes: { type: 'string' },
+                matchReason: { type: 'string' , required: true},
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `data guide for "${args.query}": ${value.results.map(r => r.displayName).join(', ') || 'no matches'}`
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      if (args.channel) {
+        const c = findChannel(args.channel)
+        if (c === undefined) throw new Error(`unknown channel "${args.channel}"`)
+        return { query: args.channel, results: [{ ...c, matchReason: `exact channel "${args.channel}"` }] }
+      }
+      if (args.query === undefined) throw new Error('provide either query or channel')
+      const results = searchChannels(args.query).map(r => ({ ...r.channel, matchReason: r.matchReason }))
+      return { query: args.query, results }
     },
   }))
 }

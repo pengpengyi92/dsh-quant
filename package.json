@@ -1,7 +1,7 @@
 {
-  "name": "dsh-quant-indicators",
+  "name": "dsh-quant",
   "version": "0.5.0",
-  "description": "dsh plugin: quantitative tools for agents — market data (Binance public API), technical indicators (SMA/EMA/RSI/MACD/Bollinger/ATR) and MA-crossover backtest, with structured canonical outputs consumable from Code Mode",
+  "description": "dsh plugin: quantitative tools for agents \u2014 market data (Binance public API), technical indicators (SMA/EMA/RSI/MACD/Bollinger/ATR) and MA-crossover backtest, with structured canonical outputs consumable from Code Mode",
   "license": "MIT",
   "type": "module",
   "keywords": [
@@ -35,7 +35,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test:unit": "tsx --test tests/indicators.spec.ts tests/indicators-extra.spec.ts tests/market.spec.ts tests/backtest.spec.ts tests/strategies.spec.ts",
+    "test:unit": "tsx --test tests/indicators.spec.ts tests/indicators-extra.spec.ts tests/market.spec.ts tests/backtest.spec.ts tests/strategies.spec.ts tests/data-guide.spec.ts",
     "test:loader": "tsx --test tests/loader-composition.spec.ts",
     "test:verify": "tsx verify.ts",
     "test": "npm run test:unit && npm run test:loader",

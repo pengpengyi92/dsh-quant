@@ -1,18 +1,19 @@
-# dsh-quant-indicators
+# dsh-quant（DeepQuant Harness）
 
-[![npm](https://img.shields.io/npm/v/dsh-quant-indicators)](https://www.npmjs.com/package/dsh-quant-indicators)
-[![license](https://img.shields.io/npm/l/dsh-quant-indicators)](LICENSE)
-[![ci](https://github.com/pengpengyi92/dsh-quant-indicators/actions/workflows/ci.yml/badge.svg)](https://github.com/pengpengyi92/dsh-quant-indicators/actions)
+[![npm](https://img.shields.io/npm/v/dsh-quant)](https://www.npmjs.com/package/dsh-quant)
+[![license](https://img.shields.io/npm/l/dsh-quant)](LICENSE)
+[![ci](https://github.com/pengpengyi92/dsh-quant/actions/workflows/ci.yml/badge.svg)](https://github.com/pengpengyi92/dsh-quant/actions)
 [![dsh-plugin](https://img.shields.io/badge/dsh-plugin-blue)](https://github.com/topics/dsh-plugin)
 
 给 dsh 模型的一组量化工具：行情数据获取（Binance 公共 API）+ 技术指标计算（SMA / EMA / RSI / MACD / 布林带 / ATR / KDJ / W%R / CCI / OBV / ADX / ROC）+ 三大策略回测（双均线交叉 / 布林带突破 / RSI 均值回归）+ 资金管理（止损/止盈）。
 
-定位：量化场景的 agent 需要"取数据 → 算指标 → 回测"的完整链路。官方工具集（bash/fs/web/terminal/subagent…）目前没有技术指标——本插件填补这个空白。指标与回测为纯函数实现，零外部依赖，可离线验证；行情获取走免费公共 API，无需凭据。
+定位：量化场景的 agent 需要"取数据 → 算指标 → 回测"的完整链路，A 股数据走渠道导航（本插件提供渠道知识，不提供数据 API、不为数据付费）。官方工具集（bash/fs/web/terminal/subagent…）目前没有技术指标——本插件填补这个空白。指标与回测为纯函数实现，零外部依赖，可离线验证；行情获取走免费公共 API，无需凭据。
 
 ## 工具
 
 | 工具 | 参数 | canonical 输出 | 首个有效位置 |
 |---|---|---|---|
+| `quant_data_guide` | `query`（渠道名/数据类型，如 "tushare"/"财务"）或 `channel`（精确渠道名）| `{ query, results: [{ name, url, cost, dataTypes, setup, tutorialUrls, bestFor, … }] }` | —（内置 8 大 A 股数据渠道知识库）|
 | `quant_market_fetch` | `symbol: string`（如 BTCUSDT）, `interval: 1m…1M`, `limit: 1-1000`, `provider: binance/okx/bybit` | `{ symbol, interval, provider, candles: [{openTime, open, high, low, close, volume}] }` | — |
 | `quant_sma` | `values: number[]`, `window: integer` | `{ values: (number\|null)[], window }` | index `window-1` |
 | `quant_ema` | `values: number[]`, `window: integer` | `{ values: (number\|null)[], window }` | index `window-1`（seed = 前 window 均值，alpha = 2/(w+1)）|
@@ -80,6 +81,7 @@ schema 前缀稳定（工具集与顺序不变则复用）；结果追加在可�
 
 | 版本 | 日期 | 更新 |
 |---|---|---|
+| 0.6.0 | 2026-08-16 | 数据渠道指南 quant_data_guide（A 股 8 大渠道）+ 更名 dsh-quant |
 | 0.5.0 | 2026-08-16 | 多交易所数据源（OKX / Bybit）|
 | 0.4.0 | 2026-08-16 | 多资产组合回测（定期再平衡）|
 | 0.3.0 | 2026-08-16 | 策略族（布林带突破 / RSI 反转）+ 止损止盈 + exitReason |
@@ -95,7 +97,7 @@ schema 前缀稳定（工具集与顺序不变则复用）；结果追加在可�
 - **回测仅支持双均线交叉**：更通用的策略回调/参数网格是后续路线。
 - **presentCall/presentResult 未定制**：指标结果无文件/终端/diff 语义，UI 走 generic 卡片兜底。
 - **行情工具依赖网络**：在线用例在 verify.ts 中，网络不可达时该用例失败（离线指标/回测用例不受影响）。
-- 未发布：本地开发包名 `dsh-quant-indicators`，发布时定 npm scope 并打 `dsh-plugin` topic。构建链（tsc → lib）与消费者场景已验证，`npm pack --dry-run` 通过（7 文件 11.5 kB）。
+- 未发布：本地开发包名 `dsh-quant`，发布时定 npm scope 并打 `dsh-plugin` topic。构建链（tsc → lib）与消费者场景已验证，`npm pack --dry-run` 通过（7 文件 11.5 kB）。
 
 ## 构建与使用
 
@@ -104,7 +106,7 @@ schema 前缀稳定（工具集与顺序不变则复用）；结果追加在可�
 cd quant-indicators && tsc -p tsconfig.json
 
 # 在 dsh 中使用：cordis.yml 里加一行
-# - name: 'dsh-quant-indicators'
+# - name: 'dsh-quant'
 # （Loader 从 node_modules 解析包的 exports → lib/index.js）
 ```
 
