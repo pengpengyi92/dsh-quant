@@ -23,7 +23,7 @@ const call = (name: string, args: Record<string, unknown>) =>
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 15) throw new Error(`expected 15 tools, got ${names.length}`)
+if (names.length !== 17) throw new Error(`expected 17 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -148,6 +148,18 @@ assert(obvR.value.values.length === 120 && obvR.value.values[0] === 0, 'obv shap
 assert(adxR.value.adx[27] !== null && adxR.value.plusDi[14] !== null, 'adx alignment')
 console.log('kdj[-1]:', JSON.stringify({ k: kdjR.value.k[119], d: kdjR.value.d[119], j: kdjR.value.j[119] }))
 console.log('cci[-1]:', cciR.value.values[119]?.toFixed(2), '| obv[-1]:', obvR.value.values[119]?.toFixed(2), '| adx[-1]:', adxR.value.adx[119]?.toFixed(2))
+
+
+// 8) 新策略（真实 BTC 数据 + 资金管理）
+console.log('\n=== new strategies (real data) ===')
+const bb = await call('quant_backtest_bollinger', { close: btCloses, window: 20, multiplier: 2, feeRate: 0.001 })
+const rs = await call('quant_backtest_rsi', { close: btCloses, rsiWindow: 14, buyBelow: 30, sellAbove: 70, feeRate: 0.001 })
+const mcSl = await call('quant_backtest', { close: btCloses, fast: 5, slow: 20, feeRate: 0.001, stopLoss: 0.05, takeProfit: 0.15 })
+assert(!bb.isError && !rs.isError && !mcSl.isError, 'strategy backtests should succeed')
+console.log('bollinger:       trades:', bb.value.trades.length, '| total:', bb.value.totalReturnPct.toFixed(2) + '%')
+console.log('rsi-reversion:   trades:', rs.value.trades.length, '| total:', rs.value.totalReturnPct.toFixed(2) + '%')
+console.log('ma-cross +stop:  trades:', mcSl.value.trades.length, '| reasons:', JSON.stringify(mcSl.value.trades.map(t => t.exitReason)))
+assert(mcSl.value.trades.every(t => ['signal', 'stop_loss', 'take_profit', null].includes(t.exitReason)), 'exitReason vocabulary')
 
 console.log('\n✅ all quant-indicators checks passed')
 

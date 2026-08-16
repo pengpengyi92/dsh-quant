@@ -4,6 +4,23 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.3.0] - 2026-08-16
+
+### Added
+- Strategy family: `quant_backtest_bollinger` (band-breakout) and
+  `quant_backtest_rsi` (mean-reversion), same canonical output as
+  `quant_backtest` (trades/position/equity/drawdown/Sharpe)
+- Money management: optional `stopLoss` / `takeProfit` fractions on all three
+  strategy tools; trades now carry `exitReason` (`signal`/`stop_loss`/
+  `take_profit`)
+- 6 hand-computed strategy unit cases (breakout entry, stop-loss, take-profit
+  precedence, RSI reversion, preconditions); live BTC verification
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.2.0] - 2026-08-16
 
 ### Added

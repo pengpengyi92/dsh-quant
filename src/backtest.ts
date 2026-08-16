@@ -17,6 +17,8 @@ export interface BacktestTrade {
   exitPrice: number | null
   /** 该笔收益（含手续费后的净收益率） */
   returnPct: number | null
+  /** 出场原因：策略信号 / 止损 / 止盈 */
+  exitReason?: 'signal' | 'stop_loss' | 'take_profit'
 }
 
 export interface BacktestOutput {
@@ -42,11 +44,19 @@ export function backtestMaCross(
   fast: number,
   slow: number,
   feeRate: number,
+  stopLoss?: number,
+  takeProfit?: number,
 ): BacktestOutput {
   if (!Number.isInteger(fast) || fast < 1) throw new RangeError(`fast must be a positive integer, got ${fast}`)
   if (!Number.isInteger(slow) || slow < 1) throw new RangeError(`slow must be a positive integer, got ${slow}`)
   if (fast >= slow) throw new RangeError('fast must be < slow')
   if (!Number.isFinite(feeRate) || feeRate < 0) throw new RangeError(`feeRate must be >= 0, got ${feeRate}`)
+  if (stopLoss !== undefined && (!Number.isFinite(stopLoss) || stopLoss <= 0 || stopLoss >= 1)) {
+    throw new RangeError(`stopLoss must be in (0, 1), got ${stopLoss}`)
+  }
+  if (takeProfit !== undefined && (!Number.isFinite(takeProfit) || takeProfit <= 0)) {
+    throw new RangeError(`takeProfit must be > 0, got ${takeProfit}`)
+  }
 
   const n = close.length
   if (n === 0) {
@@ -86,9 +96,27 @@ export function backtestMaCross(
         exitIndex: i,
         exitPrice,
         returnPct: exitPrice / entryPrice - 1,
+        exitReason: 'signal',
       })
       holding = false
       entryIndex = null
+    }
+    if (holding) {
+      const reason = stopTargetReason(close, i, entryPrice, stopLoss, takeProfit)
+      if (reason !== undefined) {
+        const exitPrice = close[i]!
+        cash *= 1 - feeRate
+        trades.push({
+          entryIndex: entryIndex!,
+          entryPrice,
+          exitIndex: i,
+          exitPrice,
+          returnPct: exitPrice / entryPrice - 1,
+          exitReason: reason,
+        })
+        holding = false
+        entryIndex = null
+      }
     }
     pendingEntry = false
     pendingExit = false
@@ -141,6 +169,19 @@ function smaArray(values: readonly number[], window: number): (number | null)[] 
     out[i] = sum / window
   }
   return out
+}
+
+/** 检查持仓中 bar i 是否触发止损/止盈；触发返回原因。 */
+function stopTargetReason(
+  close: readonly number[],
+  i: number,
+  entryPrice: number,
+  stopLoss: number | undefined,
+  takeProfit: number | undefined,
+): 'stop_loss' | 'take_profit' | undefined {
+  if (stopLoss !== undefined && close[i]! <= entryPrice * (1 - stopLoss)) return 'stop_loss'
+  if (takeProfit !== undefined && close[i]! >= entryPrice * (1 + takeProfit)) return 'take_profit'
+  return undefined
 }
 
 function computeMaxDrawdown(equity: readonly number[]): number {
@@ -233,4 +274,222 @@ export function backtestGrid(
     slowRange: { min: slowMin, max: slowMax },
     feeRate,
   }
+}
+
+/**
+ * 布林带突破策略：收盘价上穿上轨买入；下穿中轨（SMA）或止损/止盈卖出。
+ * 信号 bar i 确认、i+1 收盘成交（无未来函数）。
+ */
+export function backtestBollingerBreakout(
+  close: readonly number[],
+  window: number,
+  multiplier: number,
+  feeRate: number,
+  stopLoss?: number,
+  takeProfit?: number,
+): BacktestOutput {
+  if (!Number.isInteger(window) || window < 1) throw new RangeError(`window must be a positive integer, got ${window}`)
+  if (!Number.isFinite(multiplier) || multiplier <= 0) throw new RangeError(`multiplier must be > 0, got ${multiplier}`)
+  if (!Number.isFinite(feeRate) || feeRate < 0) throw new RangeError(`feeRate must be >= 0, got ${feeRate}`)
+  if (stopLoss !== undefined && (!Number.isFinite(stopLoss) || stopLoss <= 0 || stopLoss >= 1)) {
+    throw new RangeError(`stopLoss must be in (0, 1), got ${stopLoss}`)
+  }
+  if (takeProfit !== undefined && (!Number.isFinite(takeProfit) || takeProfit <= 0)) {
+    throw new RangeError(`takeProfit must be > 0, got ${takeProfit}`)
+  }
+
+  const n = close.length
+  if (n === 0) {
+    return { totalReturnPct: 0, maxDrawdownPct: 0, sharpe: 0, position: [], equityCurve: [], trades: [], fast: 0, slow: window, feeRate }
+  }
+  const mid = smaArray(close, window)
+  const upper: (number | null)[] = new Array(n).fill(null)
+  const lower: (number | null)[] = new Array(n).fill(null)
+  for (let i = window - 1; i < n; i++) {
+    let sum = 0
+    let sumSq = 0
+    for (let j = i - window + 1; j <= i; j++) {
+      sum += close[j]!
+      sumSq += close[j]! * close[j]!
+    }
+    const mean = sum / window
+    const std = Math.sqrt(Math.max(sumSq / window - mean * mean, 0))
+    upper[i] = mean + multiplier * std
+    lower[i] = mean - multiplier * std
+  }
+
+  const position: (0 | 1)[] = new Array(n).fill(0)
+  const equityCurve: number[] = new Array(n).fill(1)
+  const trades: BacktestTrade[] = []
+  let cash = 1
+  let holding = false
+  let entryIndex: number | null = null
+  let entryPrice = 0
+  let pendingEntry = false
+  let pendingExit = false
+
+  for (let i = 0; i < n; i++) {
+    if (pendingEntry && !holding) {
+      holding = true
+      entryIndex = i
+      entryPrice = close[i]!
+      cash *= 1 - feeRate
+    }
+    if (pendingExit && holding) {
+      const exitPrice = close[i]!
+      cash *= 1 - feeRate
+      trades.push({ entryIndex: entryIndex!, entryPrice, exitIndex: i, exitPrice, returnPct: exitPrice / entryPrice - 1, exitReason: 'signal' })
+      holding = false
+      entryIndex = null
+    }
+    if (holding) {
+      const reason = stopTargetReason(close, i, entryPrice, stopLoss, takeProfit)
+      if (reason !== undefined) {
+        const exitPrice = close[i]!
+        cash *= 1 - feeRate
+        trades.push({ entryIndex: entryIndex!, entryPrice, exitIndex: i, exitPrice, returnPct: exitPrice / entryPrice - 1, exitReason: reason })
+        holding = false
+        entryIndex = null
+      }
+    }
+    pendingEntry = false
+    pendingExit = false
+
+    const prevValid = i > 0 && upper[i - 1] !== null && mid[i - 1] !== null
+    const curValid = upper[i] !== null && mid[i] !== null
+    if (prevValid && curValid) {
+      const crossUp = close[i - 1]! <= upper[i - 1]! && close[i]! > upper[i]!
+      const crossDownMid = close[i - 1]! >= mid[i - 1]! && close[i]! < mid[i]!
+      if (crossUp && !holding) pendingEntry = true
+      else if (crossDownMid && holding) pendingExit = true
+    }
+
+    position[i] = holding ? 1 : 0
+    equityCurve[i] = holding ? cash * (close[i]! / entryPrice) : cash
+  }
+
+  if (holding) {
+    trades.push({ entryIndex: entryIndex!, entryPrice, exitIndex: null, exitPrice: null, returnPct: null })
+  }
+  const totalReturnPct = (equityCurve[n - 1]! - 1) * 100
+  const maxDrawdownPct = computeMaxDrawdown(equityCurve)
+  const sharpe = computeSharpe(equityCurve)
+  return { totalReturnPct, maxDrawdownPct, sharpe, position, equityCurve, trades, fast: 0, slow: window, feeRate }
+}
+
+/**
+ * RSI 均值回归策略：RSI 上穿 buyBelow 买入；RSI 下穿 sellAbove 卖出；止损/止盈可配。
+ * 信号 bar i 确认、i+1 收盘成交（无未来函数）。
+ */
+export function backtestRsiReversion(
+  close: readonly number[],
+  rsiWindow: number,
+  buyBelow: number,
+  sellAbove: number,
+  feeRate: number,
+  stopLoss?: number,
+  takeProfit?: number,
+): BacktestOutput {
+  if (!Number.isInteger(rsiWindow) || rsiWindow < 1) throw new RangeError(`rsiWindow must be a positive integer, got ${rsiWindow}`)
+  if (!Number.isFinite(buyBelow) || buyBelow <= 0 || buyBelow >= 100) throw new RangeError(`buyBelow must be in (0, 100), got ${buyBelow}`)
+  if (!Number.isFinite(sellAbove) || sellAbove <= 0 || sellAbove >= 100 || sellAbove <= buyBelow) {
+    throw new RangeError(`sellAbove must be in (buyBelow, 100), got ${sellAbove}`)
+  }
+  if (!Number.isFinite(feeRate) || feeRate < 0) throw new RangeError(`feeRate must be >= 0, got ${feeRate}`)
+  if (stopLoss !== undefined && (!Number.isFinite(stopLoss) || stopLoss <= 0 || stopLoss >= 1)) {
+    throw new RangeError(`stopLoss must be in (0, 1), got ${stopLoss}`)
+  }
+  if (takeProfit !== undefined && (!Number.isFinite(takeProfit) || takeProfit <= 0)) {
+    throw new RangeError(`takeProfit must be > 0, got ${takeProfit}`)
+  }
+
+  const n = close.length
+  if (n === 0) {
+    return { totalReturnPct: 0, maxDrawdownPct: 0, sharpe: 0, position: [], equityCurve: [], trades: [], fast: 0, slow: rsiWindow, feeRate }
+  }
+  // 本地 RSI（Wilder，与 indicators 一致语义）
+  const rsiArr = localRsi(close, rsiWindow)
+
+  const position: (0 | 1)[] = new Array(n).fill(0)
+  const equityCurve: number[] = new Array(n).fill(1)
+  const trades: BacktestTrade[] = []
+  let cash = 1
+  let holding = false
+  let entryIndex: number | null = null
+  let entryPrice = 0
+  let pendingEntry = false
+  let pendingExit = false
+
+  for (let i = 0; i < n; i++) {
+    if (pendingEntry && !holding) {
+      holding = true
+      entryIndex = i
+      entryPrice = close[i]!
+      cash *= 1 - feeRate
+    }
+    if (pendingExit && holding) {
+      const exitPrice = close[i]!
+      cash *= 1 - feeRate
+      trades.push({ entryIndex: entryIndex!, entryPrice, exitIndex: i, exitPrice, returnPct: exitPrice / entryPrice - 1, exitReason: 'signal' })
+      holding = false
+      entryIndex = null
+    }
+    if (holding) {
+      const reason = stopTargetReason(close, i, entryPrice, stopLoss, takeProfit)
+      if (reason !== undefined) {
+        const exitPrice = close[i]!
+        cash *= 1 - feeRate
+        trades.push({ entryIndex: entryIndex!, entryPrice, exitIndex: i, exitPrice, returnPct: exitPrice / entryPrice - 1, exitReason: reason })
+        holding = false
+        entryIndex = null
+      }
+    }
+    pendingEntry = false
+    pendingExit = false
+
+    const prevValid = i > 0 && rsiArr[i - 1] !== null && rsiArr[i] !== null
+    if (prevValid) {
+      const crossUp = rsiArr[i - 1]! <= buyBelow && rsiArr[i]! > buyBelow
+      const crossDown = rsiArr[i - 1]! >= sellAbove && rsiArr[i]! < sellAbove
+      if (crossUp && !holding) pendingEntry = true
+      else if (crossDown && holding) pendingExit = true
+    }
+
+    position[i] = holding ? 1 : 0
+    equityCurve[i] = holding ? cash * (close[i]! / entryPrice) : cash
+  }
+
+  if (holding) {
+    trades.push({ entryIndex: entryIndex!, entryPrice, exitIndex: null, exitPrice: null, returnPct: null })
+  }
+  const totalReturnPct = (equityCurve[n - 1]! - 1) * 100
+  const maxDrawdownPct = computeMaxDrawdown(equityCurve)
+  const sharpe = computeSharpe(equityCurve)
+  return { totalReturnPct, maxDrawdownPct, sharpe, position, equityCurve, trades, fast: 0, slow: rsiWindow, feeRate }
+}
+
+/** 本地 Wilder RSI（避免跨文件依赖）。 */
+function localRsi(values: readonly number[], window: number): (number | null)[] {
+  const n = values.length
+  const out: (number | null)[] = new Array(n).fill(null)
+  if (n < window + 1) return out
+  const deltas: number[] = []
+  for (let i = 1; i < n; i++) deltas.push(values[i]! - values[i - 1]!)
+  let avgGain = 0
+  let avgLoss = 0
+  for (let i = 0; i < window; i++) {
+    const d = deltas[i]!
+    if (d >= 0) avgGain += d
+    else avgLoss -= d
+  }
+  avgGain /= window
+  avgLoss /= window
+  out[window] = avgLoss === 0 ? 100 : 100 - 100 / (1 + avgGain / avgLoss)
+  for (let i = window; i < deltas.length; i++) {
+    const d = deltas[i]!
+    avgGain = (avgGain * (window - 1) + Math.max(d, 0)) / window
+    avgLoss = (avgLoss * (window - 1) + Math.max(-d, 0)) / window
+    out[i + 1] = avgLoss === 0 ? 100 : 100 - 100 / (1 + avgGain / avgLoss)
+  }
+  return out
 }

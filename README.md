@@ -5,7 +5,7 @@
 [![ci](https://github.com/pengpengyi92/dsh-quant-indicators/actions/workflows/ci.yml/badge.svg)](https://github.com/pengpengyi92/dsh-quant-indicators/actions)
 [![dsh-plugin](https://img.shields.io/badge/dsh-plugin-blue)](https://github.com/topics/dsh-plugin)
 
-给 dsh 模型的一组量化工具：行情数据获取（Binance 公共 API）+ 技术指标计算（SMA / EMA / RSI / MACD / 布林带 / ATR / KDJ / W%R / CCI / OBV / ADX / ROC）+ 双均线交叉回测。
+给 dsh 模型的一组量化工具：行情数据获取（Binance 公共 API）+ 技术指标计算（SMA / EMA / RSI / MACD / 布林带 / ATR / KDJ / W%R / CCI / OBV / ADX / ROC）+ 三大策略回测（双均线交叉 / 布林带突破 / RSI 均值回归）+ 资金管理（止损/止盈）。
 
 定位：量化场景的 agent 需要"取数据 → 算指标 → 回测"的完整链路。官方工具集（bash/fs/web/terminal/subagent…）目前没有技术指标——本插件填补这个空白。指标与回测为纯函数实现，零外部依赖，可离线验证；行情获取走免费公共 API，无需凭据。
 
@@ -26,7 +26,9 @@
 | `quant_obv` | `close/volume: number[]` | `{ values: number[] }` | 全程（首值 0，无 null）|
 | `quant_adx` | `high/low/close: number[]`, `window=14` | `{ adx, plusDi, minusDi, window }` | ±DI: index `window`；ADX: index `2*window-1` |
 | `quant_roc` | `values: number[]`, `window=12` | `{ values: (number\|null)[], window }` | index `window` |
-| `quant_backtest` | `close: number[]`, `fast=10`, `slow=30`, `feeRate=0.001` | `{ totalReturnPct, maxDrawdownPct, sharpe, position, equityCurve, trades }` | 首笔交易在首次交叉确认后一根 |
+| `quant_backtest` | `close: number[]`, `fast=10`, `slow=30`, `feeRate=0.001`, `stopLoss?`, `takeProfit?` | `{ totalReturnPct, maxDrawdownPct, sharpe, position, equityCurve, trades(含 exitReason) }` | 首笔交易在首次交叉确认后一根 |
+| `quant_backtest_bollinger` | `close: number[]`, `window=20`, `multiplier=2`, `feeRate=0.001`, `stopLoss?`, `takeProfit?` | 同上（突破上轨买入、下穿中轨卖出）| 首次突破确认后一根 |
+| `quant_backtest_rsi` | `close: number[]`, `rsiWindow=14`, `buyBelow=30`, `sellAbove=70`, `feeRate=0.001`, `stopLoss?`, `takeProfit?` | 同上（RSI 上穿 buyBelow 买入、下穿 sellAbove 卖出）| 首次信号确认后一根 |
 | `quant_backtest_grid` | `close: number[]`, `fastMin=3`, `fastMax=10`, `slowMin=10`, `slowMax=30`, `feeRate=0.001` | `{ results(按收益降序), best, fastRange, slowRange, feeRate }` | —（网格搜索，跳过 fast >= slow）|
 
 ### 典型链路（模型视角）

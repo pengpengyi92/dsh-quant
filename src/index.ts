@@ -15,7 +15,7 @@
 import type { Context } from '@deepseek-ai/cordis'
 import { defineTool } from '@deepseek-ai/dsh-tools'
 import { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './indicators.js'
-import { backtestGrid, backtestMaCross } from './backtest.js'
+import { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestRsiReversion } from './backtest.js'
 import { INTERVALS, fetchKlines } from './market.js'
 
 export const name = 'quant-indicators'
@@ -283,6 +283,8 @@ export function apply(ctx: Context) {
       fast: { type: 'integer', description: 'Fast SMA window, default 10' },
       slow: { type: 'integer', description: 'Slow SMA window, default 30' },
       feeRate: { type: 'number', description: 'Round-trip fee rate applied per side, default 0.001' },
+      stopLoss: { type: 'number', description: 'Optional stop-loss as a fraction of entry price, e.g. 0.05 = 5% below entry' },
+      takeProfit: { type: 'number', description: 'Optional take-profit as a fraction of entry price, e.g. 0.10 = 10% above entry' },
     },
     output: {
       schema: {
@@ -303,6 +305,7 @@ export function apply(ctx: Context) {
                 exitIndex: { oneOf: [{ type: 'integer' }, { type: 'null' }] },
                 exitPrice: { oneOf: [{ type: 'number' }, { type: 'null' }] },
                 returnPct: { oneOf: [{ type: 'number' }, { type: 'null' }] },
+                exitReason: { oneOf: [{ type: 'string', enum: ['signal', 'stop_loss', 'take_profit'] }, { type: 'null' }] },
               },
               additionalProperties: false,
             },
@@ -326,7 +329,7 @@ export function apply(ctx: Context) {
       const fast = args.fast ?? 10
       const slow = args.slow ?? 30
       const feeRate = args.feeRate ?? 0.001
-      return backtestMaCross(args.close, fast, slow, feeRate)
+      return backtestMaCross(args.close, fast, slow, feeRate, args.stopLoss, args.takeProfit)
     },
   }))
 
@@ -592,6 +595,131 @@ export function apply(ctx: Context) {
     async execute(args) {
       const window = args.window ?? 12
       return { values: roc(args.values, window), window }
+    },
+  }))
+  ctx.tools.register(defineTool({
+    name: 'quant_backtest_bollinger',
+    description:
+      'Backtest a Bollinger-band breakout strategy: buy when close crosses above the upper band, ' +
+      'sell when close crosses below the middle band (SMA), with optional stop-loss/take-profit. ' +
+      'Signals confirm on bar i and execute at bar i+1 close (no look-ahead). ' +
+      'Returns trades (with exitReason), position, equity curve, total return, max drawdown and Sharpe.',
+    parameters: {
+      close: { type: 'array', items: { type: 'number' }, required: true, description: 'Close prices, oldest first' },
+      window: { type: 'integer', description: 'Bollinger window, default 20' },
+      multiplier: { type: 'number', description: 'Band standard-deviation multiplier, default 2' },
+      feeRate: { type: 'number', description: 'Round-trip fee rate applied per side, default 0.001' },
+      stopLoss: { type: 'number', description: 'Optional stop-loss fraction of entry price, e.g. 0.05' },
+      takeProfit: { type: 'number', description: 'Optional take-profit fraction of entry price, e.g. 0.10' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          totalReturnPct: { type: 'number' , required: true},
+          maxDrawdownPct: { type: 'number' , required: true},
+          sharpe: { type: 'number' , required: true},
+          position: { type: 'array', items: { oneOf: [{ type: 'integer' }, { type: 'null' }] }, required: true},
+          equityCurve: { type: 'array', items: { type: 'number' }, required: true},
+          trades: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                entryIndex: { type: 'integer' , required: true},
+                entryPrice: { type: 'number' , required: true},
+                exitIndex: { oneOf: [{ type: 'integer' }, { type: 'null' }] },
+                exitPrice: { oneOf: [{ type: 'number' }, { type: 'null' }] },
+                returnPct: { oneOf: [{ type: 'number' }, { type: 'null' }] },
+                exitReason: { oneOf: [{ type: 'string', enum: ['signal', 'stop_loss', 'take_profit'] }, { type: 'null' }] },
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+          fast: { type: 'integer' , required: true},
+          slow: { type: 'integer' , required: true},
+          feeRate: { type: 'number' , required: true},
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `bollinger breakout (${args.window ?? 20}, ${args.multiplier ?? 2}): ${value.trades.length} trades, ` +
+          `total ${value.totalReturnPct.toFixed(2)}%, maxDD ${value.maxDrawdownPct.toFixed(2)}%, sharpe ${value.sharpe.toFixed(2)}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      if (args.close.length === 0) throw new Error('close must not be empty')
+      const window = args.window ?? 20
+      const multiplier = args.multiplier ?? 2
+      const feeRate = args.feeRate ?? 0.001
+      return backtestBollingerBreakout(args.close, window, multiplier, feeRate, args.stopLoss, args.takeProfit)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_backtest_rsi',
+    description:
+      'Backtest an RSI mean-reversion strategy: buy when RSI crosses above buyBelow (default 30), ' +
+      'sell when RSI crosses below sellAbove (default 70), with optional stop-loss/take-profit. ' +
+      'Signals confirm on bar i and execute at bar i+1 close (no look-ahead). ' +
+      'Returns trades (with exitReason), position, equity curve, total return, max drawdown and Sharpe.',
+    parameters: {
+      close: { type: 'array', items: { type: 'number' }, required: true, description: 'Close prices, oldest first' },
+      rsiWindow: { type: 'integer', description: 'RSI window, default 14' },
+      buyBelow: { type: 'number', description: 'Buy threshold (RSI crosses above), default 30' },
+      sellAbove: { type: 'number', description: 'Sell threshold (RSI crosses below), default 70' },
+      feeRate: { type: 'number', description: 'Round-trip fee rate applied per side, default 0.001' },
+      stopLoss: { type: 'number', description: 'Optional stop-loss fraction of entry price, e.g. 0.05' },
+      takeProfit: { type: 'number', description: 'Optional take-profit fraction of entry price, e.g. 0.10' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          totalReturnPct: { type: 'number' , required: true},
+          maxDrawdownPct: { type: 'number' , required: true},
+          sharpe: { type: 'number' , required: true},
+          position: { type: 'array', items: { oneOf: [{ type: 'integer' }, { type: 'null' }] }, required: true},
+          equityCurve: { type: 'array', items: { type: 'number' }, required: true},
+          trades: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                entryIndex: { type: 'integer' , required: true},
+                entryPrice: { type: 'number' , required: true},
+                exitIndex: { oneOf: [{ type: 'integer' }, { type: 'null' }] },
+                exitPrice: { oneOf: [{ type: 'number' }, { type: 'null' }] },
+                returnPct: { oneOf: [{ type: 'number' }, { type: 'null' }] },
+                exitReason: { oneOf: [{ type: 'string', enum: ['signal', 'stop_loss', 'take_profit'] }, { type: 'null' }] },
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+          fast: { type: 'integer' , required: true},
+          slow: { type: 'integer' , required: true},
+          feeRate: { type: 'number' , required: true},
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `rsi reversion (${args.rsiWindow ?? 14}, buy<${args.buyBelow ?? 30}, sell>${args.sellAbove ?? 70}): ` +
+          `${value.trades.length} trades, total ${value.totalReturnPct.toFixed(2)}%, maxDD ${value.maxDrawdownPct.toFixed(2)}%, sharpe ${value.sharpe.toFixed(2)}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      if (args.close.length === 0) throw new Error('close must not be empty')
+      const rsiWindow = args.rsiWindow ?? 14
+      const buyBelow = args.buyBelow ?? 30
+      const sellAbove = args.sellAbove ?? 70
+      const feeRate = args.feeRate ?? 0.001
+      return backtestRsiReversion(args.close, rsiWindow, buyBelow, sellAbove, feeRate, args.stopLoss, args.takeProfit)
     },
   }))
 }
