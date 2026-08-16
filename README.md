@@ -1,5 +1,10 @@
 # dsh-quant-indicators
 
+[![npm](https://img.shields.io/npm/v/dsh-quant-indicators)](https://www.npmjs.com/package/dsh-quant-indicators)
+[![license](https://img.shields.io/npm/l/dsh-quant-indicators)](LICENSE)
+[![ci](https://github.com/pengpengyi92/dsh-quant-indicators/actions/workflows/ci.yml/badge.svg)](https://github.com/pengpengyi92/dsh-quant-indicators/actions)
+[![dsh-plugin](https://img.shields.io/badge/dsh-plugin-blue)](https://github.com/topics/dsh-plugin)
+
 给 dsh 模型的一组量化工具：行情数据获取（Binance 公共 API）+ 技术指标计算（SMA / EMA / RSI / MACD / 布林带 / ATR）+ 双均线交叉回测。
 
 定位：量化场景的 agent 需要"取数据 → 算指标 → 回测"的完整链路。官方工具集（bash/fs/web/terminal/subagent…）目前没有技术指标——本插件填补这个空白。指标与回测为纯函数实现，零外部依赖，可离线验证；行情获取走免费公共 API，无需凭据。

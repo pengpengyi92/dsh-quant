@@ -37,7 +37,9 @@
     "build": "tsc -p tsconfig.json",
     "test:unit": "tsx --test tests/indicators.spec.ts tests/market.spec.ts tests/backtest.spec.ts",
     "test:loader": "tsx --test tests/loader-composition.spec.ts",
-    "test:verify": "tsx verify.ts"
+    "test:verify": "tsx verify.ts",
+    "test": "npm run test:unit && npm run test:loader",
+    "prepublishOnly": "npm run build && npm test"
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.0",
@@ -45,11 +47,13 @@
     "@deepseek-ai/dsh-system-prompt": "^0.1.0-rc.5"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-system-prompt": "workspace:^",
-    "@deepseek-ai/dsh-tools": "workspace:^",
+    "@deepseek-ai/cordis": "^4.0.0",
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.5",
+    "@deepseek-ai/dsh-system-prompt": "^0.1.0-rc.5",
+    "@deepseek-ai/cordis-plugin-loader": "^1.0.2",
+    "@deepseek-ai/cordis-plugin-include": "^1.0.6",
     "@types/node": "^24.0.0",
-    "tsx": "^4.0.0",
-    "typescript": "^6.0.0"
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
   }
 }
