@@ -23,3 +23,7 @@
 - 六维度文件夹（tool-use/memory/rag/benchmark/eval/plan）各追加 skill 映射段
 - 兼容性核对：kebab-case 名 ✓；目录包 <name>/SKILL.md ✓；frontmatter
   name+description ✓（未用 disable-model-invocation，默认模型+用户双可调用）
+
+## [2026-08-17 00:46:35] 发布完成
+- 0.20.1 patch 发布（skill 体系随 npm 包分发：skill-filesystem 可指向
+  node_modules/dsh-quant/skill 直接加载）
