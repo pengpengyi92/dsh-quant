@@ -4,6 +4,25 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.12.0] - 2026-08-16
+
+### Added
+- `quant_metrics`: full backtest metric suite (9 equity metrics + trade-level
+  metrics) with required trio return/drawdown/sharpe
+- METRIC_CATALOG metric directory for UI metric pickers
+- Jane Street-inspired UI demo (demos/ui-demo.html + gen-ui-demo-data.ts):
+  candlestick + overlays + trade markers, equity curve, metric selector
+- 7 hand-computed metric cases; Discussion #7 for metric-system PRs
+
+### Fixed
+- profitFactor semantics: null (not Infinity) when there are no losses
+  (Infinity is not lossless JSON)
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.11.0] - 2026-08-16
 
 ### Added

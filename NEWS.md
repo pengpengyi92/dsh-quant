@@ -1,5 +1,16 @@
 # News
 
+## 0.12.0 — 2026-08-16
+
+**回测指标库 + Jane Street 风格 UI demo（28 → 29 工具）**
+
+- `quant_metrics`：9 项指标（必有收益/回撤/夏普 + 波动/Calmar/Sortino/胜率/盈亏比/平均期收益）+ 交易级指标
+- METRIC_CATALOG 指标目录（key/中英名/格式化/必有标记）——UI 勾选即显示
+- demos/ui-demo.html：Jane Street 风格（克制配色、橙色点缀、等宽数据）真实回测 UI 样板——K线+均线+买卖点、净值图、指标选择器
+- demos/gen-ui-demo-data.ts：真实数据一键生成 demo JSON
+- 7 个手算单测 + Discussion #7（指标系统征集 PR：VaR/CVaR/IC 衰减/beta…）
+
+
 ## 0.11.0 — 2026-08-16
 
 **chart 数据面（27 → 28 工具）— UI 引爆路线第一步**

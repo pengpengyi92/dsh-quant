@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>dsh-quant — Backtest UI Demo</title>
+<!-- Jane Street-inspired design: restrained palette, generous whitespace, monospace data -->
+<style>
+  :root {
+    --bg: #fafaf7;
+    --ink: #1a1a1a;
+    --muted: #6b6b66;
+    --line: #e3e3dd;
+    --accent: #ff6a00;      /* the restrained orange */
+    --panel: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "SF Pro Text", -apple-system, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 48px 24px 72px;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+  header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 16px; margin-bottom: 32px;
+  }
+  header h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  header .sub { font-size: 13px; color: var(--muted); font-family: "SF Mono", Menlo, monospace; }
+  .accent { color: var(--accent); }
+  .section-title {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--muted); margin: 32px 0 12px; font-weight: 600;
+  }
+  /* metric cards */
+  .metrics { display: flex; flex-wrap: wrap; gap: 10px; }
+  .metric-card {
+    background: var(--panel); border: 1px solid var(--line);
+    padding: 14px 18px; min-width: 132px; flex: 1 1 132px;
+  }
+  .metric-card .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .metric-card .value {
+    font-family: "SF Mono", Menlo, monospace; font-size: 22px; font-weight: 500;
+    margin-top: 6px; letter-spacing: -0.02em;
+  }
+  .metric-card.required .label::after { content: " ●"; color: var(--accent); font-size: 8px; vertical-align: 2px; }
+  .metric-card.negative .value { color: #c0392b; }
+  .metric-card.positive .value { color: #1e8449; }
+  /* metric selector */
+  .selector { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; }
+  .selector label { cursor: pointer; display: flex; align-items: center; gap: 6px; color: var(--ink); }
+  .selector input { accent-color: var(--accent); }
+  /* charts */
+  .chart-panel { background: var(--panel); border: 1px solid var(--line); }
+  #candles { height: 360px; }
+  #equity { height: 240px; }
+  footer {
+    margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line);
+    font-size: 12px; color: var(--muted); font-family: "SF Mono", Menlo, monospace;
+    display: flex; justify-content: space-between;
+  }
+</style>
+<script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>dsh-quant <span class="accent">·</span> Backtest UI</h1>
+    <div class="sub" id="meta">loading…</div>
+  </header>
+
+  <div class="section-title">Strategy</div>
+  <p id="strategy" style="font-size:14px; color:var(--ink);"></p>
+
+  <div class="section-title">Performance <span style="text-transform:none; letter-spacing:0; color:var(--muted);">(● = required metrics)</span></div>
+  <div class="metrics" id="metrics"></div>
+
+  <div class="section-title">Optional Metrics — select to display</div>
+  <div class="selector" id="selector"></div>
+
+  <div class="section-title">Price & Overlays</div>
+  <div class="chart-panel" id="candles"></div>
+
+  <div class="section-title">Equity Curve & Trade Markers</div>
+  <div class="chart-panel" id="equity"></div>
+
+  <footer>
+    <span>dsh-quant (DeepQuant Harness) · UI demo</span>
+    <span>data: real BTCUSDT daily via Binance public API</span>
+  </footer>
+</div>
+
+<script>
+const METRIC_DEFS = [
+  { key: 'totalReturnPct',    label: 'Total Return', required: true },
+  { key: 'maxDrawdownPct',    label: 'Max Drawdown', required: true },
+  { key: 'sharpe',            label: 'Sharpe',       required: true },
+  { key: 'annualizedVol',     label: 'Ann. Vol',     required: false },
+  { key: 'calmar',            label: 'Calmar',       required: false },
+  { key: 'sortino',           label: 'Sortino',      required: false },
+  { key: 'winRate',           label: 'Win Rate',     required: false },
+  { key: 'profitFactor',      label: 'Profit Factor',required: false },
+  { key: 'avgPeriodReturnPct',label: 'Avg Period R', required: false },
+];
+const EXTRA_DEFS = [
+  { key: 'ic',     label: 'Factor IC (ROC10)', get: d => d.factor.ic,  fmt: v => v.toFixed(4) },
+  { key: 'icir',   label: 'Factor ICIR',       get: d => d.factor.icir, fmt: v => v.toFixed(3) },
+  { key: 'turnover', label: 'Factor Turnover', get: d => d.factor.turnover, fmt: v => (v * 100).toFixed(1) + '%' },
+];
+
+const fmtMap = {
+  totalReturnPct: v => (v >= 0 ? '+' : '') + v.toFixed(2) + '%',
+  maxDrawdownPct: v => v.toFixed(2) + '%',
+  sharpe: v => v.toFixed(3),
+  annualizedVol: v => v.toFixed(2) + '%',
+  calmar: v => v.toFixed(3),
+  sortino: v => v.toFixed(3),
+  winRate: v => v.toFixed(1) + '%',
+  profitFactor: v => v === null ? '∞' : v.toFixed(3),
+  avgPeriodReturnPct: v => (v >= 0 ? '+' : '') + v.toFixed(3) + '%',
+};
+
+let DATA = null;
+const shown = new Set(METRIC_DEFS.filter(m => m.required).map(m => m.key));
+
+function renderMetrics() {
+  const wrap = document.getElementById('metrics');
+  wrap.innerHTML = '';
+  for (const def of METRIC_DEFS) {
+    if (!shown.has(def.key)) continue;
+    const v = DATA.metrics[def.key];
+    const card = document.createElement('div');
+    card.className = 'metric-card' + (def.required ? ' required' : '');
+    const val = fmtMap[def.key](v);
+    if (def.key === 'totalReturnPct' || def.key === 'avgPeriodReturnPct') card.classList.add(v >= 0 ? 'positive' : 'negative');
+    card.innerHTML = `<div class="label">${def.label}</div><div class="value">${val}</div>`;
+    wrap.appendChild(card);
+  }
+  for (const def of EXTRA_DEFS) {
+    if (!shown.has(def.key)) continue;
+    const v = def.get(DATA);
+    const card = document.createElement('div');
+    card.className = 'metric-card';
+    card.innerHTML = `<div class="label">${def.label}</div><div class="value">${def.fmt(v)}</div>`;
+    wrap.appendChild(card);
+  }
+}
+
+function buildSelector() {
+  const sel = document.getElementById('selector');
+  for (const def of [...METRIC_DEFS.filter(m => !m.required), ...EXTRA_DEFS]) {
+    const label = document.createElement('label');
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.checked = shown.has(def.key);
+    input.addEventListener('change', () => {
+      if (input.checked) shown.add(def.key); else shown.delete(def.key);
+      renderMetrics();
+    });
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(def.label));
+    sel.appendChild(label);
+  }
+}
+
+function candlesChart() {
+  const chart = LightweightCharts.createChart(document.getElementById('candles'), {
+    layout: { background: { color: '#ffffff' }, textColor: '#1a1a1a', fontFamily: 'SF Mono, Menlo, monospace', fontSize: 11 },
+    grid: { vertLines: { color: '#f0f0ec' }, horzLines: { color: '#f0f0ec' } },
+    timeScale: { borderColor: '#e3e3dd' }, rightPriceScale: { borderColor: '#e3e3dd' },
+  });
+  const series = chart.addCandlestickSeries({
+    upColor: '#1e8449', downColor: '#c0392b', wickUpColor: '#1e8449', wickDownColor: '#c0392b', borderVisible: false,
+  });
+  series.setData(DATA.candles.map(c => ({ time: c.openTime / 1000, open: c.open, high: c.high, low: c.low, close: c.close })));
+  const palette = ['#ff6a00', '#2563eb', '#7c3aed'];
+  DATA.overlays.forEach((o, i) => {
+    const line = chart.addLineSeries({ color: palette[i % palette.length], lineWidth: 1, priceLineVisible: false, lastValueVisible: true });
+    line.setData(o.values.map((v, idx) => ({ time: DATA.candles[idx].openTime / 1000, value: v })).filter(p => p.value !== null));
+  });
+  // trade markers
+  const markers = [];
+  DATA.trades.forEach(t => {
+    markers.push({ time: DATA.candles[t.entryIndex].openTime / 1000, position: 'belowBar', color: '#1e8449', shape: 'arrowUp', text: 'B' });
+    if (t.exitIndex !== null) markers.push({ time: DATA.candles[t.exitIndex].openTime / 1000, position: 'aboveBar', color: '#c0392b', shape: 'arrowDown', text: 'S' });
+  });
+  series.setMarkers(markers);
+  chart.timeScale().fitContent();
+  window.__candleChart = chart;
+}
+
+function equityChart() {
+  const chart = LightweightCharts.createChart(document.getElementById('equity'), {
+    layout: { background: { color: '#ffffff' }, textColor: '#1a1a1a', fontFamily: 'SF Mono, Menlo, monospace', fontSize: 11 },
+    grid: { vertLines: { color: '#f0f0ec' }, horzLines: { color: '#f0f0ec' } },
+    timeScale: { borderColor: '#e3e3dd' }, rightPriceScale: { borderColor: '#e3e3dd' },
+  });
+  const line = chart.addAreaSeries({ lineColor: '#ff6a00', topColor: 'rgba(255,106,0,0.18)', bottomColor: 'rgba(255,106,0,0.02)', lineWidth: 2 });
+  line.setData(DATA.equity.values.map((v, i) => ({ time: DATA.candles[i].openTime / 1000, value: v })));
+  chart.timeScale().fitContent();
+}
+
+fetch('./ui-demo-data.json')
+  .then(r => r.json())
+  .then(d => {
+    DATA = d;
+    document.getElementById('meta').textContent = `${d.symbol} · ${d.interval} · generated ${d.generatedAt.slice(0, 10)}`;
+    document.getElementById('strategy').textContent = d.strategy;
+    buildSelector();
+    renderMetrics();
+    candlesChart();
+    equityChart();
+  })
+  .catch(err => {
+    document.getElementById('meta').textContent = 'load failed — run: npx tsx demos/gen-ui-demo-data.ts';
+    console.error(err);
+  });
+</script>
+</body>
+</html>

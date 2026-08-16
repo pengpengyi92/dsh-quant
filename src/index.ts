@@ -21,6 +21,7 @@ import { adviseChannels, compareChannels, findChannel, searchChannels } from './
 import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './stats.js'
 import { combineFactors, factorEvaluate } from './factor.js'
 import { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './chart.js'
+import { equityMetrics, tradeMetrics } from './metrics.js'
 
 // ── 纯函数再导出：非 dsh 环境（任意 Node 项目）直接 import 使用 ──
 // 注意：本插件仍是纯 named-export 函数插件（无 default export），Loader 不受影响。
@@ -31,6 +32,7 @@ export { DATA_CHANNELS, adviseChannels, compareChannels, findChannel, searchChan
 export { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './stats.js'
 export { combineFactors, factorEvaluate } from './factor.js'
 export { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './chart.js'
+export { equityMetrics, tradeMetrics, METRIC_CATALOG } from './metrics.js'
 
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
@@ -1345,6 +1347,72 @@ export function apply(ctx: Context) {
         return chartSeries(args.series ?? [], title)
       }
       return chartAnnotate(args.values ?? [], args.annotations ?? [], title)
+    },
+  }))
+  ctx.tools.register(defineTool({
+    name: 'quant_metrics',
+    description:
+      'Compute the full backtest metric suite from an equity curve and optional trades: ' +
+      'total return, max drawdown, Sharpe, annualized volatility, Calmar, Sortino, win rate, profit factor, ' +
+      'avg period return (required trio: return/drawdown/sharpe; the rest are optional extensions). ' +
+      'Trade-level metrics (trade count, trade win rate, avg trade return, avg holding periods) are computed when trades are given. ' +
+      'UI surfaces can pick which metrics to display via METRIC_CATALOG.',
+    parameters: {
+      equityCurve: { type: 'array', items: { type: 'number' }, required: true, description: 'Normalized equity curve (initial value 1)' },
+      trades: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            entryIndex: { type: 'integer', required: true },
+            exitIndex: { oneOf: [{ type: 'integer' }, { type: 'null' }], required: true },
+            returnPct: { oneOf: [{ type: 'number' }, { type: 'null' }], required: true },
+          },
+          additionalProperties: true,
+        },
+        description: 'Optional trades from quant_backtest* (extra fields accepted)',
+      },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          totalReturnPct: { type: 'number' , required: true},
+          maxDrawdownPct: { type: 'number' , required: true},
+          sharpe: { type: 'number' , required: true},
+          annualizedVol: { type: 'number' , required: true},
+          calmar: { type: 'number' , required: true},
+          sortino: { type: 'number' , required: true},
+          winRate: { type: 'number' , required: true},
+          profitFactor: { oneOf: [{ type: 'number' }, { type: 'null' }] , required: true},
+          avgPeriodReturnPct: { type: 'number' , required: true},
+          positivePeriods: { type: 'integer' , required: true},
+          periods: { type: 'integer' , required: true},
+          tradeMetrics: {
+            type: 'object',
+            properties: {
+              tradeCount: { type: 'integer', required: true },
+              winRate: { type: 'number', required: true },
+              avgReturnPct: { type: 'number', required: true },
+              profitFactor: { oneOf: [{ type: "number" }, { type: "null" }], required: true },
+              avgHoldingPeriods: { type: 'number', required: true },
+            },
+            additionalProperties: false,
+          },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `metrics: total ${value.totalReturnPct.toFixed(2)}%, maxDD ${value.maxDrawdownPct.toFixed(2)}%, ` +
+          `sharpe ${value.sharpe.toFixed(3)}, calmar ${value.calmar.toFixed(3)}, sortino ${value.sortino.toFixed(3)}, win ${value.winRate.toFixed(1)}%`
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      const equity = equityMetrics(args.equityCurve)
+      const trades = args.trades !== undefined ? tradeMetrics(args.trades) : undefined
+      return { ...equity, tradeMetrics: trades }
     },
   }))
 }

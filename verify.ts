@@ -23,7 +23,7 @@ const call = (name: string, args: Record<string, unknown>) =>
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 28) throw new Error(`expected 28 tools, got ${names.length}`)
+if (names.length !== 29) throw new Error(`expected 29 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -254,6 +254,15 @@ const c3 = await call('quant_chart', {
 assert(!c3.isError && c3.value.annotations.length === 1, 'annotation chart')
 console.log('candles chart:   120 bars + SMA20 overlay ✓')
 console.log('series chart:    equity 120 pts ✓ | annotation chart: 1 label ✓')
+
+
+// 16) 指标库（真实回测 → 完整指标集）
+console.log('\n=== metrics (real data) ===')
+const mt = await call('quant_metrics', { equityCurve: bt.value.equityCurve, trades: bt.value.trades })
+assert(!mt.isError, 'metrics should succeed')
+console.log('metrics:         total', mt.value.totalReturnPct.toFixed(2) + '%', '| maxDD', mt.value.maxDrawdownPct.toFixed(2) + '%', '| sharpe', mt.value.sharpe.toFixed(3))
+console.log('                 calmar', mt.value.calmar.toFixed(3), '| sortino', mt.value.sortino.toFixed(3), '| win', mt.value.winRate.toFixed(1) + '%', '| PF', String(mt.value.profitFactor))
+assert(mt.value.tradeMetrics.tradeCount === 3, 'trade metrics count')
 
 console.log('\n✅ all quant-indicators checks passed')
 

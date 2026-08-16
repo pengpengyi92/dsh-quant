@@ -1,8 +1,8 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T12:16:19.051Z",
-  "toolCount": 28,
+  "generatedAt": "2026-08-16T12:27:57.096Z",
+  "toolCount": 29,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
     {
@@ -1070,6 +1070,63 @@
         },
         "required": [
           "kind"
+        ]
+      }
+    },
+    {
+      "name": "quant_metrics",
+      "description": "Compute the full backtest metric suite from an equity curve and optional trades: total return, max drawdown, Sharpe, annualized volatility, Calmar, Sortino, win rate, profit factor, avg period return (required trio: return/drawdown/sharpe; the rest are optional extensions). Trade-level metrics (trade count, trade win rate, avg trade return, avg holding periods) are computed when trades are given. UI surfaces can pick which metrics to display via METRIC_CATALOG.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "equityCurve": {
+            "type": "array",
+            "description": "Normalized equity curve (initial value 1)",
+            "items": {
+              "type": "number"
+            }
+          },
+          "trades": {
+            "type": "array",
+            "description": "Optional trades from quant_backtest* (extra fields accepted)",
+            "items": {
+              "type": "object",
+              "additionalProperties": true,
+              "properties": {
+                "entryIndex": {
+                  "type": "integer"
+                },
+                "exitIndex": {
+                  "oneOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "returnPct": {
+                  "oneOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "entryIndex",
+                "exitIndex",
+                "returnPct"
+              ]
+            }
+          }
+        },
+        "required": [
+          "equityCurve"
         ]
       }
     }
