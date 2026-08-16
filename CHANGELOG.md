@@ -4,6 +4,23 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.4.0] - 2026-08-16
+
+### Added
+- `quant_backtest_portfolio`: multi-asset allocation with optional periodic
+  rebalancing, two-sided fees, final weights and rebalance count
+- 3 hand-computed portfolio cases; live BTC+ETH 60/40 verification
+  (3 rebalances, weights return to target)
+
+### Fixed
+- Initial allocation and rebalance fee accounting (fees pre-deducted on
+  initial buy; two-pass rebalance so order does not matter)
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.3.0] - 2026-08-16
 
 ### Added

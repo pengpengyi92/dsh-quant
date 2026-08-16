@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { backtestBollingerBreakout, backtestMaCross, backtestRsiReversion } from '../src/backtest.ts'
+import { backtestBollingerBreakout, backtestMaCross, backtestPortfolio, backtestRsiReversion } from '../src/backtest.ts'
 
 test('bollinger breakout: 平稳后跳涨 → 突破上轨买入持有', () => {
   const close = [10, 10, 10, 10, 10, 15, 15, 15]
@@ -59,4 +59,42 @@ test('rsi reversion: 前置条件', () => {
   assert.throws(() => backtestRsiReversion([1, 2, 3], 2, 0, 70, 0), /buyBelow/)
   assert.throws(() => backtestBollingerBreakout([1, 2, 3], 2, 0, 0), /multiplier/)
   assert.throws(() => backtestMaCross([1, 2, 3], 2, 3, 0, 1.5), /stopLoss/)
+})
+
+test('portfolio: 双资产等权买入持有（手算）', () => {
+  const out = backtestPortfolio([
+    { name: 'A', close: [1, 2, 3] },
+    { name: 'B', close: [1, 1, 1] },
+  ], undefined, undefined, 0)
+  // 0.5A + 0.5B；equity = [1, 1.5, 2.0]
+  assert.ok(Math.abs(out.equityCurve[0]! - 1) < 1e-9)
+  assert.ok(Math.abs(out.equityCurve[1]! - 1.5) < 1e-9)
+  assert.ok(Math.abs(out.equityCurve[2]! - 2.0) < 1e-9)
+  assert.ok(Math.abs(out.totalReturnPct - 100) < 1e-9)
+  assert.equal(out.rebalances, 0)
+  assert.deepEqual(out.finalWeights.map(x => Math.round(x * 1000) / 1000), [0.75, 0.25])
+})
+
+test('portfolio: 每根再平衡回等权（手算）', () => {
+  const out = backtestPortfolio([
+    { name: 'A', close: [1, 2, 3] },
+    { name: 'B', close: [1, 1, 1] },
+  ], undefined, 1, 0)
+  // i=1 再平衡：价值 1.5 → 各 0.75（A 0.375 股, B 0.75 股）；i=2 价值 = 0.375*3+0.75 = 1.875
+  assert.ok(Math.abs(out.equityCurve[1]! - 1.5) < 1e-9)
+  assert.ok(Math.abs(out.equityCurve[2]! - 1.875) < 1e-9)
+  assert.ok(Math.abs(out.totalReturnPct - 87.5) < 1e-9)
+  assert.equal(out.rebalances, 2)
+})
+
+test('portfolio: 前置条件', () => {
+  assert.throws(() => backtestPortfolio([], undefined, undefined, 0), /must not be empty/)
+  assert.throws(() => backtestPortfolio(
+    [{ name: 'A', close: [1, 2] }, { name: 'B', close: [1] }], undefined, undefined, 0), /length/)
+  assert.throws(() => backtestPortfolio(
+    [{ name: 'A', close: [1, 2] }], [0.3, 0.3], undefined, 0), /weights length/)
+  assert.throws(() => backtestPortfolio(
+    [{ name: 'A', close: [1, 2] }], [0.5], undefined, 0), /sum to 1/)
+  assert.throws(() => backtestPortfolio(
+    [{ name: 'A', close: [1, 2] }], undefined, 0, 0), /rebalanceEvery/)
 })

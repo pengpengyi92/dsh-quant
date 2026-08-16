@@ -493,3 +493,108 @@ function localRsi(values: readonly number[], window: number): (number | null)[] 
   }
   return out
 }
+
+export interface PortfolioAsset {
+  name: string
+  close: readonly number[]
+}
+
+export interface BacktestPortfolioOutput {
+  totalReturnPct: number
+  maxDrawdownPct: number
+  sharpe: number
+  /** 归一化组合净值（初始 1） */
+  equityCurve: number[]
+  assetNames: string[]
+  /** 最终持仓权重（按市值） */
+  finalWeights: number[]
+  /** 执行的再平衡次数 */
+  rebalances: number
+  feeRate: number
+}
+
+/**
+ * 多资产组合回测：初始按权重建仓，可每 rebalanceEvery 根再平衡回目标权重。
+ * 初始建仓与每次再平衡按交易金额双边收取 feeRate。
+ */
+export function backtestPortfolio(
+  assets: readonly PortfolioAsset[],
+  weights: readonly number[] | undefined,
+  rebalanceEvery: number | undefined,
+  feeRate: number,
+): BacktestPortfolioOutput {
+  if (assets.length === 0) throw new RangeError('assets must not be empty')
+  const n = assets[0]!.close.length
+  for (const a of assets) {
+    if (a.close.length !== n) throw new RangeError(`asset ${a.name}: close length ${a.close.length} != ${n}`)
+  }
+  if (n === 0) {
+    return { totalReturnPct: 0, maxDrawdownPct: 0, sharpe: 0, equityCurve: [], assetNames: assets.map(a => a.name), finalWeights: [], rebalances: 0, feeRate }
+  }
+  const w = weights ?? assets.map(() => 1 / assets.length)
+  if (w.length !== assets.length) throw new RangeError(`weights length ${w.length} != assets ${assets.length}`)
+  const wSum = w.reduce((a, b) => a + b, 0)
+  if (Math.abs(wSum - 1) > 1e-9) throw new RangeError(`weights must sum to 1, got ${wSum}`)
+  for (const x of w) {
+    if (!Number.isFinite(x) || x < 0) throw new RangeError(`weight must be >= 0 finite, got ${x}`)
+  }
+  if (rebalanceEvery !== undefined && (!Number.isInteger(rebalanceEvery) || rebalanceEvery < 1)) {
+    throw new RangeError(`rebalanceEvery must be a positive integer, got ${rebalanceEvery}`)
+  }
+  if (!Number.isFinite(feeRate) || feeRate < 0) throw new RangeError(`feeRate must be >= 0, got ${feeRate}`)
+
+  const equityCurve: number[] = new Array(n).fill(1)
+  // 归一化现金建仓：总资金 1
+  let cash = 1
+  // shares[i] = 持有 i 资产股数
+  const shares: number[] = new Array(assets.length).fill(0)
+  let rebalances = 0
+
+  const portfolioValue = (i: number): number => {
+    let v = 0
+    for (let k = 0; k < assets.length; k++) v += shares[k]! * assets[k]!.close[i]!
+    return v + cash
+  }
+  const rebalance = (i: number): void => {
+    const total = portfolioValue(i)
+    // 两遍：先全部卖出回笼现金，再全部买入（顺序无关；费用从净值扣除，允许短暂负现金）
+    for (let k = 0; k < assets.length; k++) {
+      const target = total * w[k]!
+      const current = shares[k]! * assets[k]!.close[i]!
+      const delta = target - current
+      if (delta < 0) {
+        shares[k] += delta / assets[k]!.close[i]!
+        cash -= delta * (1 - feeRate)
+      }
+    }
+    for (let k = 0; k < assets.length; k++) {
+      const target = total * w[k]!
+      const current = shares[k]! * assets[k]!.close[i]!
+      const delta = target - current
+      if (delta > 0) {
+        shares[k] += delta / assets[k]!.close[i]!
+        cash -= delta * (1 + feeRate)
+      }
+    }
+    rebalances++
+  }
+
+  // 初始建仓（第 0 根）：投资额预扣手续费，总花费恰为 1
+  for (let k = 0; k < assets.length; k++) {
+    const invest = w[k]! / (1 + feeRate)
+    shares[k] = invest / assets[k]!.close[0]!
+    cash -= w[k]!
+  }
+  for (let i = 0; i < n; i++) {
+    if (i > 0 && rebalanceEvery !== undefined && i % rebalanceEvery === 0) {
+      rebalance(i)
+    }
+    equityCurve[i] = portfolioValue(i)
+  }
+  const totalReturnPct = (equityCurve[n - 1]! - 1) * 100
+  const maxDrawdownPct = computeMaxDrawdown(equityCurve)
+  const sharpe = computeSharpe(equityCurve)
+  const finalTotal = equityCurve[n - 1]!
+  const finalWeights = assets.map((a, k) => (finalTotal === 0 ? 0 : (shares[k]! * a.close[n - 1]!) / finalTotal))
+  return { totalReturnPct, maxDrawdownPct, sharpe, equityCurve, assetNames: assets.map(a => a.name), finalWeights, rebalances, feeRate }
+}

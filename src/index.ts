@@ -15,7 +15,7 @@
 import type { Context } from '@deepseek-ai/cordis'
 import { defineTool } from '@deepseek-ai/dsh-tools'
 import { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './indicators.js'
-import { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestRsiReversion } from './backtest.js'
+import { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './backtest.js'
 import { INTERVALS, fetchKlines } from './market.js'
 
 export const name = 'quant-indicators'
@@ -720,6 +720,63 @@ export function apply(ctx: Context) {
       const sellAbove = args.sellAbove ?? 70
       const feeRate = args.feeRate ?? 0.001
       return backtestRsiReversion(args.close, rsiWindow, buyBelow, sellAbove, feeRate, args.stopLoss, args.takeProfit)
+    },
+  }))
+  ctx.tools.register(defineTool({
+    name: 'quant_backtest_portfolio',
+    description:
+      'Backtest a multi-asset portfolio: initial allocation by weights, optional periodic rebalancing ' +
+      'back to target weights every rebalanceEvery bars, two-sided fees on all trades. ' +
+      'Returns normalized equity curve, total return, max drawdown, Sharpe, final weights and rebalance count.',
+    parameters: {
+      assets: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: { type: 'string', required: true },
+            close: { type: 'array', items: { type: 'number' }, required: true },
+          },
+          additionalProperties: false,
+        },
+        required: true,
+        description: 'Assets with equal-length close series, e.g. from quant_market_fetch per symbol',
+      },
+      weights: {
+        type: 'array', items: { type: 'number' },
+        description: 'Optional target weights summing to 1; defaults to equal weight',
+      },
+      rebalanceEvery: {
+        type: 'integer',
+        description: 'Optional rebalance period in bars; omit for buy-and-hold',
+      },
+      feeRate: { type: 'number', description: 'Round-trip fee rate applied per side, default 0.001' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          totalReturnPct: { type: 'number' , required: true},
+          maxDrawdownPct: { type: 'number' , required: true},
+          sharpe: { type: 'number' , required: true},
+          equityCurve: { type: 'array', items: { type: 'number' }, required: true},
+          assetNames: { type: 'array', items: { type: 'string' }, required: true},
+          finalWeights: { type: 'array', items: { type: 'number' }, required: true},
+          rebalances: { type: 'integer' , required: true},
+          feeRate: { type: 'number' , required: true},
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `portfolio [${value.assetNames.join(', ')}]: total ${value.totalReturnPct.toFixed(2)}%, ` +
+          `maxDD ${value.maxDrawdownPct.toFixed(2)}%, sharpe ${value.sharpe.toFixed(2)}, rebalances ${value.rebalances}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      const feeRate = args.feeRate ?? 0.001
+      return backtestPortfolio(args.assets, args.weights, args.rebalanceEvery, feeRate)
     },
   }))
 }

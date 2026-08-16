@@ -23,7 +23,7 @@ const call = (name: string, args: Record<string, unknown>) =>
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 17) throw new Error(`expected 17 tools, got ${names.length}`)
+if (names.length !== 18) throw new Error(`expected 18 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -160,6 +160,23 @@ console.log('bollinger:       trades:', bb.value.trades.length, '| total:', bb.v
 console.log('rsi-reversion:   trades:', rs.value.trades.length, '| total:', rs.value.totalReturnPct.toFixed(2) + '%')
 console.log('ma-cross +stop:  trades:', mcSl.value.trades.length, '| reasons:', JSON.stringify(mcSl.value.trades.map(t => t.exitReason)))
 assert(mcSl.value.trades.every(t => ['signal', 'stop_loss', 'take_profit', null].includes(t.exitReason)), 'exitReason vocabulary')
+
+
+// 9) 组合回测（真实双资产 BTC+ETH）
+console.log('\n=== portfolio (real data) ===')
+const eth = await call('quant_market_fetch', { symbol: 'ETHUSDT', interval: '1d', limit: 120 })
+assert(!eth.isError, 'eth fetch should succeed')
+const ethCloses = eth.value.candles.map(c => c.close)
+const pf = await call('quant_backtest_portfolio', {
+  assets: [{ name: 'BTC', close: btCloses }, { name: 'ETH', close: ethCloses }],
+  weights: [0.6, 0.4],
+  rebalanceEvery: 30,
+  feeRate: 0.001,
+})
+assert(!pf.isError, 'portfolio should succeed')
+console.log('btc+eth 60/40:   total:', pf.value.totalReturnPct.toFixed(2) + '%', '| maxDD:', pf.value.maxDrawdownPct.toFixed(2) + '%', '| rebalances:', pf.value.rebalances)
+console.log('final weights:  ', JSON.stringify(pf.value.finalWeights.map(x => x.toFixed(3))))
+assert(pf.value.equityCurve.length === 120 && pf.value.rebalances >= 3, 'portfolio shape')
 
 console.log('\n✅ all quant-indicators checks passed')
 
