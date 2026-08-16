@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 220" role="img" aria-label="dsh 二次元 Q 版鲸鱼">
+  <defs>
+    <radialGradient id="bodyGrad" cx="40%" cy="35%" r="80%">
+      <stop offset="0%" stop-color="#6d8fc4"/>
+      <stop offset="100%" stop-color="#3a5c92"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 喷水柱 -->
+  <path d="M120 30 C120 12, 106 2, 100 8 C112 10, 114 20, 111 28" fill="none" stroke="#7fc8f8" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="92" cy="16" r="4" fill="#7fc8f8"/>
+  <circle cx="128" cy="10" r="3" fill="#7fc8f8"/>
+  <circle cx="142" cy="20" r="2.5" fill="#a8dcff"/>
+
+  <!-- 尾巴 -->
+  <path d="M206 100 Q228 80 238 66 Q226 92 212 100 Q232 104 240 114 Q222 110 206 108 Z" fill="#3a5c92"/>
+
+  <!-- 身体 -->
+  <ellipse cx="122" cy="112" rx="90" ry="58" fill="url(#bodyGrad)"/>
+
+  <!-- 肚皮 -->
+  <path d="M50 124 Q122 168 194 124 Q162 152 122 154 Q82 152 50 124 Z" fill="#eaf3fb"/>
+
+  <!-- 背鳍 -->
+  <path d="M136 58 Q150 38 162 58" fill="#2f4d7c" stroke="#2f4d7c" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- 胸鳍（挥手） -->
+  <path d="M80 122 Q52 144 62 160" fill="none" stroke="#2f4d7c" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- 二次元大眼睛（左） -->
+  <circle cx="86" cy="94" r="20" fill="#ffffff"/>
+  <ellipse cx="88" cy="96" rx="11" ry="13" fill="#23233f"/>
+  <circle cx="84" cy="90" r="5.5" fill="#ffffff"/>
+  <circle cx="93" cy="100" r="3" fill="#9db8ff"/>
+
+  <!-- 二次元大眼睛（右，侧视） -->
+  <circle cx="150" cy="94" r="17" fill="#ffffff"/>
+  <ellipse cx="152" cy="96" rx="9" ry="11" fill="#23233f"/>
+  <circle cx="149" cy="91" r="4.5" fill="#ffffff"/>
+  <circle cx="156" cy="99" r="2.5" fill="#9db8ff"/>
+
+  <!-- 腮红 -->
+  <ellipse cx="60" cy="114" rx="12" ry="7" fill="#ffb3c1" opacity="0.85"/>
+  <ellipse cx="176" cy="114" rx="10" ry="6" fill="#ffb3c1" opacity="0.85"/>
+
+  <!-- 嘴（w） -->
+  <path d="M112 124 Q118 130 124 124" fill="none" stroke="#23233f" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- 星星 ✨ -->
+  <path d="M196 34 l3.5 8 8 3.5 -8 3.5 -3.5 8 -3.5 -8 -8 -3.5 8 -3.5 Z" fill="#ffd166"/>
+  <path d="M40 52 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5 -6 -6 -2.5 6 -2.5 Z" fill="#ffd166" opacity="0.9"/>
+  <circle cx="208" cy="140" r="2.5" fill="#ffe29a"/>
+
+  <!-- 领结（橙色，Jane Street 点睛） -->
+  <path d="M116 148 L124 154 L116 160 Z" fill="#e95420"/>
+  <path d="M124 148 L116 154 L124 160 Z" fill="#e95420"/>
+  <circle cx="120" cy="154" r="3" fill="#b84318"/>
+</svg>

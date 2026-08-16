@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dsh-quant — DeepQuant Harness · agent-native 量化研究工具箱</title>
+  <meta name="description" content="dsh-quant：给 DeepSeek Harness 的 43 工具 · 6 域量化 R&D 工具箱。方法公开，生产策略留在内部。欢迎 issue / PR / discussion。" />
+  <link rel="icon" type="image/svg+xml" href="./whale-hero.svg" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="#">dsh<span>-quant</span></a>
+    <nav>
+      <a href="#domains">域</a>
+      <a href="#pipeline">管线</a>
+      <a href="#workbench">工作台</a>
+      <a href="#knowledge">知识</a>
+      <a href="#ecosystem">生态</a>
+      <a class="btn-nav" href="https://github.com/pengpengyi92/dsh-quant">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="kicker">DEEPQUANT HARNESS · PLUGIN FOR DEEPSEEK HARNESS</p>
+        <h1>dsh-quant</h1>
+        <p class="lede">
+          给 DeepSeek Harness 的 <strong>agent-native 量化研究工具箱</strong>：
+          取数、算指标、回测、风控、基金模拟，一条管线跑通 PDAT→PET。
+        </p>
+        <p class="lede-sub">
+          方法与工具开源 · 数据与结论留在内部。欢迎 issue / PR / discussion。
+        </p>
+        <div class="cta-row">
+          <a class="btn-primary" href="https://github.com/pengpengyi92/dsh-quant">GitHub ⭐</a>
+          <a class="btn-ghost" href="https://dsh-quant-ui.pages.dev">在线工作台 ↗</a>
+          <code class="install">npm i dsh-quant</code>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="num">43</span><span class="label">工具</span></div>
+          <div class="stat"><span class="num">6</span><span class="label">域模块</span></div>
+          <div class="stat"><span class="num">162</span><span class="label">单元测试</span></div>
+          <div class="stat"><span class="num">26</span><span class="label">自动发布</span></div>
+          <div class="stat"><span class="num">0</span><span class="label">外部依赖</span></div>
+        </div>
+      </div>
+      <div class="hero-whale">
+        <img src="./whale-hero.svg" alt="Q 版二次元鲸鱼 —— 指代 DeepSeek Harness (dsh)" width="340" height="288" />
+        <div class="bubble">我是 dsh 的鲸鱼 🐋<br />工具与方法，交给社区；<br />策略与结论，留在内部。</div>
+      </div>
+    </section>
+
+    <section id="domains" class="section">
+      <h2>六个域，各司其职</h2>
+      <p class="section-sub">域驱动目录结构，映射内部五团队（PDAT/PAAT/PCPT/PRT/PET）+ 开源侧独有生态域。</p>
+      <div class="grid">
+        <article class="card">
+          <h3>dsh-data <span>PDAT</span></h3>
+          <p>行情与数据质量。免费行情三市场：加密（binance/okx/bybit）、A股（sina/tencent 前复权）、美股/全球（yahoo）；13 渠道知识库；缺值/异常/跳变标注。</p>
+          <code>quant_market_fetch · quant_data_guide · quant_data_quality</code>
+        </article>
+        <article class="card">
+          <h3>dsh-alpha <span>PAAT</span></h3>
+          <p>指标与因子。12 技术指标、因子评价（IC/RankIC/IC衰减/分层/多空）、因子中性化、多因子合成。</p>
+          <code>quant_factor_evaluate · quant_factor_neutralize · quant_rsi</code>
+        </article>
+        <article class="card">
+          <h3>dsh-ml <span>PCPT</span></h3>
+          <p>回测与建模。5 策略回测、线性模型（OLS/Ridge）、walk-forward 样本外验证、指标库；ML/DL 架构知识地图。</p>
+          <code>quant_backtest · quant_walk_forward · quant_linear_model</code>
+        </article>
+        <article class="card">
+          <h3>dsh-risk <span>PRT</span></h3>
+          <p>风控。VaR/CVaR/β/α/IR、回撤分析（峰/谷/恢复）、Kupiec 检验。</p>
+          <code>quant_risk · quant_drawdown · quant_var_backtest</code>
+        </article>
+        <article class="card">
+          <h3>dsh-execution <span>PET</span></h3>
+          <p>交付与交易框架（无实盘）。执行模拟（滑点/延迟/费）、基金模拟（1亿起·净值1.00·高水位20%提成）、图表、研究报告。</p>
+          <code>quant_execute_sim · quant_fund · quant_report</code>
+        </article>
+        <article class="card">
+          <h3>dsh-community <span>开源独有</span></h3>
+          <p>开源生态域。GitHub/npm 生态数据 + 0-100 影响力评分——工具会给自己打分。</p>
+          <code>quant_repo_stats · quant_npm_stats · quant_oss_pulse</code>
+        </article>
+      </div>
+    </section>
+
+    <section id="pipeline" class="section dark">
+      <h2>一条管线，跑通全链路</h2>
+      <p class="section-sub"><code>quant_research_pipeline</code>：数据 → 质量 → 统计 → 指标 → 回测 → 指标库 → 风控 → 回撤 → 基金 → 因子 → 报告 → 图表。</p>
+      <div class="chain">
+        <span>data</span><i>→</i><span>quality</span><i>→</i><span>indicators</span><i>→</i><span>backtest</span><i>→</i><span>metrics</span><i>→</i><span>risk</span><i>→</i><span>drawdown</span><i>→</i><span>fund</span><i>→</i><span>factor</span><i>→</i><span>report</span><i>→</i><span>charts</span>
+      </div>
+      <p class="section-sub">多标的并行：每个标的交给一个 subagent 调 pipeline——天然并行、独立容错。</p>
+    </section>
+
+    <section id="workbench" class="section">
+      <h2>Web 工作台</h2>
+      <p class="section-sub">K 线 + 均线叠加 + 交易标记、资金曲线、基金净值/管理费/提成卡片、指标选择器。点标题 3 下出鲸鱼 🐋。</p>
+      <a href="https://dsh-quant-ui.pages.dev"><img class="shot" src="./assets/ui-demo.png" alt="dsh-quant UI 工作台截图" loading="lazy" /></a>
+    </section>
+
+    <section id="knowledge" class="section">
+      <h2>知识层</h2>
+      <p class="section-sub">不提供生产策略，但提供方法与知识：<a href="https://github.com/pengpengyi92/dsh-quant/blob/master/docs/ML_GUIDE.md">ML/DL 架构地图</a>（模型阶梯 · 样本外验证金标准 · 过拟合诊断 · RL 形式化）与可执行 demo（<code>npx tsx demos/ml-workflow.ts</code>）。</p>
+    </section>
+
+    <section id="ecosystem" class="section">
+      <h2>生态</h2>
+      <p class="section-sub">
+        <a href="https://github.com/pengpengyi92/dsh-quant/issues/9">模块定位（置顶 issue）</a> ·
+        <a href="https://github.com/pengpengyi92/dsh-quant/discussions/11">量化/数据插件生态地图</a> ·
+        <a href="https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/958">awesome-dsh-plugin 收录 PR</a> ·
+        <a href="https://github.com/deepseek-ai/deepseek-harness/discussions/2513">官方 Show Your Plugins</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>dsh-quant · MIT · 方法与工具开源，生产策略在内部 —— 内外完全独立、互相学习。</p>
+    <p>这只鲸鱼指代 DeepSeek Harness（dsh）🐋</p>
+  </footer>
+</body>
+</html>

@@ -1,8 +1,11 @@
 # dsh-quant（DeepQuant Harness）
 
+🌐 **官网**：https://dsh-quant-site.pages.dev
+
 [![npm](https://img.shields.io/npm/v/dsh-quant)](https://www.npmjs.com/package/dsh-quant)
 [![downloads](https://img.shields.io/npm/dm/dsh-quant)](https://www.npmjs.com/package/dsh-quant)
 [![stars](https://img.shields.io/github/stars/pengpengyi92/dsh-quant?style=social)](https://github.com/pengpengyi92/dsh-quant)
+[![site](https://img.shields.io/badge/site-dsh--quant--site.pages.dev-orange)](https://dsh-quant-site.pages.dev)
 [![license](https://img.shields.io/npm/l/dsh-quant)](LICENSE)
 [![ci](https://github.com/pengpengyi92/dsh-quant/actions/workflows/ci.yml/badge.svg)](https://github.com/pengpengyi92/dsh-quant/actions)
 [![dsh-plugin](https://img.shields.io/badge/dsh-plugin-blue)](https://github.com/topics/dsh-plugin)
