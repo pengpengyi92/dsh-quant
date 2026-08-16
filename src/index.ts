@@ -22,7 +22,8 @@ import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './stat
 import { combineFactors, factorEvaluate } from './factor.js'
 import { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './chart.js'
 import { equityMetrics, fundSimulate, tradeMetrics } from './metrics.js'
-import { riskMetrics } from './risk.js'
+import { kupiecTest, riskMetrics } from './risk.js'
+import { generateReport, resampleCandles } from './transform.js'
 
 // ── 纯函数再导出：非 dsh 环境（任意 Node 项目）直接 import 使用 ──
 // 注意：本插件仍是纯 named-export 函数插件（无 default export），Loader 不受影响。
@@ -34,7 +35,8 @@ export { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './stat
 export { combineFactors, factorEvaluate } from './factor.js'
 export { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './chart.js'
 export { equityMetrics, fundSimulate, tradeMetrics, METRIC_CATALOG } from './metrics.js'
-export { riskMetrics } from './risk.js'
+export { kupiecTest, riskMetrics } from './risk.js'
+export { generateReport, resampleCandles } from './transform.js'
 
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
@@ -1504,6 +1506,138 @@ export function apply(ctx: Context) {
     isConcurrencySafe: () => true,
     async execute(args) {
       return riskMetrics(args.returns, { benchmarkReturns: args.benchmarkReturns, confidence: args.confidence })
+    },
+  }))
+  ctx.tools.register(defineTool({
+    name: 'quant_var_backtest',
+    description:
+      'Kupiec POF test: backtest a VaR series against realized returns — counts failures (losses exceeding VaR), ' +
+      'compares against the expected count, computes the likelihood-ratio statistic and approximate p-value, ' +
+      'and reports whether the VaR model passes at 95% (LR <= 3.841). Too-few failures (overly conservative VaR) ' +
+      'also fail. Feed returns and the matching per-period VaR series (positive loss values).',
+    parameters: {
+      returns: { type: 'array', items: { type: 'number' }, required: true, description: 'Realized returns as decimals' },
+      varSeries: { type: 'array', items: { type: 'number' }, required: true, description: 'VaR per period (positive loss), aligned with returns' },
+      confidence: { type: 'number', description: 'VaR confidence level, default 0.95' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          failures: { type: 'integer' , required: true},
+          expected: { type: 'number' , required: true},
+          lrStat: { type: 'number' , required: true},
+          pValue: { type: 'number' , required: true},
+          passed: { type: 'boolean' , required: true},
+          periods: { type: 'integer' , required: true},
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `VaR backtest: ${value.failures} failures (expected ${value.expected.toFixed(1)}), ` +
+          `LR ${value.lrStat === Number.POSITIVE_INFINITY ? '∞' : value.lrStat.toFixed(3)}, ${value.passed ? 'PASS ✓' : 'FAIL ✗'}`
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return kupiecTest(args.returns, args.varSeries, args.confidence)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_resample',
+    description:
+      'Resample OHLCV candles to a coarser period by fixed bar buckets: week = 7 bars, month = 30 bars ' +
+      '(designed for 24/7 crypto markets; for A-share trading calendars pass pre-bucketed data). ' +
+      'Each bucket aggregates open/high/low/close/volume plus the bar count.',
+    parameters: {
+      candles: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            openTime: { type: 'integer', required: true },
+            open: { type: 'number', required: true },
+            high: { type: 'number', required: true },
+            low: { type: 'number', required: true },
+            close: { type: 'number', required: true },
+            volume: { type: 'number', required: true },
+          },
+          additionalProperties: false,
+        },
+        required: true,
+        description: 'OHLCV candles from quant_market_fetch',
+      },
+      period: { type: 'string', enum: ['week', 'month'], required: true, description: 'Target period' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          candles: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                openTime: { type: 'integer', required: true },
+                open: { type: 'number', required: true },
+                high: { type: 'number', required: true },
+                low: { type: 'number', required: true },
+                close: { type: 'number', required: true },
+                volume: { type: 'number', required: true },
+                bars: { type: 'integer', required: true },
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `resampled to ${args.period}: ${value.candles.length} candles (last bucket ${value.candles[value.candles.length - 1]?.bars ?? 0} bars)`
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return { candles: resampleCandles(args.candles, args.period) }
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_report',
+    description:
+      'Generate a Markdown research report from dsh-quant module outputs: strategy, performance metrics, ' +
+      'risk metrics, factor evaluation and fund simulation. Pass the results of quant_metrics / quant_risk / ' +
+      'quant_factor_evaluate / quant_fund to assemble one readable conclusion document.',
+    parameters: {
+      strategy: { type: 'string', description: 'Strategy description' },
+      metrics: { type: 'object', additionalProperties: true, description: 'quant_metrics output' },
+      risk: { type: 'object', additionalProperties: true, description: 'quant_risk output' },
+      factor: { type: 'object', additionalProperties: true, description: 'quant_factor_evaluate output' },
+      fund: { type: 'object', additionalProperties: true, description: 'quant_fund output' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          report: { type: 'string' , required: true},
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{ type: 'text', text: value.report }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return { report: generateReport({
+        strategy: args.strategy,
+        metrics: args.metrics as Record<string, number | null> | undefined,
+        risk: args.risk as never,
+        factor: args.factor as never,
+        fund: args.fund as never,
+      }) }
     },
   }))
 }

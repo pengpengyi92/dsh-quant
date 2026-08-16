@@ -64,14 +64,14 @@ async function boot(extraLines: readonly string[] = []): Promise<Context> {
   return ctx
 }
 
-test('real Loader composition: 31 tools register and are model-visible', async () => {
+test('real Loader composition: 34 tools register and are model-visible', async () => {
   const ctx = await boot()
   const names = ctx.tools.schemas().map(s => s.name).sort()
   assert.deepEqual(names, [
     'quant_adx', 'quant_atr', 'quant_backtest', 'quant_backtest_bollinger',
     'quant_backtest_grid', 'quant_backtest_portfolio', 'quant_backtest_rsi', 'quant_bollinger', 'quant_cci', 'quant_chart', 'quant_data_advice', 'quant_data_annotate', 'quant_data_compare', 'quant_data_guide', 'quant_data_quality', 'quant_ema', 'quant_factor_combine', 'quant_factor_evaluate', 'quant_fund',
-    'quant_kdj', 'quant_macd', 'quant_market_fetch', 'quant_metrics', 'quant_obv', 'quant_risk', 'quant_roc', 'quant_rsi', 'quant_series_quality', 'quant_series_stats',
-    'quant_sma', 'quant_williams_r',
+    'quant_kdj', 'quant_macd', 'quant_market_fetch', 'quant_metrics', 'quant_obv', 'quant_report', 'quant_resample', 'quant_risk', 'quant_roc', 'quant_rsi', 'quant_series_quality', 'quant_series_stats',
+    'quant_sma', 'quant_var_backtest', 'quant_williams_r',
   ])
   // description 带对齐契约（模型视角）
   const sma = ctx.tools.schemas().find(s => s.name === 'quant_sma')!
@@ -106,7 +106,7 @@ test('real Loader composition: invalid args fail through the isError path', asyn
 
 test('real Loader composition: disposal removes the registered tools (HMR-safety)', async () => {
   const ctx = await boot()
-  assert.equal(ctx.tools.schemas().length, 31)
+  assert.equal(ctx.tools.schemas().length, 34)
   // 模拟 fiber 释放：plugin 的 disposer 由 Loader 持有；这里直接验证 register 的可逆性在
   // 组合上下文中成立——卸载 loader fiber 后 schemas() 应回到空（tools 层以上被移除）
   // 注：fiber.dispose 由 afterEach 统一执行；此用例验证注册是可逆 effect
@@ -120,7 +120,7 @@ test('real Loader composition: disposal removes the registered tools (HMR-safety
     },
     async execute() { return 'x' },
   }))
-  assert.equal(ctx.tools.schemas().length, 32)
+  assert.equal(ctx.tools.schemas().length, 35)
   disposer()
-  assert.equal(ctx.tools.schemas().length, 31)
+  assert.equal(ctx.tools.schemas().length, 34)
 })

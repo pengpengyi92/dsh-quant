@@ -1,8 +1,8 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T13:55:05.179Z",
-  "toolCount": 31,
+  "generatedAt": "2026-08-16T14:23:41.668Z",
+  "toolCount": 34,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
     {
@@ -1189,6 +1189,127 @@
         "required": [
           "returns"
         ]
+      }
+    },
+    {
+      "name": "quant_var_backtest",
+      "description": "Kupiec POF test: backtest a VaR series against realized returns — counts failures (losses exceeding VaR), compares against the expected count, computes the likelihood-ratio statistic and approximate p-value, and reports whether the VaR model passes at 95% (LR <= 3.841). Too-few failures (overly conservative VaR) also fail. Feed returns and the matching per-period VaR series (positive loss values).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "returns": {
+            "type": "array",
+            "description": "Realized returns as decimals",
+            "items": {
+              "type": "number"
+            }
+          },
+          "varSeries": {
+            "type": "array",
+            "description": "VaR per period (positive loss), aligned with returns",
+            "items": {
+              "type": "number"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "description": "VaR confidence level, default 0.95"
+          }
+        },
+        "required": [
+          "returns",
+          "varSeries"
+        ]
+      }
+    },
+    {
+      "name": "quant_resample",
+      "description": "Resample OHLCV candles to a coarser period by fixed bar buckets: week = 7 bars, month = 30 bars (designed for 24/7 crypto markets; for A-share trading calendars pass pre-bucketed data). Each bucket aggregates open/high/low/close/volume plus the bar count.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "candles": {
+            "type": "array",
+            "description": "OHLCV candles from quant_market_fetch",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "openTime": {
+                  "type": "integer"
+                },
+                "open": {
+                  "type": "number"
+                },
+                "high": {
+                  "type": "number"
+                },
+                "low": {
+                  "type": "number"
+                },
+                "close": {
+                  "type": "number"
+                },
+                "volume": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "openTime",
+                "open",
+                "high",
+                "low",
+                "close",
+                "volume"
+              ]
+            }
+          },
+          "period": {
+            "type": "string",
+            "description": "Target period",
+            "enum": [
+              "week",
+              "month"
+            ]
+          }
+        },
+        "required": [
+          "candles",
+          "period"
+        ]
+      }
+    },
+    {
+      "name": "quant_report",
+      "description": "Generate a Markdown research report from dsh-quant module outputs: strategy, performance metrics, risk metrics, factor evaluation and fund simulation. Pass the results of quant_metrics / quant_risk / quant_factor_evaluate / quant_fund to assemble one readable conclusion document.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "strategy": {
+            "type": "string",
+            "description": "Strategy description"
+          },
+          "metrics": {
+            "type": "object",
+            "description": "quant_metrics output",
+            "additionalProperties": true
+          },
+          "risk": {
+            "type": "object",
+            "description": "quant_risk output",
+            "additionalProperties": true
+          },
+          "factor": {
+            "type": "object",
+            "description": "quant_factor_evaluate output",
+            "additionalProperties": true
+          },
+          "fund": {
+            "type": "object",
+            "description": "quant_fund output",
+            "additionalProperties": true
+          }
+        }
       }
     }
   ]

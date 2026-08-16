@@ -22,6 +22,9 @@ fork/pull 下来 → `npm ci` → `npm test` 即可通过、直接使用（详�
 | `quant_data_compare` | `dataType`（如 "财务"/"日线行情"）| `{ dataType, channels: [{ name, cost, covers, bestFor }] }`（覆盖者排前）| — |
 | `quant_data_advice` | `dataType` + `budget`（free/low/institutional）+ `purpose`（research/backtest/official）| `{ recommendations: [{ rank, name, reason }] }`（决策树排序）| — |
 | `quant_series_stats` | `values: number[]` | `{ count, mean, std, min, max, median, skew, kurtosis, autocorr1, annualizedVol, totalReturnPct }` | —（取数后第一步）|
+| `quant_var_backtest` | `returns` + `varSeries` + `confidence=0.95` | `{ failures, expected, lrStat, pValue, passed, periods }`（Kupiec POF 检验）| —（VaR 模型准不准的标准答案）|
+| `quant_resample` | `candles` + `period`（week=7根/month=30根）| `{ candles }`（OHLCV 周期聚合，7×24 市场）| — |
+| `quant_report` | strategy/metrics/risk/factor/fund（各模块输出）| `{ report }`（Markdown 研究报告）| —（R&D 结论生成）|
 | `quant_risk` | `returns`（小数收益序列）+ `benchmarkReturns?` + `confidence=0.95` | `{ var95, cvar95, downsideDeviation, maxDrawdownPct, beta, alpha, informationRatio, trackingError, periods }` | —（风险分析核心模块）|
 | `quant_fund` | `equityCurve` + `initialCapital=1e8` + `managementFeeRate=0.02` + `performanceFeeRate=0.2` | `{ initialCapital, finalNavNet, finalAum, peakNav, peakAum, gross/netReturnPct, fees, navNet }` | —（模拟量化私募：净值 1.00 起步，管理费按日，提成高水位 20%）|
 | `quant_metrics` | `equityCurve` + `trades?` | `{ totalReturnPct, maxDrawdownPct, sharpe, annualizedVol, calmar, sortino, winRate, profitFactor, avgPeriodReturnPct, tradeMetrics }`（必有：收益/回撤/夏普）| —（指标目录 METRIC_CATALOG 供 UI 勾选）|

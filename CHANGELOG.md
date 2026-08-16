@@ -4,6 +4,22 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.15.0] - 2026-08-16
+
+### Added
+- `quant_var_backtest`: Kupiec POF test (failure count vs expected, LR
+  statistic, approximate p-value, 95% pass decision)
+- `quant_resample`: OHLCV weekly/monthly aggregation (7/30-bar buckets for
+  24/7 markets)
+- `quant_report`: Markdown research-report assembly from metrics/risk/factor/
+  fund outputs
+- 100 unit tests milestone
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.14.0] - 2026-08-16
 
 ### Added

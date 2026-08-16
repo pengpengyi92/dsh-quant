@@ -89,3 +89,63 @@ export function riskMetrics(
   }
   return { var95: varCut, cvar95, downsideDeviation, maxDrawdownPct, beta, alpha, informationRatio, trackingError, periods: n }
 }
+
+export interface VarBacktestResult {
+  /** 实际失败次数（损失超过 VaR 的期数） */
+  failures: number
+  /** 期望失败次数 */
+  expected: number
+  /** Kupiec POF 似然比统计量 */
+  lrStat: number
+  /** 近似 p 值（卡方 1 自由度） */
+  pValue: number
+  /** 95% 置信水平下是否通过（LR <= 3.841） */
+  passed: boolean
+  periods: number
+}
+
+/** 误差函数近似（Abramowitz–Stegun 7.1.26，精度 ~1e-7）。 */
+function erfApprox(x: number): number {
+  const sign = x < 0 ? -1 : 1
+  const ax = Math.abs(x)
+  const t = 1 / (1 + 0.3275911 * ax)
+  const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-ax * ax)
+  return sign * y
+}
+
+/** 卡方 CDF（1 自由度）= erf(sqrt(x/2))。 */
+function chi2Cdf1(x: number): number {
+  if (x <= 0) return 0
+  return erfApprox(Math.sqrt(x / 2))
+}
+
+/**
+ * Kupiec POF 检验：VaR 序列的失败率回测。
+ * returns 与 varSeries 等长；varSeries[i] 为第 i 期预期的 VaR（正值损失）。
+ * p = 1 - confidence。
+ */
+export function kupiecTest(
+  returns: readonly number[],
+  varSeries: readonly number[],
+  confidence = 0.95,
+): VarBacktestResult {
+  const n = returns.length
+  if (n < 2) throw new RangeError(`returns needs >= 2 periods, got ${n}`)
+  if (varSeries.length !== n) throw new RangeError(`varSeries length ${varSeries.length} != ${n}`)
+  const p = 1 - confidence
+  let failures = 0
+  for (let i = 0; i < n; i++) {
+    if (returns[i]! < -varSeries[i]!) failures++
+  }
+  const expected = p * n
+  const x = failures
+  if (x === 0 || x === n) {
+    // 极端情形：LR → 无穷（0 失败）或有限；用哨兵值
+    const lrStat = x === 0 ? Number.POSITIVE_INFINITY : -2 * (n * Math.log(p))
+    return { failures: x, expected, lrStat, pValue: 0, passed: x === 0 ? false : false, periods: n }
+  }
+  const pHat = x / n
+  const lrStat = -2 * ((n - x) * Math.log((1 - p) / (1 - pHat)) + x * Math.log(p / pHat))
+  const pValue = 1 - chi2Cdf1(lrStat)
+  return { failures: x, expected, lrStat, pValue, passed: lrStat <= 3.841, periods: n }
+}

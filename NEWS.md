@@ -1,5 +1,15 @@
 # News
 
+## 0.15.0 — 2026-08-16
+
+**VaR 回测检验 + 周期聚合 + 研究报告（31 → 34 工具）— 测试破百！**
+
+- `quant_var_backtest`：Kupiec POF 检验（失败率 vs 期望、LR 统计量、近似 p 值、95% 通过判定）
+- `quant_resample`：K 线周/月聚合（OHLCV + 根数，7×24 市场）
+- `quant_report`：把 metrics/risk/factor/fund 组装成 Markdown 研究报告
+- 单元测试 **100 个**（里程碑）
+
+
 ## 0.14.0 — 2026-08-16
 
 **风险模块（30 → 31 工具）**
