@@ -64,6 +64,11 @@
   }
 </style>
 <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+<script>
+if (typeof LightweightCharts === 'undefined') {
+  document.write('<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"><\/script>');
+}
+</script>
 </head>
 <body>
 <div class="wrap">
@@ -243,9 +248,10 @@ function equityChart() {
   chart.timeScale().fitContent();
 }
 
-fetch('./ui-demo-data.json')
-  .then(r => r.json())
-  .then(d => {
+const EMBEDDED = /*__DEMO_DATA__*/ null;
+
+function boot(d) {
+  {
     DATA = d;
     document.getElementById('meta').textContent = `${d.symbol} · ${d.interval} · generated ${d.generatedAt.slice(0, 10)}`;
     document.getElementById('strategy').textContent = d.strategy;
@@ -255,11 +261,20 @@ fetch('./ui-demo-data.json')
     candlesChart();
     fundNavChart();
     equityChart();
-  })
-  .catch(err => {
-    document.getElementById('meta').textContent = 'load failed — run: npx tsx demos/gen-ui-demo-data.ts';
-    console.error(err);
-  });
+  }
+}
+
+if (EMBEDDED) {
+  boot(EMBEDDED);
+} else {
+  fetch('./ui-demo-data.json')
+    .then(r => r.json())
+    .then(boot)
+    .catch(err => {
+      document.getElementById('meta').textContent = 'load failed — run: npx tsx demos/gen-ui-demo-data.ts';
+      console.error(err);
+    });
+}
 </script>
 </body>
 </html>

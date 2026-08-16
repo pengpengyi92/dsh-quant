@@ -2,7 +2,7 @@
  * 生成 UI demo 数据：真实回测 MVP → demos/ui-demo-data.json。
  * 运行：npx tsx demos/gen-ui-demo-data.ts（需网络）
  */
-import { writeFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { Context } from '@deepseek-ai/cordis'
 import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
 import ToolRuntime from '@deepseek-ai/dsh-tools'
@@ -49,7 +49,11 @@ const demoData = {
   strategy: 'dual-MA crossover (5/20), stopLoss 5%, takeProfit 15%, fee 0.1%',
 }
 writeFileSync(new URL('./ui-demo-data.json', import.meta.url), JSON.stringify(demoData))
-console.log('generated demos/ui-demo-data.json')
+// 生成自包含 HTML（数据内嵌，双击即可打开，不依赖 fetch 与本地服务器）
+const html = readFileSync(new URL('./ui-demo.html', import.meta.url), 'utf8')
+const selfContained = html.replace('/\*__DEMO_DATA__\*/ null', JSON.stringify(demoData))
+writeFileSync(new URL('./ui-demo-standalone.html', import.meta.url), selfContained)
+console.log('generated demos/ui-demo-data.json + demos/ui-demo-standalone.html (self-contained)')
 console.log('summary:', JSON.stringify({ total: metrics.value.totalReturnPct.toFixed(2) + '%', maxDD: metrics.value.maxDrawdownPct.toFixed(2) + '%', sharpe: metrics.value.sharpe.toFixed(3), trades: bt.value.trades.length }))
 console.log('fund:', JSON.stringify({ initial: (fund.value.initialCapital / 1e8).toFixed(2) + '亿', finalNav: fund.value.finalNavNet.toFixed(4), finalAum: (fund.value.finalAum / 1e8).toFixed(3) + '亿', net: fund.value.netReturnPct.toFixed(2) + '%' }))
 await ctx.fiber.dispose()

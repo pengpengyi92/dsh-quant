@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.13.1] - 2026-08-16
+
+### Fixed
+- UI demo: self-contained standalone HTML (embedded data) so it opens
+  directly from file:// (fetch of local JSON is blocked by browsers);
+  CDN fallback for Lightweight Charts
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.13.0] - 2026-08-16
 
 ### Added

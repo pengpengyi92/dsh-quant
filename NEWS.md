@@ -1,5 +1,13 @@
 # News
 
+## 0.13.1 — 2026-08-16
+
+**UI demo 修复：双击即开的自包含版本**
+
+- demos/ui-demo-standalone.html：数据内嵌，file:// 直接打开（修复浏览器 fetch 本地 JSON 被拦截）
+- Lightweight Charts CDN fallback（unpkg → jsdelivr）
+
+
 ## 0.13.0 — 2026-08-16
 
 **模拟量化基金（29 → 30 工具）— 游戏化前身**
