@@ -1,8 +1,8 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T10:37:49.122Z",
-  "toolCount": 23,
+  "generatedAt": "2026-08-16T10:50:06.814Z",
+  "toolCount": 25,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
     {
@@ -770,6 +770,52 @@
         },
         "required": [
           "candles"
+        ]
+      }
+    },
+    {
+      "name": "quant_series_quality",
+      "description": "Quality check for a raw numeric series: missing (non-finite) values, z-score outliers (>3σ), jumps (adjacent change above threshold, default 20%), and frozen runs (consecutive identical values >= 3). Returns counts plus a healthy flag. Use before indicators/backtests; pair with quant_data_annotate for point-level labels.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "description": "Numeric series to check",
+            "items": {
+              "type": "number"
+            }
+          },
+          "jumpThreshold": {
+            "type": "number",
+            "description": "Adjacent-change threshold as fraction, default 0.2"
+          }
+        },
+        "required": [
+          "values"
+        ]
+      }
+    },
+    {
+      "name": "quant_data_annotate",
+      "description": "Annotate a numeric series point by point: labels every issue as missing / z_outlier / jump_up / jump_down / frozen with index, severity (1 hint, 2 clear, 3 needs human review) and a detail string. Inspired by the Scale AI data-labeling philosophy: quality is not one verdict but locatable, reviewable, governable per-point labels. Welcome PRs for more annotation dimensions.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "description": "Numeric series to annotate",
+            "items": {
+              "type": "number"
+            }
+          },
+          "jumpThreshold": {
+            "type": "number",
+            "description": "Adjacent-change threshold as fraction, default 0.2"
+          }
+        },
+        "required": [
+          "values"
         ]
       }
     }

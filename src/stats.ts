@@ -121,3 +121,138 @@ export function candlesCheck(candles: readonly CandleInput[]): CandleQuality {
   const healthy = highBelowLow === 0 && nonPositive === 0 && timeNotIncreasing === 0 && timeGaps === 0 && extremeMoves === 0
   return { count: n, highBelowLow, nonPositive, timeNotIncreasing, timeGaps, extremeMoves, healthy }
 }
+
+export interface SeriesQuality {
+  count: number
+  /** 非有限值（NaN/Infinity/null）数量 */
+  missingCount: number
+  /** |z-score| > 3 的异常值数量 */
+  zOutliers: number
+  /** 相邻变动超过 jumpThreshold 的位置数 */
+  jumps: number
+  /** 连续相同值的最长长度（>= 3 提示数据冻结） */
+  longestConstantRun: number
+  healthy: boolean
+}
+
+/** 序列质量检查：缺值、z 异常、跳变、冻结。 */
+export function seriesQuality(values: readonly number[], jumpThreshold = 0.2): SeriesQuality {
+  const finite: number[] = []
+  let missingCount = 0
+  for (const v of values) {
+    if (Number.isFinite(v)) finite.push(v)
+    else missingCount++
+  }
+  const n = values.length
+  const mean = finite.length === 0 ? 0 : finite.reduce((a, b) => a + b, 0) / finite.length
+  const variance = finite.length === 0 ? 0 : finite.reduce((a, x) => a + (x - mean) ** 2, 0) / finite.length
+  const std = Math.sqrt(variance)
+  let zOutliers = 0
+  if (std > 0) {
+    for (const x of finite) {
+      if (Math.abs((x - mean) / std) > 3) zOutliers++
+    }
+  }
+  let jumps = 0
+  for (let i = 1; i < n; i++) {
+    const a = values[i - 1]!
+    const b = values[i]!
+    if (Number.isFinite(a) && Number.isFinite(b) && a !== 0 && Math.abs(b / a - 1) > jumpThreshold) jumps++
+  }
+  let longest = 0
+  let run = 1
+  for (let i = 1; i < n; i++) {
+    if (values[i] === values[i - 1]) {
+      run++
+      if (run > longest) longest = run
+    } else run = 1
+  }
+  const healthy = missingCount === 0 && zOutliers === 0 && jumps === 0 && longest < 3
+  return { count: n, missingCount, zOutliers, jumps, longestConstantRun: longest, healthy }
+}
+
+export interface DataAnnotation {
+  index: number
+  /** missing / z_outlier / jump_up / jump_down / frozen */
+  label: 'missing' | 'z_outlier' | 'jump_up' | 'jump_down' | 'frozen'
+  /** 1 = 提示，2 = 明显问题，3 = 严重（需人工复核） */
+  severity: 1 | 2 | 3
+  detail: string
+}
+
+export interface AnnotateResult {
+  count: number
+  annotations: DataAnnotation[]
+  summary: { missing: number; zOutliers: number; jumps: number; frozen: number }
+}
+
+/**
+ * 数据标注：把序列级质量问题定位到"点级标签"（致敬 Scale AI 的标注哲学——
+ * 数据质量不是一句结论，而是每条问题都可定位、可复核、可治理的标注）。
+ * z 阈值 3σ、跳变阈值 20%、冻结阈值连续 >= 3。
+ */
+export function annotateSeries(values: readonly number[], jumpThreshold = 0.2): AnnotateResult {
+  const annotations: DataAnnotation[] = []
+  const summary = { missing: 0, zOutliers: 0, jumps: 0, frozen: 0 }
+  const n = values.length
+  const finite: { index: number; value: number }[] = []
+  values.forEach((v, i) => {
+    if (!Number.isFinite(v)) {
+      annotations.push({ index: i, label: 'missing', severity: 3, detail: `non-finite value at index ${i}` })
+      summary.missing++
+    } else {
+      finite.push({ index: i, value: v })
+    }
+  })
+  const mean = finite.length === 0 ? 0 : finite.reduce((a, x) => a + x.value, 0) / finite.length
+  const variance = finite.length === 0 ? 0 : finite.reduce((a, x) => a + (x.value - mean) ** 2, 0) / finite.length
+  const std = Math.sqrt(variance)
+  if (std > 0) {
+    for (const { index, value } of finite) {
+      const z = (value - mean) / std
+      if (Math.abs(z) > 3) {
+        annotations.push({
+          index,
+          label: 'z_outlier',
+          severity: z > 5 ? 3 : 2,
+          detail: `z-score ${z.toFixed(2)} (> 3σ)`,
+        })
+        summary.zOutliers++
+      }
+    }
+  }
+  for (let i = 1; i < n; i++) {
+    const a = values[i - 1]!
+    const b = values[i]!
+    if (Number.isFinite(a) && Number.isFinite(b) && a !== 0) {
+      const change = b / a - 1
+      if (change > jumpThreshold) {
+        annotations.push({ index: i, label: 'jump_up', severity: change > 0.5 ? 2 : 1, detail: `+${(change * 100).toFixed(1)}% vs previous` })
+        summary.jumps++
+      } else if (change < -jumpThreshold) {
+        annotations.push({ index: i, label: 'jump_down', severity: change < -0.5 ? 2 : 1, detail: `${(change * 100).toFixed(1)}% vs previous` })
+        summary.jumps++
+      }
+    }
+  }
+  let runStart = 0
+  let run = 1
+  for (let i = 1; i <= n; i++) {
+    if (i < n && values[i] === values[i - 1]) {
+      run++
+      continue
+    }
+    if (run >= 3) {
+      annotations.push({
+        index: runStart,
+        label: 'frozen',
+        severity: run >= 10 ? 3 : 2,
+        detail: `value frozen for ${run} consecutive points`,
+      })
+      summary.frozen++
+    }
+    runStart = i
+    run = 1
+  }
+  return { count: n, annotations, summary }
+}

@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { candlesCheck, seriesStats } from '../src/stats.ts'
+import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from '../src/stats.ts'
 
 test('seriesStats: 等差数列手算', () => {
   const s = seriesStats([1, 2, 3, 4, 5])
@@ -53,4 +53,48 @@ test('candlesCheck: 各违规项计数', () => {
   assert.equal(q.timeGaps, 1)
   assert.equal(q.extremeMoves, 1)
   assert.equal(q.healthy, false)
+})
+
+test('seriesQuality: 缺值 + z 异常 + 冻结检测', () => {
+  // 19 个 1 + 100（z≈4.35 > 3）+ NaN：missing 1、z 异常 1、跳变 1、冻结 run 19
+  const vals = [...new Array(19).fill(1), 100, Number.NaN]
+  const q = seriesQuality(vals)
+  assert.equal(q.count, 21)
+  assert.equal(q.missingCount, 1)
+  assert.equal(q.zOutliers, 1)
+  assert.equal(q.jumps, 1)
+  assert.equal(q.longestConstantRun, 19)
+  assert.equal(q.healthy, false)
+})
+
+test('seriesQuality: 健康序列 → healthy', () => {
+  const q = seriesQuality([100, 101, 102, 103, 104, 105]) // 逐点 +1%
+  assert.equal(q.healthy, true)
+  assert.equal(q.missingCount, 0)
+  assert.equal(q.zOutliers, 0)
+  assert.equal(q.jumps, 0)
+})
+
+test('annotateSeries: 点级标签齐全', () => {
+  const vals = [...new Array(19).fill(1), 100, Number.NaN]
+  const a = annotateSeries(vals)
+  assert.equal(a.summary.missing, 1)
+  assert.equal(a.summary.zOutliers, 1)
+  assert.ok(a.summary.frozen >= 1)
+  const missing = a.annotations.find(x => x.label === 'missing')!
+  assert.equal(missing.index, 20)
+  assert.equal(missing.severity, 3)
+  const z = a.annotations.find(x => x.label === 'z_outlier')!
+  assert.equal(z.index, 19)
+  assert.ok(z.severity >= 2)
+  const frozen = a.annotations.find(x => x.label === 'frozen')!
+  assert.equal(frozen.index, 0)
+  assert.equal(frozen.severity, 3) // run 19 >= 10
+  assert.match(frozen.detail, /19 consecutive/)
+})
+
+test('annotateSeries: 干净序列无标注', () => {
+  const a = annotateSeries([100, 101, 102, 103, 104])
+  assert.equal(a.annotations.length, 0)
+  assert.deepEqual(a.summary, { missing: 0, zOutliers: 0, jumps: 0, frozen: 0 })
 })

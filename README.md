@@ -11,7 +11,7 @@
 量化场景的 agent 需要"取数据 → 算指标 → 回测"的完整链路，A 股数据走渠道导航（本插件提供
 渠道知识，不提供数据 API、不为数据付费）。
 
-**欢迎 PR，定期 merge！** 只要符合 [CONTRIBUTING.md](CONTRIBUTING.md) 的契约清单即可提交；
+**欢迎 PR，定期 merge！** 特别是数据检测与标注维度——缺值/异常/跳变/OHLCV 合法性/时间戳/冻结等常见维度已实现，欢迎贡献更多检测与标注规则（见 GitHub Issue 关于数据检测与标注的征集帖）。 只要符合 [CONTRIBUTING.md](CONTRIBUTING.md) 的契约清单即可提交；
 fork/pull 下来 → `npm ci` → `npm test` 即可通过、直接使用（详见
 [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md)）。官方工具集（bash/fs/web/terminal/subagent…）目前没有技术指标——本插件填补这个空白。指标与回测为纯函数实现，零外部依赖，可离线验证；行情获取走免费公共 API，无需凭据。
 
@@ -22,6 +22,8 @@ fork/pull 下来 → `npm ci` → `npm test` 即可通过、直接使用（详�
 | `quant_data_compare` | `dataType`（如 "财务"/"日线行情"）| `{ dataType, channels: [{ name, cost, covers, bestFor }] }`（覆盖者排前）| — |
 | `quant_data_advice` | `dataType` + `budget`（free/low/institutional）+ `purpose`（research/backtest/official）| `{ recommendations: [{ rank, name, reason }] }`（决策树排序）| — |
 | `quant_series_stats` | `values: number[]` | `{ count, mean, std, min, max, median, skew, kurtosis, autocorr1, annualizedVol, totalReturnPct }` | —（取数后第一步）|
+| `quant_series_quality` | `values: number[]`, `jumpThreshold=0.2` | `{ count, missingCount, zOutliers, jumps, longestConstantRun, healthy }` | —（序列级质量）|
+| `quant_data_annotate` | `values: number[]`, `jumpThreshold=0.2` | `{ count, annotations: [{index, label, severity, detail}], summary }` | —（点级标注，致敬 Scale AI）|
 | `quant_data_quality` | `candles`（quant_market_fetch 输出）| `{ count, highBelowLow, nonPositive, timeNotIncreasing, timeGaps, extremeMoves, healthy }` | —（分析前健康检查）|
 | `quant_data_guide` | `query`（渠道名/数据类型，如 "tushare"/"财务"）或 `channel`（精确渠道名）| `{ query, results: [{ name, url, cost, dataTypes, setup, tutorialUrls, bestFor, … }] }` | —（内置 8 大 A 股数据渠道知识库）|
 | `quant_market_fetch` | `symbol: string`（如 BTCUSDT）, `interval: 1m…1M`, `limit: 1-1000`, `provider: binance/okx/bybit` | `{ symbol, interval, provider, candles: [{openTime, open, high, low, close, volume}] }` | — |

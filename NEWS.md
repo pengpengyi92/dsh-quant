@@ -1,5 +1,15 @@
 # News
 
+## 0.9.1 — 2026-08-16
+
+**数据标注 + 序列质量（23 → 25 工具）+ 七维文件夹**
+
+- `quant_series_quality`：缺值 / z 异常（>3σ）/ 跳变 / 冻结连续值检测
+- `quant_data_annotate`：点级数据标注（missing/z_outlier/jump_up/jump_down/frozen + 三级严重度），致敬 Scale AI（Alexander Wang）的标注哲学
+- 七维文件夹：skill / tool-use / memory / rag / benchmark / eval / plan（对应内部 PAT 五维度体系，private 引用）
+- **欢迎 PR**：数据检测与标注维度开放征集（见 GitHub Issue）
+
+
 ## 0.9.0 — 2026-08-16
 
 **描述统计 + 数据质量（21 → 23 工具）**

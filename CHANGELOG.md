@@ -4,6 +4,22 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.9.1] - 2026-08-16
+
+### Added
+- `quant_series_quality`: missing / z-outlier / jump / frozen-run detection
+- `quant_data_annotate`: point-level data labeling (5 label kinds, 3 severity
+  levels) — Scale AI-inspired labeling philosophy
+- Seven dimension folders (skill/tool-use/memory/rag/benchmark/eval/plan)
+  referencing the internal PAT dimension system (private repo, method-level
+  reference only)
+- 4 hand-computed unit cases
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.9.0] - 2026-08-16
 
 ### Added

@@ -18,7 +18,7 @@ import { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR
 import { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './backtest.js'
 import { INTERVALS, MARKET_PROVIDERS, fetchKlines } from './market.js'
 import { adviseChannels, compareChannels, findChannel, searchChannels } from './data-guide.js'
-import { candlesCheck, seriesStats } from './stats.js'
+import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './stats.js'
 
 // ── 纯函数再导出：非 dsh 环境（任意 Node 项目）直接 import 使用 ──
 // 注意：本插件仍是纯 named-export 函数插件（无 default export），Loader 不受影响。
@@ -26,7 +26,7 @@ export { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR
 export { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './backtest.js'
 export { fetchKlines, parseKlines, parseOkxKlines, parseBybitKlines, INTERVALS, MARKET_PROVIDERS } from './market.js'
 export { DATA_CHANNELS, adviseChannels, compareChannels, findChannel, searchChannels } from './data-guide.js'
-export { candlesCheck, seriesStats } from './stats.js'
+export { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './stats.js'
 
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
@@ -1047,6 +1047,96 @@ export function apply(ctx: Context) {
     isConcurrencySafe: () => true,
     async execute(args) {
       return candlesCheck(args.candles)
+    },
+  }))
+  ctx.tools.register(defineTool({
+    name: 'quant_series_quality',
+    description:
+      'Quality check for a raw numeric series: missing (non-finite) values, z-score outliers (>3σ), ' +
+      'jumps (adjacent change above threshold, default 20%), and frozen runs (consecutive identical values >= 3). ' +
+      'Returns counts plus a healthy flag. Use before indicators/backtests; pair with quant_data_annotate for point-level labels.',
+    parameters: {
+      values: { type: 'array', items: { type: 'number' }, required: true, description: 'Numeric series to check' },
+      jumpThreshold: { type: 'number', description: 'Adjacent-change threshold as fraction, default 0.2' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          count: { type: 'integer' , required: true},
+          missingCount: { type: 'integer' , required: true},
+          zOutliers: { type: 'integer' , required: true},
+          jumps: { type: 'integer' , required: true},
+          longestConstantRun: { type: 'integer' , required: true},
+          healthy: { type: 'boolean' , required: true},
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: value.healthy
+          ? `series quality: healthy (${value.count} points)`
+          : `series quality: ${value.count} points, missing ${value.missingCount}, z-outliers ${value.zOutliers}, jumps ${value.jumps}, frozen-run ${value.longestConstantRun}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return seriesQuality(args.values, args.jumpThreshold)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_data_annotate',
+    description:
+      'Annotate a numeric series point by point: labels every issue as missing / z_outlier / jump_up / jump_down / ' +
+      'frozen with index, severity (1 hint, 2 clear, 3 needs human review) and a detail string. ' +
+      'Inspired by the Scale AI data-labeling philosophy: quality is not one verdict but locatable, reviewable, ' +
+      'governable per-point labels. Welcome PRs for more annotation dimensions.',
+    parameters: {
+      values: { type: 'array', items: { type: 'number' }, required: true, description: 'Numeric series to annotate' },
+      jumpThreshold: { type: 'number', description: 'Adjacent-change threshold as fraction, default 0.2' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          count: { type: 'integer' , required: true},
+          annotations: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                index: { type: 'integer', required: true },
+                label: { type: 'string', enum: ['missing', 'z_outlier', 'jump_up', 'jump_down', 'frozen'], required: true },
+                severity: { type: 'integer', enum: [1, 2, 3], required: true },
+                detail: { type: 'string', required: true },
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+          summary: {
+            type: 'object',
+            properties: {
+              missing: { type: 'integer', required: true },
+              zOutliers: { type: 'integer', required: true },
+              jumps: { type: 'integer', required: true },
+              frozen: { type: 'integer', required: true },
+            },
+            additionalProperties: false,
+            required: true,
+          },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `annotations: ${value.annotations.length} issues (missing ${value.summary.missing}, z-outliers ${value.summary.zOutliers}, jumps ${value.summary.jumps}, frozen ${value.summary.frozen})`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return annotateSeries(args.values, args.jumpThreshold)
     },
   }))
 }
