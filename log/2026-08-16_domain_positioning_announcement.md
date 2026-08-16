@@ -57,3 +57,9 @@
 - 查重：官方讨论区无 defineTool/schema DSL 相关帖（搜索结果为空）
 - 链接：https://github.com/deepseek-ai/deepseek-harness/discussions/2512
 - 帖中承诺：官方开放外部 PR 通道后，我们直接贡献这两处小改动
+
+## 追加：官方 Show Your Plugins 展示帖（同日）
+- 已发布 #2513：dsh-quant 0.17 六域全景展示（含工作台截图 embed、社区循环、awesome 收录链接）
+  https://github.com/deepseek-ai/deepseek-harness/discussions/2513
+- 旧帖 #2307（dsh-quant-indicators 时代）留言指路新帖，避免重复展示
+- 同日官方区三连：DX 建议 #2512（Ideas）+ 展示 #2513（Show Your Plugins）+ 旧帖更新
