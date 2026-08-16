@@ -1,5 +1,14 @@
 # News
 
+## 0.10.1 — 2026-08-16
+
+**R&D 工作流 demo + 方法论文档**
+
+- `demos/rd-workflow.ts`：真实数据 7 步研究闭环（fetch→stats→quality→indicators→factor→backtest→结论）可执行 MVP case
+- log：dsh-quant 如何辅助 R&D（三模式：research/development/data governance + 生态关系）
+- Issue #4（LLMQuant 致敬）+ #5（R&D 辅助征集）
+
+
 ## 0.10.0 — 2026-08-16
 
 **因子实验室（25 → 27 工具）—— R&D 助手主干补齐**

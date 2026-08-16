@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.10.1] - 2026-08-16
+
+### Added
+- `demos/rd-workflow.ts`: executable end-to-end R&D demo on live data
+  (fetch → stats → quality → indicators → factor eval → backtest → conclusion)
+- RD-assistance log (three modes: research / development / data governance;
+  ecosystem positioning vs RD-Agent, LLMQuant, inalpha, alphalens)
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.10.0] - 2026-08-16
 
 ### Added
