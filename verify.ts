@@ -32,7 +32,7 @@ async function fetchWithFallback(symbol: string, interval: string, limit: number
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 42) throw new Error(`expected 42 tools, got ${names.length}`)
+if (names.length !== 43) throw new Error(`expected 43 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -378,6 +378,24 @@ assert(pipe.value.report.includes('Quant Research Report'), 'pipeline report')
 assert(pipe.value.charts.candles.kind === 'candles' && pipe.value.charts.equity.kind === 'series', 'pipeline charts')
 console.log('pipeline:        120 candles → return', pipe.value.metrics.totalReturnPct.toFixed(2) + '%', '| maxDD', pipe.value.metrics.maxDrawdownPct.toFixed(2) + '%', '| NAV', pipe.value.fund.finalNavNet.toFixed(4))
 console.log('                 drawdown periods', pipe.value.drawdown.periods.length, '| factor n', pipe.value.factor.n)
+
+// 23) 线性模型（真实 BTC 动量特征 → fit/predict/test IC）
+console.log('\n=== linear model (live BTC features) ===')
+const lmX: number[][] = []
+const lmY: number[] = []
+for (let t = 12; t < btCloses.length - 1; t++) {
+  lmX.push([btCloses[t]! / btCloses[t - 12]! - 1])
+  lmY.push(btCloses[t + 1]! / btCloses[t]! - 1)
+}
+const split = Math.floor(lmX.length * 0.7)
+const lm = await call('quant_linear_model', {
+  X: lmX.slice(0, split), y: lmY.slice(0, split), lambda: 0.1,
+  predictX: lmX.slice(split), yTest: lmY.slice(split),
+})
+assert(!lm.isError, 'linear model should succeed')
+assert(lm.value.weights.length === 1 && Number.isFinite(lm.value.trainR2), 'linear model shape')
+assert(lm.value.predictions !== null && lm.value.testR2 !== null && Number.isFinite(lm.value.testIc), 'linear model test metrics')
+console.log('linear model:    train R2', lm.value.trainR2.toFixed(4), '| test R2', lm.value.testR2.toFixed(4), '| test IC', lm.value.testIc.toFixed(4), '| weight', lm.value.weights[0].toFixed(5))
 
 console.log('\n✅ all quant-indicators checks passed')
 

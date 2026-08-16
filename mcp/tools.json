@@ -1,8 +1,8 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T16:13:40.641Z",
-  "toolCount": 42,
+  "generatedAt": "2026-08-16T16:25:10.900Z",
+  "toolCount": 43,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
     {
@@ -1571,6 +1571,57 @@
         "required": [
           "close",
           "orders"
+        ]
+      }
+    },
+    {
+      "name": "quant_linear_model",
+      "description": "Fit a linear model (OLS, or Ridge with lambda > 0 penalizing feature weights) on samples × features: y ≈ intercept + Σ w·x. Returns coefficients, train R2, and — when predictX is passed — out-of-sample predictions plus test R2/IC against optional yTest. The minimal explainable ML building block; use quant_walk_forward for rolling out-of-sample validation. This plugin ships methods, not data.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "X": {
+            "type": "array",
+            "description": "Training samples × features (each row is one sample)",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          "y": {
+            "type": "array",
+            "description": "Training targets, aligned with X",
+            "items": {
+              "type": "number"
+            }
+          },
+          "lambda": {
+            "type": "number",
+            "description": "Ridge penalty on feature weights, default 0 (OLS)"
+          },
+          "predictX": {
+            "type": "array",
+            "description": "Optional samples to predict",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          "yTest": {
+            "type": "array",
+            "description": "Optional actual values for predictX (enables test R2/IC)",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "X",
+          "y"
         ]
       }
     },

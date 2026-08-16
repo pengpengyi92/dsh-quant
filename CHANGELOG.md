@@ -4,6 +4,22 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.19.0] - 2026-08-16
+
+### Added
+- `quant_linear_model`: standalone OLS/Ridge fit (lambda penalizes feature
+  weights only) with out-of-sample predictions and test R2/IC — the minimal
+  explainable ML building block (43 tools total)
+- `docs/ML_GUIDE.md`: quant ML/DL architecture knowledge map — research
+  pipeline architecture, model ladder (linear → trees → DL → RL), out-of-sample
+  validation gold standards (walk-forward / no random K-fold / deflated
+  Sharpe), overfitting checklist, RL problem formalization
+- `demos/ml-workflow.ts`: executable ML demo (live data → features →
+  neutralization → linear model → walk-forward → conclusions)
+- dsh-ml domain README rewritten: ML framework status + DL/RL knowledge layer
+  (fulfills the public PCPT promise of "demos + ML/DL knowledge + frameworks")
+- 7 hand-computed linear-model cases (156 unit tests total)
+
 ## [0.18.0] - 2026-08-16
 
 ### Added

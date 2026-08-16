@@ -17,7 +17,7 @@
 fork/pull 下来 → `npm ci` → `npm test` 即可通过、直接使用（详见
 [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md)）。官方工具集（bash/fs/web/terminal/subagent…）目前没有技术指标——本插件填补这个空白。指标与回测为纯函数实现，零外部依赖，可离线验证；行情获取走免费公共 API，无需凭据。
 
-**42 个 `quant_*` 工具 · 6 大域模块 · 149 单元测试 · 零外部依赖**。定位全景见置顶 [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9)。
+**43 个 `quant_*` 工具 · 6 大域模块 · 156 单元测试 · 零外部依赖**。定位全景见置顶 [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9)。
 
 ## 快速安装（dsh 用户）
 
@@ -31,7 +31,7 @@ npm i dsh-quant
 - name: 'dsh-quant'
 ```
 
-42 个工具自动注册，指标 / 回测 / 因子 / 风控 / 基金模拟 / 生态影响力开箱即用。一条 `quant_research_pipeline` 跑通 PDAT→PET 全链路。
+43 个工具自动注册，指标 / 回测 / 因子 / 风控 / 基金模拟 / 生态影响力开箱即用。一条 `quant_research_pipeline` 跑通 PDAT→PET 全链路。ML/DL 架构知识见 [docs/ML_GUIDE.md](docs/ML_GUIDE.md)，可执行 demo：`npx tsx demos/ml-workflow.ts`。
 
 ## 🖥️ UI 工作台（dsh-quant-ui）
 
@@ -64,6 +64,7 @@ npm i dsh-quant
 | `quant_factor_evaluate` | `factorValues` + `forwardReturns`（factor[i] 预测 ret[i+1]）+ `quantiles=5` + `window=20` + `decayHorizons=5` | `{ ic, rankIc, icDecay, icir, icSeries, quantileReturns, longShort, turnover, autocorr1, n }`（alphalens 指标集 + RankIC/IC衰减）| — |
 | `quant_factor_neutralize` | `factorValues` + `groups?` + `styleFactors?` + `method?` | `{ values(标准化后), method, groupCount, styleCount, rSquared }` | —（分组 z-score / OLS 残差中性化）|
 | `quant_walk_forward` | `returns` + `features[][]` + `trainWindow` + `testWindow` + `step?` | `{ predictions(null 对齐), oosIc, oosRankIc, oosCount, windows, trainR2Mean }` | —（滚动训练/样本外，无未来函数）|
+| `quant_linear_model` | `X(样本×特征)` + `y` + `lambda?` + `predictX?` + `yTest?` | `{ intercept, weights, lambda, trainR2, n, predictions?, testR2?, testIc? }` | —（OLS/Ridge 独立拟合预测）|
 | `quant_factor_combine` | `factors: number[][]`（等长）+ `weights?` | `{ signal(rank 0..1), effectiveWeights, factorCount }` | —（z-score 加权 + 截面排序）|
 | `quant_series_quality` | `values: number[]`, `jumpThreshold=0.2` | `{ count, missingCount, zOutliers, jumps, longestConstantRun, healthy }` | —（序列级质量）|
 | `quant_data_annotate` | `values: number[]`, `jumpThreshold=0.2` | `{ count, annotations: [{index, label, severity, detail}], summary }` | —（点级标注，致敬 Scale AI）|
@@ -136,6 +137,7 @@ schema 前缀稳定（工具集与顺序不变则复用）；结果追加在可�
 
 | 版本 | 日期 | 更新 |
 |---|---|---|
+| 0.19.0 | 2026-08-16 | PCPT 补完：quant_linear_model（OLS/Ridge）+ docs/ML_GUIDE.md（ML/DL 架构知识地图）+ demos/ml-workflow.ts（42→43 工具）|
 | 0.18.0 | 2026-08-16 | 链路补全：A股免费行情（新浪/腾讯前复权）+ RankIC/IC衰减 + 因子中性化 + Walk-forward + 回撤分析 + 执行模拟 + 端到端管线（37→42 工具）|
 | 0.17.0 | 2026-08-16 | 开源生态域 dsh-community：quant_repo_stats / quant_npm_stats / quant_oss_pulse（0-100 影响力评分）|
 | 0.16.0 | 2026-08-16 | 域驱动重构：dsh-data/alpha/ml/risk/execution ↔ PDAT/PAAT/PCPT/PRT/PET + 交易所容错链（Binance→OKX→Bybit）|

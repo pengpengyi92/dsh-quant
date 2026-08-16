@@ -31,6 +31,7 @@ import { fetchNpmStats } from './dsh-community/npm.js'
 import { ossPulse } from './dsh-community/pulse.js'
 import { factorNeutralize } from './dsh-alpha/factor.js'
 import { walkForward } from './dsh-ml/walkforward.js'
+import { evaluatePredictions, fitLinearModel, predictLinearModel } from './dsh-ml/linear.js'
 import { drawdownAnalysis } from './dsh-risk/drawdown.js'
 import { executeSimulate } from './dsh-execution/execute.js'
 import { researchPipeline } from './dsh-execution/pipeline.js'
@@ -53,6 +54,7 @@ export { fetchNpmStats, parseNpmStats } from './dsh-community/npm.js'
 export { ossPulse } from './dsh-community/pulse.js'
 export { factorNeutralize } from './dsh-alpha/factor.js'
 export { walkForward } from './dsh-ml/walkforward.js'
+export { evaluatePredictions, fitLinearModel, predictLinearModel } from './dsh-ml/linear.js'
 export { drawdownAnalysis } from './dsh-risk/drawdown.js'
 export { executeSimulate } from './dsh-execution/execute.js'
 export { researchPipeline } from './dsh-execution/pipeline.js'
@@ -2068,6 +2070,66 @@ export function apply(ctx: Context) {
         slippageBps: args.slippageBps,
         latencyBars: args.latencyBars,
       })
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_linear_model',
+    description:
+      'Fit a linear model (OLS, or Ridge with lambda > 0 penalizing feature weights) on samples × features: ' +
+      'y ≈ intercept + Σ w·x. Returns coefficients, train R2, and — when predictX is passed — out-of-sample ' +
+      'predictions plus test R2/IC against optional yTest. The minimal explainable ML building block; ' +
+      'use quant_walk_forward for rolling out-of-sample validation. This plugin ships methods, not data.',
+    parameters: {
+      X: {
+        type: 'array', items: { type: 'array', items: { type: 'number' } },
+        required: true,
+        description: 'Training samples × features (each row is one sample)',
+      },
+      y: { type: 'array', items: { type: 'number' }, required: true, description: 'Training targets, aligned with X' },
+      lambda: { type: 'number', description: 'Ridge penalty on feature weights, default 0 (OLS)' },
+      predictX: { type: 'array', items: { type: 'array', items: { type: 'number' } }, description: 'Optional samples to predict' },
+      yTest: { type: 'array', items: { type: 'number' }, description: 'Optional actual values for predictX (enables test R2/IC)' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          intercept: { type: 'number', required: true },
+          weights: { type: 'array', items: { type: 'number' }, required: true },
+          lambda: { type: 'number', required: true },
+          trainR2: { type: 'number', required: true },
+          n: { type: 'integer', required: true },
+          predictions: { oneOf: [{ type: 'array', items: { type: 'number' } }, { type: 'null' }], required: true },
+          testR2: { oneOf: [{ type: 'number' }, { type: 'null' }], required: true },
+          testIc: { oneOf: [{ type: 'number' }, { type: 'null' }], required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{
+        type: 'text',
+        text: `linear model: n=${value.n}, lambda=${value.lambda}, train R2 ${value.trainR2.toFixed(4)}, ` +
+          `intercept ${value.intercept.toFixed(4)}, weights [${value.weights.map((w: number) => w.toFixed(4)).join(', ')}]` +
+          `${value.testR2 !== null ? ` | test R2 ${value.testR2.toFixed(4)}, test IC ${(value.testIc ?? 0).toFixed(4)}` : ''}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      const fit = fitLinearModel(args.X, args.y, args.lambda ?? 0)
+      const predictions = args.predictX !== undefined ? predictLinearModel(fit, args.predictX) : null
+      const test = predictions !== null && args.yTest !== undefined
+        ? evaluatePredictions(predictions, args.yTest)
+        : { r2: null, ic: 0 }
+      return {
+        intercept: fit.intercept,
+        weights: fit.weights,
+        lambda: fit.lambda,
+        trainR2: fit.trainR2,
+        n: fit.n,
+        predictions,
+        testR2: test.r2,
+        testIc: test.ic,
+      }
     },
   }))
 
