@@ -3,7 +3,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { kupiecTest } from '../src/risk.ts'
+import { kupiecTest } from '../src/dsh-risk/risk.ts'
 
 test('kupiecTest: 失败率与置信度一致 → 通过', () => {
   // n=100, p=5%：5 次失败 ≈ 期望 → LR 小 → passed

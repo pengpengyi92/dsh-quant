@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from '../src/stats.ts'
+import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from '../src/dsh-data/stats.ts'
 
 test('seriesStats: 等差数列手算', () => {
   const s = seriesStats([1, 2, 3, 4, 5])

@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { atr, bollinger, ema, macd, rsi, sma } from '../src/indicators.ts'
+import { atr, bollinger, ema, macd, rsi, sma } from '../src/dsh-alpha/indicators.ts'
 
 test('sma: 已知答案', () => {
   assert.deepEqual(sma([1, 2, 3, 4, 5], 3), [null, null, 2, 3, 4])

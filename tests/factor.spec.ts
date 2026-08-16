@@ -3,7 +3,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { combineFactors, factorEvaluate } from '../src/factor.ts'
+import { combineFactors, factorEvaluate } from '../src/dsh-alpha/factor.ts'
 
 test('factorEvaluate: 完美线性因子 → IC=1, 分层单调, longShort 正确', () => {
   // factor [1..10]，未来收益 = 2*factor（完全预测）→ IC = 1

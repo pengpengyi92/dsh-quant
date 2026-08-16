@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { backtestBollingerBreakout, backtestMaCross, backtestPortfolio, backtestRsiReversion } from '../src/backtest.ts'
+import { backtestBollingerBreakout, backtestMaCross, backtestPortfolio, backtestRsiReversion } from '../src/dsh-ml/backtest.ts'
 
 test('bollinger breakout: 平稳后跳涨 → 突破上轨买入持有', () => {
   const close = [10, 10, 10, 10, 10, 15, 15, 15]

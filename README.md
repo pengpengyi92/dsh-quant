@@ -120,6 +120,16 @@ schema 前缀稳定（工具集与顺序不变则复用）；结果追加在可�
 - **行情工具依赖网络**：在线用例在 verify.ts 中，网络不可达时该用例失败（离线指标/回测用例不受影响）。
 - 未发布：本地开发包名 `dsh-quant`，发布时定 npm scope 并打 `dsh-plugin` topic。构建链（tsc → lib）与消费者场景已验证，`npm pack --dry-run` 通过（7 文件 11.5 kB）。
 
+## 域结构（PDAT→PET pipeline 映射）
+
+```
+src/dsh-data/      数据域（PDAT）：行情 3 所、A 股 8 渠道、质量/标注、周期聚合
+src/dsh-alpha/     因子域（PAAT）：12 指标 + 因子评估/合成（alphalens 方法论）
+src/dsh-ml/        组合域（PCPT）：策略回测 + 组合 + 指标库
+src/dsh-risk/      风控域（PRT）：VaR/CVaR/Beta/Alpha/IR + Kupiec 检验
+src/dsh-execution/ 交付域（PET）：chart 数据面、基金模拟、研究报告（不接实盘）
+```
+
 ## 快速开始（fork/pull 后）
 
 ```sh

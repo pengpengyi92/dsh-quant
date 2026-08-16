@@ -3,7 +3,8 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { METRIC_CATALOG, equityMetrics, fundSimulate, tradeMetrics } from '../src/metrics.ts'
+import { METRIC_CATALOG, equityMetrics, tradeMetrics } from '../src/dsh-ml/metrics.ts'
+import { fundSimulate } from '../src/dsh-execution/fund.ts'
 
 test('equityMetrics: 单调上涨净值（无回撤）', () => {
   const m = equityMetrics([1, 1.1, 1.2, 1.3])

@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { INTERVALS, MARKET_PROVIDERS, parseBybitKlines, parseKlines, parseOkxKlines } from '../src/market.ts'
+import { INTERVALS, MARKET_PROVIDERS, parseBybitKlines, parseKlines, parseOkxKlines } from '../src/dsh-data/market.ts'
 
 // 2026-08-16 从 api.binance.com/api/v3/klines 抓取的真实两行样本
 const SAMPLE = [

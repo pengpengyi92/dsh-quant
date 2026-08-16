@@ -3,7 +3,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { chartAnnotate, chartBacktest, chartCandles, chartSeries } from '../src/chart.ts'
+import { chartAnnotate, chartBacktest, chartCandles, chartSeries } from '../src/dsh-execution/chart.ts'
 
 const CANDLES = [
   { openTime: 1000, open: 10, high: 12, low: 9, close: 11, volume: 100 },

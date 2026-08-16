@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { adx, cci, kdj, obv, roc, williamsR } from '../src/indicators.ts'
+import { adx, cci, kdj, obv, roc, williamsR } from '../src/dsh-alpha/indicators.ts'
 
 const H = [10, 11, 12, 13]
 const L = [8, 9, 10, 11]

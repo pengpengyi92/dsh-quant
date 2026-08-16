@@ -1,5 +1,14 @@
 # News
 
+## 0.16.0 — 2026-08-16
+
+**域驱动目录重构（PDAT→PET 映射）+ 多交易所 fallback**
+
+- src/ 重组为 5 域：dsh-data（PDAT）/ dsh-alpha（PAAT）/ dsh-ml（PCPT）/ dsh-risk（PRT）/ dsh-execution（PET），每域带 README 说明映射与边界
+- 包级 API 完全不变（34 工具 + 纯函数 re-export 向后兼容）
+- verify 多交易所 fallback 链（实测：Binance 451 地区封锁 + Bybit CloudFront → 自动切 OKX）
+
+
 ## 0.15.0 — 2026-08-16
 
 **VaR 回测检验 + 周期聚合 + 研究报告（31 → 34 工具）— 测试破百！**

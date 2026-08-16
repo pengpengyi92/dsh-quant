@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { DATA_CHANNELS, adviseChannels, compareChannels, findChannel, searchChannels } from '../src/data-guide.ts'
+import { DATA_CHANNELS, adviseChannels, compareChannels, findChannel, searchChannels } from '../src/dsh-data/data-guide.ts'
 
 test('知识库：8 个渠道齐全且字段完整', () => {
   assert.equal(DATA_CHANNELS.length, 8)

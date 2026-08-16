@@ -3,7 +3,8 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { generateReport, resampleCandles } from '../src/transform.ts'
+import { resampleCandles } from '../src/dsh-data/resample.ts'
+import { generateReport } from '../src/dsh-execution/report.ts'
 
 const candles = Array.from({ length: 10 }, (_, i) => ({
   openTime: (i + 1) * 1000,

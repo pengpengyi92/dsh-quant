@@ -4,6 +4,20 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.16.0] - 2026-08-16
+
+### Changed
+- Domain-driven src layout: dsh-data (PDAT) / dsh-alpha (PAAT) / dsh-ml (PCPT) /
+  dsh-risk (PRT) / dsh-execution (PET), each with a domain README; package-level
+  API unchanged (backward compatible)
+- verify.ts provider fallback chain (binance → okx → bybit) after live outage:
+  Binance 451 region block + Bybit CloudFront block; OKX remains available
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.15.0] - 2026-08-16
 
 ### Added

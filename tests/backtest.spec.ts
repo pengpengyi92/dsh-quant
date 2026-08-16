@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { backtestGrid, backtestMaCross } from '../src/backtest.ts'
+import { backtestGrid, backtestMaCross } from '../src/dsh-ml/backtest.ts'
 
 test('backtest: V 形序列 — 一次买入持有到末尾（open trade）', () => {
   const close = [10, 9, 8, 7, 6, 5, 6, 7, 8, 9, 10, 11, 12]

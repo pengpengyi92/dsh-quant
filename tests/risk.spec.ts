@@ -3,7 +3,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { riskMetrics } from '../src/risk.ts'
+import { riskMetrics } from '../src/dsh-risk/risk.ts'
 
 test('riskMetrics: 历史 VaR/CVaR 手算', () => {
   // 收益（小数）：[-0.03, -0.02, -0.01, 0.01, 0.02, 0.03]

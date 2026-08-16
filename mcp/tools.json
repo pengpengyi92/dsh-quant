@@ -1,7 +1,7 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T14:23:41.668Z",
+  "generatedAt": "2026-08-16T14:47:27.101Z",
   "toolCount": 34,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
