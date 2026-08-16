@@ -1,6 +1,8 @@
 # dsh-quant（DeepQuant Harness）
 
 [![npm](https://img.shields.io/npm/v/dsh-quant)](https://www.npmjs.com/package/dsh-quant)
+[![downloads](https://img.shields.io/npm/dm/dsh-quant)](https://www.npmjs.com/package/dsh-quant)
+[![stars](https://img.shields.io/github/stars/pengpengyi92/dsh-quant?style=social)](https://github.com/pengpengyi92/dsh-quant)
 [![license](https://img.shields.io/npm/l/dsh-quant)](LICENSE)
 [![ci](https://github.com/pengpengyi92/dsh-quant/actions/workflows/ci.yml/badge.svg)](https://github.com/pengpengyi92/dsh-quant/actions)
 [![dsh-plugin](https://img.shields.io/badge/dsh-plugin-blue)](https://github.com/topics/dsh-plugin)
@@ -14,6 +16,30 @@
 **欢迎 PR，定期 merge！** 特别是数据检测与标注维度——缺值/异常/跳变/OHLCV 合法性/时间戳/冻结等常见维度已实现，欢迎贡献更多检测与标注规则（见 GitHub Issue 关于数据检测与标注的征集帖）。 只要符合 [CONTRIBUTING.md](CONTRIBUTING.md) 的契约清单即可提交；
 fork/pull 下来 → `npm ci` → `npm test` 即可通过、直接使用（详见
 [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md)）。官方工具集（bash/fs/web/terminal/subagent…）目前没有技术指标——本插件填补这个空白。指标与回测为纯函数实现，零外部依赖，可离线验证；行情获取走免费公共 API，无需凭据。
+
+**34 个 `quant_*` 工具 · 5 大域模块 · 100+ 单元测试 · 零外部依赖**。定位全景见置顶 [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9)。
+
+## 快速安装（dsh 用户）
+
+```sh
+npm i dsh-quant
+```
+
+在 dsh 的 cordis.yml 里加一行：
+
+```yaml
+- name: 'dsh-quant'
+```
+
+34 个工具自动注册，指标 / 回测 / 因子 / 风控 / 基金模拟开箱即用。
+
+## 🖥️ UI 工作台（dsh-quant-ui）
+
+![dsh-quant UI](demos/ui-demo-preview.png)
+
+[dsh-quant-ui](https://github.com/pengpengyi92/dsh-quant-ui)：K 线 + 均线叠加 + 交易标记、资金曲线、基金净值 / 管理费 / 提成卡片、指标选择器——还有一只会游泳的 Q 版鲸鱼 🐋（点标题 3 下试试）。
+
+在线演示：https://dsh-quant-ui.pages.dev
 
 ## 工具
 
@@ -102,23 +128,31 @@ schema 前缀稳定（工具集与顺序不变则复用）；结果追加在可�
 
 | 版本 | 日期 | 更新 |
 |---|---|---|
+| 0.16.0 | 2026-08-16 | 域驱动重构：dsh-data/alpha/ml/risk/execution ↔ PDAT/PAAT/PCPT/PRT/PET + 交易所容错链（Binance→OKX→Bybit）|
+| 0.15.0 | 2026-08-16 | Kupiec VaR 回测 + 周期聚合 + 研究报告生成；100 单元测试里程碑 |
+| 0.14.0 | 2026-08-16 | 风控模块 quant_risk（VaR/CVaR/Beta/Alpha/IR/TE）|
+| 0.13.0 | 2026-08-16 | 基金模拟 quant_fund（1 亿起、净值 1.00、高水位 20% 提成）+ UI Fund 卡片 |
+| 0.12.0 | 2026-08-16 | 指标目录 quant_metrics（9+ 指标）+ Jane Street 风格 UI demo |
+| 0.11.0 | 2026-08-16 | 图表协议 quant_chart（dsh-chart 数据面）|
+| 0.10.0 | 2026-08-16 | 因子评估 quant_factor_evaluate / combine（alphalens 方法论）|
+| 0.9.0 | 2026-08-16 | 统计 quant_series_stats + 数据质量 quant_data_quality + 标注（致敬 Scale AI）|
+| 0.8.0 | 2026-08-16 | 渠道对比 quant_data_compare + 决策树建议 quant_data_advice |
+| 0.7.0 | 2026-08-16 | mcp/tools.json + 纯函数 re-export + 文档体系 |
 | 0.6.0 | 2026-08-16 | 数据渠道指南 quant_data_guide（A 股 8 大渠道）+ 更名 dsh-quant |
 | 0.5.0 | 2026-08-16 | 多交易所数据源（OKX / Bybit）|
 | 0.4.0 | 2026-08-16 | 多资产组合回测（定期再平衡）|
 | 0.3.0 | 2026-08-16 | 策略族（布林带突破 / RSI 反转）+ 止损止盈 + exitReason |
 | 0.2.0 | 2026-08-16 | +6 指标（KDJ / W%R / CCI / OBV / ADX / ROC）|
-| 0.1.1 | 2026-08-16 | 开源协作设施（CI + 自动发布流水线 + 模板）|
-| 0.1.0 | 2026-08-16 | 首发：行情 + 6 指标 + 双均线回测/网格 |
+| 0.1.0 | 2026-08-16 | 首发：行情 + 6 指标 + 双均线回测/网格 + CI/自动发布 |
 
 完整更新记录见 [NEWS.md](NEWS.md) 与 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 已知限制与后续路线
 
-- **单一数据源（Binance 公共 API）**：只覆盖加密市场，无需凭据。A 股（akshare 需 Python 子进程）等作为后续 provider。
-- **回测仅支持双均线交叉**：更通用的策略回调/参数网格是后续路线。
+- **行情覆盖加密市场**：Binance / OKX / Bybit 三所公共 API（自动容错切换），无需凭据；A 股走渠道知识库导航（akshare 等作为后续 provider）。
+- **回测为内置策略族**：双均线 / 布林带突破 / RSI 反转 / 组合再平衡 / 网格搜索；自定义策略回调是后续路线。
 - **presentCall/presentResult 未定制**：指标结果无文件/终端/diff 语义，UI 走 generic 卡片兜底。
 - **行情工具依赖网络**：在线用例在 verify.ts 中，网络不可达时该用例失败（离线指标/回测用例不受影响）。
-- 未发布：本地开发包名 `dsh-quant`，发布时定 npm scope 并打 `dsh-plugin` topic。构建链（tsc → lib）与消费者场景已验证，`npm pack --dry-run` 通过（7 文件 11.5 kB）。
 
 ## 域结构（PDAT→PET pipeline 映射）
 
@@ -130,10 +164,12 @@ src/dsh-risk/      风控域（PRT）：VaR/CVaR/Beta/Alpha/IR + Kupiec 检验
 src/dsh-execution/ 交付域（PET）：chart 数据面、基金模拟、研究报告（不接实盘）
 ```
 
+**内外边界**：数据与结论留在内部，工具与方法进入 dsh-quant——外部不提供 alpha / 生产策略 / 实盘工程，但提供框架、指标、因子评价、UI 与 demo。详见置顶 [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9)。
+
 ## 快速开始（fork/pull 后）
 
 ```sh
-npm ci && npm run build && npm test    # 离线全测试（50 单元 + 4 Loader）
+npm ci && npm run build && npm test    # 离线全测试（100 单元 + 4 Loader）
 npm run test:verify                    # 真实行情集成（需网络）
 npm run gen:tools                      # 重新生成 mcp/tools.json
 ```
@@ -152,7 +188,7 @@ cd quant-indicators && tsc -p tsconfig.json
 ## 验证
 
 ```sh
-# 纯函数数值正确性 + 行情解析 + 回测（30 用例，node:test，零依赖）
+# 纯函数数值正确性 + 行情解析 + 回测（100 用例，node:test，零依赖）
 cd deepseek-harness && pnpm exec tsx --test ../quant-indicators/tests/indicators.spec.ts ../quant-indicators/tests/market.spec.ts ../quant-indicators/tests/backtest.spec.ts
 
 # REAL-composition：cordis.yml 经真实 Loader boot（4 用例：注册可见/管线/isError/HMR-safety）
@@ -164,3 +200,9 @@ cd deepseek-harness && pnpm exec tsx ../quant-indicators/verify.ts
 # 消费者模拟：真实 node_modules 解析加载构建产物 lib（模拟 npm 安装后）
 cd deepseek-harness && pnpm exec tsx ../quant-indicators/consumer-test/boot.ts
 ```
+
+## ⭐ 支持
+
+如果 dsh-quant 帮到了你的研究，欢迎点个 ⭐——每一颗星都会让更多 dsh 用户看到这个项目。
+
+欢迎 issue / PR / discussion，也欢迎把你的域视角发到 [Discussion #10](https://github.com/pengpengyi92/dsh-quant/discussions/10) 一起交流。🐋
