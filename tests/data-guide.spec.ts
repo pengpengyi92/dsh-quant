@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { DATA_CHANNELS, findChannel, searchChannels } from '../src/data-guide.ts'
+import { DATA_CHANNELS, adviseChannels, compareChannels, findChannel, searchChannels } from '../src/data-guide.ts'
 
 test('知识库：8 个渠道齐全且字段完整', () => {
   assert.equal(DATA_CHANNELS.length, 8)
@@ -44,4 +44,37 @@ test('searchChannels：免费渠道查询', () => {
 
 test('searchChannels：空查询返回全部', () => {
   assert.equal(searchChannels('').length, 8)
+})
+
+test('compareChannels: 覆盖类型排前 + 覆盖标记', () => {
+  const out = compareChannels('财务')
+  assert.equal(out.channels.length, 8)
+  assert.equal(out.channels[0]!.covers, true)
+  assert.ok(out.channels.filter(c => c.covers).length >= 4)
+  const tushare = out.channels.find(c => c.name === 'tushare')!
+  assert.equal(tushare.covers, true)
+})
+
+test('adviseChannels: free + backtest → baostock 优先', () => {
+  const r = adviseChannels({ dataType: '日线', budget: 'free', purpose: 'backtest' })
+  assert.equal(r[0]!.name, 'baostock')
+  assert.match(r[0]!.reason, /回测/)
+})
+
+test('adviseChannels: low budget → tushare 优先', () => {
+  const r = adviseChannels({ dataType: '财务', budget: 'low', purpose: 'research' })
+  assert.equal(r[0]!.name, 'tushare')
+  assert.match(r[0]!.reason, /积分/)
+})
+
+test('adviseChannels: institutional → wind 优先', () => {
+  const r = adviseChannels({ dataType: '行情', budget: 'institutional', purpose: 'research' })
+  assert.equal(r[0]!.name, 'wind')
+  assert.match(r[0]!.reason, /机构/)
+})
+
+test('adviseChannels: official 用途 → 交易所官网优先', () => {
+  const r = adviseChannels({ dataType: '指数', budget: 'free', purpose: 'official' })
+  assert.ok(r.some(x => x.name === 'csindex'))
+  assert.ok(r.every(x => x.rank === r.indexOf(x) + 1)) // 连续排名
 })

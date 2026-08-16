@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.8.0] - 2026-08-16
+
+### Added
+- `quant_data_compare`: per-data-type channel comparison (coverage, cost tier, best-for; covering channels first)
+- `quant_data_advice`: decision-tree recommendations by budget (free/low/institutional) and purpose (research/backtest/official) with reasons
+- 5 decision-tree unit cases
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.7.0] - 2026-08-16
 
 ### Added

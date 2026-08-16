@@ -1,8 +1,8 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T10:00:30.566Z",
-  "toolCount": 19,
+  "generatedAt": "2026-08-16T10:29:08.521Z",
+  "toolCount": 21,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
     {
@@ -654,6 +654,56 @@
             "description": "Exact channel name to fetch one detailed record (takes precedence over query)"
           }
         }
+      }
+    },
+    {
+      "name": "quant_data_compare",
+      "description": "Compare A-share data channels for one data type (e.g. 日线行情, 财务, 宏观, 期货): returns every channel with whether it covers the type, its cost/tier and best-for. Channels that cover the type come first. Pair with quant_data_guide for full channel details.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "dataType": {
+            "type": "string",
+            "description": "Data type to compare, e.g. \"日线行情\", \"财务\", \"宏观\""
+          }
+        },
+        "required": [
+          "dataType"
+        ]
+      }
+    },
+    {
+      "name": "quant_data_advice",
+      "description": "Recommend A-share data channels for a need: data type + budget (free/low/institutional) + purpose (research/backtest/official). Returns a ranked list with reasons. This is channel navigation, not data provisioning — users bring their own credentials and budgets.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "dataType": {
+            "type": "string",
+            "description": "Data type needed, e.g. \"日线行情\", \"财务\""
+          },
+          "budget": {
+            "type": "string",
+            "description": "Budget tier: free (默认) / low (可小额付费如 tushare 积分) / institutional (有机构账号)",
+            "enum": [
+              "free",
+              "low",
+              "institutional"
+            ]
+          },
+          "purpose": {
+            "type": "string",
+            "description": "Purpose: research (默认) / backtest / official (权威合规)",
+            "enum": [
+              "research",
+              "backtest",
+              "official"
+            ]
+          }
+        },
+        "required": [
+          "dataType"
+        ]
       }
     }
   ]

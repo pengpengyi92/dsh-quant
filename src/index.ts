@@ -17,14 +17,14 @@ import { defineTool } from '@deepseek-ai/dsh-tools'
 import { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './indicators.js'
 import { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './backtest.js'
 import { INTERVALS, MARKET_PROVIDERS, fetchKlines } from './market.js'
-import { findChannel, searchChannels } from './data-guide.js'
+import { adviseChannels, compareChannels, findChannel, searchChannels } from './data-guide.js'
 
 // ── 纯函数再导出：非 dsh 环境（任意 Node 项目）直接 import 使用 ──
 // 注意：本插件仍是纯 named-export 函数插件（无 default export），Loader 不受影响。
 export { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './indicators.js'
 export { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './backtest.js'
 export { fetchKlines, parseKlines, parseOkxKlines, parseBybitKlines, INTERVALS, MARKET_PROVIDERS } from './market.js'
-export { DATA_CHANNELS, findChannel, searchChannels } from './data-guide.js'
+export { DATA_CHANNELS, adviseChannels, compareChannels, findChannel, searchChannels } from './data-guide.js'
 
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
@@ -853,6 +853,105 @@ export function apply(ctx: Context) {
       if (args.query === undefined) throw new Error('provide either query or channel')
       const results = searchChannels(args.query).map(r => ({ ...r.channel, matchReason: r.matchReason }))
       return { query: args.query, results }
+    },
+  }))
+  ctx.tools.register(defineTool({
+    name: 'quant_data_compare',
+    description:
+      'Compare A-share data channels for one data type (e.g. 日线行情, 财务, 宏观, 期货): ' +
+      'returns every channel with whether it covers the type, its cost/tier and best-for. ' +
+      'Channels that cover the type come first. Pair with quant_data_guide for full channel details.',
+    parameters: {
+      dataType: { type: 'string', required: true, description: 'Data type to compare, e.g. "日线行情", "财务", "宏观"' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          dataType: { type: 'string' , required: true},
+          channels: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' , required: true},
+                displayName: { type: 'string' , required: true},
+                cost: { type: 'string' , required: true},
+                covers: { type: 'boolean' , required: true},
+                bestFor: { type: 'string' , required: true},
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `channels covering "${args.dataType}": ${value.channels.filter(c => c.covers).map(c => c.displayName).join(', ') || 'none'}`
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return compareChannels(args.dataType)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_data_advice',
+    description:
+      'Recommend A-share data channels for a need: data type + budget (free/low/institutional) + purpose ' +
+      '(research/backtest/official). Returns a ranked list with reasons. ' +
+      'This is channel navigation, not data provisioning — users bring their own credentials and budgets.',
+    parameters: {
+      dataType: { type: 'string', required: true, description: 'Data type needed, e.g. "日线行情", "财务"' },
+      budget: {
+        type: 'string', enum: ['free', 'low', 'institutional'],
+        description: 'Budget tier: free (默认) / low (可小额付费如 tushare 积分) / institutional (有机构账号)',
+      },
+      purpose: {
+        type: 'string', enum: ['research', 'backtest', 'official'],
+        description: 'Purpose: research (默认) / backtest / official (权威合规)',
+      },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          recommendations: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                rank: { type: 'integer' , required: true},
+                name: { type: 'string' , required: true},
+                displayName: { type: 'string' , required: true},
+                reason: { type: 'string' , required: true},
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `advice for ${args.dataType}: ${value.recommendations.map(r => r.displayName).join(' > ') || 'no channel covers this type'}`
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      const recommendations = adviseChannels({
+        dataType: args.dataType,
+        budget: args.budget,
+        purpose: args.purpose,
+      })
+      if (recommendations.length === 0) {
+        throw new Error(`no channel covers data type "${args.dataType}"`)
+      }
+      return { recommendations }
     },
   }))
 }

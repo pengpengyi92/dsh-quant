@@ -1,5 +1,14 @@
 # News
 
+## 0.8.0 — 2026-08-16
+
+**数据指南扩充（19 → 21 工具）**
+
+- `quant_data_compare`：按数据类型对比 8 渠道（覆盖情况 + 费用门槛 + 适用场景）
+- `quant_data_advice`：场景决策树（预算 free/low/institutional × 用途 research/backtest/official → 排序推荐 + 理由）
+- 5 个决策树单测（baostock 回测优先 / tushare 低预算 / wind 机构 / 官方用途）
+
+
 ## 0.7.0 — 2026-08-16
 
 **工程完备化：开箱即用 + 交互 + 依赖治理**

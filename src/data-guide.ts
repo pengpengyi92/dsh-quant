@@ -159,3 +159,81 @@ export function searchChannels(query: string): GuideMatch[] {
   }
   return results
 }
+
+export interface ChannelComparison {
+  name: string
+  displayName: string
+  cost: string
+  /** 是否覆盖所查数据类型 */
+  covers: boolean
+  bestFor: string
+}
+
+/** 按数据类型对比全部渠道：返回覆盖情况 + 费用门槛。 */
+export function compareChannels(dataType: string): { dataType: string; channels: ChannelComparison[] } {
+  const dt = dataType.trim()
+  const channels = DATA_CHANNELS.map(c => ({
+    name: c.name,
+    displayName: c.displayName,
+    cost: c.cost,
+    covers: c.dataTypes.some(t => t === dt || t.includes(dt) || dt.includes(t)),
+    bestFor: c.bestFor,
+  }))
+  // 覆盖的排前
+  channels.sort((a, b) => Number(b.covers) - Number(a.covers))
+  return { dataType: dt, channels }
+}
+
+export interface AdviceRequirements {
+  dataType: string
+  /** free = 免费优先；low = 可少量付费（积分/小额）；institutional = 有机构账号 */
+  budget?: 'free' | 'low' | 'institutional'
+  /** research = 研究探索；backtest = 历史回测；official = 权威/合规 */
+  purpose?: 'research' | 'backtest' | 'official'
+}
+
+export interface AdviceEntry {
+  rank: number
+  name: string
+  displayName: string
+  reason: string
+}
+
+/** 场景决策：按数据类型 + 预算 + 用途给出渠道推荐排序与理由。 */
+export function adviseChannels(requirements: AdviceRequirements): AdviceEntry[] {
+  const { dataType, budget = 'free', purpose = 'research' } = requirements
+  const covered = DATA_CHANNELS.filter(c => c.dataTypes.some(t => t === dataType || t.includes(dataType) || dataType.includes(t)))
+  const entries: AdviceEntry[] = []
+
+  const push = (name: string, reason: string): void => {
+    if (!covered.some(c => c.name === name)) return
+    entries.push({ rank: entries.length + 1, name, displayName: covered.find(c => c.name === name)!.displayName, reason })
+  }
+
+  // 决策树（按预算与用途分叉）
+  if (budget === 'free') {
+    if (purpose === 'backtest') {
+      push('baostock', '免费免注册、历史日线/分钟线与复权因子稳定，回测首选')
+      push('akshare', '免费且覆盖广，回测取数兜底')
+      push('szse', '深市官方日线下载，权威性补充')
+    } else if (purpose === 'official') {
+      push('sse', '上交所官方一手来源')
+      push('szse', '深交所官方一手来源')
+      push('csindex', '指数编制与成分官方来源')
+    } else {
+      push('akshare', '免费聚合最广，研究探索首选')
+      push('baostock', '免费历史数据补充')
+      push('csindex', '指数数据官方免费')
+    }
+  } else if (budget === 'low') {
+    push('tushare', '积分制门槛低（注册即 120 分），结构化全品种')
+    push('akshare', '免费兜底')
+    if (purpose === 'backtest') push('baostock', '历史数据稳定')
+    if (purpose === 'official') push('sse', '官方来源补充')
+  } else {
+    push('wind', '机构级全量与研报，A 股数据质量事实标准')
+    push('ifind', '同花顺生态机构数据')
+    push('tushare', '补充（积分可购）')
+  }
+  return entries
+}
