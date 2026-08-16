@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.13.2] - 2026-08-16
+
+### Changed
+- Ship demos/ in the npm package (R&D workflow, Jane Street-style UI demo,
+  standalone HTML, demo data + generator, UI preview PNG)
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.13.1] - 2026-08-16
 
 ### Fixed
