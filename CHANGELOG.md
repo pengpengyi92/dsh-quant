@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.1.1] - 2026-08-16
+
+### Added
+- Open-source collaboration loop: CONTRIBUTING.md, issue/PR templates,
+  GitHub Actions CI (build + 30 tests + typecheck), tag-triggered release
+  workflow, README badges
+- Clean package-lock.json; local development no longer requires the
+  deepseek-harness checkout (real npm dependencies)
+- `prepublishOnly` gate: build + full tests before any publish
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.1.0] - 2026-08-16
 
 ### Added
