@@ -19,6 +19,7 @@ import { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortf
 import { INTERVALS, MARKET_PROVIDERS, fetchKlines } from './market.js'
 import { adviseChannels, compareChannels, findChannel, searchChannels } from './data-guide.js'
 import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './stats.js'
+import { combineFactors, factorEvaluate } from './factor.js'
 
 // ── 纯函数再导出：非 dsh 环境（任意 Node 项目）直接 import 使用 ──
 // 注意：本插件仍是纯 named-export 函数插件（无 default export），Loader 不受影响。
@@ -27,6 +28,7 @@ export { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortf
 export { fetchKlines, parseKlines, parseOkxKlines, parseBybitKlines, INTERVALS, MARKET_PROVIDERS } from './market.js'
 export { DATA_CHANNELS, adviseChannels, compareChannels, findChannel, searchChannels } from './data-guide.js'
 export { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './stats.js'
+export { combineFactors, factorEvaluate } from './factor.js'
 
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
@@ -1137,6 +1139,97 @@ export function apply(ctx: Context) {
     isConcurrencySafe: () => true,
     async execute(args) {
       return annotateSeries(args.values, args.jumpThreshold)
+    },
+  }))
+  ctx.tools.register(defineTool({
+    name: 'quant_factor_evaluate',
+    description:
+      'Evaluate a predictive factor against forward returns (alphalens-style): IC (Pearson of factor vs next-period return), ' +
+      'ICIR (rolling-IC stability), quantile bucket returns (default 5 groups by factor value), long-short spread, ' +
+      'turnover (group-change frequency) and factor autocorrelation. ' +
+      'Pass single-asset time series (factor[i] predicts forwardReturns[i+1]) or flattened cross-sections. ' +
+      'This plugin ships methods, not data — adapt your own series.',
+    parameters: {
+      factorValues: { type: 'array', items: { type: 'number' }, required: true, description: 'Factor values over time, oldest first' },
+      forwardReturns: { type: 'array', items: { type: 'number' }, required: true, description: 'Next-period returns aligned so factor[i] predicts forwardReturns[i+1]' },
+      quantiles: { type: 'integer', description: 'Number of quantile buckets, default 5' },
+      window: { type: 'integer', description: 'Rolling-IC window, default 20' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          ic: { type: 'number' , required: true},
+          icir: { type: 'number' , required: true},
+          icSeries: { type: 'array', items: { type: 'number' }, required: true},
+          quantileReturns: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                quantile: { type: 'integer', required: true },
+                meanReturn: { type: 'number', required: true },
+                count: { type: 'integer', required: true },
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+          longShort: { type: 'number' , required: true},
+          turnover: { type: 'number' , required: true},
+          autocorr1: { type: 'number' , required: true},
+          n: { type: 'integer' , required: true},
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `factor eval (n=${value.n}): IC ${value.ic.toFixed(4)}, ICIR ${value.icir.toFixed(3)}, ` +
+          `long-short ${value.longShort.toFixed(4)}, turnover ${value.turnover.toFixed(3)}, autocorr ${value.autocorr1.toFixed(3)}`
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return factorEvaluate(args.factorValues, args.forwardReturns, args.quantiles, args.window)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_factor_combine',
+    description:
+      'Combine multiple factors into one signal: z-score standardize each factor, weighted-sum (default equal weight), ' +
+      'then cross-sectional rank-normalize to 0..1 (higher = better). Pass factor arrays of equal length. ' +
+      'Use quant_factor_evaluate on the combined signal to validate it.',
+    parameters: {
+      factors: {
+        type: 'array', items: { type: 'array', items: { type: 'number' } },
+        required: true,
+        description: 'Factor series of equal length, e.g. [[momentum...], [reversal...]]',
+      },
+      weights: {
+        type: 'array', items: { type: 'number' },
+        description: 'Optional weights summing to 1; defaults to equal weight',
+      },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          signal: { type: 'array', items: { type: 'number' }, required: true},
+          effectiveWeights: { type: 'array', items: { type: 'number' }, required: true},
+          factorCount: { type: 'integer' , required: true},
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `combined signal from ${value.factorCount} factors (${value.effectiveWeights.map(w => w.toFixed(2)).join('/')}), ` +
+          `range ${Math.min(...value.signal).toFixed(3)}..${Math.max(...value.signal).toFixed(3)}`
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return combineFactors(args.factors, args.weights)
     },
   }))
 }

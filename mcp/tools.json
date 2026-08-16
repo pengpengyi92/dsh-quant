@@ -1,8 +1,8 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T10:50:06.814Z",
-  "toolCount": 25,
+  "generatedAt": "2026-08-16T11:19:07.682Z",
+  "toolCount": 27,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
     {
@@ -816,6 +816,70 @@
         },
         "required": [
           "values"
+        ]
+      }
+    },
+    {
+      "name": "quant_factor_evaluate",
+      "description": "Evaluate a predictive factor against forward returns (alphalens-style): IC (Pearson of factor vs next-period return), ICIR (rolling-IC stability), quantile bucket returns (default 5 groups by factor value), long-short spread, turnover (group-change frequency) and factor autocorrelation. Pass single-asset time series (factor[i] predicts forwardReturns[i+1]) or flattened cross-sections. This plugin ships methods, not data — adapt your own series.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "factorValues": {
+            "type": "array",
+            "description": "Factor values over time, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "forwardReturns": {
+            "type": "array",
+            "description": "Next-period returns aligned so factor[i] predicts forwardReturns[i+1]",
+            "items": {
+              "type": "number"
+            }
+          },
+          "quantiles": {
+            "type": "integer",
+            "description": "Number of quantile buckets, default 5"
+          },
+          "window": {
+            "type": "integer",
+            "description": "Rolling-IC window, default 20"
+          }
+        },
+        "required": [
+          "factorValues",
+          "forwardReturns"
+        ]
+      }
+    },
+    {
+      "name": "quant_factor_combine",
+      "description": "Combine multiple factors into one signal: z-score standardize each factor, weighted-sum (default equal weight), then cross-sectional rank-normalize to 0..1 (higher = better). Pass factor arrays of equal length. Use quant_factor_evaluate on the combined signal to validate it.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "factors": {
+            "type": "array",
+            "description": "Factor series of equal length, e.g. [[momentum...], [reversal...]]",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          "weights": {
+            "type": "array",
+            "description": "Optional weights summing to 1; defaults to equal weight",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "factors"
         ]
       }
     }

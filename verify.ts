@@ -23,7 +23,7 @@ const call = (name: string, args: Record<string, unknown>) =>
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 25) throw new Error(`expected 25 tools, got ${names.length}`)
+if (names.length !== 27) throw new Error(`expected 27 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -211,6 +211,27 @@ const g4 = await call('quant_data_guide', { channel: 'nope' })
 assert(g4.isError, 'unknown channel must be an error')
 console.log('guide "tushare":', g1.value.results[0].displayName, '| cost:', g1.value.results[0].cost.slice(0, 24), '…')
 console.log('guide "财务" hits:', g2.value.results.map(r => r.name).join(', '))
+
+
+// 14) 因子评估（真实 BTC 数据：ROC 因子 → 未来收益）
+console.log('\n=== factor eval (real data) ===')
+const rocR = await call('quant_roc', { values: btCloses, window: 10 })
+assert(!rocR.isError, 'roc should succeed')
+const rocVals = rocR.value.values.filter(v => v !== null)
+const rets = btCloses.slice(1).map((c, i) => c / btCloses[i] - 1)
+// ROC 有效区间：原始 index 10..119（110 个）；rets 原始 index 0..118（119 个）
+// 对齐：rocVals[i]（原始 index 10+i）预测 rets[10+i]（原始 index 10+i 的下一期）
+const fe = await call('quant_factor_evaluate', {
+  factorValues: rocVals.slice(0, 100),
+  forwardReturns: rets.slice(10, 110),
+  quantiles: 5,
+  window: 20,
+})
+assert(!fe.isError, 'factor eval should succeed')
+console.log('ROC factor:      IC', fe.value.ic.toFixed(4), '| ICIR', fe.value.icir.toFixed(3), '| longShort', fe.value.longShort.toFixed(4), '| turnover', fe.value.turnover.toFixed(3))
+const fc = await call('quant_factor_combine', { factors: [[1, 2, 3, 4, 5], [5, 4, 3, 2, 1]] })
+assert(!fc.isError && fc.value.signal.length === 5, 'factor combine should succeed')
+console.log('combine demo:    signal', JSON.stringify(fc.value.signal.map(x => x.toFixed(3))))
 
 console.log('\n✅ all quant-indicators checks passed')
 

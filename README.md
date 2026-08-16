@@ -22,6 +22,8 @@ fork/pull 下来 → `npm ci` → `npm test` 即可通过、直接使用（详�
 | `quant_data_compare` | `dataType`（如 "财务"/"日线行情"）| `{ dataType, channels: [{ name, cost, covers, bestFor }] }`（覆盖者排前）| — |
 | `quant_data_advice` | `dataType` + `budget`（free/low/institutional）+ `purpose`（research/backtest/official）| `{ recommendations: [{ rank, name, reason }] }`（决策树排序）| — |
 | `quant_series_stats` | `values: number[]` | `{ count, mean, std, min, max, median, skew, kurtosis, autocorr1, annualizedVol, totalReturnPct }` | —（取数后第一步）|
+| `quant_factor_evaluate` | `factorValues` + `forwardReturns`（factor[i] 预测 ret[i+1]）+ `quantiles=5` + `window=20` | `{ ic, icir, icSeries, quantileReturns, longShort, turnover, autocorr1, n }`（alphalens 指标集）| — |
+| `quant_factor_combine` | `factors: number[][]`（等长）+ `weights?` | `{ signal(rank 0..1), effectiveWeights, factorCount }` | —（z-score 加权 + 截面排序）|
 | `quant_series_quality` | `values: number[]`, `jumpThreshold=0.2` | `{ count, missingCount, zOutliers, jumps, longestConstantRun, healthy }` | —（序列级质量）|
 | `quant_data_annotate` | `values: number[]`, `jumpThreshold=0.2` | `{ count, annotations: [{index, label, severity, detail}], summary }` | —（点级标注，致敬 Scale AI）|
 | `quant_data_quality` | `candles`（quant_market_fetch 输出）| `{ count, highBelowLow, nonPositive, timeNotIncreasing, timeGaps, extremeMoves, healthy }` | —（分析前健康检查）|

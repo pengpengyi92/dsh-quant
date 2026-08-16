@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.10.0] - 2026-08-16
+
+### Added
+- `quant_factor_evaluate`: alphalens-methodology factor evaluation (IC/ICIR/
+  quantile returns/long-short/turnover/autocorrelation), pure functions
+- `quant_factor_combine`: multi-factor z-score weighting + cross-sectional
+  rank normalization
+- Ecosystem research log (alphalens/qlib/RD-Agent landscape + differentiation)
+- 6 hand-computed factor cases; live BTC ROC-factor verification
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.9.1] - 2026-08-16
 
 ### Added

@@ -1,5 +1,15 @@
 # News
 
+## 0.10.0 — 2026-08-16
+
+**因子实验室（25 → 27 工具）—— R&D 助手主干补齐**
+
+- `quant_factor_evaluate`：alphalens 指标集纯函数版（IC/ICIR/分位数分层/多空价差/换手/自相关）
+- `quant_factor_combine`：多因子 z-score 加权 + 截面 rank 归一化
+- 因子生态调研 log（alphalens/qlib/RD-Agent/AlphaInspect 全景 + 差异化定位）
+- 6 个手算单测；真实 BTC ROC 因子实测（IC -0.05，横盘动量无效——诚实结果）
+
+
 ## 0.9.1 — 2026-08-16
 
 **数据标注 + 序列质量（23 → 25 工具）+ 七维文件夹**
