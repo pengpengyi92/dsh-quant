@@ -22,6 +22,7 @@ fork/pull 下来 → `npm ci` → `npm test` 即可通过、直接使用（详�
 | `quant_data_compare` | `dataType`（如 "财务"/"日线行情"）| `{ dataType, channels: [{ name, cost, covers, bestFor }] }`（覆盖者排前）| — |
 | `quant_data_advice` | `dataType` + `budget`（free/low/institutional）+ `purpose`（research/backtest/official）| `{ recommendations: [{ rank, name, reason }] }`（决策树排序）| — |
 | `quant_series_stats` | `values: number[]` | `{ count, mean, std, min, max, median, skew, kurtosis, autocorr1, annualizedVol, totalReturnPct }` | —（取数后第一步）|
+| `quant_chart` | `kind`（candles/series/annotations）+ 对应数据 | 结构化图表数据（dsh-chart 协议：K线+叠加+标记 / 多序列 / 标注可视化）| —（UI 路线数据面）|
 | `quant_factor_evaluate` | `factorValues` + `forwardReturns`（factor[i] 预测 ret[i+1]）+ `quantiles=5` + `window=20` | `{ ic, icir, icSeries, quantileReturns, longShort, turnover, autocorr1, n }`（alphalens 指标集）| — |
 | `quant_factor_combine` | `factors: number[][]`（等长）+ `weights?` | `{ signal(rank 0..1), effectiveWeights, factorCount }` | —（z-score 加权 + 截面排序）|
 | `quant_series_quality` | `values: number[]`, `jumpThreshold=0.2` | `{ count, missingCount, zOutliers, jumps, longestConstantRun, healthy }` | —（序列级质量）|

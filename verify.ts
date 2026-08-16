@@ -23,7 +23,7 @@ const call = (name: string, args: Record<string, unknown>) =>
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 27) throw new Error(`expected 27 tools, got ${names.length}`)
+if (names.length !== 28) throw new Error(`expected 28 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -232,6 +232,28 @@ console.log('ROC factor:      IC', fe.value.ic.toFixed(4), '| ICIR', fe.value.ic
 const fc = await call('quant_factor_combine', { factors: [[1, 2, 3, 4, 5], [5, 4, 3, 2, 1]] })
 assert(!fc.isError && fc.value.signal.length === 5, 'factor combine should succeed')
 console.log('combine demo:    signal', JSON.stringify(fc.value.signal.map(x => x.toFixed(3))))
+
+
+// 15) chart 数据面（真实数据：K线+均线叠加 / 回测净值+标记 / 标注图）
+console.log('\n=== chart data (real data) ===')
+const sma20 = await call('quant_sma', { values: btCloses, window: 20 })
+const c1 = await call('quant_chart', {
+  kind: 'candles', title: 'BTCUSDT with SMA20',
+  candles: history.value.candles,
+  overlays: [{ name: 'SMA20', values: sma20.value.values }],
+  markers: bt.value.trades.filter(t => t.exitIndex !== null).map(t => ({ index: t.entryIndex, kind: 'entry' })),
+})
+assert(!c1.isError, 'candles chart should succeed')
+assert(c1.value.candles.length === 120 && c1.value.overlays[0].values.length === 120, 'chart shape')
+const c2 = await call('quant_chart', { kind: 'series', title: 'equity', series: [{ name: 'MA5/20', values: bt.value.equityCurve }] })
+assert(!c2.isError && c2.value.series[0].values.length === 120, 'series chart')
+const c3 = await call('quant_chart', {
+  kind: 'annotations', title: 'BTC closes', values: btCloses,
+  annotations: [{ index: 10, label: 'example', severity: 1 }],
+})
+assert(!c3.isError && c3.value.annotations.length === 1, 'annotation chart')
+console.log('candles chart:   120 bars + SMA20 overlay ✓')
+console.log('series chart:    equity 120 pts ✓ | annotation chart: 1 label ✓')
 
 console.log('\n✅ all quant-indicators checks passed')
 

@@ -1,8 +1,8 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T11:19:07.682Z",
-  "toolCount": 27,
+  "generatedAt": "2026-08-16T12:16:19.051Z",
+  "toolCount": 28,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
     {
@@ -880,6 +880,196 @@
         },
         "required": [
           "factors"
+        ]
+      }
+    },
+    {
+      "name": "quant_chart",
+      "description": "Build structured chart data (dsh-chart protocol) for a frontend renderer: kind candles (K-lines + overlay series like SMA + entry/exit/stop/target markers), kind series (equity curves, IC series), or kind annotations (series + point-level labels with severity 1/2/3). Feed it quant_market_fetch candles, indicator outputs, backtest trades, or quant_data_annotate results. The chart data is renderer-neutral — dsh-quant-ui consumes it.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "Chart kind",
+            "enum": [
+              "candles",
+              "series",
+              "annotations"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "description": "Chart title"
+          },
+          "candles": {
+            "type": "array",
+            "description": "For kind candles: OHLCV candles from quant_market_fetch",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "openTime": {
+                  "type": "integer"
+                },
+                "open": {
+                  "type": "number"
+                },
+                "high": {
+                  "type": "number"
+                },
+                "low": {
+                  "type": "number"
+                },
+                "close": {
+                  "type": "number"
+                },
+                "volume": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "openTime",
+                "open",
+                "high",
+                "low",
+                "close",
+                "volume"
+              ]
+            }
+          },
+          "overlays": {
+            "type": "array",
+            "description": "For kind candles: overlay series (e.g. SMA/EMA aligned to candles)",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "values": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "name",
+                "values"
+              ]
+            }
+          },
+          "markers": {
+            "type": "array",
+            "description": "For kind candles: trade markers at candle indices",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "index": {
+                  "type": "integer"
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "entry",
+                    "exit",
+                    "stop",
+                    "target"
+                  ]
+                }
+              },
+              "required": [
+                "index",
+                "kind"
+              ]
+            }
+          },
+          "series": {
+            "type": "array",
+            "description": "For kind series: named series (e.g. equity curve)",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "values": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "name",
+                "values"
+              ]
+            }
+          },
+          "values": {
+            "type": "array",
+            "description": "For kind annotations: the base series",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "annotations": {
+            "type": "array",
+            "description": "For kind annotations: point-level labels (from quant_data_annotate)",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "index": {
+                  "type": "integer"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "severity": {
+                  "type": "integer",
+                  "enum": [
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              },
+              "required": [
+                "index",
+                "label",
+                "severity"
+              ]
+            }
+          }
+        },
+        "required": [
+          "kind"
         ]
       }
     }

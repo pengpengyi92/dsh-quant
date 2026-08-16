@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.11.0] - 2026-08-16
+
+### Added
+- `quant_chart`: renderer-neutral chart data (dsh-chart protocol) — candles
+  (with overlays and trade markers), series, and annotation views
+- Pure chart builders (chartCandles / chartSeries / chartBacktest /
+  chartAnnotate); 4 hand-computed cases; live verification
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.10.1] - 2026-08-16
 
 ### Added

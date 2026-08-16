@@ -20,6 +20,7 @@ import { INTERVALS, MARKET_PROVIDERS, fetchKlines } from './market.js'
 import { adviseChannels, compareChannels, findChannel, searchChannels } from './data-guide.js'
 import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './stats.js'
 import { combineFactors, factorEvaluate } from './factor.js'
+import { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './chart.js'
 
 // ── 纯函数再导出：非 dsh 环境（任意 Node 项目）直接 import 使用 ──
 // 注意：本插件仍是纯 named-export 函数插件（无 default export），Loader 不受影响。
@@ -29,6 +30,7 @@ export { fetchKlines, parseKlines, parseOkxKlines, parseBybitKlines, INTERVALS, 
 export { DATA_CHANNELS, adviseChannels, compareChannels, findChannel, searchChannels } from './data-guide.js'
 export { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './stats.js'
 export { combineFactors, factorEvaluate } from './factor.js'
+export { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './chart.js'
 
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
@@ -1230,6 +1232,119 @@ export function apply(ctx: Context) {
     isConcurrencySafe: () => true,
     async execute(args) {
       return combineFactors(args.factors, args.weights)
+    },
+  }))
+  ctx.tools.register(defineTool({
+    name: 'quant_chart',
+    description:
+      'Build structured chart data (dsh-chart protocol) for a frontend renderer: ' +
+      'kind candles (K-lines + overlay series like SMA + entry/exit/stop/target markers), ' +
+      'kind series (equity curves, IC series), or kind annotations (series + point-level labels with severity 1/2/3). ' +
+      'Feed it quant_market_fetch candles, indicator outputs, backtest trades, or quant_data_annotate results. ' +
+      'The chart data is renderer-neutral — dsh-quant-ui consumes it.',
+    parameters: {
+      kind: { type: 'string', enum: ['candles', 'series', 'annotations'], required: true, description: 'Chart kind' },
+      title: { type: 'string', description: 'Chart title' },
+      candles: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            openTime: { type: 'integer', required: true },
+            open: { type: 'number', required: true },
+            high: { type: 'number', required: true },
+            low: { type: 'number', required: true },
+            close: { type: 'number', required: true },
+            volume: { type: 'number', required: true },
+          },
+          additionalProperties: false,
+        },
+        description: 'For kind candles: OHLCV candles from quant_market_fetch',
+      },
+      overlays: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: { type: 'string', required: true },
+            values: { type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] }, required: true },
+          },
+          additionalProperties: false,
+        },
+        description: 'For kind candles: overlay series (e.g. SMA/EMA aligned to candles)',
+      },
+      markers: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            index: { type: 'integer', required: true },
+            kind: { type: 'string', enum: ['entry', 'exit', 'stop', 'target'], required: true },
+          },
+          additionalProperties: false,
+        },
+        description: 'For kind candles: trade markers at candle indices',
+      },
+      series: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: { type: 'string', required: true },
+            values: { type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] }, required: true },
+          },
+          additionalProperties: false,
+        },
+        description: 'For kind series: named series (e.g. equity curve)',
+      },
+      values: {
+        type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] },
+        description: 'For kind annotations: the base series',
+      },
+      annotations: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            index: { type: 'integer', required: true },
+            label: { type: 'string', required: true },
+            severity: { type: 'integer', enum: [1, 2, 3], required: true },
+          },
+          additionalProperties: false,
+        },
+        description: 'For kind annotations: point-level labels (from quant_data_annotate)',
+      },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          kind: { type: 'string' , required: true},
+          title: { type: 'string' , required: true},
+          candles: { type: 'array', items: { type: 'object', additionalProperties: true } },
+          overlays: { type: 'array', items: { type: 'object', additionalProperties: true } },
+          markers: { type: 'array', items: { type: 'object', additionalProperties: true } },
+          series: { type: 'array', items: { type: 'object', additionalProperties: true } },
+          values: { type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] } },
+          annotations: { type: 'array', items: { type: 'object', additionalProperties: true } },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `chart data (${value.kind}) "${value.title}": ${value.kind === 'candles' ? `${value.candles?.length ?? 0} candles` : value.kind === 'series' ? `${value.series?.length ?? 0} series` : `${value.annotations?.length ?? 0} annotations`}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      const title = args.title ?? 'chart'
+      if (args.kind === 'candles') {
+        return chartCandles(args.candles ?? [], args.overlays ?? [], args.markers ?? [], title)
+      }
+      if (args.kind === 'series') {
+        return chartSeries(args.series ?? [], title)
+      }
+      return chartAnnotate(args.values ?? [], args.annotations ?? [], title)
     },
   }))
 }

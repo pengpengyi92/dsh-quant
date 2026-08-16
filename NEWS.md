@@ -1,5 +1,15 @@
 # News
 
+## 0.11.0 — 2026-08-16
+
+**chart 数据面（27 → 28 工具）— UI 引爆路线第一步**
+
+- `quant_chart`：结构化图表数据（dsh-chart 协议）——candles（K线+均线叠加+买卖点标记）/ series（净值、IC 序列）/ annotations（点级标注可视化）
+- 纯函数 chart.ts（chartCandles/chartSeries/chartBacktest/chartAnnotate）零依赖
+- 4 个手算单测；真实数据验证（120 根 K 线 + SMA20 叠加 + 标注图）
+- 设计文档 log/2026-08-16_ui_chart_design.md + Issue #6（UI 征集）
+
+
 ## 0.10.1 — 2026-08-16
 
 **R&D 工作流 demo + 方法论文档**

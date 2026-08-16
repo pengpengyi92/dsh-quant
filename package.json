@@ -48,7 +48,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test:unit": "tsx --test tests/indicators.spec.ts tests/indicators-extra.spec.ts tests/market.spec.ts tests/backtest.spec.ts tests/strategies.spec.ts tests/data-guide.spec.ts tests/stats.spec.ts tests/factor.spec.ts",
+    "test:unit": "tsx --test tests/indicators.spec.ts tests/indicators-extra.spec.ts tests/market.spec.ts tests/backtest.spec.ts tests/strategies.spec.ts tests/data-guide.spec.ts tests/stats.spec.ts tests/factor.spec.ts tests/chart.spec.ts",
     "test:loader": "tsx --test tests/loader-composition.spec.ts",
     "test:verify": "tsx verify.ts",
     "test": "npm run test:unit && npm run test:loader",
