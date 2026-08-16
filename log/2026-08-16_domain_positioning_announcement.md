@@ -29,3 +29,10 @@
 - ⏳ awesome-dsh-plugin PR #958 待 maintainer merge（mergeable UNKNOWN）
 - ⏳ X 发布 + bio 挂 GitHub 链接（用户侧操作）
 - 基线：3 stars / 0 forks
+
+## 追加：X 求星宣发（同日）
+- ✅ X 推文已发布：pulse 自评 40/C + 「点一颗 ⭐ 帮它上 B 级」钩子（用户侧手动发布，链接待补录）
+- ✅ 发布后即时狗粮复测：stars 3 | forks 0 | issues 7 | PRs 0 | npm 7d downloads 0 → pulse 40/C
+- 📌 观察点：7 个 open issue 多为征集帖（邀请性质），pulse 健康分把它们计为积压 →
+  0.18.0 候选：healthScore 区分 invitation/征集标签 或按 issue 年龄加权
+- 📌 观察点：npm downloads API 对新发布包有滞后（7d=0），下载分档短期失真
