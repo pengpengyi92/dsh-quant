@@ -1,8 +1,8 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T16:39:28.725Z",
-  "toolCount": 43,
+  "generatedAt": "2026-08-16T23:20:01.045Z",
+  "toolCount": 44,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
     {
@@ -1572,6 +1572,43 @@
         "required": [
           "close",
           "orders"
+        ]
+      }
+    },
+    {
+      "name": "quant_bond",
+      "description": "Fixed-income analytics (FICC methods, no positions): bond pricing from yield (or yield from price via bisection), Macaulay duration, modified duration, convexity and DV01. Textbook cash-flow discounting at paymentsPerYear periods — day-count and curve conventions are out of scope. Provide exactly one of ytm or price. Public methods only; positions and execution support stay internal.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "faceValue": {
+            "type": "number",
+            "description": "Face value, default 100"
+          },
+          "couponRate": {
+            "type": "number",
+            "description": "Annual coupon rate as a decimal, e.g. 0.03"
+          },
+          "periodsToMaturity": {
+            "type": "number",
+            "description": "Years to maturity (> 0)"
+          },
+          "paymentsPerYear": {
+            "type": "integer",
+            "description": "Coupon payments per year 1/2/4/12, default 2"
+          },
+          "ytm": {
+            "type": "number",
+            "description": "Yield to maturity as a decimal (alternative to price)"
+          },
+          "price": {
+            "type": "number",
+            "description": "Full price (alternative to ytm)"
+          }
+        },
+        "required": [
+          "couponRate",
+          "periodsToMaturity"
         ]
       }
     },

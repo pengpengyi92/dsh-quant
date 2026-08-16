@@ -32,7 +32,7 @@ async function fetchWithFallback(symbol: string, interval: string, limit: number
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 43) throw new Error(`expected 43 tools, got ${names.length}`)
+if (names.length !== 44) throw new Error(`expected 44 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -388,6 +388,13 @@ assert(pipe.value.report.includes('Quant Research Report'), 'pipeline report')
 assert(pipe.value.charts.candles.kind === 'candles' && pipe.value.charts.equity.kind === 'series', 'pipeline charts')
 console.log('pipeline:        120 candles → return', pipe.value.metrics.totalReturnPct.toFixed(2) + '%', '| maxDD', pipe.value.metrics.maxDrawdownPct.toFixed(2) + '%', '| NAV', pipe.value.fund.finalNavNet.toFixed(4))
 console.log('                 drawdown periods', pipe.value.drawdown.periods.length, '| factor n', pipe.value.factor.n)
+
+// 22b) 债券分析（FICC 联动，手算基准走完整管线）
+console.log('\n=== bond analytics (FICC link) ===')
+const bondR = await call('quant_bond', { couponRate: 0.03, periodsToMaturity: 2, paymentsPerYear: 1, ytm: 0.04 })
+assert(!bondR.isError, 'quant_bond should succeed')
+assert(Math.abs(bondR.value.price - (3 / 1.04 + 103 / 1.04 ** 2)) < 1e-6, 'bond price hand-computed')
+console.log('bond 2y 3%@4%:   price', bondR.value.price.toFixed(4), '| YTM', (bondR.value.yieldToMaturity * 100).toFixed(4) + '%', '| Mac', bondR.value.macaulayDuration.toFixed(4), '| Mod', bondR.value.modifiedDuration.toFixed(4), '| DV01', bondR.value.dv01.toFixed(6))
 
 // 23) 线性模型（真实 BTC 动量特征 → fit/predict/test IC）
 console.log('\n=== linear model (live BTC features) ===')

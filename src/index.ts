@@ -33,6 +33,7 @@ import { factorNeutralize } from './dsh-alpha/factor.js'
 import { walkForward } from './dsh-ml/walkforward.js'
 import { evaluatePredictions, fitLinearModel, predictLinearModel } from './dsh-ml/linear.js'
 import { drawdownAnalysis } from './dsh-risk/drawdown.js'
+import { bondAnalytics } from './dsh-risk/bond.js'
 import { executeSimulate } from './dsh-execution/execute.js'
 import { researchPipeline } from './dsh-execution/pipeline.js'
 import { assertAShareSymbol, assertYahooSymbol } from './dsh-data/market.js'
@@ -56,6 +57,7 @@ export { factorNeutralize } from './dsh-alpha/factor.js'
 export { walkForward } from './dsh-ml/walkforward.js'
 export { evaluatePredictions, fitLinearModel, predictLinearModel } from './dsh-ml/linear.js'
 export { drawdownAnalysis } from './dsh-risk/drawdown.js'
+export { bondAnalytics, priceFromYield, yieldFromPrice } from './dsh-risk/bond.js'
 export { executeSimulate } from './dsh-execution/execute.js'
 export { researchPipeline, researchMultiAsset } from './dsh-execution/pipeline.js'
 
@@ -2071,6 +2073,58 @@ export function apply(ctx: Context) {
         feeRate: args.feeRate,
         slippageBps: args.slippageBps,
         latencyBars: args.latencyBars,
+      })
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_bond',
+    description:
+      'Fixed-income analytics (FICC methods, no positions): bond pricing from yield (or yield from price via ' +
+      'bisection), Macaulay duration, modified duration, convexity and DV01. Textbook cash-flow discounting at ' +
+      'paymentsPerYear periods — day-count and curve conventions are out of scope. ' +
+      'Provide exactly one of ytm or price. Public methods only; positions and execution support stay internal.',
+    parameters: {
+      faceValue: { type: 'number', description: 'Face value, default 100' },
+      couponRate: { type: 'number', required: true, description: 'Annual coupon rate as a decimal, e.g. 0.03' },
+      periodsToMaturity: { type: 'number', required: true, description: 'Years to maturity (> 0)' },
+      paymentsPerYear: { type: 'integer', description: 'Coupon payments per year 1/2/4/12, default 2' },
+      ytm: { type: 'number', description: 'Yield to maturity as a decimal (alternative to price)' },
+      price: { type: 'number', description: 'Full price (alternative to ytm)' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          faceValue: { type: 'number', required: true },
+          couponRate: { type: 'number', required: true },
+          periodsToMaturity: { type: 'number', required: true },
+          paymentsPerYear: { type: 'integer', required: true },
+          price: { type: 'number', required: true },
+          yieldToMaturity: { type: 'number', required: true },
+          macaulayDuration: { type: 'number', required: true },
+          modifiedDuration: { type: 'number', required: true },
+          convexity: { type: 'number', required: true },
+          dv01: { type: 'number', required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{
+        type: 'text',
+        text: `bond: price ${value.price.toFixed(4)}, YTM ${(value.yieldToMaturity * 100).toFixed(4)}%, ` +
+          `Macaulay ${value.macaulayDuration.toFixed(4)}y, modified ${value.modifiedDuration.toFixed(4)}y, ` +
+          `convexity ${value.convexity.toFixed(4)}, DV01 ${value.dv01.toFixed(6)}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return bondAnalytics({
+        faceValue: args.faceValue,
+        couponRate: args.couponRate,
+        periodsToMaturity: args.periodsToMaturity,
+        paymentsPerYear: args.paymentsPerYear,
+        ytm: args.ytm,
+        price: args.price,
       })
     },
   }))

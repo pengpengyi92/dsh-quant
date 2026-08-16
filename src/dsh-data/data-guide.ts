@@ -190,6 +190,30 @@ export const DATA_CHANNELS: DataChannel[] = [
     bestFor: 'agent-native 金融数据研究的先行者项目，方法论与接口设计值得学习',
     notes: 'dsh-quant issue #2 的首个数据接口示例来源',
   },
+  {
+    name: 'chinabond',
+    displayName: '中债登（中国债券信息网）',
+    category: 'official-exchange',
+    url: 'https://www.chinabond.com.cn',
+    cost: '估值数据免费（注册后）',
+    dataTypes: ['债券估值', '收益率曲线', '债券指数', '托管数据'],
+    setup: ['中国债券信息网注册', '中债估值/收益率曲线按需下载', '机构可申请数据接口'],
+    tutorialUrls: ['https://www.chinabond.com.cn/'],
+    bestFor: '人民币债券官方估值与收益率曲线（FICC 研究基准数据）',
+    notes: 'dsh-quant 债券分析（quant_bond）的输入可用中债估值收益率',
+  },
+  {
+    name: 'cfets',
+    displayName: 'CFETS 交易中心',
+    category: 'official-exchange',
+    url: 'https://www.chinamoney.com.cn',
+    cost: '部分数据免费',
+    dataTypes: ['成交行情', '收益率曲线', '资金利率', '外汇', '利率互换'],
+    setup: ['中国货币网数据下载', '本币交易系统数据（机构）'],
+    tutorialUrls: ['https://www.chinamoney.com.cn/'],
+    bestFor: '银行间市场成交与资金利率（FICC 联动数据）',
+    notes: '与 PFIC（内部 FICC）同数据源语言；公开侧只引用公开数据',
+  },
 ]
 
 /** 按渠道名精确查找。 */

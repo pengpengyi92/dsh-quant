@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.21.0] - 2026-08-17
+
+### Added
+- `quant_bond`: fixed-income analytics (FICC link with the internal PFIC line) —
+  price ⇄ yield (bisection), Macaulay/modified duration, convexity, DV01 with
+  payments-per-year support (44 tools total)
+- `quant_data_guide` knowledge base 13 → 15 channels: ChinaBond (chinabond)
+  and CFETS (cfets) bond data sources
+- 6 hand-computed bond cases (annual coupon, zero-coupon, semi-annual par,
+  price-yield roundtrip, preconditions)
+
+### Notes
+- Public side ships methods only: day-count, curve construction and
+  continuous-compounding conventions stay internal (PFIC)
+
 ## [0.20.0] - 2026-08-16
 
 ### Added
