@@ -23,7 +23,7 @@ const call = (name: string, args: Record<string, unknown>) =>
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 9) throw new Error(`expected 9 tools, got ${names.length}`)
+if (names.length !== 15) throw new Error(`expected 15 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -131,6 +131,23 @@ assert(grid.value.best.totalReturnPct >= grid.value.results[0].totalReturnPct - 
 const bad9 = await call('quant_backtest_grid', { close: btCloses, fastMin: 5, fastMax: 3 })
 console.log('grid bad range:  isError:', bad9.isError, '| error:', JSON.stringify(bad9.error))
 assert(bad9.isError, 'invalid grid range must be an error')
+
+
+// 7) 新指标（真实 BTC 数据链路）
+console.log('\n=== new indicators (real data) ===')
+const highs = history.value.candles.map(c => c.high)
+const lows = history.value.candles.map(c => c.low)
+const vols = history.value.candles.map(c => c.volume)
+const kdjR = await call('quant_kdj', { high: highs, low: lows, close: btCloses, window: 9 })
+const cciR = await call('quant_cci', { high: highs, low: lows, close: btCloses, window: 20 })
+const obvR = await call('quant_obv', { close: btCloses, volume: vols })
+const adxR = await call('quant_adx', { high: highs, low: lows, close: btCloses, window: 14 })
+assert(!kdjR.isError && !cciR.isError && !obvR.isError && !adxR.isError, 'new indicators should succeed')
+assert(kdjR.value.k.length === 120 && kdjR.value.j[8] !== null, 'kdj shape')
+assert(obvR.value.values.length === 120 && obvR.value.values[0] === 0, 'obv shape')
+assert(adxR.value.adx[27] !== null && adxR.value.plusDi[14] !== null, 'adx alignment')
+console.log('kdj[-1]:', JSON.stringify({ k: kdjR.value.k[119], d: kdjR.value.d[119], j: kdjR.value.j[119] }))
+console.log('cci[-1]:', cciR.value.values[119]?.toFixed(2), '| obv[-1]:', obvR.value.values[119]?.toFixed(2), '| adx[-1]:', adxR.value.adx[119]?.toFixed(2))
 
 console.log('\n✅ all quant-indicators checks passed')
 

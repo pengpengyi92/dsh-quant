@@ -14,7 +14,7 @@
  */
 import type { Context } from '@deepseek-ai/cordis'
 import { defineTool } from '@deepseek-ai/dsh-tools'
-import { atr, bollinger, ema, macd, rsi, sma } from './indicators.js'
+import { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './indicators.js'
 import { backtestGrid, backtestMaCross } from './backtest.js'
 import { INTERVALS, fetchKlines } from './market.js'
 
@@ -416,6 +416,182 @@ export function apply(ctx: Context) {
       const slowMax = args.slowMax ?? 30
       const feeRate = args.feeRate ?? 0.001
       return backtestGrid(args.close, fastMin, fastMax, slowMin, slowMax, feeRate)
+    },
+  }))
+  ctx.tools.register(defineTool({
+    name: 'quant_kdj',
+    description:
+      'Compute the KDJ stochastic oscillator (RSV method, K/D seeded at 50): K = (2*K_prev + RSV)/3, ' +
+      'D = (2*D_prev + K)/3, J = 3K - 2D over a rolling high/low window. ' +
+      'Returns k/d/j arrays aligned to the input length; the first window-1 positions are null.',
+    parameters: {
+      high: { type: 'array', items: { type: 'number' }, required: true, description: 'High prices, oldest first' },
+      low: { type: 'array', items: { type: 'number' }, required: true, description: 'Low prices, oldest first' },
+      close: { type: 'array', items: { type: 'number' }, required: true, description: 'Close prices, oldest first' },
+      window: { type: 'integer', description: 'Window size (>= 1), default 9' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          k: { type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] }, required: true },
+          d: { type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] }, required: true },
+          j: { type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] }, required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{ type: 'text', text: JSON.stringify({ k: value.k, d: value.d, j: value.j }) }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      const window = args.window ?? 9
+      return kdj(args.high, args.low, args.close, window)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_williams_r',
+    description:
+      'Compute the Williams %R oscillator: (highest high - close) / (highest high - lowest low) * -100 over a rolling window, ' +
+      'range -100..0 (-20 and above = overbought, -80 and below = oversold). ' +
+      'Returns values aligned to the input length; the first window-1 positions are null.',
+    parameters: {
+      high: { type: 'array', items: { type: 'number' }, required: true, description: 'High prices, oldest first' },
+      low: { type: 'array', items: { type: 'number' }, required: true, description: 'Low prices, oldest first' },
+      close: { type: 'array', items: { type: 'number' }, required: true, description: 'Close prices, oldest first' },
+      window: { type: 'integer', description: 'Window size (>= 1), default 14' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          values: { type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] }, required: true },
+          window: { type: 'integer', required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{ type: 'text', text: JSON.stringify(value.values) }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      const window = args.window ?? 14
+      return { values: williamsR(args.high, args.low, args.close, window), window }
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_cci',
+    description:
+      'Compute the Commodity Channel Index (CCI): (typical price - SMA of typical price) / (0.015 * mean absolute deviation). ' +
+      'Readings above +100 suggest overbought, below -100 oversold. ' +
+      'Returns values aligned to the input length; the first window-1 positions are null.',
+    parameters: {
+      high: { type: 'array', items: { type: 'number' }, required: true, description: 'High prices, oldest first' },
+      low: { type: 'array', items: { type: 'number' }, required: true, description: 'Low prices, oldest first' },
+      close: { type: 'array', items: { type: 'number' }, required: true, description: 'Close prices, oldest first' },
+      window: { type: 'integer', description: 'Window size (>= 1), default 20' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          values: { type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] }, required: true },
+          window: { type: 'integer', required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{ type: 'text', text: JSON.stringify(value.values) }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      const window = args.window ?? 20
+      return { values: cci(args.high, args.low, args.close, window), window }
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_obv',
+    description:
+      'Compute On-Balance Volume (OBV): a cumulative line that adds volume on up days and subtracts it on down days. ' +
+      'Returns values aligned to the input length (first value 0, no nulls). Feed with volume from quant_market_fetch candles.',
+    parameters: {
+      close: { type: 'array', items: { type: 'number' }, required: true, description: 'Close prices, oldest first' },
+      volume: { type: 'array', items: { type: 'number' }, required: true, description: 'Volumes, aligned with close' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          values: { type: 'array', items: { type: 'number' }, required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{ type: 'text', text: JSON.stringify(value.values) }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return { values: obv(args.close, args.volume) }
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_adx',
+    description:
+      'Compute the Average Directional Index (ADX) with +DI and -DI (Wilder smoothing). ' +
+      'ADX above 25 signals a trending market; +DI above -DI signals upward trend. ' +
+      'plusDi/minusDi start at index window; adx starts at index 2*window-1 (earlier positions are null).',
+    parameters: {
+      high: { type: 'array', items: { type: 'number' }, required: true, description: 'High prices, oldest first' },
+      low: { type: 'array', items: { type: 'number' }, required: true, description: 'Low prices, oldest first' },
+      close: { type: 'array', items: { type: 'number' }, required: true, description: 'Close prices, oldest first' },
+      window: { type: 'integer', description: 'Window size (>= 1), default 14' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          adx: { type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] }, required: true },
+          plusDi: { type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] }, required: true },
+          minusDi: { type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] }, required: true },
+          window: { type: 'integer', required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{ type: 'text', text: JSON.stringify(value) }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      const window = args.window ?? 14
+      const { adx: adxArr, plusDi, minusDi } = adx(args.high, args.low, args.close, window)
+      return { adx: adxArr, plusDi, minusDi, window }
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_roc',
+    description:
+      'Compute the Rate of Change (ROC): (close - close n bars ago) / close n bars ago * 100. ' +
+      'Positive = upward momentum, negative = downward. ' +
+      'Returns values aligned to the input length; the first window positions are null.',
+    parameters: {
+      values: { type: 'array', items: { type: 'number' }, required: true, description: 'Price series, oldest first' },
+      window: { type: 'integer', description: 'Lookback window (>= 1), default 12' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          values: { type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] }, required: true },
+          window: { type: 'integer', required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{ type: 'text', text: JSON.stringify(value.values) }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      const window = args.window ?? 12
+      return { values: roc(args.values, window), window }
     },
   }))
 }

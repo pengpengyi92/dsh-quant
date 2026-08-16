@@ -219,3 +219,210 @@ export function firstNonFinite(values: readonly number[]): number | null {
   }
   return null
 }
+
+/** 最高/最低滚动窗口辅助：返回 [highest, lowest] 窗口（含当前）。 */
+function rollingHiLo(values: readonly number[], window: number, i: number): [number, number] {
+  let hi = -Infinity
+  let lo = Infinity
+  for (let j = i - window + 1; j <= i; j++) {
+    if (values[j]! > hi) hi = values[j]!
+    if (values[j]! < lo) lo = values[j]!
+  }
+  return [hi, lo]
+}
+
+export interface KdjOutput {
+  k: (number | null)[]
+  d: (number | null)[]
+  j: (number | null)[]
+}
+
+/**
+ * KDJ 随机指标（RSV 法，K/D 初始 50）：K = (2*K_prev + RSV)/3，
+ * D = (2*D_prev + K)/3，J = 3K - 2D。头部 window-1 个 null。
+ */
+export function kdj(
+  high: readonly number[],
+  low: readonly number[],
+  close: readonly number[],
+  window: number,
+): KdjOutput {
+  assertWindow(window)
+  const n = high.length
+  const k: (number | null)[] = new Array(n).fill(null)
+  const d: (number | null)[] = new Array(n).fill(null)
+  const j: (number | null)[] = new Array(n).fill(null)
+  if (n === 0 || high.length !== low.length || high.length !== close.length) {
+    throw new RangeError('high/low/close must have equal length')
+  }
+  if (n < window) return { k, d, j }
+  let kPrev = 50
+  let dPrev = 50
+  for (let i = window - 1; i < n; i++) {
+    const [hi, lo] = rollingHiLo(high, window, i)
+    const loWin = Math.min(...low.slice(i - window + 1, i + 1))
+    const range = hi - loWin
+    const rsv = range === 0 ? 50 : ((close[i]! - loWin) / range) * 100
+    kPrev = (2 * kPrev + rsv) / 3
+    dPrev = (2 * dPrev + kPrev) / 3
+    k[i] = kPrev
+    d[i] = dPrev
+    j[i] = 3 * kPrev - 2 * dPrev
+  }
+  return { k, d, j }
+}
+
+/**
+ * 威廉指标 W%R：W%R = (Hn - C) / (Hn - Ln) * -100（区间 -100..0）。
+ * 头部 window-1 个 null。
+ */
+export function williamsR(
+  high: readonly number[],
+  low: readonly number[],
+  close: readonly number[],
+  window: number,
+): (number | null)[] {
+  assertWindow(window)
+  const n = high.length
+  const out: (number | null)[] = new Array(n).fill(null)
+  if (n < window) return out
+  for (let i = window - 1; i < n; i++) {
+    const [hi, lo] = rollingHiLo(high, window, i)
+    const loWin = Math.min(...low.slice(i - window + 1, i + 1))
+    const range = hi - loWin
+    out[i] = range === 0 ? 0 : ((hi - close[i]!) / range) * -100
+  }
+  return out
+}
+
+/**
+ * 顺势指标 CCI：CCI = (TP - SMA(TP,n)) / (0.015 * 平均绝对偏差)。
+ * 头部 window-1 个 null。
+ */
+export function cci(
+  high: readonly number[],
+  low: readonly number[],
+  close: readonly number[],
+  window: number,
+): (number | null)[] {
+  assertWindow(window)
+  const n = high.length
+  const out: (number | null)[] = new Array(n).fill(null)
+  if (n < window) return out
+  const tp: number[] = new Array(n)
+  for (let i = 0; i < n; i++) tp[i] = (high[i]! + low[i]! + close[i]!) / 3
+  const smaTp = sma(tp, window)
+  for (let i = window - 1; i < n; i++) {
+    let devSum = 0
+    for (let j = i - window + 1; j <= i; j++) devSum += Math.abs(tp[j]! - smaTp[i]!)
+    const meanDev = devSum / window
+    out[i] = meanDev === 0 ? 0 : (tp[i]! - smaTp[i]!) / (0.015 * meanDev)
+  }
+  return out
+}
+
+/**
+ * 能量潮 OBV：OBV[0] = 0；之后按收盘涨跌加减成交量。输出等长、无 null。
+ */
+export function obv(close: readonly number[], volume: readonly number[]): number[] {
+  const n = close.length
+  if (close.length !== volume.length) throw new RangeError('close/volume must have equal length')
+  const out: number[] = new Array(n).fill(0)
+  let acc = 0
+  out[0] = 0
+  for (let i = 1; i < n; i++) {
+    if (close[i]! > close[i - 1]!) acc += volume[i]!
+    else if (close[i]! < close[i - 1]!) acc -= volume[i]!
+    out[i] = acc
+  }
+  return out
+}
+
+export interface AdxOutput {
+  adx: (number | null)[]
+  plusDi: (number | null)[]
+  minusDi: (number | null)[]
+}
+
+/**
+ * 趋向指标 DMI/ADX（Wilder）：+DM/-DM/TR 平滑 14 期 → +DI/-DI →
+ * DX = 100*|+DI-(-DI)|/(+DI+(-DI)) → ADX = DX 的 Wilder 平滑。
+ * +DI/-DI 从 index window 起有效；ADX 从 index 2*window-2 起有效（更早为 null）。
+ */
+export function adx(
+  high: readonly number[],
+  low: readonly number[],
+  close: readonly number[],
+  window: number,
+): AdxOutput {
+  assertWindow(window)
+  const n = high.length
+  const adxArr: (number | null)[] = new Array(n).fill(null)
+  const plusDi: (number | null)[] = new Array(n).fill(null)
+  const minusDi: (number | null)[] = new Array(n).fill(null)
+  if (n < window + 1) return { adx: adxArr, plusDi, minusDi }
+  const trArr: number[] = new Array(n)
+  const plusDm: number[] = new Array(n)
+  const minusDm: number[] = new Array(n)
+  trArr[0] = high[0]! - low[0]!
+  plusDm[0] = 0
+  minusDm[0] = 0
+  for (let i = 1; i < n; i++) {
+    const up = high[i]! - high[i - 1]!
+    const down = low[i - 1]! - low[i]!
+    plusDm[i] = up > down && up > 0 ? up : 0
+    minusDm[i] = down > up && down > 0 ? down : 0
+    trArr[i] = Math.max(high[i]! - low[i]!, Math.abs(high[i]! - close[i - 1]!), Math.abs(low[i]! - close[i - 1]!))
+  }
+  let trS = 0
+  let pdmS = 0
+  let mdmS = 0
+  for (let i = 1; i <= window; i++) {
+    trS += trArr[i]!
+    pdmS += plusDm[i]!
+    mdmS += minusDm[i]!
+  }
+  const dxs: number[] = new Array(n).fill(0)
+  for (let i = window; i < n; i++) {
+    if (i > window) {
+      trS = trS - trS / window + trArr[i]!
+      pdmS = pdmS - pdmS / window + plusDm[i]!
+      mdmS = mdmS - mdmS / window + minusDm[i]!
+    }
+    const pdi = trS === 0 ? 0 : (100 * pdmS) / trS
+    const mdi = trS === 0 ? 0 : (100 * mdmS) / trS
+    plusDi[i] = pdi
+    minusDi[i] = mdi
+    dxs[i] = pdi + mdi === 0 ? 0 : (100 * Math.abs(pdi - mdi)) / (pdi + mdi)
+  }
+  // ADX = Wilder 平滑 of DX（从 window 起的 DX 序列）
+  const firstDx = window
+  let adxSum = 0
+  let count = 0
+  for (let i = firstDx; i < firstDx + window; i++) {
+    adxSum += dxs[i]!
+    count++
+  }
+  let adxPrev = adxSum / count
+  const firstAdxIdx = firstDx + window - 1
+  if (firstAdxIdx < n) adxArr[firstAdxIdx] = adxPrev
+  for (let i = firstAdxIdx + 1; i < n; i++) {
+    adxPrev = (adxPrev * (window - 1) + dxs[i]!) / window
+    adxArr[i] = adxPrev
+  }
+  return { adx: adxArr, plusDi, minusDi }
+}
+
+/**
+ * 变动率 ROC：ROC = (C - C[n 前]) / C[n 前] * 100。头部 window 个 null。
+ */
+export function roc(values: readonly number[], window: number): (number | null)[] {
+  assertWindow(window)
+  const n = values.length
+  const out: (number | null)[] = new Array(n).fill(null)
+  for (let i = window; i < n; i++) {
+    const ref = values[i - window]!
+    out[i] = ref === 0 ? 0 : ((values[i]! - ref) / ref) * 100
+  }
+  return out
+}

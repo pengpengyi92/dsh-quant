@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.2.0] - 2026-08-16
+
+### Added
+- Six common technical indicators: `quant_kdj` (RSV method), `quant_williams_r`,
+  `quant_cci`, `quant_obv`, `quant_adx` (+DI/-DI, Wilder), `quant_roc`
+- 6 hand-computed unit cases for the new indicators; live verification on real
+  BTC candles (KDJ/CCI/OBV/ADX)
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.1.1] - 2026-08-16
 
 ### Added
