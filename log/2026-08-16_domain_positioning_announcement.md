@@ -36,3 +36,12 @@
 - 📌 观察点：7 个 open issue 多为征集帖（邀请性质），pulse 健康分把它们计为积压 →
   0.18.0 候选：healthScore 区分 invitation/征集标签 或按 issue 年龄加权
 - 📌 观察点：npm downloads API 对新发布包有滞后（7d=0），下载分档短期失真
+
+## 追加：awesome PR #958 按新规范重做（同日）
+- 背景：上游列表迁移到「一插件一 YAML」格式（#970），maintainer fkysly 留言：
+  旧 README 直改方式作废 + 缺中文描述 → 无法自动转换
+- 修复：data/plugins/pengpengyi92__dsh-quant.yml（category: tools，en/zh 双描述）
+  + 重新生成两个 README（1018 条目）+ screenshots.json 挂工作台截图
+- CI：Submission gate pass + check pass（22s）；仓库年龄未卡（07:40Z 创建，8 小时）
+- PR 状态：awaiting maintainer merge（标题已改为单包 YAML 格式，已回复致谢）
+- dsh-quant-ui 未单独提交：非 dsh 插件（独立 Web 工作台），待 client-plugin 化后再收
