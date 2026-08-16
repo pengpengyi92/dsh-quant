@@ -20,3 +20,12 @@
 
 ## 状态
 ✅ issue 创建并置顶；✅ discussion 创建；⏳ 待社区反馈
+
+## 追加：星标增长行动（同日）
+- ✅ GitHub topics 扩到 15 个（deepseek/llm/ai-agents/quantitative-finance/backtesting/factor-investing/risk-management/algorithmic-trading/finance...）
+- ✅ README 星标漏斗升级：stars/downloads 徽章 + UI 截图 + 快速安装 + 34 工具/5 域卖点 + NEWS 补到 0.16.0 + 已知限制更新 + ⭐ CTA 结尾
+- ✅ 置顶 issue #9 尾部加星标 CTA（指向 discussion #10）
+- ✅ README commit 267344f 已推送
+- ⏳ awesome-dsh-plugin PR #958 待 maintainer merge（mergeable UNKNOWN）
+- ⏳ X 发布 + bio 挂 GitHub 链接（用户侧操作）
+- 基线：3 stars / 0 forks
