@@ -3,7 +3,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { METRIC_CATALOG, equityMetrics, tradeMetrics } from '../src/metrics.ts'
+import { METRIC_CATALOG, equityMetrics, fundSimulate, tradeMetrics } from '../src/metrics.ts'
 
 test('equityMetrics: 单调上涨净值（无回撤）', () => {
   const m = equityMetrics([1, 1.1, 1.2, 1.3])
@@ -61,4 +61,33 @@ test('METRIC_CATALOG: 必有指标三件套 + 目录完整', () => {
   for (const m of METRIC_CATALOG) {
     assert.ok(m.key && m.name && m.nameZh && m.format(1.234).length > 0)
   }
+})
+
+test('fundSimulate: 无费用时净值跟随策略', () => {
+  const f = fundSimulate([1, 1.1, 1.2], { managementFeeRate: 0, performanceFeeRate: 0 })
+  assert.equal(f.initialCapital, 100_000_000)
+  assert.equal(f.initialNav, 1)
+  assert.ok(Math.abs(f.finalNavNet - 1.2) < 1e-9)
+  assert.ok(Math.abs(f.finalAum - 120_000_000) < 1e-9)
+  assert.ok(Math.abs(f.netReturnPct - 20) < 1e-9)
+})
+
+test('fundSimulate: 业绩提成高水位（手算）', () => {
+  // equity [1, 1.5]：NAV 1.5 超 HWM 1 → 提成 0.5*0.2=0.1 → NAV 1.4，HWM 1.4
+  const f = fundSimulate([1, 1.5], { managementFeeRate: 0, performanceFeeRate: 0.2 })
+  assert.ok(Math.abs(f.finalNavNet - 1.4) < 1e-9)
+  assert.ok(Math.abs(f.performanceFeeTotal - 10_000_000) < 1e-9) // 0.1 × 1e8
+  assert.equal(f.peakNav, 1.4)
+})
+
+test('fundSimulate: 管理费按日计提（正费）', () => {
+  const f = fundSimulate([1, 1.1], { managementFeeRate: 0.02, performanceFeeRate: 0 })
+  assert.ok(f.managementFeeTotal > 0, 'management fee accrues')
+  assert.ok(f.finalNavNet < 1.1, 'fee reduces nav')
+})
+
+test('fundSimulate: 前置条件', () => {
+  assert.throws(() => fundSimulate([1], { initialCapital: -1 }), /initialCapital/)
+  assert.throws(() => fundSimulate([1], { managementFeeRate: 1 }), /managementFeeRate/)
+  assert.throws(() => fundSimulate([], ), /not be empty/)
 })

@@ -30,6 +30,8 @@ const rocVals = roc.value.values.filter((v: unknown) => v !== null) as number[]
 const rets = closes.slice(1).map((c: number, i: number) => c / closes[i] - 1)
 const fe = await call('quant_factor_evaluate', { factorValues: rocVals.slice(0, 100), forwardReturns: rets.slice(10, 110), quantiles: 5, window: 20 })
 
+const fund = await call('quant_fund', { equityCurve: bt.value.equityCurve, initialCapital: 100_000_000, managementFeeRate: 0.02, performanceFeeRate: 0.2 })
+
 const demoData = {
   generatedAt: new Date().toISOString(),
   symbol: 'BTCUSDT',
@@ -43,9 +45,11 @@ const demoData = {
   trades: bt.value.trades,
   metrics: metrics.value,
   factor: { name: 'ROC(10) factor', ic: fe.value.ic, icir: fe.value.icir, longShort: fe.value.longShort, turnover: fe.value.turnover },
+  fund: fund.value,
   strategy: 'dual-MA crossover (5/20), stopLoss 5%, takeProfit 15%, fee 0.1%',
 }
 writeFileSync(new URL('./ui-demo-data.json', import.meta.url), JSON.stringify(demoData))
 console.log('generated demos/ui-demo-data.json')
 console.log('summary:', JSON.stringify({ total: metrics.value.totalReturnPct.toFixed(2) + '%', maxDD: metrics.value.maxDrawdownPct.toFixed(2) + '%', sharpe: metrics.value.sharpe.toFixed(3), trades: bt.value.trades.length }))
+console.log('fund:', JSON.stringify({ initial: (fund.value.initialCapital / 1e8).toFixed(2) + '亿', finalNav: fund.value.finalNavNet.toFixed(4), finalAum: (fund.value.finalAum / 1e8).toFixed(3) + '亿', net: fund.value.netReturnPct.toFixed(2) + '%' }))
 await ctx.fiber.dispose()

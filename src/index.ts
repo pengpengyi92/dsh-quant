@@ -21,7 +21,7 @@ import { adviseChannels, compareChannels, findChannel, searchChannels } from './
 import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './stats.js'
 import { combineFactors, factorEvaluate } from './factor.js'
 import { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './chart.js'
-import { equityMetrics, tradeMetrics } from './metrics.js'
+import { equityMetrics, fundSimulate, tradeMetrics } from './metrics.js'
 
 // ── 纯函数再导出：非 dsh 环境（任意 Node 项目）直接 import 使用 ──
 // 注意：本插件仍是纯 named-export 函数插件（无 default export），Loader 不受影响。
@@ -32,7 +32,7 @@ export { DATA_CHANNELS, adviseChannels, compareChannels, findChannel, searchChan
 export { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './stats.js'
 export { combineFactors, factorEvaluate } from './factor.js'
 export { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './chart.js'
-export { equityMetrics, tradeMetrics, METRIC_CATALOG } from './metrics.js'
+export { equityMetrics, fundSimulate, tradeMetrics, METRIC_CATALOG } from './metrics.js'
 
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
@@ -1413,6 +1413,55 @@ export function apply(ctx: Context) {
       const equity = equityMetrics(args.equityCurve)
       const trades = args.trades !== undefined ? tradeMetrics(args.trades) : undefined
       return { ...equity, tradeMetrics: trades }
+    },
+  }))
+  ctx.tools.register(defineTool({
+    name: 'quant_fund',
+    description:
+      'Simulate a quantitative hedge fund around a strategy equity curve: start with initialCapital ' +
+      '(default 100,000,000) at NAV 1.00, accrue annual management fee daily (default 2%), charge ' +
+      'performance fee above the high-water mark (default 20%), and report final NAV, final AUM, peak NAV/AUM, ' +
+      'gross vs net return, total fees, and the net-NAV series for charting. ' +
+      'The foundation for a quant-fund simulation game.',
+    parameters: {
+      equityCurve: { type: 'array', items: { type: 'number' }, required: true, description: 'Strategy equity curve (initial value 1)' },
+      initialCapital: { type: 'number', description: 'Initial capital, default 100000000 (1 亿)' },
+      managementFeeRate: { type: 'number', description: 'Annual management fee rate, default 0.02' },
+      performanceFeeRate: { type: 'number', description: 'Performance fee above high-water mark, default 0.2' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          initialCapital: { type: 'number' , required: true},
+          initialNav: { type: 'number' , required: true},
+          finalNavGross: { type: 'number' , required: true},
+          finalNavNet: { type: 'number' , required: true},
+          finalAum: { type: 'number' , required: true},
+          peakNav: { type: 'number' , required: true},
+          peakAum: { type: 'number' , required: true},
+          grossReturnPct: { type: 'number' , required: true},
+          netReturnPct: { type: 'number' , required: true},
+          managementFeeTotal: { type: 'number' , required: true},
+          performanceFeeTotal: { type: 'number' , required: true},
+          navNet: { type: 'array', items: { type: 'number' }, required: true},
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `quant fund: initial ${(value.initialCapital / 1e8).toFixed(2)}亿, NAV 1.00 → ${value.finalNavNet.toFixed(4)}, ` +
+          `AUM ${(value.finalAum / 1e8).toFixed(3)}亿 (peak ${(value.peakAum / 1e8).toFixed(3)}亿), ` +
+          `net ${value.netReturnPct.toFixed(2)}%, fees: mgmt ${(value.managementFeeTotal / 1e4).toFixed(1)}万 + perf ${(value.performanceFeeTotal / 1e4).toFixed(1)}万`
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return fundSimulate(args.equityCurve, {
+        initialCapital: args.initialCapital,
+        managementFeeRate: args.managementFeeRate,
+        performanceFeeRate: args.performanceFeeRate,
+      })
     },
   }))
 }

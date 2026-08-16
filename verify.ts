@@ -23,7 +23,7 @@ const call = (name: string, args: Record<string, unknown>) =>
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 29) throw new Error(`expected 29 tools, got ${names.length}`)
+if (names.length !== 30) throw new Error(`expected 30 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -263,6 +263,14 @@ assert(!mt.isError, 'metrics should succeed')
 console.log('metrics:         total', mt.value.totalReturnPct.toFixed(2) + '%', '| maxDD', mt.value.maxDrawdownPct.toFixed(2) + '%', '| sharpe', mt.value.sharpe.toFixed(3))
 console.log('                 calmar', mt.value.calmar.toFixed(3), '| sortino', mt.value.sortino.toFixed(3), '| win', mt.value.winRate.toFixed(1) + '%', '| PF', String(mt.value.profitFactor))
 assert(mt.value.tradeMetrics.tradeCount === 3, 'trade metrics count')
+
+
+// 17) 量化基金模拟（1 亿 → 费后净值）
+console.log('\n=== quant fund (real data) ===')
+const fund = await call('quant_fund', { equityCurve: bt.value.equityCurve, initialCapital: 100_000_000, managementFeeRate: 0.02, performanceFeeRate: 0.2 })
+assert(!fund.isError, 'fund sim should succeed')
+console.log('fund:            1.00亿 → NAV', fund.value.finalNavNet.toFixed(4), '| AUM', (fund.value.finalAum / 1e8).toFixed(3) + '亿', '| net', fund.value.netReturnPct.toFixed(2) + '%')
+assert(fund.value.navNet.length === 120, 'nav series length')
 
 console.log('\n✅ all quant-indicators checks passed')
 

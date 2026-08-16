@@ -1,8 +1,8 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T12:27:57.096Z",
-  "toolCount": 29,
+  "generatedAt": "2026-08-16T12:38:44.686Z",
+  "toolCount": 30,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
     {
@@ -1123,6 +1123,37 @@
                 "returnPct"
               ]
             }
+          }
+        },
+        "required": [
+          "equityCurve"
+        ]
+      }
+    },
+    {
+      "name": "quant_fund",
+      "description": "Simulate a quantitative hedge fund around a strategy equity curve: start with initialCapital (default 100,000,000) at NAV 1.00, accrue annual management fee daily (default 2%), charge performance fee above the high-water mark (default 20%), and report final NAV, final AUM, peak NAV/AUM, gross vs net return, total fees, and the net-NAV series for charting. The foundation for a quant-fund simulation game.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "equityCurve": {
+            "type": "array",
+            "description": "Strategy equity curve (initial value 1)",
+            "items": {
+              "type": "number"
+            }
+          },
+          "initialCapital": {
+            "type": "number",
+            "description": "Initial capital, default 100000000 (1 亿)"
+          },
+          "managementFeeRate": {
+            "type": "number",
+            "description": "Annual management fee rate, default 0.02"
+          },
+          "performanceFeeRate": {
+            "type": "number",
+            "description": "Performance fee above high-water mark, default 0.2"
           }
         },
         "required": [

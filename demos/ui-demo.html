@@ -75,6 +75,9 @@
   <div class="section-title">Strategy</div>
   <p id="strategy" style="font-size:14px; color:var(--ink);"></p>
 
+  <div class="section-title">Quant Fund Simulation <span style="text-transform:none; letter-spacing:0; color:var(--muted);">(1 亿起步 · NAV 1.00)</span></div>
+  <div class="metrics" id="fund"></div>
+
   <div class="section-title">Performance <span style="text-transform:none; letter-spacing:0; color:var(--muted);">(● = required metrics)</span></div>
   <div class="metrics" id="metrics"></div>
 
@@ -83,6 +86,9 @@
 
   <div class="section-title">Price & Overlays</div>
   <div class="chart-panel" id="candles"></div>
+
+  <div class="section-title">Fund NAV (net of fees) & Strategy Equity</div>
+  <div class="chart-panel" id="fundnav"></div>
 
   <div class="section-title">Equity Curve & Trade Markers</div>
   <div class="chart-panel" id="equity"></div>
@@ -125,6 +131,40 @@ const fmtMap = {
 
 let DATA = null;
 const shown = new Set(METRIC_DEFS.filter(m => m.required).map(m => m.key));
+
+function renderFund() {
+  const wrap = document.getElementById('fund');
+  const f = DATA.fund;
+  const cards = [
+    { label: 'Initial Capital', value: (f.initialCapital / 1e8).toFixed(2) + ' 亿' },
+    { label: 'Initial NAV', value: f.initialNav.toFixed(2) },
+    { label: 'Final NAV (net)', value: f.finalNavNet.toFixed(4), tone: f.finalNavNet >= 1 ? 'pos' : 'neg' },
+    { label: 'Final AUM', value: (f.finalAum / 1e8).toFixed(3) + ' 亿' },
+    { label: 'Peak AUM', value: (f.peakAum / 1e8).toFixed(3) + ' 亿' },
+    { label: 'Net Return', value: (f.netReturnPct >= 0 ? '+' : '') + f.netReturnPct.toFixed(2) + '%', tone: f.netReturnPct >= 0 ? 'pos' : 'neg' },
+    { label: 'Mgmt Fee', value: (f.managementFeeTotal / 1e4).toFixed(1) + ' 万' },
+    { label: 'Perf Fee', value: (f.performanceFeeTotal / 1e4).toFixed(1) + ' 万' },
+  ];
+  for (const c of cards) {
+    const card = document.createElement('div');
+    card.className = 'metric-card' + (c.tone === 'pos' ? ' positive' : c.tone === 'neg' ? ' negative' : '');
+    card.innerHTML = `<div class="label">${c.label}</div><div class="value">${c.value}</div>`;
+    wrap.appendChild(card);
+  }
+}
+
+function fundNavChart() {
+  const chart = LightweightCharts.createChart(document.getElementById('fundnav'), {
+    layout: { background: { color: '#ffffff' }, textColor: '#1a1a1a', fontFamily: 'SF Mono, Menlo, monospace', fontSize: 11 },
+    grid: { vertLines: { color: '#f0f0ec' }, horzLines: { color: '#f0f0ec' } },
+    timeScale: { borderColor: '#e3e3dd' }, rightPriceScale: { borderColor: '#e3e3dd' },
+  });
+  const net = chart.addLineSeries({ color: '#1a1a1a', lineWidth: 2, priceLineVisible: false });
+  net.setData(DATA.fund.navNet.map((v, i) => ({ time: DATA.candles[i].openTime / 1000, value: v })));
+  const gross = chart.addLineSeries({ color: '#b9b9b2', lineWidth: 1, priceLineVisible: false });
+  gross.setData(DATA.equity.values.map((v, i) => ({ time: DATA.candles[i].openTime / 1000, value: v })));
+  chart.timeScale().fitContent();
+}
 
 function renderMetrics() {
   const wrap = document.getElementById('metrics');
@@ -210,8 +250,10 @@ fetch('./ui-demo-data.json')
     document.getElementById('meta').textContent = `${d.symbol} · ${d.interval} · generated ${d.generatedAt.slice(0, 10)}`;
     document.getElementById('strategy').textContent = d.strategy;
     buildSelector();
+    renderFund();
     renderMetrics();
     candlesChart();
+    fundNavChart();
     equityChart();
   })
   .catch(err => {

@@ -4,6 +4,20 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.13.0] - 2026-08-16
+
+### Added
+- `quant_fund`: quant hedge-fund simulation (default ¥100M capital, NAV 1.00,
+  daily management fee 2%/yr, high-water-mark performance fee 20%) with
+  final NAV/AUM, peak AUM, gross/net returns, total fees, net-NAV series
+- UI demo Fund block (8 cards + net-vs-gross NAV chart)
+- 4 hand-computed fund cases; live verification
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.12.0] - 2026-08-16
 
 ### Added
