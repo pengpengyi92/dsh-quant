@@ -35,13 +35,13 @@ import { evaluatePredictions, fitLinearModel, predictLinearModel } from './dsh-m
 import { drawdownAnalysis } from './dsh-risk/drawdown.js'
 import { executeSimulate } from './dsh-execution/execute.js'
 import { researchPipeline } from './dsh-execution/pipeline.js'
-import { assertAShareSymbol } from './dsh-data/market.js'
+import { assertAShareSymbol, assertYahooSymbol } from './dsh-data/market.js'
 
 // ── 纯函数再导出：非 dsh 环境（任意 Node 项目）直接 import 使用 ──
 // 注意：本插件仍是纯 named-export 函数插件（无 default export），Loader 不受影响。
 export { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './dsh-alpha/indicators.js'
 export { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './dsh-ml/backtest.js'
-export { fetchKlines, parseKlines, parseOkxKlines, parseBybitKlines, INTERVALS, MARKET_PROVIDERS } from './dsh-data/market.js'
+export { fetchKlines, parseKlines, parseOkxKlines, parseBybitKlines, parseSinaKlines, parseTencentKlines, parseYahooChart, INTERVALS, MARKET_PROVIDERS } from './dsh-data/market.js'
 export { DATA_CHANNELS, adviseChannels, compareChannels, findChannel, searchChannels } from './dsh-data/data-guide.js'
 export { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './dsh-data/stats.js'
 export { combineFactors, factorEvaluate } from './dsh-alpha/factor.js'
@@ -57,7 +57,7 @@ export { walkForward } from './dsh-ml/walkforward.js'
 export { evaluatePredictions, fitLinearModel, predictLinearModel } from './dsh-ml/linear.js'
 export { drawdownAnalysis } from './dsh-risk/drawdown.js'
 export { executeSimulate } from './dsh-execution/execute.js'
-export { researchPipeline } from './dsh-execution/pipeline.js'
+export { researchPipeline, researchMultiAsset } from './dsh-execution/pipeline.js'
 
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
@@ -249,14 +249,14 @@ export function apply(ctx: Context) {
       'Fetch OHLCV candles for a symbol from free public APIs (no credentials). ' +
       'Returns structured candles (openTime in Unix ms, open/high/low/close/volume). ' +
       'Crypto providers binance/okx/bybit use symbols like BTCUSDT; ' +
-      'A-share providers sina/tencent use sh/sz/bj + 6 digits (e.g. sh600000); ' +
-      'tencent returns qfq (forward-adjusted) daily klines. ' +
+      'A-share providers sina/tencent use sh/sz/bj + 6 digits (e.g. sh600000, tencent qfq adjusted); ' +
+      'yahoo serves US/global daily klines (AAPL, ^GSPC, 0700.HK). ' +
       'Feed the close values into quant_sma / quant_ema / quant_rsi / quant_macd / ' +
       'quant_bollinger / quant_atr for indicators.',
     parameters: {
       symbol: {
         type: 'string', required: true,
-        description: 'Trading pair (e.g. BTCUSDT) or A-share code (e.g. sh600000, sz000001, bj430047)',
+        description: 'Trading pair (BTCUSDT), A-share code (sh600000), HK (hk00700), US (usAAPL / AAPL)',
       },
       interval: {
         type: 'string', enum: INTERVALS,
@@ -268,7 +268,7 @@ export function apply(ctx: Context) {
       },
       provider: {
         type: 'string', enum: MARKET_PROVIDERS,
-        description: 'Data provider: binance (default) / okx / bybit / sina / tencent',
+        description: 'Data provider: binance (default) / okx / bybit / sina / tencent / yahoo',
       },
     },
     output: {
@@ -307,6 +307,8 @@ export function apply(ctx: Context) {
       const provider = args.provider ?? 'binance'
       if (provider === 'sina' || provider === 'tencent') {
         assertAShareSymbol(args.symbol)
+      } else if (provider === 'yahoo') {
+        assertYahooSymbol(args.symbol)
       } else if (!/^[A-Z0-9]+$/.test(args.symbol)) {
         throw new Error(`invalid symbol "${args.symbol}": crypto providers expect uppercase letters and digits, e.g. BTCUSDT`)
       }

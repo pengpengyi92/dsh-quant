@@ -69,8 +69,8 @@ npm i dsh-quant
 | `quant_series_quality` | `values: number[]`, `jumpThreshold=0.2` | `{ count, missingCount, zOutliers, jumps, longestConstantRun, healthy }` | —（序列级质量）|
 | `quant_data_annotate` | `values: number[]`, `jumpThreshold=0.2` | `{ count, annotations: [{index, label, severity, detail}], summary }` | —（点级标注，致敬 Scale AI）|
 | `quant_data_quality` | `candles`（quant_market_fetch 输出）| `{ count, highBelowLow, nonPositive, timeNotIncreasing, timeGaps, extremeMoves, healthy }` | —（分析前健康检查）|
-| `quant_data_guide` | `query`（渠道名/数据类型，如 "tushare"/"财务"）或 `channel`（精确渠道名）| `{ query, results: [{ name, url, cost, dataTypes, setup, tutorialUrls, bestFor, … }] }` | —（内置 8 大 A 股数据渠道知识库）|
-| `quant_market_fetch` | `symbol: string`（如 BTCUSDT / sh600000）, `interval: 1m…1M`, `limit: 1-1000`, `provider: binance/okx/bybit/sina/tencent` | `{ symbol, interval, provider, candles: [{openTime, open, high, low, close, volume}] }` | — |
+| `quant_data_guide` | `query`（渠道名/数据类型，如 "tushare"/"财务"）或 `channel`（精确渠道名）| `{ query, results: [{ name, url, cost, dataTypes, setup, tutorialUrls, bestFor, … }] }` | —（内置 13 大数据渠道知识库：A股/美股 + dsh 生态数据插件）|
+| `quant_market_fetch` | `symbol: string`（如 BTCUSDT / sh600000 / AAPL）, `interval: 1m…1M`, `limit: 1-1000`, `provider: binance/okx/bybit/sina/tencent/yahoo` | `{ symbol, interval, provider, candles: [{openTime, open, high, low, close, volume}] }` | — |
 | `quant_sma` | `values: number[]`, `window: integer` | `{ values: (number\|null)[], window }` | index `window-1` |
 | `quant_ema` | `values: number[]`, `window: integer` | `{ values: (number\|null)[], window }` | index `window-1`（seed = 前 window 均值，alpha = 2/(w+1)）|
 | `quant_rsi` | `values: number[]`, `window: integer = 14` | `{ values: (number\|null)[], window }` | index `window`（Wilder 平滑）|
@@ -137,6 +137,7 @@ schema 前缀稳定（工具集与顺序不变则复用）；结果追加在可�
 
 | 版本 | 日期 | 更新 |
 |---|---|---|
+| 0.20.0 | 2026-08-16 | 数据整合：yahoo 美股/全球行情 + 渠道库扩到 13（含 dsh 生态数据插件）+ researchMultiAsset 多标的并行研究 |
 | 0.19.0 | 2026-08-16 | PCPT 补完：quant_linear_model（OLS/Ridge）+ docs/ML_GUIDE.md（ML/DL 架构知识地图）+ demos/ml-workflow.ts（42→43 工具）|
 | 0.18.0 | 2026-08-16 | 链路补全：A股免费行情（新浪/腾讯前复权）+ RankIC/IC衰减 + 因子中性化 + Walk-forward + 回撤分析 + 执行模拟 + 端到端管线（37→42 工具）|
 | 0.17.0 | 2026-08-16 | 开源生态域 dsh-community：quant_repo_stats / quant_npm_stats / quant_oss_pulse（0-100 影响力评分）|

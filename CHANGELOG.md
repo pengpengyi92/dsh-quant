@@ -4,6 +4,24 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.20.0] - 2026-08-16
+
+### Added
+- `quant_market_fetch` gains the `yahoo` provider: free US/global daily klines
+  (AAPL, ^GSPC, 0700.HK) with null-row filtering and limit → range mapping —
+  the "free data-source interfaces" promise now spans crypto, A-shares and US
+- `researchMultiAsset`: parallel multi-symbol full-chain research (per-symbol
+  failure isolation) + `demos/multi-asset-research.ts` runnable demo; the dsh
+  scaling path (one subagent per symbol) is documented in the demo notes
+- `quant_data_guide` knowledge base expanded 8 → 13 channels: tencent/yahoo
+  free interfaces + dsh ecosystem data plugins (capital-generation,
+  dsh-us-stocks, llmquant data-mcp)
+- 162 unit tests (+ market yahoo parsing, multi-asset isolation, guide counts)
+
+### Notes
+- Stooq rejected (JS proof-of-work bot wall); tencent US klines return only
+  first/last rows for US symbols → tencent stays A-share only, yahoo owns US
+
 ## [0.19.0] - 2026-08-16
 
 ### Added

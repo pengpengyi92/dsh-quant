@@ -343,6 +343,16 @@ const badAShare = await call('quant_market_fetch', { symbol: '600000', interval:
 assert(badAShare.isError, 'invalid A-share symbol must be an error')
 console.log('isError path:    invalid A-share symbol → isError ✓')
 
+// 20b) 美股/全球免费行情（Yahoo 日线）
+console.log('\n=== US market (live yahoo) ===')
+const yahooUS = await call('quant_market_fetch', { symbol: 'AAPL', interval: '1d', limit: 5, provider: 'yahoo' })
+assert(!yahooUS.isError, `yahoo fetch should succeed: ${yahooUS.error}`)
+assert(yahooUS.value.candles.length === 5, 'yahoo should return 5 candles')
+console.log('yahoo AAPL:      ', yahooUS.value.candles[0]?.close, '→', yahooUS.value.candles[4]?.close, `(${yahooUS.value.candles.length} daily candles)`)
+const badYahoo = await call('quant_market_fetch', { symbol: '600000', interval: '1d', provider: 'yahoo' })
+assert(badYahoo.isError, 'invalid yahoo symbol must be an error')
+console.log('isError path:    invalid yahoo symbol → isError ✓')
+
 // 21) 回撤分析 + 执行模拟 + walk-forward（真实 BTC 回测数据）
 console.log('\n=== drawdown / execution / walk-forward (real data) ===')
 const dd2 = await call('quant_drawdown', { equity: bt.value.equityCurve })

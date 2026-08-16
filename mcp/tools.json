@@ -1,7 +1,7 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T16:25:10.900Z",
+  "generatedAt": "2026-08-16T16:39:28.725Z",
   "toolCount": 43,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
@@ -175,13 +175,13 @@
     },
     {
       "name": "quant_market_fetch",
-      "description": "Fetch OHLCV candles for a symbol from free public APIs (no credentials). Returns structured candles (openTime in Unix ms, open/high/low/close/volume). Crypto providers binance/okx/bybit use symbols like BTCUSDT; A-share providers sina/tencent use sh/sz/bj + 6 digits (e.g. sh600000); tencent returns qfq (forward-adjusted) daily klines. Feed the close values into quant_sma / quant_ema / quant_rsi / quant_macd / quant_bollinger / quant_atr for indicators.",
+      "description": "Fetch OHLCV candles for a symbol from free public APIs (no credentials). Returns structured candles (openTime in Unix ms, open/high/low/close/volume). Crypto providers binance/okx/bybit use symbols like BTCUSDT; A-share providers sina/tencent use sh/sz/bj + 6 digits (e.g. sh600000, tencent qfq adjusted); yahoo serves US/global daily klines (AAPL, ^GSPC, 0700.HK). Feed the close values into quant_sma / quant_ema / quant_rsi / quant_macd / quant_bollinger / quant_atr for indicators.",
       "parameters": {
         "type": "object",
         "properties": {
           "symbol": {
             "type": "string",
-            "description": "Trading pair (e.g. BTCUSDT) or A-share code (e.g. sh600000, sz000001, bj430047)"
+            "description": "Trading pair (BTCUSDT), A-share code (sh600000), HK (hk00700), US (usAAPL / AAPL)"
           },
           "interval": {
             "type": "string",
@@ -210,13 +210,14 @@
           },
           "provider": {
             "type": "string",
-            "description": "Data provider: binance (default) / okx / bybit / sina / tencent",
+            "description": "Data provider: binance (default) / okx / bybit / sina / tencent / yahoo",
             "enum": [
               "binance",
               "okx",
               "bybit",
               "sina",
-              "tencent"
+              "tencent",
+              "yahoo"
             ]
           }
         },
@@ -1668,7 +1669,8 @@
               "okx",
               "bybit",
               "sina",
-              "tencent"
+              "tencent",
+              "yahoo"
             ]
           },
           "candles": {

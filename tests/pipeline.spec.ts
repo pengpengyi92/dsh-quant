@@ -3,7 +3,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { researchPipeline } from '../src/dsh-execution/pipeline.ts'
+import { researchMultiAsset, researchPipeline } from '../src/dsh-execution/pipeline.ts'
 
 /** 60 根线性上涨的日线（简单、可预测）。 */
 function fixtureCandles(n = 60) {
@@ -63,5 +63,31 @@ test('researchPipeline: fast >= slow 抛错', async () => {
   await assert.rejects(
     () => researchPipeline({ candles: fixtureCandles(40), fast: 20, slow: 10 }, new AbortController().signal),
     /fast 20 must be < slow 10/,
+  )
+})
+
+test('researchMultiAsset: fixture 并行多标的，单标的失败被隔离', async () => {
+  const candles = fixtureCandles()
+  const r = await researchMultiAsset(
+    ['AAA', 'BBB'],
+    { fast: 5, slow: 20, factorWindow: 10 },
+    new AbortController().signal,
+    { AAA: candles, BBB: candles.slice(0, 10) }, // BBB 只有 10 根 → 失败
+  )
+  assert.equal(r.succeeded, 1)
+  assert.equal(r.failed, 1)
+  assert.equal(r.items.length, 2)
+  const aaa = r.items.find(i => i.symbol === 'AAA')!
+  assert.notEqual(aaa.result, null)
+  assert.equal(aaa.error, null)
+  const bbb = r.items.find(i => i.symbol === 'BBB')!
+  assert.equal(bbb.result, null)
+  assert.match(bbb.error!, /at least 30/)
+})
+
+test('researchMultiAsset: 空列表抛错', async () => {
+  await assert.rejects(
+    () => researchMultiAsset([], { fast: 5, slow: 20 }, new AbortController().signal),
+    /must not be empty/,
   )
 })

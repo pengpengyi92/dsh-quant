@@ -177,3 +177,46 @@ export async function researchPipeline(
     charts: { candles: chartCandleData, equity: chartEquityData, underwater: chartUnderwaterData },
   }
 }
+
+export interface MultiAssetItem {
+  symbol: string
+  result: PipelineResult | null
+  error: string | null
+}
+
+export interface MultiAssetResult {
+  items: MultiAssetItem[]
+  succeeded: number
+  failed: number
+}
+
+/**
+ * 多标的并行研究：每个标的一条 researchPipeline，Promise.all 并行执行，
+ * 单标的失败不阻断其他标的。
+ *
+ * 在 dsh 会话中的规模化用法：把每个 symbol 交给一个 subagent（官方
+ * subagent 包），subagent 内部调用 quant_research_pipeline；本函数是
+ * 纯 TS 侧的并行实现与离线测试载体。
+ */
+export async function researchMultiAsset(
+  symbols: readonly string[],
+  options: Omit<PipelineOptions, 'symbol' | 'candles'>,
+  signal: AbortSignal,
+  candlesBySymbol?: Readonly<Record<string, readonly Candle[]>>,
+): Promise<MultiAssetResult> {
+  if (symbols.length === 0) throw new RangeError('symbols must not be empty')
+  const items = await Promise.all(symbols.map(async (symbol): Promise<MultiAssetItem> => {
+    try {
+      const candles = candlesBySymbol?.[symbol]
+      const result = await researchPipeline(
+        { ...options, symbol, candles },
+        signal,
+      )
+      return { symbol, result, error: null }
+    } catch (err) {
+      return { symbol, result: null, error: (err as Error).message }
+    }
+  }))
+  const succeeded = items.filter(i => i.result !== null).length
+  return { items, succeeded, failed: items.length - succeeded }
+}

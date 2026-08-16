@@ -28,21 +28,34 @@ export interface Candle {
 export const BINANCE_KLINE_URL = 'https://api.binance.com/api/v3/klines'
 
 /** 支持的行情 provider。 */
-export type MarketProvider = 'binance' | 'okx' | 'bybit' | 'sina' | 'tencent'
-export const MARKET_PROVIDERS = ['binance', 'okx', 'bybit', 'sina', 'tencent'] as const
+export type MarketProvider = 'binance' | 'okx' | 'bybit' | 'sina' | 'tencent' | 'yahoo'
+export const MARKET_PROVIDERS = ['binance', 'okx', 'bybit', 'sina', 'tencent', 'yahoo'] as const
 
 const OKX_KLINE_URL = 'https://www.okx.com/api/v5/market/candles'
 const BYBIT_KLINE_URL = 'https://api.bybit.com/v5/market/kline'
 /** 新浪财经免费 K 线（A 股，无需凭据）。 */
 const SINA_KLINE_URL = 'https://quotes.sina.cn/cn/api/json_v2.php/CN_MarketDataService.getKLineData'
-/** 腾讯财经免费 K 线（A 股前复权，无需凭据）。 */
+/** 腾讯财经免费 K 线（A 股/港股/美股，无需凭据）。 */
 const TENCENT_KLINE_URL = 'https://web.ifzq.gtimg.cn/appstock/app/fqkline/get'
+/** Yahoo Finance 免费 K 线（美股/全球标的，无需凭据）。 */
+const YAHOO_KLINE_URL = 'https://query1.finance.yahoo.com/v8/finance/chart'
 
 /** A 股代码格式：sh600000 / sz000001 / bj430047。 */
 const A_SHARE_SYMBOL = /^(sh|sz|bj)\d{6}$/
+/** Yahoo 支持：美股 ticker（AAPL）、指数（^GSPC）、港股（0700.HK）等（至少含一个字母）。 */
+const YAHOO_SYMBOL = /^(?=.*[A-Z])[A-Z0-9.^=-]+$/
 
 /** 新浪 interval → scale 映射（仅支持这些周期）。 */
 const SINA_SCALE: Record<string, string> = { '5m': '5', '15m': '15', '30m': '30', '1h': '60', '1d': '240' }
+
+/** Yahoo limit → range 映射（range 决定返回历史长度，再截取最后 limit 根）。 */
+const YAHOO_RANGE: { max: number; range: string }[] = [
+  { max: 90, range: '3mo' },
+  { max: 180, range: '6mo' },
+  { max: 365, range: '1y' },
+  { max: 730, range: '2y' },
+  { max: 1825, range: '5y' },
+]
 
 /** Binance interval → OKX bar 映射（相同则省略）。 */
 const OKX_INTERVAL: Record<string, string> = {
@@ -87,6 +100,7 @@ export async function fetchKlines(
   if (provider === 'bybit') return fetchBybitKlines(symbol, interval, limit, signal)
   if (provider === 'sina') return fetchSinaKlines(symbol, interval, limit, signal)
   if (provider === 'tencent') return fetchTencentKlines(symbol, interval, limit, signal)
+  if (provider === 'yahoo') return fetchYahooKlines(symbol, interval, limit, signal)
   const url = new URL(BINANCE_KLINE_URL)
   url.searchParams.set('symbol', symbol)
   url.searchParams.set('interval', interval)
@@ -222,6 +236,13 @@ export function assertAShareSymbol(symbol: string): void {
   }
 }
 
+/** Yahoo 代码校验：美股 ticker / 指数 ^GSPC / 港股 0700.HK 等。 */
+export function assertYahooSymbol(symbol: string): void {
+  if (!YAHOO_SYMBOL.test(symbol)) {
+    throw new Error(`invalid yahoo symbol "${symbol}": expected uppercase tickers like AAPL, ^GSPC or 0700.HK`)
+  }
+}
+
 /** 解析新浪 K 线（对象行：day/open/high/low/close/volume，价格为字符串）。 */
 export function parseSinaKlines(rows: readonly Record<string, unknown>[]): Candle[] {
   return rows.map((row, i) => {
@@ -316,5 +337,62 @@ async function fetchTencentKlines(
   const json = (await res.json()) as Parameters<typeof parseTencentKlines>[1]
   const candles = parseTencentKlines(symbol, json)
   if (candles.length === 0) throw new Error(`tencent fetch: empty klines for ${symbol} ${interval}`)
+  // 部分市场（美股）忽略 count 参数返回全历史 → 统一截取最后 limit 根
+  return candles.slice(-Math.min(limit, candles.length))
+}
+
+/** 解析 Yahoo chart 响应（纯函数）：时间戳 + 引用的并列数组，过滤 null 行。 */
+export function parseYahooChart(
+  symbol: string,
+  json: { chart?: { result?: { timestamp?: readonly number[]; indicators?: { quote?: readonly { open?: readonly (number | null)[]; high?: readonly (number | null)[]; low?: readonly (number | null)[]; close?: readonly (number | null)[]; volume?: readonly (number | null)[] }[] } }[]; error?: unknown } },
+): Candle[] {
+  const result = json.chart?.result?.[0]
+  const timestamps = result?.timestamp
+  const quote = result?.indicators?.quote?.[0]
+  if (result === undefined || timestamps === undefined || quote === undefined) {
+    throw new Error(`yahoo fetch: no chart data for ${symbol}${json.chart?.error != null ? ` (${String(json.chart.error).slice(0, 80)})` : ''}`)
+  }
+  const candles: Candle[] = []
+  for (let i = 0; i < timestamps.length; i++) {
+    const open = quote.open?.[i]
+    const high = quote.high?.[i]
+    const low = quote.low?.[i]
+    const close = quote.close?.[i]
+    const volume = quote.volume?.[i]
+    if (open === null || open === undefined || high === null || high === undefined
+      || low === null || low === undefined || close === null || close === undefined) continue
+    candles.push({
+      openTime: timestamps[i]! * 1000,
+      open,
+      high,
+      low,
+      close,
+      volume: volume ?? 0,
+    })
+  }
+  if (candles.length === 0) throw new Error(`yahoo fetch: empty klines for ${symbol}`)
   return candles
+}
+
+async function fetchYahooKlines(
+  symbol: string,
+  interval: Interval,
+  limit: number,
+  signal: AbortSignal,
+): Promise<Candle[]> {
+  assertYahooSymbol(symbol)
+  if (interval !== '1d') {
+    throw new Error(`yahoo provider supports interval 1d only, got ${interval}`)
+  }
+  const range = YAHOO_RANGE.find(r => limit <= r.max)?.range ?? 'max'
+  const url = new URL(YAHOO_KLINE_URL)
+  url.pathname += `/${encodeURIComponent(symbol)}`
+  url.searchParams.set('range', range)
+  url.searchParams.set('interval', '1d')
+  const res = await safeFetch(url, signal, `${symbol} ${interval} yahoo`, {
+    'User-Agent': 'Mozilla/5.0 (compatible; dsh-quant)',
+  })
+  const json = (await res.json()) as Parameters<typeof parseYahooChart>[1]
+  const candles = parseYahooChart(symbol, json)
+  return candles.slice(-Math.min(limit, candles.length))
 }

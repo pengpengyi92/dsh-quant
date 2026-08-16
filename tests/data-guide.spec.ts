@@ -6,15 +6,15 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { DATA_CHANNELS, adviseChannels, compareChannels, findChannel, searchChannels } from '../src/dsh-data/data-guide.ts'
 
-test('知识库：8 个渠道齐全且字段完整', () => {
-  assert.equal(DATA_CHANNELS.length, 8)
+test('知识库：13 个渠道齐全且字段完整', () => {
+  assert.equal(DATA_CHANNELS.length, 13)
   for (const c of DATA_CHANNELS) {
     assert.ok(c.name && c.displayName && c.url && c.cost)
     assert.ok(c.dataTypes.length > 0 && c.setup.length > 0 && c.tutorialUrls.length > 0)
     assert.ok(c.bestFor.length > 0)
   }
   const names = DATA_CHANNELS.map(c => c.name)
-  assert.deepEqual(names, ['akshare', 'baostock', 'tushare', 'wind', 'ifind', 'sse', 'szse', 'csindex'])
+  assert.deepEqual(names, ['akshare', 'baostock', 'tushare', 'wind', 'ifind', 'sse', 'szse', 'csindex', 'tencent', 'yahoo', 'capital-generation', 'dsh-us-stocks', 'data-mcp'])
 })
 
 test('findChannel：按名字/展示名查找', () => {
@@ -43,12 +43,12 @@ test('searchChannels：免费渠道查询', () => {
 })
 
 test('searchChannels：空查询返回全部', () => {
-  assert.equal(searchChannels('').length, 8)
+  assert.equal(searchChannels('').length, 13)
 })
 
 test('compareChannels: 覆盖类型排前 + 覆盖标记', () => {
   const out = compareChannels('财务')
-  assert.equal(out.channels.length, 8)
+  assert.equal(out.channels.length, 13)
   assert.equal(out.channels[0]!.covers, true)
   assert.ok(out.channels.filter(c => c.covers).length >= 4)
   const tushare = out.channels.find(c => c.name === 'tushare')!

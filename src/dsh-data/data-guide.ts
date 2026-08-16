@@ -14,7 +14,7 @@ export interface DataChannel {
   /** 展示名 */
   displayName: string
   /** 渠道类型 */
-  category: 'python-lib' | 'api-platform' | 'terminal' | 'official-exchange' | 'index'
+  category: 'python-lib' | 'api-platform' | 'terminal' | 'official-exchange' | 'index' | 'dsh-plugin'
   /** 官网/文档地址 */
   url: string
   /** 费用与门槛 */
@@ -123,6 +123,72 @@ export const DATA_CHANNELS: DataChannel[] = [
     setup: ['官网 → 指数中心 → 数据下载', '指数点位、成分权重可查可下'],
     tutorialUrls: ['https://www.csindex.com.cn/'],
     bestFor: '指数数据（编制方案、成分、权重）的官方来源',
+  },
+  {
+    name: 'tencent',
+    displayName: '腾讯财经行情接口',
+    category: 'api-platform',
+    url: 'https://gu.qq.com',
+    cost: '免费，无 key',
+    dataTypes: ['A股行情', '前复权日线'],
+    setup: [
+      'dsh-quant 内置：quant_market_fetch(provider="tencent")',
+      'A股 sh600000 / sz000001 / bj430047，日线 qfq 前复权',
+    ],
+    tutorialUrls: ['https://github.com/pengpengyi92/dsh-quant'],
+    bestFor: '免费前复权 A 股日线',
+    notes: '无需凭据；数据源为腾讯财经公开接口，注意使用频率',
+  },
+  {
+    name: 'yahoo',
+    displayName: 'Yahoo Finance',
+    category: 'api-platform',
+    url: 'https://finance.yahoo.com',
+    cost: '免费，无 key',
+    dataTypes: ['美股行情', '全球行情', '指数', '外汇', '加密货币', '日线'],
+    setup: [
+      'dsh-quant 内置：quant_market_fetch(provider="yahoo")',
+      '美股 AAPL / 指数 ^GSPC / 港股 0700.HK，日线',
+    ],
+    tutorialUrls: ['https://github.com/pengpengyi92/dsh-quant'],
+    bestFor: '美股与全球标的的免费日线（社区最常用的免费美股源）',
+    notes: '无需凭据；建议带 User-Agent；偶发限流时可重试',
+  },
+  {
+    name: 'capital-generation',
+    displayName: 'capital-generation（dsh 插件）',
+    category: 'dsh-plugin',
+    url: 'https://github.com/v587d/capital-generation',
+    cost: '免费（开源插件）',
+    dataTypes: ['A股行情', 'A股财务', '基本面', '金融数据'],
+    setup: ['在 dsh 中安装该插件（MCP 金融数据服务器）', '11 个 fin_data__* 工具'],
+    tutorialUrls: ['https://github.com/awesome-dsh-plugin/awesome-dsh-plugin'],
+    bestFor: '在 dsh 会话内直接查询 A 股金融数据（与 dsh-quant 的行情/渠道知识互补）',
+    notes: '第三方开源项目；数据接口与更新频率以仓库为准',
+  },
+  {
+    name: 'dsh-us-stocks',
+    displayName: 'dsh-us-stocks（dsh 插件）',
+    category: 'dsh-plugin',
+    url: 'https://github.com/Realyujie/dsh-us-stocks',
+    cost: '免费（开源插件）',
+    dataTypes: ['美股行情', '美股财报', '分析师一致预期', '股价历史'],
+    setup: ['在 dsh 中安装该插件', '美股行情/财报/一致预期工具'],
+    tutorialUrls: ['https://github.com/awesome-dsh-plugin/awesome-dsh-plugin'],
+    bestFor: '美股基本面与一致预期数据（dsh-quant 提供免费行情，本插件提供深度数据）',
+    notes: '第三方开源项目；数据接口与更新频率以仓库为准',
+  },
+  {
+    name: 'data-mcp',
+    displayName: 'llmquant data-mcp（dsh 生态）',
+    category: 'dsh-plugin',
+    url: 'https://github.com/LLMQuant/data-mcp',
+    cost: '免费（开源项目）',
+    dataTypes: ['金融数据', 'agent-native 数据接口', '行情'],
+    setup: ['在 dsh 中安装 data-mcp', '以 MCP 协议向 agent 暴露金融数据'],
+    tutorialUrls: ['https://github.com/LLMQuant/data-mcp'],
+    bestFor: 'agent-native 金融数据研究的先行者项目，方法论与接口设计值得学习',
+    notes: 'dsh-quant issue #2 的首个数据接口示例来源',
   },
 ]
 
