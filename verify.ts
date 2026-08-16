@@ -23,7 +23,7 @@ const call = (name: string, args: Record<string, unknown>) =>
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 30) throw new Error(`expected 30 tools, got ${names.length}`)
+if (names.length !== 31) throw new Error(`expected 31 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -271,6 +271,18 @@ const fund = await call('quant_fund', { equityCurve: bt.value.equityCurve, initi
 assert(!fund.isError, 'fund sim should succeed')
 console.log('fund:            1.00亿 → NAV', fund.value.finalNavNet.toFixed(4), '| AUM', (fund.value.finalAum / 1e8).toFixed(3) + '亿', '| net', fund.value.netReturnPct.toFixed(2) + '%')
 assert(fund.value.navNet.length === 120, 'nav series length')
+
+
+// 18) 风险指标（真实 BTC 收益 + 因子基准）
+console.log('\n=== risk (real data) ===')
+const riskRets = btCloses.slice(1).map((c, i) => c / btCloses[i] - 1)
+const rk = await call('quant_risk', { returns: riskRets, confidence: 0.95 })
+assert(!rk.isError, 'risk should succeed')
+console.log('risk:            VaR95', (rk.value.var95 * 100).toFixed(2) + '%', '| CVaR95', (rk.value.cvar95 * 100).toFixed(2) + '%', '| maxDD', rk.value.maxDrawdownPct.toFixed(2) + '%', '| downDev', (rk.value.downsideDeviation * 100).toFixed(2) + '%')
+const btcBench = riskRets.map(() => 0) // 基准 = 现金（0 收益）
+const rk2 = await call('quant_risk', { returns: riskRets, benchmarkReturns: btcBench })
+assert(!rk2.isError, 'risk with benchmark should succeed')
+console.log('vs cash:         beta', rk2.value.beta.toFixed(3), '| IR', rk2.value.informationRatio.toFixed(3), '| TE', rk2.value.trackingError.toFixed(2) + '%')
 
 console.log('\n✅ all quant-indicators checks passed')
 

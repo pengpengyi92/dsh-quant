@@ -22,6 +22,7 @@ fork/pull 下来 → `npm ci` → `npm test` 即可通过、直接使用（详�
 | `quant_data_compare` | `dataType`（如 "财务"/"日线行情"）| `{ dataType, channels: [{ name, cost, covers, bestFor }] }`（覆盖者排前）| — |
 | `quant_data_advice` | `dataType` + `budget`（free/low/institutional）+ `purpose`（research/backtest/official）| `{ recommendations: [{ rank, name, reason }] }`（决策树排序）| — |
 | `quant_series_stats` | `values: number[]` | `{ count, mean, std, min, max, median, skew, kurtosis, autocorr1, annualizedVol, totalReturnPct }` | —（取数后第一步）|
+| `quant_risk` | `returns`（小数收益序列）+ `benchmarkReturns?` + `confidence=0.95` | `{ var95, cvar95, downsideDeviation, maxDrawdownPct, beta, alpha, informationRatio, trackingError, periods }` | —（风险分析核心模块）|
 | `quant_fund` | `equityCurve` + `initialCapital=1e8` + `managementFeeRate=0.02` + `performanceFeeRate=0.2` | `{ initialCapital, finalNavNet, finalAum, peakNav, peakAum, gross/netReturnPct, fees, navNet }` | —（模拟量化私募：净值 1.00 起步，管理费按日，提成高水位 20%）|
 | `quant_metrics` | `equityCurve` + `trades?` | `{ totalReturnPct, maxDrawdownPct, sharpe, annualizedVol, calmar, sortino, winRate, profitFactor, avgPeriodReturnPct, tradeMetrics }`（必有：收益/回撤/夏普）| —（指标目录 METRIC_CATALOG 供 UI 勾选）|
 | `quant_chart` | `kind`（candles/series/annotations）+ 对应数据 | 结构化图表数据（dsh-chart 协议：K线+叠加+标记 / 多序列 / 标注可视化）| —（UI 路线数据面）|

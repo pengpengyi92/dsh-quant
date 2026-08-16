@@ -1,5 +1,15 @@
 # News
 
+## 0.14.0 — 2026-08-16
+
+**风险模块（30 → 31 工具）**
+
+- `quant_risk`：历史 VaR / CVaR（Expected Shortfall）/ 下行偏差 / 最大回撤 / Beta / Jensen Alpha / 信息比率 / 跟踪误差
+- 基准对比能力（无基准时 beta/alpha/IR 为 0）
+- 6 个手算单测（VaR 分位、beta=2 线性基准、beta=1 同基准、前置条件）
+- 真实 BTC：VaR95 2.92%、CVaR95 4.17%、maxDD 28.69%
+
+
 ## 0.13.1 — 2026-08-16
 
 **UI demo 修复：双击即开的自包含版本**

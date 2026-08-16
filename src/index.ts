@@ -22,6 +22,7 @@ import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './stat
 import { combineFactors, factorEvaluate } from './factor.js'
 import { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './chart.js'
 import { equityMetrics, fundSimulate, tradeMetrics } from './metrics.js'
+import { riskMetrics } from './risk.js'
 
 // ── 纯函数再导出：非 dsh 环境（任意 Node 项目）直接 import 使用 ──
 // 注意：本插件仍是纯 named-export 函数插件（无 default export），Loader 不受影响。
@@ -33,6 +34,7 @@ export { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './stat
 export { combineFactors, factorEvaluate } from './factor.js'
 export { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './chart.js'
 export { equityMetrics, fundSimulate, tradeMetrics, METRIC_CATALOG } from './metrics.js'
+export { riskMetrics } from './risk.js'
 
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
@@ -1462,6 +1464,46 @@ export function apply(ctx: Context) {
         managementFeeRate: args.managementFeeRate,
         performanceFeeRate: args.performanceFeeRate,
       })
+    },
+  }))
+  ctx.tools.register(defineTool({
+    name: 'quant_risk',
+    description:
+      'Risk metrics for a return series (with optional benchmark): historical VaR and CVaR/Expected Shortfall at a ' +
+      'confidence level (default 95%), downside deviation, max drawdown, Beta, Jensen alpha, information ratio and ' +
+      'tracking error against the benchmark. Feed period returns as decimals (0.01 = 1%), e.g. derived from close prices. ' +
+      'Core module for quant research risk analysis.',
+    parameters: {
+      returns: { type: 'array', items: { type: 'number' }, required: true, description: 'Period returns as decimals (0.01 = 1%), oldest first' },
+      benchmarkReturns: { type: 'array', items: { type: 'number' }, description: 'Optional benchmark returns aligned with returns (for beta/alpha/IR)' },
+      confidence: { type: 'number', description: 'VaR confidence level, default 0.95' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          var95: { type: 'number' , required: true},
+          cvar95: { type: 'number' , required: true},
+          downsideDeviation: { type: 'number' , required: true},
+          maxDrawdownPct: { type: 'number' , required: true},
+          beta: { type: 'number' , required: true},
+          alpha: { type: 'number' , required: true},
+          informationRatio: { type: 'number' , required: true},
+          trackingError: { type: 'number' , required: true},
+          periods: { type: 'integer' , required: true},
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `risk (n=${value.periods}): VaR95 ${(value.var95 * 100).toFixed(2)}%, CVaR95 ${(value.cvar95 * 100).toFixed(2)}%, ` +
+          `maxDD ${value.maxDrawdownPct.toFixed(2)}%, downDev ${(value.downsideDeviation * 100).toFixed(2)}%` +
+          (value.beta !== 0 ? `, beta ${value.beta.toFixed(3)}, IR ${value.informationRatio.toFixed(3)}` : '')
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return riskMetrics(args.returns, { benchmarkReturns: args.benchmarkReturns, confidence: args.confidence })
     },
   }))
 }

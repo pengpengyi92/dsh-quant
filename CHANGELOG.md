@@ -4,6 +4,20 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.14.0] - 2026-08-16
+
+### Added
+- `quant_risk`: historical VaR/CVaR (configurable confidence), downside
+  deviation, max drawdown, Beta, Jensen alpha, information ratio and
+  tracking error against an optional benchmark
+- 6 hand-computed risk cases (VaR quantile, beta=2 linear benchmark,
+  beta=1 identical benchmark, preconditions); live BTC verification
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.13.2] - 2026-08-16
 
 ### Changed
