@@ -1,8 +1,8 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T14:47:27.101Z",
-  "toolCount": 34,
+  "generatedAt": "2026-08-16T15:23:51.205Z",
+  "toolCount": 37,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
     {
@@ -1310,6 +1310,79 @@
             "additionalProperties": true
           }
         }
+      }
+    },
+    {
+      "name": "quant_repo_stats",
+      "description": "Fetch live GitHub ecosystem stats for a public repository (no credentials): stars, forks, watchers, open issues, open pull requests, topics, language, license and latest release. Feed the numbers into quant_oss_pulse to score open-source influence.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "owner": {
+            "type": "string",
+            "description": "GitHub owner (user or org), e.g. pengpengyi92"
+          },
+          "repo": {
+            "type": "string",
+            "description": "Repository name, e.g. dsh-quant"
+          }
+        },
+        "required": [
+          "owner",
+          "repo"
+        ]
+      }
+    },
+    {
+      "name": "quant_npm_stats",
+      "description": "Fetch live npm ecosystem stats for a published package (no credentials): latest version, last-week and last-month downloads, description and homepage. Feed weeklyDownloads into quant_oss_pulse to score open-source influence.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "pkg": {
+            "type": "string",
+            "description": "npm package name, e.g. dsh-quant"
+          }
+        },
+        "required": [
+          "pkg"
+        ]
+      }
+    },
+    {
+      "name": "quant_oss_pulse",
+      "description": "Score open-source ecosystem influence on a 0-100 pulse with an A/B/C/D grade and concrete action suggestions. Components: stars base (20%), weekly npm downloads (15%), star momentum vs a previous snapshot (25%), community health = open issue+PR backlog vs stars (20%), release freshness (20%). Missing optional inputs score neutral 50. Feed quant_repo_stats and quant_npm_stats outputs, and snapshot stars weekly to supply starsPrevious.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "stars": {
+            "type": "number",
+            "description": "Current star count (>= 0)"
+          },
+          "downloadsWeekly": {
+            "type": "number",
+            "description": "npm downloads in the last 7 days"
+          },
+          "starsPrevious": {
+            "type": "number",
+            "description": "Star count at the previous snapshot (e.g. 7 days ago)"
+          },
+          "openIssues": {
+            "type": "number",
+            "description": "Open issues (excluding PRs)"
+          },
+          "openPullRequests": {
+            "type": "number",
+            "description": "Open pull requests"
+          },
+          "daysSinceRelease": {
+            "type": "number",
+            "description": "Days since the latest release"
+          }
+        },
+        "required": [
+          "stars"
+        ]
       }
     }
   ]

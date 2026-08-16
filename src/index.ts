@@ -26,6 +26,9 @@ import { kupiecTest, riskMetrics } from './dsh-risk/risk.js'
 import { resampleCandles } from './dsh-data/resample.js'
 import { fundSimulate } from './dsh-execution/fund.js'
 import { generateReport } from './dsh-execution/report.js'
+import { fetchRepoStats } from './dsh-community/github.js'
+import { fetchNpmStats } from './dsh-community/npm.js'
+import { ossPulse } from './dsh-community/pulse.js'
 
 // ── 纯函数再导出：非 dsh 环境（任意 Node 项目）直接 import 使用 ──
 // 注意：本插件仍是纯 named-export 函数插件（无 default export），Loader 不受影响。
@@ -39,6 +42,9 @@ export { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './dsh-e
 export { equityMetrics, tradeMetrics, METRIC_CATALOG } from './dsh-ml/metrics.js'
 export { kupiecTest, riskMetrics } from './dsh-risk/risk.js'
 export { resampleCandles } from './dsh-data/resample.js'
+export { fetchRepoStats, parseRepoStats } from './dsh-community/github.js'
+export { fetchNpmStats, parseNpmStats } from './dsh-community/npm.js'
+export { ossPulse } from './dsh-community/pulse.js'
 
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
@@ -1640,6 +1646,154 @@ export function apply(ctx: Context) {
         factor: args.factor as never,
         fund: args.fund as never,
       }) }
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_repo_stats',
+    description:
+      'Fetch live GitHub ecosystem stats for a public repository (no credentials required): stars, forks, watchers, ' +
+      'open issues, open pull requests, topics, language, license and latest release. ' +
+      'Uses the GITHUB_TOKEN environment variable automatically when present (higher rate limit); ' +
+      'unauthenticated requests are limited to 60 per hour per IP. ' +
+      'Feed the numbers into quant_oss_pulse to score open-source influence.',
+    parameters: {
+      owner: { type: 'string', required: true, description: 'GitHub owner (user or org), e.g. pengpengyi92' },
+      repo: { type: 'string', required: true, description: 'Repository name, e.g. dsh-quant' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          owner: { type: 'string', required: true },
+          repo: { type: 'string', required: true },
+          stars: { type: 'integer', required: true },
+          forks: { type: 'integer', required: true },
+          watchers: { type: 'integer', required: true },
+          openIssues: { type: 'integer', required: true },
+          openPullRequests: { type: 'integer', required: true },
+          language: { oneOf: [{ type: 'string' }, { type: 'null' }], required: true },
+          topics: { type: 'array', items: { type: 'string' }, required: true },
+          license: { oneOf: [{ type: 'string' }, { type: 'null' }], required: true },
+          description: { oneOf: [{ type: 'string' }, { type: 'null' }], required: true },
+          createdAt: { type: 'string', required: true },
+          pushedAt: { type: 'string', required: true },
+          latestRelease: { oneOf: [{ type: 'string' }, { type: 'null' }], required: true },
+          latestReleaseAt: { oneOf: [{ type: 'string' }, { type: 'null' }], required: true },
+          url: { type: 'string', required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `${value.owner}/${value.repo}: ${value.stars} stars, ${value.forks} forks, ` +
+          `${value.openIssues} open issues, ${value.openPullRequests} open PRs, latest release ${value.latestRelease ?? 'n/a'}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args, exec) {
+      if (!/^[\w.-]+$/.test(args.owner) || !/^[\w.-]+$/.test(args.repo)) {
+        throw new Error(`invalid repo "${args.owner}/${args.repo}": owner/repo must match [A-Za-z0-9_.-]+`)
+      }
+      const signal = AbortSignal.any([exec.signal, AbortSignal.timeout(15_000)])
+      return fetchRepoStats(args.owner, args.repo, signal)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_npm_stats',
+    description:
+      'Fetch live npm ecosystem stats for a published package (no credentials): latest version, ' +
+      'last-week and last-month downloads, description and homepage. ' +
+      'Feed weeklyDownloads into quant_oss_pulse to score open-source influence.',
+    parameters: {
+      pkg: { type: 'string', required: true, description: 'npm package name, e.g. dsh-quant' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          pkg: { type: 'string', required: true },
+          latest: { type: 'string', required: true },
+          weeklyDownloads: { type: 'integer', required: true },
+          monthlyDownloads: { oneOf: [{ type: 'integer' }, { type: 'null' }], required: true },
+          description: { oneOf: [{ type: 'string' }, { type: 'null' }], required: true },
+          homepage: { oneOf: [{ type: 'string' }, { type: 'null' }], required: true },
+          updatedAt: { type: 'string', required: true },
+          url: { type: 'string', required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `${value.pkg}@${value.latest}: ${value.weeklyDownloads} downloads last week` +
+          `${value.monthlyDownloads !== null ? `, ${value.monthlyDownloads} last month` : ''}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args, exec) {
+      if (!/^[@\w.-]+$/.test(args.pkg)) {
+        throw new Error(`invalid npm package "${args.pkg}": expected a package name like dsh-quant`)
+      }
+      const signal = AbortSignal.any([exec.signal, AbortSignal.timeout(15_000)])
+      return fetchNpmStats(args.pkg, signal)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_oss_pulse',
+    description:
+      'Score open-source ecosystem influence on a 0-100 pulse with an A/B/C/D grade and concrete action ' +
+      'suggestions. Components: stars base (20%), weekly npm downloads (15%), star momentum vs a previous ' +
+      'snapshot (25%), community health = open issue+PR backlog vs stars (20%), release freshness (20%). ' +
+      'Missing optional inputs score neutral 50. Feed quant_repo_stats and quant_npm_stats outputs, and ' +
+      'snapshot stars weekly to supply starsPrevious.',
+    parameters: {
+      stars: { type: 'number', required: true, description: 'Current star count (>= 0)' },
+      downloadsWeekly: { type: 'number', description: 'npm downloads in the last 7 days' },
+      starsPrevious: { type: 'number', description: 'Star count at the previous snapshot (e.g. 7 days ago)' },
+      openIssues: { type: 'number', description: 'Open issues (excluding PRs)' },
+      openPullRequests: { type: 'number', description: 'Open pull requests' },
+      daysSinceRelease: { type: 'number', description: 'Days since the latest release' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          score: { type: 'integer', required: true },
+          grade: { type: 'string', enum: ['A', 'B', 'C', 'D'], required: true },
+          components: {
+            type: 'object',
+            properties: {
+              stars: { type: 'number', required: true },
+              downloads: { type: 'number', required: true },
+              momentum: { type: 'number', required: true },
+              health: { type: 'number', required: true },
+              freshness: { type: 'number', required: true },
+            },
+            additionalProperties: false,
+            required: true,
+          },
+          suggestions: { type: 'array', items: { type: 'string' }, required: true },
+          summary: { type: 'string', required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{
+        type: 'text',
+        text: `${value.summary}\n${value.suggestions.map((s: string) => `- ${s}`).join('\n')}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return ossPulse({
+        stars: args.stars,
+        downloadsWeekly: args.downloadsWeekly,
+        starsPrevious: args.starsPrevious,
+        openIssues: args.openIssues,
+        openPullRequests: args.openPullRequests,
+        daysSinceRelease: args.daysSinceRelease,
+      })
     },
   }))
 }

@@ -4,6 +4,20 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.17.0] - 2026-08-16
+
+### Added
+- New domain `dsh-community` (open-source ecosystem domain, unique to the
+  open side — no internal team counterpart): eat your own dog food
+- `quant_repo_stats`: live GitHub ecosystem stats via the public API (stars,
+  forks, watchers, open issues/PRs, topics, license, latest release)
+- `quant_npm_stats`: live npm ecosystem stats (latest version, last-week and
+  last-month downloads)
+- `quant_oss_pulse`: 0-100 open-source influence score with A/B/C/D grade and
+  concrete action suggestions (stars base 20%, downloads 15%, star momentum
+  25%, community health 20%, release freshness 20%; missing optionals score
+  neutral 50) — pure, hand-computable, fully unit-tested
+
 ## [0.16.0] - 2026-08-16
 
 ### Changed

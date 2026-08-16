@@ -32,7 +32,7 @@ async function fetchWithFallback(symbol: string, interval: string, limit: number
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 34) throw new Error(`expected 34 tools, got ${names.length}`)
+if (names.length !== 37) throw new Error(`expected 37 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -295,6 +295,39 @@ const btcBench = riskRets.map(() => 0) // 基准 = 现金（0 收益）
 const rk2 = await call('quant_risk', { returns: riskRets, benchmarkReturns: btcBench })
 assert(!rk2.isError, 'risk with benchmark should succeed')
 console.log('vs cash:         beta', rk2.value.beta.toFixed(3), '| IR', rk2.value.informationRatio.toFixed(3), '| TE', rk2.value.trackingError.toFixed(2) + '%')
+
+// 19) 开源生态域（真实 GitHub + npm 公共 API，吃自己的狗粮：度量 dsh-quant 自己）
+console.log('\n=== dsh-community (live GitHub + npm) ===')
+const repoStats = await call('quant_repo_stats', { owner: 'pengpengyi92', repo: 'dsh-quant' })
+assert(!repoStats.isError, 'quant_repo_stats should succeed')
+assert(repoStats.value.stars >= 3, 'dsh-quant should have at least 3 stars')
+console.log('repo:            stars', repoStats.value.stars, '| forks', repoStats.value.forks, '| open issues', repoStats.value.openIssues, '| open PRs', repoStats.value.openPullRequests, '| latest release', repoStats.value.latestRelease)
+
+const npmStats = await call('quant_npm_stats', { pkg: 'dsh-quant' })
+assert(!npmStats.isError, 'quant_npm_stats should succeed')
+assert(typeof npmStats.value.weeklyDownloads === 'number', 'weeklyDownloads should be a number')
+console.log('npm:             latest', npmStats.value.latest, '| 7d downloads', npmStats.value.weeklyDownloads, '| 30d', String(npmStats.value.monthlyDownloads))
+
+const pulse = await call('quant_oss_pulse', {
+  stars: repoStats.value.stars,
+  downloadsWeekly: npmStats.value.weeklyDownloads,
+  openIssues: repoStats.value.openIssues,
+  openPullRequests: repoStats.value.openPullRequests,
+  daysSinceRelease: 0,
+})
+assert(!pulse.isError, 'quant_oss_pulse should succeed')
+assert(pulse.value.score >= 0 && pulse.value.score <= 100, 'pulse score must be in [0, 100]')
+console.log('pulse:           score', pulse.value.score, '| grade', pulse.value.grade)
+console.log('                 ' + pulse.value.summary)
+for (const s of pulse.value.suggestions) console.log('                 - ' + s)
+
+const pulseKnown = await call('quant_oss_pulse', { stars: 3, downloadsWeekly: 0, openIssues: 0, openPullRequests: 0, daysSinceRelease: 1 })
+assert(pulseKnown.value.score === 56 && pulseKnown.value.grade === 'C', 'hand-computed pulse case (3 stars → 56/C)')
+console.log('hand-computed:   3 stars → score 56 / grade C ✓')
+
+const badRepo = await call('quant_repo_stats', { owner: 'not a repo', repo: 'x' })
+assert(badRepo.isError, 'invalid owner must be an error')
+console.log('isError path:    invalid owner → isError ✓')
 
 console.log('\n✅ all quant-indicators checks passed')
 

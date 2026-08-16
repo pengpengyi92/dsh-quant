@@ -17,7 +17,7 @@
 fork/pull 下来 → `npm ci` → `npm test` 即可通过、直接使用（详见
 [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md)）。官方工具集（bash/fs/web/terminal/subagent…）目前没有技术指标——本插件填补这个空白。指标与回测为纯函数实现，零外部依赖，可离线验证；行情获取走免费公共 API，无需凭据。
 
-**34 个 `quant_*` 工具 · 5 大域模块 · 100+ 单元测试 · 零外部依赖**。定位全景见置顶 [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9)。
+**37 个 `quant_*` 工具 · 6 大域模块 · 110+ 单元测试 · 零外部依赖**。定位全景见置顶 [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9)。
 
 ## 快速安装（dsh 用户）
 
@@ -31,7 +31,7 @@ npm i dsh-quant
 - name: 'dsh-quant'
 ```
 
-34 个工具自动注册，指标 / 回测 / 因子 / 风控 / 基金模拟开箱即用。
+37 个工具自动注册，指标 / 回测 / 因子 / 风控 / 基金模拟 / 生态影响力开箱即用。
 
 ## 🖥️ UI 工作台（dsh-quant-ui）
 
@@ -51,6 +51,9 @@ npm i dsh-quant
 | `quant_var_backtest` | `returns` + `varSeries` + `confidence=0.95` | `{ failures, expected, lrStat, pValue, passed, periods }`（Kupiec POF 检验）| —（VaR 模型准不准的标准答案）|
 | `quant_resample` | `candles` + `period`（week=7根/month=30根）| `{ candles }`（OHLCV 周期聚合，7×24 市场）| — |
 | `quant_report` | strategy/metrics/risk/factor/fund（各模块输出）| `{ report }`（Markdown 研究报告）| —（R&D 结论生成）|
+| `quant_repo_stats` | `owner` + `repo` | `{ stars, forks, watchers, openIssues, openPullRequests, topics, latestRelease, … }`（GitHub 公共 API，无需凭据）| —（生态数据）|
+| `quant_npm_stats` | `pkg` | `{ latest, weeklyDownloads, monthlyDownloads, description, … }`（npm registry + downloads API）| —（生态数据）|
+| `quant_oss_pulse` | `stars` + `downloadsWeekly?` + `starsPrevious?` + `openIssues?` + `openPullRequests?` + `daysSinceRelease?` | `{ score(0-100), grade(A-D), components, suggestions, summary }` | —（开源影响力评分，缺省项中性 50）|
 | `quant_risk` | `returns`（小数收益序列）+ `benchmarkReturns?` + `confidence=0.95` | `{ var95, cvar95, downsideDeviation, maxDrawdownPct, beta, alpha, informationRatio, trackingError, periods }` | —（风险分析核心模块）|
 | `quant_fund` | `equityCurve` + `initialCapital=1e8` + `managementFeeRate=0.02` + `performanceFeeRate=0.2` | `{ initialCapital, finalNavNet, finalAum, peakNav, peakAum, gross/netReturnPct, fees, navNet }` | —（模拟量化私募：净值 1.00 起步，管理费按日，提成高水位 20%）|
 | `quant_metrics` | `equityCurve` + `trades?` | `{ totalReturnPct, maxDrawdownPct, sharpe, annualizedVol, calmar, sortino, winRate, profitFactor, avgPeriodReturnPct, tradeMetrics }`（必有：收益/回撤/夏普）| —（指标目录 METRIC_CATALOG 供 UI 勾选）|
@@ -128,6 +131,7 @@ schema 前缀稳定（工具集与顺序不变则复用）；结果追加在可�
 
 | 版本 | 日期 | 更新 |
 |---|---|---|
+| 0.17.0 | 2026-08-16 | 开源生态域 dsh-community：quant_repo_stats / quant_npm_stats / quant_oss_pulse（0-100 影响力评分）|
 | 0.16.0 | 2026-08-16 | 域驱动重构：dsh-data/alpha/ml/risk/execution ↔ PDAT/PAAT/PCPT/PRT/PET + 交易所容错链（Binance→OKX→Bybit）|
 | 0.15.0 | 2026-08-16 | Kupiec VaR 回测 + 周期聚合 + 研究报告生成；100 单元测试里程碑 |
 | 0.14.0 | 2026-08-16 | 风控模块 quant_risk（VaR/CVaR/Beta/Alpha/IR/TE）|
@@ -162,6 +166,7 @@ src/dsh-alpha/     因子域（PAAT）：12 指标 + 因子评估/合成（alpha
 src/dsh-ml/        组合域（PCPT）：策略回测 + 组合 + 指标库
 src/dsh-risk/      风控域（PRT）：VaR/CVaR/Beta/Alpha/IR + Kupiec 检验
 src/dsh-execution/ 交付域（PET）：chart 数据面、基金模拟、研究报告（不接实盘）
+src/dsh-community/ 开源生态域（dsh-quant 独有）：GitHub/npm 生态数据 + 影响力评分 pulse
 ```
 
 **内外边界**：数据与结论留在内部，工具与方法进入 dsh-quant——外部不提供 alpha / 生产策略 / 实盘工程，但提供框架、指标、因子评价、UI 与 demo。详见置顶 [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9)。
