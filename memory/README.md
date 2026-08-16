@@ -4,3 +4,11 @@
 目录与约定；实现留给用户侧或未来版本。
 
 - 内部联动：对应 PAT（PENGYI AGENT TEAM，private）的 memory 维度。
+
+## Skill 映射（2026-08-16 升级）
+
+| 官方 skill | 用途 |
+|---|---|
+| dsh-archive-agent-notes | log/ 归档判定：结论入库、过程可弃 |
+
+长期记忆 = log/ 版本记录 + 域 README + skill/README.md 映射表。
