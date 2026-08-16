@@ -45,3 +45,15 @@
 - CI：Submission gate pass + check pass（22s）；仓库年龄未卡（07:40Z 创建，8 小时）
 - PR 状态：awaiting maintainer merge（标题已改为单包 YAML 格式，已回复致谢）
 - dsh-quant-ui 未单独提交：非 dsh 插件（独立 Web 工作台），待 client-plugin 化后再收
+
+## 追加：官方 deepseek-harness 贡献帖（同日）
+- 调研结论：官方明确「暂不接受外部 PR」+ issues 已关闭 → 唯一贡献通道是 Discussions
+  （CONTRIBUTING.md 原文：cannot accept external pull requests；团队监控讨论并据此分配资源）
+- 已发布 Ideas 帖 #2512：schema DSL 两个改进建议（实证自 dsh-quant 37 工具实战）
+  1. 联合类型报错应指向 oneOf：json-schema.ts L305 现报文只说「type arrays are not supported」，
+     不指路正确写法（nullable 数组是插件最常见形态）→ 建议一行改动
+  2. cookbook 输出小节应提醒输出属性标记 required:true，否则 InferValue 推断为可选、
+     运行时静默、render 里 value possibly-undefined
+- 查重：官方讨论区无 defineTool/schema DSL 相关帖（搜索结果为空）
+- 链接：https://github.com/deepseek-ai/deepseek-harness/discussions/2512
+- 帖中承诺：官方开放外部 PR 通道后，我们直接贡献这两处小改动
