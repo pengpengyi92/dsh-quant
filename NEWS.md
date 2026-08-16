@@ -1,5 +1,15 @@
 # News
 
+## 0.5.0 — 2026-08-16
+
+**多交易所行情数据源**
+
+- `quant_market_fetch` 新增 `provider` 参数：`binance`（默认）/ `okx` / `bybit`
+- OKX/Bybit 原生 REST adapter（零依赖 fetch + 倒序归一 + 统一 Candle）
+- 跨所一致性验证：同日 BTC close 偏差 0.005%（OKX 63063.3 vs Bybit 63066.3）
+- 4 个解析单测（真实响应样本）
+
+
 ## 0.4.0 — 2026-08-16
 
 **多资产组合回测**

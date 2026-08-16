@@ -178,6 +178,25 @@ console.log('btc+eth 60/40:   total:', pf.value.totalReturnPct.toFixed(2) + '%',
 console.log('final weights:  ', JSON.stringify(pf.value.finalWeights.map(x => x.toFixed(3))))
 assert(pf.value.equityCurve.length === 120 && pf.value.rebalances >= 3, 'portfolio shape')
 
+
+// 10) 多交易所（OKX / Bybit 真实数据）
+console.log('\n=== multi-exchange (real data) ===')
+const okx = await call('quant_market_fetch', { symbol: 'BTCUSDT', interval: '1d', limit: 5, provider: 'okx' })
+const byb = await call('quant_market_fetch', { symbol: 'BTCUSDT', interval: '1d', limit: 5, provider: 'bybit' })
+assert(!okx.isError && !byb.isError, 'okx/bybit should succeed')
+assert(okx.value.provider === 'okx' && byb.value.provider === 'bybit', 'provider labels')
+assert(okx.value.candles[0].openTime < okx.value.candles[4].openTime, 'okx ascending order')
+assert(byb.value.candles[0].openTime < byb.value.candles[4].openTime, 'bybit ascending order')
+console.log('okx BTC close:  ', okx.value.candles.map(c => c.close).join(', '))
+console.log('bybit BTC close:', byb.value.candles.map(c => c.close).join(', '))
+// 跨所一致性（同日期 close 应接近）
+const lastOkx = okx.value.candles[4].close
+const lastByb = byb.value.candles[4].close
+assert(Math.abs(lastOkx - lastByb) / lastByb < 0.02, `cross-exchange close mismatch: okx ${lastOkx} vs bybit ${lastByb}`)
+// 非法 provider 由 enum 拒绝
+const badP = await call('quant_market_fetch', { symbol: 'BTCUSDT', interval: '1d', provider: 'kraken' })
+assert(badP.isError, 'unknown provider must be an error')
+
 console.log('\n✅ all quant-indicators checks passed')
 
 function assert(cond: boolean, msg: string): void {

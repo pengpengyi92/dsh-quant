@@ -13,7 +13,7 @@
 
 | 工具 | 参数 | canonical 输出 | 首个有效位置 |
 |---|---|---|---|
-| `quant_market_fetch` | `symbol: string`（如 BTCUSDT）, `interval: 1m…1M`, `limit: 1-1000` | `{ symbol, interval, provider, candles: [{openTime, open, high, low, close, volume}] }` | — |
+| `quant_market_fetch` | `symbol: string`（如 BTCUSDT）, `interval: 1m…1M`, `limit: 1-1000`, `provider: binance/okx/bybit` | `{ symbol, interval, provider, candles: [{openTime, open, high, low, close, volume}] }` | — |
 | `quant_sma` | `values: number[]`, `window: integer` | `{ values: (number\|null)[], window }` | index `window-1` |
 | `quant_ema` | `values: number[]`, `window: integer` | `{ values: (number\|null)[], window }` | index `window-1`（seed = 前 window 均值，alpha = 2/(w+1)）|
 | `quant_rsi` | `values: number[]`, `window: integer = 14` | `{ values: (number\|null)[], window }` | index `window`（Wilder 平滑）|
@@ -80,6 +80,7 @@ schema 前缀稳定（工具集与顺序不变则复用）；结果追加在可�
 
 | 版本 | 日期 | 更新 |
 |---|---|---|
+| 0.5.0 | 2026-08-16 | 多交易所数据源（OKX / Bybit）|
 | 0.4.0 | 2026-08-16 | 多资产组合回测（定期再平衡）|
 | 0.3.0 | 2026-08-16 | 策略族（布林带突破 / RSI 反转）+ 止损止盈 + exitReason |
 | 0.2.0 | 2026-08-16 | +6 指标（KDJ / W%R / CCI / OBV / ADX / ROC）|

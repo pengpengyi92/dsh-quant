@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.5.0] - 2026-08-16
+
+### Added
+- `provider` parameter on `quant_market_fetch`: `binance` (default) / `okx` /
+  `bybit` — native zero-dependency REST adapters with unified Candle output
+- 4 adapter parse unit cases (real response samples); live cross-exchange
+  consistency check (OKX vs Bybit same-day close within 0.005%)
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.4.0] - 2026-08-16
 
 ### Added

@@ -16,7 +16,7 @@ import type { Context } from '@deepseek-ai/cordis'
 import { defineTool } from '@deepseek-ai/dsh-tools'
 import { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './indicators.js'
 import { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './backtest.js'
-import { INTERVALS, fetchKlines } from './market.js'
+import { INTERVALS, MARKET_PROVIDERS, fetchKlines } from './market.js'
 
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
@@ -222,6 +222,10 @@ export function apply(ctx: Context) {
         type: 'integer',
         description: 'Number of candles to fetch (1-1000), default 100',
       },
+      provider: {
+        type: 'string', enum: MARKET_PROVIDERS,
+        description: 'Exchange provider: binance (default) / okx / bybit',
+      },
     },
     output: {
       schema: {
@@ -264,10 +268,11 @@ export function apply(ctx: Context) {
       if (!Number.isInteger(limit) || limit < 1 || limit > 1000) {
         throw new Error(`limit must be an integer in [1, 1000], got ${limit}`)
       }
+      const provider = args.provider ?? 'binance'
       const signal = AbortSignal.any([exec.signal, AbortSignal.timeout(15_000)])
-      const candles = await fetchKlines(args.symbol, interval, limit, signal)
+      const candles = await fetchKlines(args.symbol, interval, limit, signal, provider)
       if (candles.length === 0) throw new Error(`no candles returned for ${args.symbol} ${interval}`)
-      return { symbol: args.symbol, interval, provider: 'binance', candles }
+      return { symbol: args.symbol, interval, provider, candles }
     },
   }))
 

@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { INTERVALS, parseKlines } from '../src/market.ts'
+import { INTERVALS, MARKET_PROVIDERS, parseBybitKlines, parseKlines, parseOkxKlines } from '../src/market.ts'
 
 // 2026-08-16 从 api.binance.com/api/v3/klines 抓取的真实两行样本
 const SAMPLE = [
@@ -38,4 +38,37 @@ test('parseKlines: 非法行抛错', () => {
 
 test('INTERVALS: 覆盖主流周期且为 Binance 枚举', () => {
   for (const i of ['1m', '1h', '4h', '1d', '1w', '1M']) assert.ok(INTERVALS.includes(i as never))
+})
+
+// OKX 与 Bybit 真实响应样本（2026-08-16 抓取，倒序）
+const OKX_SAMPLE = [
+  ['1786809600000', '63094', '63172.1', '63005', '63063.3', '461.10566882', '29090904.425990646', '29090904.425990646', '0'],
+  ['1786723200000', '62984.8', '63244.6', '62800', '63093.9', '1609.44088092', '101443411.222909332', '101443411.222909332', '1'],
+] as const
+
+const BYBIT_SAMPLE = [
+  ['1786838400000', '63085.1', '63152.2', '63002.9', '63066.1', '479.033223', '30215205.7355616'],
+  ['1786752000000', '63039.2', '63186', '62915.9', '63085.1', '1699.538092', '107176894.5246433'],
+] as const
+
+test('parseOkxKlines: 倒序反转为正序 + 字段映射', () => {
+  const candles = parseOkxKlines(OKX_SAMPLE)
+  assert.equal(candles.length, 2)
+  assert.equal(candles[0].openTime, 1786723200000) // 最早在前
+  assert.equal(candles[1].openTime, 1786809600000)
+  assert.equal(candles[0].close, 63093.9)
+  assert.equal(candles[1].open, 63094)
+})
+
+test('parseBybitKlines: 倒序反转为正序 + 字段映射', () => {
+  const candles = parseBybitKlines(BYBIT_SAMPLE)
+  assert.equal(candles.length, 2)
+  assert.equal(candles[0].openTime, 1786752000000)
+  assert.equal(candles[1].close, 63066.1)
+  assert.equal(candles[0].volume, 1699.538092)
+})
+
+test('parseOkx/Bybit: 非法行抛错', () => {
+  assert.throws(() => parseOkxKlines([[1, 'x']]), /expected >= 6 fields/)
+  assert.throws(() => parseBybitKlines([[1, 'a', '2', '3', '4', '5']]), /open is not a finite number/)
 })
