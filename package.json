@@ -1,6 +1,6 @@
 {
   "name": "dsh-quant",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "description": "dsh plugin: quantitative tools for agents — market data (Binance public API), technical indicators (SMA/EMA/RSI/MACD/Bollinger/ATR) and MA-crossover backtest, with structured canonical outputs consumable from Code Mode",
   "license": "MIT",
   "type": "module",
