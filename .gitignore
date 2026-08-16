@@ -1,0 +1,13 @@
+# dependencies
+node_modules/
+
+# build output
+lib/
+*.tsbuildinfo
+
+# npm
+*.tgz
+
+# misc
+.DS_Store
+*.log
