@@ -1,5 +1,15 @@
 # News
 
+## 0.7.0 — 2026-08-16
+
+**工程完备化：开箱即用 + 交互 + 依赖治理**
+
+- `log/`：每版本更新记录；`mcp/`：交互指南 + tools.json（19 工具 schema，运行时生成）；`docs/ENVIRONMENT.md`：环境依赖全清单
+- 纯函数再导出：任意 Node 项目 `import { sma, backtestMaCross } from 'dsh-quant'` 零 harness 使用
+- README：欢迎 PR、定期 merge；fork/pull → npm ci → npm test 即通过
+- 定位：dsh 好用的 quant 研究工程（R&D 是核心）
+
+
 ## 0.6.0 — 2026-08-16
 
 **数据渠道指南 + 更名**

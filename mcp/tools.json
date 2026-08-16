@@ -1,0 +1,660 @@
+{
+  "generator": "scripts/gen-tools-json.ts",
+  "package": "dsh-quant",
+  "generatedAt": "2026-08-16T10:00:30.566Z",
+  "toolCount": 19,
+  "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
+  "tools": [
+    {
+      "name": "quant_sma",
+      "description": "Compute the simple moving average (SMA) of a price series over a window. Returns values aligned to the input length; the first window-1 positions are null.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "description": "Price series, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "window": {
+            "type": "integer",
+            "description": "Window size (>= 1)"
+          }
+        },
+        "required": [
+          "values",
+          "window"
+        ]
+      }
+    },
+    {
+      "name": "quant_ema",
+      "description": "Compute the exponential moving average (EMA) of a price series over a window (alpha = 2/(window+1), seed = mean of the first window). Returns values aligned to the input length; the first window-1 positions are null.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "description": "Price series, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "window": {
+            "type": "integer",
+            "description": "Window size (>= 1)"
+          }
+        },
+        "required": [
+          "values",
+          "window"
+        ]
+      }
+    },
+    {
+      "name": "quant_rsi",
+      "description": "Compute the Relative Strength Index (RSI, Wilder smoothing) of a price series. Returns values aligned to the input length; the first window positions are null (the first valid value needs window+1 inputs).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "description": "Price series, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "window": {
+            "type": "integer",
+            "description": "Window size (>= 1), default 14"
+          }
+        },
+        "required": [
+          "values"
+        ]
+      }
+    },
+    {
+      "name": "quant_macd",
+      "description": "Compute the MACD oscillator (fast/slow EMAs, signal EMA of the MACD line, histogram). All three arrays are aligned to the input length: macd has slow-1 leading nulls, signal and histogram have slow+signal-2 leading nulls.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "description": "Price series, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "fast": {
+            "type": "integer",
+            "description": "Fast EMA window, default 12"
+          },
+          "slow": {
+            "type": "integer",
+            "description": "Slow EMA window, default 26"
+          },
+          "signal": {
+            "type": "integer",
+            "description": "Signal EMA window, default 9"
+          }
+        },
+        "required": [
+          "values"
+        ]
+      }
+    },
+    {
+      "name": "quant_bollinger",
+      "description": "Compute Bollinger Bands (middle = SMA, bands = multiplier * population standard deviation). Returns upper/middle/lower aligned to the input length; the first window-1 positions are null.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "description": "Price series, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "window": {
+            "type": "integer",
+            "description": "Window size (>= 1), default 20"
+          },
+          "multiplier": {
+            "type": "number",
+            "description": "Standard-deviation multiplier, default 2"
+          }
+        },
+        "required": [
+          "values"
+        ]
+      }
+    },
+    {
+      "name": "quant_atr",
+      "description": "Compute the Average True Range (ATR, Wilder smoothing) from high/low/close arrays. Returns values aligned to the input length; the first window positions are null (the first valid value needs window+1 inputs).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "high": {
+            "type": "array",
+            "description": "High prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "low": {
+            "type": "array",
+            "description": "Low prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "close": {
+            "type": "array",
+            "description": "Close prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "window": {
+            "type": "integer",
+            "description": "Window size (>= 1), default 14"
+          }
+        },
+        "required": [
+          "high",
+          "low",
+          "close"
+        ]
+      }
+    },
+    {
+      "name": "quant_market_fetch",
+      "description": "Fetch OHLCV candles for a symbol from the Binance public API (no credentials). Returns structured candles (openTime in Unix ms, open/high/low/close/volume). Feed the close values into quant_sma / quant_ema / quant_rsi / quant_macd / quant_bollinger / quant_atr for indicators. Symbols use exchange format (e.g. BTCUSDT).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Trading pair in exchange format, uppercase letters and digits (e.g. BTCUSDT, ETHUSDT)"
+          },
+          "interval": {
+            "type": "string",
+            "description": "Candle interval",
+            "enum": [
+              "1m",
+              "3m",
+              "5m",
+              "15m",
+              "30m",
+              "1h",
+              "2h",
+              "4h",
+              "6h",
+              "8h",
+              "12h",
+              "1d",
+              "3d",
+              "1w",
+              "1M"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Number of candles to fetch (1-1000), default 100"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Exchange provider: binance (default) / okx / bybit",
+            "enum": [
+              "binance",
+              "okx",
+              "bybit"
+            ]
+          }
+        },
+        "required": [
+          "symbol"
+        ]
+      }
+    },
+    {
+      "name": "quant_backtest",
+      "description": "Backtest a dual moving-average crossover strategy on a close series: buy all-in when the fast SMA crosses above the slow SMA, sell all-out when it crosses below. Signals confirm on bar i and execute at the next bar close (no look-ahead). Returns trades, position, normalized equity curve, total return, max drawdown and annualized Sharpe. Feed quant_market_fetch close values or your own series.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "close": {
+            "type": "array",
+            "description": "Close prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "fast": {
+            "type": "integer",
+            "description": "Fast SMA window, default 10"
+          },
+          "slow": {
+            "type": "integer",
+            "description": "Slow SMA window, default 30"
+          },
+          "feeRate": {
+            "type": "number",
+            "description": "Round-trip fee rate applied per side, default 0.001"
+          },
+          "stopLoss": {
+            "type": "number",
+            "description": "Optional stop-loss as a fraction of entry price, e.g. 0.05 = 5% below entry"
+          },
+          "takeProfit": {
+            "type": "number",
+            "description": "Optional take-profit as a fraction of entry price, e.g. 0.10 = 10% above entry"
+          }
+        },
+        "required": [
+          "close"
+        ]
+      }
+    },
+    {
+      "name": "quant_backtest_grid",
+      "description": "Grid-search the fast/slow windows of the dual-MA crossover strategy: run quant_backtest for every (fast, slow) pair in the given ranges and return results sorted by total return with the best combo. Pairs where fast >= slow are skipped. Use to find promising parameters before deeper analysis.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "close": {
+            "type": "array",
+            "description": "Close prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "fastMin": {
+            "type": "integer",
+            "description": "Fast window lower bound, default 3"
+          },
+          "fastMax": {
+            "type": "integer",
+            "description": "Fast window upper bound, default 10"
+          },
+          "slowMin": {
+            "type": "integer",
+            "description": "Slow window lower bound, default 10"
+          },
+          "slowMax": {
+            "type": "integer",
+            "description": "Slow window upper bound, default 30"
+          },
+          "feeRate": {
+            "type": "number",
+            "description": "Round-trip fee rate applied per side, default 0.001"
+          }
+        },
+        "required": [
+          "close"
+        ]
+      }
+    },
+    {
+      "name": "quant_kdj",
+      "description": "Compute the KDJ stochastic oscillator (RSV method, K/D seeded at 50): K = (2*K_prev + RSV)/3, D = (2*D_prev + K)/3, J = 3K - 2D over a rolling high/low window. Returns k/d/j arrays aligned to the input length; the first window-1 positions are null.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "high": {
+            "type": "array",
+            "description": "High prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "low": {
+            "type": "array",
+            "description": "Low prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "close": {
+            "type": "array",
+            "description": "Close prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "window": {
+            "type": "integer",
+            "description": "Window size (>= 1), default 9"
+          }
+        },
+        "required": [
+          "high",
+          "low",
+          "close"
+        ]
+      }
+    },
+    {
+      "name": "quant_williams_r",
+      "description": "Compute the Williams %R oscillator: (highest high - close) / (highest high - lowest low) * -100 over a rolling window, range -100..0 (-20 and above = overbought, -80 and below = oversold). Returns values aligned to the input length; the first window-1 positions are null.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "high": {
+            "type": "array",
+            "description": "High prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "low": {
+            "type": "array",
+            "description": "Low prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "close": {
+            "type": "array",
+            "description": "Close prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "window": {
+            "type": "integer",
+            "description": "Window size (>= 1), default 14"
+          }
+        },
+        "required": [
+          "high",
+          "low",
+          "close"
+        ]
+      }
+    },
+    {
+      "name": "quant_cci",
+      "description": "Compute the Commodity Channel Index (CCI): (typical price - SMA of typical price) / (0.015 * mean absolute deviation). Readings above +100 suggest overbought, below -100 oversold. Returns values aligned to the input length; the first window-1 positions are null.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "high": {
+            "type": "array",
+            "description": "High prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "low": {
+            "type": "array",
+            "description": "Low prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "close": {
+            "type": "array",
+            "description": "Close prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "window": {
+            "type": "integer",
+            "description": "Window size (>= 1), default 20"
+          }
+        },
+        "required": [
+          "high",
+          "low",
+          "close"
+        ]
+      }
+    },
+    {
+      "name": "quant_obv",
+      "description": "Compute On-Balance Volume (OBV): a cumulative line that adds volume on up days and subtracts it on down days. Returns values aligned to the input length (first value 0, no nulls). Feed with volume from quant_market_fetch candles.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "close": {
+            "type": "array",
+            "description": "Close prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "volume": {
+            "type": "array",
+            "description": "Volumes, aligned with close",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "close",
+          "volume"
+        ]
+      }
+    },
+    {
+      "name": "quant_adx",
+      "description": "Compute the Average Directional Index (ADX) with +DI and -DI (Wilder smoothing). ADX above 25 signals a trending market; +DI above -DI signals upward trend. plusDi/minusDi start at index window; adx starts at index 2*window-1 (earlier positions are null).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "high": {
+            "type": "array",
+            "description": "High prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "low": {
+            "type": "array",
+            "description": "Low prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "close": {
+            "type": "array",
+            "description": "Close prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "window": {
+            "type": "integer",
+            "description": "Window size (>= 1), default 14"
+          }
+        },
+        "required": [
+          "high",
+          "low",
+          "close"
+        ]
+      }
+    },
+    {
+      "name": "quant_roc",
+      "description": "Compute the Rate of Change (ROC): (close - close n bars ago) / close n bars ago * 100. Positive = upward momentum, negative = downward. Returns values aligned to the input length; the first window positions are null.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "description": "Price series, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "window": {
+            "type": "integer",
+            "description": "Lookback window (>= 1), default 12"
+          }
+        },
+        "required": [
+          "values"
+        ]
+      }
+    },
+    {
+      "name": "quant_backtest_bollinger",
+      "description": "Backtest a Bollinger-band breakout strategy: buy when close crosses above the upper band, sell when close crosses below the middle band (SMA), with optional stop-loss/take-profit. Signals confirm on bar i and execute at bar i+1 close (no look-ahead). Returns trades (with exitReason), position, equity curve, total return, max drawdown and Sharpe.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "close": {
+            "type": "array",
+            "description": "Close prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "window": {
+            "type": "integer",
+            "description": "Bollinger window, default 20"
+          },
+          "multiplier": {
+            "type": "number",
+            "description": "Band standard-deviation multiplier, default 2"
+          },
+          "feeRate": {
+            "type": "number",
+            "description": "Round-trip fee rate applied per side, default 0.001"
+          },
+          "stopLoss": {
+            "type": "number",
+            "description": "Optional stop-loss fraction of entry price, e.g. 0.05"
+          },
+          "takeProfit": {
+            "type": "number",
+            "description": "Optional take-profit fraction of entry price, e.g. 0.10"
+          }
+        },
+        "required": [
+          "close"
+        ]
+      }
+    },
+    {
+      "name": "quant_backtest_rsi",
+      "description": "Backtest an RSI mean-reversion strategy: buy when RSI crosses above buyBelow (default 30), sell when RSI crosses below sellAbove (default 70), with optional stop-loss/take-profit. Signals confirm on bar i and execute at bar i+1 close (no look-ahead). Returns trades (with exitReason), position, equity curve, total return, max drawdown and Sharpe.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "close": {
+            "type": "array",
+            "description": "Close prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "rsiWindow": {
+            "type": "integer",
+            "description": "RSI window, default 14"
+          },
+          "buyBelow": {
+            "type": "number",
+            "description": "Buy threshold (RSI crosses above), default 30"
+          },
+          "sellAbove": {
+            "type": "number",
+            "description": "Sell threshold (RSI crosses below), default 70"
+          },
+          "feeRate": {
+            "type": "number",
+            "description": "Round-trip fee rate applied per side, default 0.001"
+          },
+          "stopLoss": {
+            "type": "number",
+            "description": "Optional stop-loss fraction of entry price, e.g. 0.05"
+          },
+          "takeProfit": {
+            "type": "number",
+            "description": "Optional take-profit fraction of entry price, e.g. 0.10"
+          }
+        },
+        "required": [
+          "close"
+        ]
+      }
+    },
+    {
+      "name": "quant_backtest_portfolio",
+      "description": "Backtest a multi-asset portfolio: initial allocation by weights, optional periodic rebalancing back to target weights every rebalanceEvery bars, two-sided fees on all trades. Returns normalized equity curve, total return, max drawdown, Sharpe, final weights and rebalance count.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "assets": {
+            "type": "array",
+            "description": "Assets with equal-length close series, e.g. from quant_market_fetch per symbol",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "close": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "required": [
+                "name",
+                "close"
+              ]
+            }
+          },
+          "weights": {
+            "type": "array",
+            "description": "Optional target weights summing to 1; defaults to equal weight",
+            "items": {
+              "type": "number"
+            }
+          },
+          "rebalanceEvery": {
+            "type": "integer",
+            "description": "Optional rebalance period in bars; omit for buy-and-hold"
+          },
+          "feeRate": {
+            "type": "number",
+            "description": "Round-trip fee rate applied per side, default 0.001"
+          }
+        },
+        "required": [
+          "assets"
+        ]
+      }
+    },
+    {
+      "name": "quant_data_guide",
+      "description": "Guide to China A-share / financial data channels: query by channel name (akshare, baostock, tushare, wind, ifind, sse, szse, csindex) or by data type (行情/财务/宏观/期货/指数/基金…). Returns structured channel info: url, cost, data types, setup steps, tutorials, best-for. This plugin ships channel knowledge, not data APIs — users bring their own credentials and budgets.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Channel name or data type to search, e.g. \"tushare\", \"日线行情\", \"财务\" (omit when channel is given)"
+          },
+          "channel": {
+            "type": "string",
+            "description": "Exact channel name to fetch one detailed record (takes precedence over query)"
+          }
+        }
+      }
+    }
+  ]
+}

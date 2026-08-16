@@ -7,7 +7,13 @@
 
 给 dsh 模型的一组量化工具：行情数据获取（Binance 公共 API）+ 技术指标计算（SMA / EMA / RSI / MACD / 布林带 / ATR / KDJ / W%R / CCI / OBV / ADX / ROC）+ 三大策略回测（双均线交叉 / 布林带突破 / RSI 均值回归）+ 资金管理（止损/止盈）。
 
-定位：量化场景的 agent 需要"取数据 → 算指标 → 回测"的完整链路，A 股数据走渠道导航（本插件提供渠道知识，不提供数据 API、不为数据付费）。官方工具集（bash/fs/web/terminal/subagent…）目前没有技术指标——本插件填补这个空白。指标与回测为纯函数实现，零外部依赖，可离线验证；行情获取走免费公共 API，无需凭据。
+定位：**dsh 好用的 quant 研究工程（research & engineering 助手）**——R&D 是 dsh-quant 的核心：
+量化场景的 agent 需要"取数据 → 算指标 → 回测"的完整链路，A 股数据走渠道导航（本插件提供
+渠道知识，不提供数据 API、不为数据付费）。
+
+**欢迎 PR，定期 merge！** 只要符合 [CONTRIBUTING.md](CONTRIBUTING.md) 的契约清单即可提交；
+fork/pull 下来 → `npm ci` → `npm test` 即可通过、直接使用（详见
+[docs/ENVIRONMENT.md](docs/ENVIRONMENT.md)）。官方工具集（bash/fs/web/terminal/subagent…）目前没有技术指标——本插件填补这个空白。指标与回测为纯函数实现，零外部依赖，可离线验证；行情获取走免费公共 API，无需凭据。
 
 ## 工具
 
@@ -98,6 +104,14 @@ schema 前缀稳定（工具集与顺序不变则复用）；结果追加在可�
 - **presentCall/presentResult 未定制**：指标结果无文件/终端/diff 语义，UI 走 generic 卡片兜底。
 - **行情工具依赖网络**：在线用例在 verify.ts 中，网络不可达时该用例失败（离线指标/回测用例不受影响）。
 - 未发布：本地开发包名 `dsh-quant`，发布时定 npm scope 并打 `dsh-plugin` topic。构建链（tsc → lib）与消费者场景已验证，`npm pack --dry-run` 通过（7 文件 11.5 kB）。
+
+## 快速开始（fork/pull 后）
+
+```sh
+npm ci && npm run build && npm test    # 离线全测试（50 单元 + 4 Loader）
+npm run test:verify                    # 真实行情集成（需网络）
+npm run gen:tools                      # 重新生成 mcp/tools.json
+```
 
 ## 构建与使用
 

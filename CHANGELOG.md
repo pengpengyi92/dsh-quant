@@ -4,6 +4,20 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.7.0] - 2026-08-16
+
+### Added
+- `log/` per-version records; `mcp/` integration guide + runtime-generated
+  `tools.json` (19 tool schemas); `docs/ENVIRONMENT.md` dependency matrix
+- Pure-function re-exports from the package entry (`sma`, `backtestMaCross`,
+  `searchChannels`, …) usable without any harness
+- README quick-start, PR welcome note, R&D positioning
+
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
+[SemVer](https://semver.org/).
+
 ## [0.6.0] - 2026-08-16
 
 ### Added

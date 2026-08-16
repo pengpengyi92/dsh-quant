@@ -19,6 +19,13 @@ import { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortf
 import { INTERVALS, MARKET_PROVIDERS, fetchKlines } from './market.js'
 import { findChannel, searchChannels } from './data-guide.js'
 
+// ── 纯函数再导出：非 dsh 环境（任意 Node 项目）直接 import 使用 ──
+// 注意：本插件仍是纯 named-export 函数插件（无 default export），Loader 不受影响。
+export { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './indicators.js'
+export { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './backtest.js'
+export { fetchKlines, parseKlines, parseOkxKlines, parseBybitKlines, INTERVALS, MARKET_PROVIDERS } from './market.js'
+export { DATA_CHANNELS, findChannel, searchChannels } from './data-guide.js'
+
 export const name = 'quant-indicators'
 export const inject = ['tools'] as const
 
