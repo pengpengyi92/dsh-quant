@@ -23,6 +23,10 @@
 | Virtu | 零开源（披露文件型）| [virtu.md](virtu.md) |
 | DE Shaw | 近零（DESRES 科研输出）| [deshaw.md](deshaw.md) |
 | Renaissance | 永远为零（光谱终点）| [rentec.md](rentec.md) |
+| Man Group | 数据栈开源（ArcticDB）| [mangroup.md](mangroup.md) |
+| AQR | 论文+数据集型（AQR Data Sets）| [aqr.md](aqr.md) |
+| GSA | 零开源（伦敦低调）| [gsa.md](gsa.md) |
+| Bridgewater | 思想开源（Principles）| [bridgewater.md](bridgewater.md) |
 
 ## 收录规则（欢迎 PR）
 

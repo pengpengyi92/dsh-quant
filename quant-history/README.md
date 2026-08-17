@@ -23,6 +23,10 @@
 | Virtu | 2008（Vincent Viola）| 规模化做市（上市 VIRT）| [virtu.md](virtu.md) |
 | DE Shaw | 1988（David E. Shaw）| 计算金融鼻祖 | [deshaw.md](deshaw.md) |
 | Renaissance | 1982（Jim Simons）| 大奖章黑箱之王 | [rentec.md](rentec.md) |
+| Man Group | 1783（James Man）| 上市多管理人（AHL CTA 鼻祖）| [mangroup.md](mangroup.md) |
+| AQR | 1998（Cliff Asness）| 因子投资传教士 | [aqr.md](aqr.md) |
+| GSA Capital | 2005（伦敦）| 低调系统化多策略 | [gsa.md](gsa.md) |
+| Bridgewater | 1975（Ray Dalio）| 宏观之王 + 风险平价 | [bridgewater.md](bridgewater.md) |
 
 ## 收录规则（欢迎 PR）
 
