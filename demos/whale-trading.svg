@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 260" role="img" aria-label="Q 版二次元鲸鱼举着激光屏做量化交易">
+  <defs>
+    <radialGradient id="body" cx="38%" cy="32%" r="85%">
+      <stop offset="0%" stop-color="#6d8fc4"/>
+      <stop offset="100%" stop-color="#3a5c92"/>
+    </radialGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0e2038"/>
+      <stop offset="100%" stop-color="#0a1426"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 地面阴影 -->
+  <ellipse cx="150" cy="238" rx="110" ry="10" fill="#1a2c44" opacity="0.14"/>
+
+  <!-- 喷水柱 -->
+  <path d="M140 108 C140 86, 124 74, 118 82 C132 84, 134 96, 131 106" fill="none" stroke="#7fc8f8" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="110" cy="88" r="4" fill="#7fc8f8"/>
+  <circle cx="150" cy="82" r="3" fill="#7fc8f8"/>
+  <circle cx="164" cy="94" r="2.5" fill="#a8dcff"/>
+
+  <!-- 尾巴 -->
+  <path d="M228 174 Q252 150 264 134 Q250 162 234 174 Q254 178 262 190 Q244 186 228 180 Z" fill="#3a5c92"/>
+
+  <!-- 身体 -->
+  <ellipse cx="140" cy="176" rx="96" ry="62" fill="url(#body)"/>
+
+  <!-- 肚皮 -->
+  <path d="M66 188 Q140 234 214 188 Q178 212 140 214 Q102 212 66 188 Z" fill="#eaf3fb"/>
+
+  <!-- 背鳍 -->
+  <path d="M154 118 Q170 96 182 118" fill="#2f4d7c" stroke="#2f4d7c" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- 胸鳍（托着屏幕） -->
+  <path d="M112 196 Q150 168 204 136" fill="none" stroke="#2f4d7c" stroke-width="16" stroke-linecap="round"/>
+
+  <!-- 二次元大眼睛（左） -->
+  <circle cx="108" cy="158" r="21" fill="#ffffff"/>
+  <ellipse cx="110" cy="160" rx="12" ry="14" fill="#23233f"/>
+  <circle cx="106" cy="153" r="6" fill="#ffffff"/>
+  <circle cx="116" cy="165" r="3.2" fill="#9db8ff"/>
+
+  <!-- 二次元大眼睛（右） -->
+  <circle cx="176" cy="156" r="18" fill="#ffffff"/>
+  <ellipse cx="178" cy="158" rx="10" ry="12" fill="#23233f"/>
+  <circle cx="174" cy="152" r="5" fill="#ffffff"/>
+  <circle cx="183" cy="162" r="2.6" fill="#9db8ff"/>
+
+  <!-- 腮红 -->
+  <ellipse cx="80" cy="182" rx="12" ry="7" fill="#ffb3c1" opacity="0.85"/>
+  <ellipse cx="198" cy="180" rx="10" ry="6" fill="#ffb3c1" opacity="0.85"/>
+
+  <!-- 嘴（w） -->
+  <path d="M134 190 Q140 196 146 190" fill="none" stroke="#23233f" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- 领结（品牌橙） -->
+  <path d="M134 210 L142 216 L134 222 Z" fill="#e95420"/>
+  <path d="M142 210 L134 216 L142 222 Z" fill="#e95420"/>
+  <circle cx="138" cy="216" r="3" fill="#b84318"/>
+
+  <!-- 激光束（屏 → 鳍） -->
+  <g stroke="#4fd8ff" stroke-width="2" opacity="0.75" stroke-linecap="round">
+    <line x1="198" y1="142" x2="196" y2="150"/>
+    <line x1="212" y1="146" x2="206" y2="156"/>
+    <line x1="224" y1="148" x2="216" y2="160"/>
+  </g>
+  <circle cx="194" cy="144" r="2.5" fill="#bff0ff"/>
+  <circle cx="210" cy="150" r="2" fill="#bff0ff"/>
+  <circle cx="222" cy="152" r="1.8" fill="#bff0ff"/>
+
+  <!-- 全息激光屏 -->
+  <g transform="rotate(-6 258 96)">
+    <rect x="196" y="40" width="124" height="112" rx="10" fill="#4fd8ff" opacity="0.16" stroke="#4fd8ff" stroke-width="7" opacity="0.9"/>
+    <rect x="196" y="40" width="124" height="112" rx="10" fill="url(#screen)" stroke="#7fe3ff" stroke-width="2"/>
+    <!-- 扫描线 -->
+    <g stroke="#7fe3ff" opacity="0.18" stroke-width="1">
+      <line x1="196" y1="56" x2="320" y2="56"/>
+      <line x1="196" y1="72" x2="320" y2="72"/>
+      <line x1="196" y1="88" x2="320" y2="88"/>
+      <line x1="196" y1="104" x2="320" y2="104"/>
+      <line x1="196" y1="120" x2="320" y2="120"/>
+      <line x1="196" y1="136" x2="320" y2="136"/>
+    </g>
+    <!-- 顶部状态栏 -->
+    <rect x="196" y="40" width="124" height="14" rx="10" fill="#123152"/>
+    <text x="206" y="50" font-family="ui-monospace, Menlo, monospace" font-size="8" fill="#8fd8ff">QUANT TERM ▮▮▮</text>
+    <circle cx="310" cy="47" r="3" fill="#26a69a"/>
+
+    <!-- K 线 -->
+    <g stroke-linecap="round">
+      <line x1="212" y1="84" x2="212" y2="132" stroke="#ef5350" stroke-width="1.4"/>
+      <rect x="208" y="96" width="8" height="14" rx="1" fill="#ef5350"/>
+      <line x1="228" y1="76" x2="228" y2="126" stroke="#26a69a" stroke-width="1.4"/>
+      <rect x="224" y="88" width="8" height="16" rx="1" fill="#26a69a"/>
+      <line x1="244" y1="70" x2="244" y2="118" stroke="#26a69a" stroke-width="1.4"/>
+      <rect x="240" y="80" width="8" height="18" rx="1" fill="#26a69a"/>
+      <line x1="260" y1="62" x2="260" y2="112" stroke="#ef5350" stroke-width="1.4"/>
+      <rect x="256" y="74" width="8" height="20" rx="1" fill="#ef5350"/>
+      <line x1="276" y1="56" x2="276" y2="104" stroke="#26a69a" stroke-width="1.4"/>
+      <rect x="272" y="66" width="8" height="22" rx="1" fill="#26a69a"/>
+    </g>
+    <!-- 上涨曲线 -->
+    <polyline points="212,94 228,86 244,78 260,72 276,64" fill="none" stroke="#ffd166" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="276" cy="64" r="2.6" fill="#ffd166"/>
+
+    <!-- 底部数据 -->
+    <text x="206" y="144" font-family="ui-monospace, Menlo, monospace" font-size="8" fill="#8fd8ff">NAV 1.0247 ▲</text>
+    <text x="206" y="150" font-family="ui-monospace, Menlo, monospace" font-size="6.5" fill="#5f9ec9">SHARPE 1.83 · 46 TOOLS</text>
+  </g>
+
+  <!-- 漂浮数据粒子 -->
+  <text x="322" y="70" font-family="ui-monospace, Menlo, monospace" font-size="7" fill="#ffd166" opacity="0.9">BTC ▲2.4%</text>
+  <text x="316" y="172" font-family="ui-monospace, Menlo, monospace" font-size="7" fill="#8fd8ff" opacity="0.8">IV 20.00%</text>
+
+  <!-- 星星 ✨ -->
+  <path d="M296 24 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 Z" fill="#ffd166"/>
+  <path d="M36 128 l2.4 5.6 5.6 2.4 -5.6 2.4 -2.4 5.6 -2.4 -5.6 -5.6 -2.4 5.6 -2.4 Z" fill="#ffd166" opacity="0.9"/>
+  <circle cx="330" cy="130" r="2.2" fill="#ffe29a"/>
+  <circle cx="44" cy="60" r="2" fill="#ffe29a"/>
+</svg>
