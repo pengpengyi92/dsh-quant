@@ -19,6 +19,10 @@
 | Hudson River Trading | 极少（谜题文化输出）| [hrt.md](hrt.md) |
 | Point72 | 首个开源库 csp（流处理）| [point72.md](point72.md) |
 | Squarepoint | 零开源（隐身端）| [squarepoint.md](squarepoint.md) |
+| Two Sigma | 研究基础设施开源（flint/beakerx）| [twosigma.md](twosigma.md) |
+| Virtu | 零开源（披露文件型）| [virtu.md](virtu.md) |
+| DE Shaw | 近零（DESRES 科研输出）| [deshaw.md](deshaw.md) |
+| Renaissance | 永远为零（光谱终点）| [rentec.md](rentec.md) |
 
 ## 收录规则（欢迎 PR）
 
