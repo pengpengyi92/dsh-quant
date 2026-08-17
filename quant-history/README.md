@@ -13,6 +13,9 @@
 | Citadel | 1990（Ken Griffin）| 多策略对冲基金 + 做市 | [citadel.md](citadel.md) |
 | Optiver | 1986（阿姆斯特丹）| 期权做市 | [optiver.md](optiver.md) |
 | Jane Street | 2000（纽约）| ETF/股票做市 + 自营 | [janestreet.md](janestreet.md) |
+| Millennium | 1989（Izzy Englander）| 多策略对冲基金（pod 结构）| [millennium.md](millennium.md) |
+| WorldQuant | 2007（Igor Tulchinsky）| Alpha 工厂 + 研究平台 | [worldquant.md](worldquant.md) |
+| Jump Trading | 1999（芝加哥）| HFT/做市 + 加密基础设施 | [jumptrading.md](jumptrading.md) |
 
 ## 收录规则（欢迎 PR）
 

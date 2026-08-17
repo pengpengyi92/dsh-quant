@@ -13,6 +13,9 @@
 | Jane Street | 极度开放（~90 repos，OCaml 生态）| [janestreet.md](janestreet.md) |
 | Optiver | 教育型开源（做市竞赛 SDK）| [optiver.md](optiver.md) |
 | Citadel | 几乎为零（保密文化）| [citadel.md](citadel.md) |
+| Millennium | 几乎为零（pod 保密叠加）| [millennium.md](millennium.md) |
+| WorldQuant | 论文与平台型（101 Alphas/BRAIN）| [worldquant.md](worldquant.md) |
+| Jump Trading | 基础设施开源（Firedancer/Wormhole/Pyth）| [jumptrading.md](jumptrading.md) |
 
 ## 收录规则（欢迎 PR）
 
