@@ -45,7 +45,9 @@
     "CHANGELOG.md",
     "CONTRIBUTING.md",
     "LICENSE",
-    "demos"
+    "demos",
+    "quant-history",
+    "quant-repo"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",

@@ -232,3 +232,5 @@ cd deepseek-harness && pnpm exec tsx ../quant-indicators/consumer-test/boot.ts
 欢迎 issue / PR / discussion，也欢迎把你的域视角发到 [Discussion #10](https://github.com/pengpengyi92/dsh-quant/discussions/10) 一起交流。🐋
 
 生态基建：[量化生态目录](docs/QUANT_ECOSYSTEM.md) · [生态内化手册](docs/ECOSYSTEM_PLAYBOOK.md) · [生态地图 Discussion #11](https://github.com/pengpengyi92/dsh-quant/discussions/11)
+
+研究栏目：[quant-history 量化大厂历史](quant-history/) · [quant-repo 大厂开源专刊](quant-repo/)
