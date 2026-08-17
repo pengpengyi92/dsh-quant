@@ -65,7 +65,7 @@ export { realizedVolatility } from './dsh-risk/volatility.js'
 export { executeSimulate } from './dsh-execution/execute.js'
 export { researchPipeline, researchMultiAsset } from './dsh-execution/pipeline.js'
 
-export const name = 'quant-indicators'
+export const name = 'dsh-quant'
 export const inject = ['tools'] as const
 
 const numberArrayParam = {

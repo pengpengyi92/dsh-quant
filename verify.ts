@@ -1,5 +1,5 @@
 /**
- * 验证脚本：boot ctx → 注册 quant-indicators → 验证 6 个工具的
+ * 验证脚本：boot ctx → 注册 dsh-quant → 验证工具的
  * 模型可见 schema、完整执行管线、数值正确性（已知答案）、isError 路径。
  *
  * 运行（从 deepseek-harness 目录）：
@@ -13,7 +13,7 @@ import { apply as applyQuantTools } from './src/index.ts'
 const ctx = new Context()
 await ctx.plugin(SystemPrompt)
 await ctx.plugin(ToolRuntime)
-await ctx.plugin({ name: 'quant-indicators', inject: ['tools'], apply: applyQuantTools })
+await ctx.plugin({ name: 'dsh-quant', inject: ['tools'], apply: applyQuantTools })
 
 const signal = new AbortController().signal
 const call = (name: string, args: Record<string, unknown>) =>
@@ -428,7 +428,7 @@ assert(lm.value.weights.length === 1 && Number.isFinite(lm.value.trainR2), 'line
 assert(lm.value.predictions !== null && lm.value.testR2 !== null && Number.isFinite(lm.value.testIc), 'linear model test metrics')
 console.log('linear model:    train R2', lm.value.trainR2.toFixed(4), '| test R2', lm.value.testR2.toFixed(4), '| test IC', lm.value.testIc.toFixed(4), '| weight', lm.value.weights[0].toFixed(5))
 
-console.log('\n✅ all quant-indicators checks passed')
+console.log('\n✅ all dsh-quant checks passed')
 
 function assert(cond: boolean, msg: string): void {
   if (!cond) throw new Error(`assertion failed: ${msg}`)

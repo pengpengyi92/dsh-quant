@@ -1,8 +1,9 @@
-# The dsh-quant-indicators bundle patch: inserts the quant toolkit into any
-# profile that stacks this bundle (or installs it via `dsh plugin add`).
+# The dsh-quant bundle patch: inserts the quant toolkit into any profile
+# that stacks this bundle (or installs it via `dsh plugin add dsh-quant`).
 #
 # Row id and plugin name: a user can override config or disable the row from
-# their own cordis.patch.yml by id.
+# their own cordis.patch.yml by id. The row id keeps the historical
+# 'quant-indicators' anchor for backward compatibility with existing patches.
 
 - insert:
     - id: quant-indicators
