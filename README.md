@@ -225,7 +225,7 @@ cd deepseek-harness && pnpm exec tsx ../quant-indicators/consumer-test/boot.ts
 
 如果 dsh-quant 帮到了你的研究，欢迎点个 ⭐——每一颗星都会让更多 dsh 用户看到这个项目。
 
-![dsh 鲸鱼举着激光屏看盘](demos/whale-trading.svg)
+<p align="center"><img src="demos/whale-trading.png" alt="dsh 鲸鱼举着激光屏看盘" width="420" /></p>
 
 这只鲸鱼指代 DeepSeek Harness（dsh）——它正举着激光屏看盘 🐋
 
