@@ -10,15 +10,42 @@
 [![ci](https://github.com/pengpengyi92/dsh-quant/actions/workflows/ci.yml/badge.svg)](https://github.com/pengpengyi92/dsh-quant/actions)
 [![dsh-plugin](https://img.shields.io/badge/dsh-plugin-blue)](https://github.com/topics/dsh-plugin)
 
-给 dsh 模型的一组量化工具：行情数据获取（Binance 公共 API）+ 技术指标计算（SMA / EMA / RSI / MACD / 布林带 / ATR / KDJ / W%R / CCI / OBV / ADX / ROC）+ 三大策略回测（双均线交叉 / 布林带突破 / RSI 均值回归）+ 资金管理（止损/止盈）。
+> **AI-native & DSH-native quant toolkit for every quant aspect** —— 46 工具 · 6 域
+> （data / alpha / ML / risk / execution / ecosystem）· 一条端到端 PDAT→PET
+> 研究管线。**Methods open, secrets internal**（方法公开，秘密内部）。
 
-定位：**dsh 好用的 quant 研究工程（research & engineering 助手）**——R&D 是 dsh-quant 的核心：
-量化场景的 agent 需要"取数据 → 算指标 → 回测"的完整链路，A 股数据走渠道导航（本插件提供
-渠道知识，不提供数据 API、不为数据付费）。
+## 🤖 AI-native 是刻意的（设计声明）
 
-**欢迎 PR，定期 merge！** 特别是数据检测与标注维度——缺值/异常/跳变/OHLCV 合法性/时间戳/冻结等常见维度已实现，欢迎贡献更多检测与标注规则（见 GitHub Issue 关于数据检测与标注的征集帖）。 只要符合 [CONTRIBUTING.md](CONTRIBUTING.md) 的契约清单即可提交；
-fork/pull 下来 → `npm ci` → `npm test` 即可通过、直接使用（详见
-[docs/ENVIRONMENT.md](docs/ENVIRONMENT.md)）。官方工具集（bash/fs/web/terminal/subagent…）目前没有技术指标——本插件填补这个空白。指标与回测为纯函数实现，零外部依赖，可离线验证；行情获取走免费公共 API，无需凭据。
+dsh-quant 的第一消费者是 **agent（模型），不是人**——这是从第一天起的
+刻意设计，不是巧合：
+
+- **工具 schema 自动进系统提示词**：每个工具的契约（参数/输出/对齐约定）
+  都从模型的视角写，模型不用猜
+- **等长 null 对齐**：所有输出与输入等长，头部算不出的窗口位是 null——
+  模型按索引直接对齐，永远不需要自己补 padding
+- **canonical JSON + render 分离**：机器读结构，人读渲染
+- **全部 isConcurrencySafe**：纯函数、无共享状态，agent 可并行调用 46 个
+  工具而互不污染
+- **skill 层**：`skill/quant-research` 让模型自己加载「怎么用这套工具」
+  的工作流知识
+
+完整设计声明见 [Issue #14](https://github.com/pengpengyi92/dsh-quant/issues/14)
+「AI-native 是刻意的」。
+
+## 🐍 为什么几乎没有 Python？
+
+经常被问到：量化项目怎么没有 `.py`？**答案：0 个 Python 文件，21 个
+TypeScript 源文件，零运行时依赖——这是刻意的**：
+
+- dsh-quant 是 **dsh 插件**，跑在 harness 的 Node 运行时里：与 agent 同
+  进程、可被 Loader 组合、注册可逆（HMR 安全）——TS 是唯一自然选择
+- 需要 Python 的地方（akshare / tushare / baostock）走**渠道知识导航**
+  （`quant_data_guide` 15 渠道）：dsh 官方有 shell / subprocess 能力，
+  agent 自己决定要不要起 Python 子进程，dsh-quant 不背运行时
+- 一切数值方法（指标/回测/期权/债券）都是**纯函数 + 手算基准测试**：
+  零依赖、可离线验证、任何环境 `npm test` 即全绿
+
+我们的目标只有一个：**做出最好用的 AI-native quant repo** 🐋
 
 **46 个 `quant_*` 工具 · 6 大域模块 · 174 单元测试 · 零外部依赖**。定位全景见置顶 [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9)。
 
