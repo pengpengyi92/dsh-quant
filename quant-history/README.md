@@ -16,6 +16,9 @@
 | Millennium | 1989（Izzy Englander）| 多策略对冲基金（pod 结构）| [millennium.md](millennium.md) |
 | WorldQuant | 2007（Igor Tulchinsky）| Alpha 工厂 + 研究平台 | [worldquant.md](worldquant.md) |
 | Jump Trading | 1999（芝加哥）| HFT/做市 + 加密基础设施 | [jumptrading.md](jumptrading.md) |
+| Hudson River Trading | 2002（纽约）| 纯算法自营 + 做市 | [hrt.md](hrt.md) |
+| Point72 | 1992 SAC → 2014 Point72 | 多空股票平台化基金 | [point72.md](point72.md) |
+| Squarepoint | 2014（大行自营组孵化）| 系统化多策略量化 | [squarepoint.md](squarepoint.md) |
 
 ## 收录规则（欢迎 PR）
 

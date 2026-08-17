@@ -16,6 +16,9 @@
 | Millennium | 几乎为零（pod 保密叠加）| [millennium.md](millennium.md) |
 | WorldQuant | 论文与平台型（101 Alphas/BRAIN）| [worldquant.md](worldquant.md) |
 | Jump Trading | 基础设施开源（Firedancer/Wormhole/Pyth）| [jumptrading.md](jumptrading.md) |
+| Hudson River Trading | 极少（谜题文化输出）| [hrt.md](hrt.md) |
+| Point72 | 首个开源库 csp（流处理）| [point72.md](point72.md) |
+| Squarepoint | 零开源（隐身端）| [squarepoint.md](squarepoint.md) |
 
 ## 收录规则（欢迎 PR）
 
