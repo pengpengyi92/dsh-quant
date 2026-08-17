@@ -32,7 +32,7 @@ async function fetchWithFallback(symbol: string, interval: string, limit: number
 const names = ctx.tools.schemas().map(s => s.name).sort()
 console.log('=== schemas() ===')
 console.log(names.join(', '))
-if (names.length !== 44) throw new Error(`expected 44 tools, got ${names.length}`)
+if (names.length !== 46) throw new Error(`expected 46 tools, got ${names.length}`)
 
 // 2) 数值正确性（已知答案）
 console.log('\n=== numeric correctness ===')
@@ -395,6 +395,20 @@ const bondR = await call('quant_bond', { couponRate: 0.03, periodsToMaturity: 2,
 assert(!bondR.isError, 'quant_bond should succeed')
 assert(Math.abs(bondR.value.price - (3 / 1.04 + 103 / 1.04 ** 2)) < 1e-6, 'bond price hand-computed')
 console.log('bond 2y 3%@4%:   price', bondR.value.price.toFixed(4), '| YTM', (bondR.value.yieldToMaturity * 100).toFixed(4) + '%', '| Mac', bondR.value.macaulayDuration.toFixed(4), '| Mod', bondR.value.modifiedDuration.toFixed(4), '| DV01', bondR.value.dv01.toFixed(6))
+
+// 22c) 期权 + 波动率（Optiver 灵感板块，手算基准 + 真实 BTC 已实现波动率）
+console.log('\n=== options & volatility (Optiver-inspired) ===')
+const optR = await call('quant_option', { spot: 100, strike: 100, timeToMaturity: 1, riskFreeRate: 0.05, volatility: 0.2, type: 'call' })
+assert(!optR.isError, 'quant_option should succeed')
+assert(Math.abs(optR.value.price - 10.4506) < 1e-3, 'option price hand-computed')
+assert(Math.abs(optR.value.delta - 0.6368) < 1e-3, 'option delta hand-computed')
+console.log('option ATM call: price', optR.value.price.toFixed(4), '| IV', (optR.value.impliedVolatility * 100).toFixed(2) + '%', '| Δ', optR.value.delta.toFixed(4), '| Γ', optR.value.gamma.toFixed(4), '| ν', optR.value.vega.toFixed(4))
+const optIV = await call('quant_option', { spot: 100, strike: 100, timeToMaturity: 1, riskFreeRate: 0.05, price: optR.value.price, type: 'call' })
+assert(!optIV.isError && Math.abs(optIV.value.impliedVolatility - 0.2) < 1e-4, 'IV roundtrip')
+console.log('IV roundtrip:    market price → IV', (optIV.value.impliedVolatility * 100).toFixed(4) + '% ✓')
+const rv = await call('quant_volatility', { close: btCloses })
+assert(!rv.isError && rv.value.n === 119, 'realized vol should succeed')
+console.log('BTC realized:    ', (rv.value.annualized * 100).toFixed(2) + '% annualized (119 log returns)')
 
 // 23) 线性模型（真实 BTC 动量特征 → fit/predict/test IC）
 console.log('\n=== linear model (live BTC features) ===')

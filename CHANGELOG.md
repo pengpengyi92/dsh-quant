@@ -4,6 +4,24 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.22.0] - 2026-08-17
+
+### Added
+- Options & volatility board, inspired by Optiver's public practice (Ready
+  Trader Go market making, optibook simulation, options pricing challenges):
+  - `quant_option`: Black-Scholes price from volatility (or implied volatility
+    from market price via bisection) plus the five greeks (delta, gamma, vega
+    per 1% vol, theta per year, rho per 1% rate)
+  - `quant_volatility`: realized volatility from log returns, annualized
+    (default 252), with the aligned log-return series — the RV-vs-IV gap is
+    the volatility-risk-premium research entry
+- 7 hand-computed cases (ATM call, put-call parity, IV roundtrip, deep
+  ITM/OTM deltas, RV, preconditions); 46 tools, 174 unit tests
+
+### Notes
+- Public pricing and volatility methods only; market-making execution and
+  inventory management stay internal
+
 ## [0.21.0] - 2026-08-17
 
 ### Added

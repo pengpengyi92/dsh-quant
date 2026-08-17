@@ -20,7 +20,7 @@
 fork/pull 下来 → `npm ci` → `npm test` 即可通过、直接使用（详见
 [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md)）。官方工具集（bash/fs/web/terminal/subagent…）目前没有技术指标——本插件填补这个空白。指标与回测为纯函数实现，零外部依赖，可离线验证；行情获取走免费公共 API，无需凭据。
 
-**44 个 `quant_*` 工具 · 6 大域模块 · 167 单元测试 · 零外部依赖**。定位全景见置顶 [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9)。
+**46 个 `quant_*` 工具 · 6 大域模块 · 174 单元测试 · 零外部依赖**。定位全景见置顶 [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9)。
 
 ## 快速安装（dsh 用户）
 
@@ -34,7 +34,7 @@ npm i dsh-quant
 - name: 'dsh-quant'
 ```
 
-44 个工具自动注册，指标 / 回测 / 因子 / 风控 / 基金模拟 / 生态影响力开箱即用。一条 `quant_research_pipeline` 跑通 PDAT→PET 全链路。ML/DL 架构知识见 [docs/ML_GUIDE.md](docs/ML_GUIDE.md)，可执行 demo：`npx tsx demos/ml-workflow.ts`。
+46 个工具自动注册，指标 / 回测 / 因子 / 风控 / 基金模拟 / 生态影响力开箱即用。一条 `quant_research_pipeline` 跑通 PDAT→PET 全链路。ML/DL 架构知识见 [docs/ML_GUIDE.md](docs/ML_GUIDE.md)，可执行 demo：`npx tsx demos/ml-workflow.ts`。
 
 ## 🖥️ UI 工作台（dsh-quant-ui）
 
@@ -52,6 +52,8 @@ npm i dsh-quant
 | `quant_data_advice` | `dataType` + `budget`（free/low/institutional）+ `purpose`（research/backtest/official）| `{ recommendations: [{ rank, name, reason }] }`（决策树排序）| — |
 | `quant_series_stats` | `values: number[]` | `{ count, mean, std, min, max, median, skew, kurtosis, autocorr1, annualizedVol, totalReturnPct }` | —（取数后第一步）|
 | `quant_var_backtest` | `returns` + `varSeries` + `confidence=0.95` | `{ failures, expected, lrStat, pValue, passed, periods }`（Kupiec POF 检验）| —（VaR 模型准不准的标准答案）|
+| `quant_option` | `spot` + `strike` + `timeToMaturity` + `riskFreeRate` + `type` + 恰好一个 `volatility`/`price` | `{ price, impliedVolatility, delta, gamma, vega, theta, rho, … }` | —（Optiver 灵感：BS 定价 + 五大希腊 + IV 反解）|
+| `quant_volatility` | `close: number[]` + `annualization=252` | `{ annualized, perPeriod, n, logReturns(对齐) }` | —（已实现波动率，RV vs IV 研究入口）|
 | `quant_bond` | `couponRate` + `periodsToMaturity` + `paymentsPerYear?` + 恰好一个 `ytm`/`price` | `{ price, yieldToMaturity, macaulayDuration, modifiedDuration, convexity, dv01, … }` | —（FICC 联动：定价/久期/凸性/DV01，教科书现金流折现）|
 | `quant_drawdown` | `equity: number[]` | `{ underwater(对齐), maxDrawdownPct, currentDrawdownPct, periods(峰/谷/恢复/深度/时长), ongoing }` | —（回撤段分析）|
 | `quant_resample` | `candles` + `period`（week=7根/month=30根）| `{ candles }`（OHLCV 周期聚合，7×24 市场）| — |

@@ -1,8 +1,8 @@
 {
   "generator": "scripts/gen-tools-json.ts",
   "package": "dsh-quant",
-  "generatedAt": "2026-08-16T23:20:01.045Z",
-  "toolCount": 44,
+  "generatedAt": "2026-08-17T03:04:08.283Z",
+  "toolCount": 46,
   "note": "Model-visible schemas extracted from ctx.tools.schemas() at runtime — always matches the shipped code.",
   "tools": [
     {
@@ -1609,6 +1609,77 @@
         "required": [
           "couponRate",
           "periodsToMaturity"
+        ]
+      }
+    },
+    {
+      "name": "quant_option",
+      "description": "European option analytics inspired by Optiver-style pricing practice: Black-Scholes price from volatility (or implied volatility from market price via bisection) plus the five greeks — delta, gamma, vega (per 1% vol), theta (per year), rho (per 1% rate). Provide exactly one of volatility or price. Public pricing methods only; market-making execution and inventory stay internal.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "spot": {
+            "type": "number",
+            "description": "Underlying spot price (> 0)"
+          },
+          "strike": {
+            "type": "number",
+            "description": "Strike price (> 0)"
+          },
+          "timeToMaturity": {
+            "type": "number",
+            "description": "Years to expiry (> 0)"
+          },
+          "riskFreeRate": {
+            "type": "number",
+            "description": "Annual risk-free rate as a decimal (>= 0)"
+          },
+          "volatility": {
+            "type": "number",
+            "description": "Annual volatility as a decimal (alternative to price)"
+          },
+          "price": {
+            "type": "number",
+            "description": "Market option price (alternative to volatility, solves IV)"
+          },
+          "type": {
+            "type": "string",
+            "description": "Option type",
+            "enum": [
+              "call",
+              "put"
+            ]
+          }
+        },
+        "required": [
+          "spot",
+          "strike",
+          "timeToMaturity",
+          "riskFreeRate",
+          "type"
+        ]
+      }
+    },
+    {
+      "name": "quant_volatility",
+      "description": "Realized volatility of a close series: population standard deviation of log returns, annualized (default 252 trading days). Complements quant_option implied volatility — the RV-vs-IV gap is the volatility-risk-premium research entry. Returns the aligned log-return series too.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "close": {
+            "type": "array",
+            "description": "Positive close prices, oldest first",
+            "items": {
+              "type": "number"
+            }
+          },
+          "annualization": {
+            "type": "integer",
+            "description": "Annualization factor, default 252"
+          }
+        },
+        "required": [
+          "close"
         ]
       }
     },

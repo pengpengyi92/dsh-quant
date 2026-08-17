@@ -34,6 +34,8 @@ import { walkForward } from './dsh-ml/walkforward.js'
 import { evaluatePredictions, fitLinearModel, predictLinearModel } from './dsh-ml/linear.js'
 import { drawdownAnalysis } from './dsh-risk/drawdown.js'
 import { bondAnalytics } from './dsh-risk/bond.js'
+import { optionAnalytics } from './dsh-risk/options.js'
+import { realizedVolatility } from './dsh-risk/volatility.js'
 import { executeSimulate } from './dsh-execution/execute.js'
 import { researchPipeline } from './dsh-execution/pipeline.js'
 import { assertAShareSymbol, assertYahooSymbol } from './dsh-data/market.js'
@@ -58,6 +60,8 @@ export { walkForward } from './dsh-ml/walkforward.js'
 export { evaluatePredictions, fitLinearModel, predictLinearModel } from './dsh-ml/linear.js'
 export { drawdownAnalysis } from './dsh-risk/drawdown.js'
 export { bondAnalytics, priceFromYield, yieldFromPrice } from './dsh-risk/bond.js'
+export { bsPrice, impliedVolatility, optionAnalytics } from './dsh-risk/options.js'
+export { realizedVolatility } from './dsh-risk/volatility.js'
 export { executeSimulate } from './dsh-execution/execute.js'
 export { researchPipeline, researchMultiAsset } from './dsh-execution/pipeline.js'
 
@@ -2126,6 +2130,94 @@ export function apply(ctx: Context) {
         ytm: args.ytm,
         price: args.price,
       })
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_option',
+    description:
+      'European option analytics inspired by Optiver-style pricing practice: Black-Scholes price from volatility ' +
+      '(or implied volatility from market price via bisection) plus the five greeks — delta, gamma, vega (per 1% vol), ' +
+      'theta (per year), rho (per 1% rate). Provide exactly one of volatility or price. ' +
+      'Public pricing methods only; market-making execution and inventory stay internal.',
+    parameters: {
+      spot: { type: 'number', required: true, description: 'Underlying spot price (> 0)' },
+      strike: { type: 'number', required: true, description: 'Strike price (> 0)' },
+      timeToMaturity: { type: 'number', required: true, description: 'Years to expiry (> 0)' },
+      riskFreeRate: { type: 'number', required: true, description: 'Annual risk-free rate as a decimal (>= 0)' },
+      volatility: { type: 'number', description: 'Annual volatility as a decimal (alternative to price)' },
+      price: { type: 'number', description: 'Market option price (alternative to volatility, solves IV)' },
+      type: { type: 'string', enum: ['call', 'put'], required: true, description: 'Option type' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          spot: { type: 'number', required: true },
+          strike: { type: 'number', required: true },
+          timeToMaturity: { type: 'number', required: true },
+          riskFreeRate: { type: 'number', required: true },
+          type: { type: 'string', enum: ['call', 'put'], required: true },
+          price: { type: 'number', required: true },
+          impliedVolatility: { type: 'number', required: true },
+          delta: { type: 'number', required: true },
+          gamma: { type: 'number', required: true },
+          vega: { type: 'number', required: true },
+          theta: { type: 'number', required: true },
+          rho: { type: 'number', required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{
+        type: 'text',
+        text: `${value.type} option: price ${value.price.toFixed(4)}, IV ${(value.impliedVolatility * 100).toFixed(2)}%, ` +
+          `Δ ${value.delta.toFixed(4)}, Γ ${value.gamma.toFixed(4)}, ν ${value.vega.toFixed(4)}, Θ ${value.theta.toFixed(4)}, ρ ${value.rho.toFixed(4)}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return optionAnalytics({
+        spot: args.spot,
+        strike: args.strike,
+        timeToMaturity: args.timeToMaturity,
+        riskFreeRate: args.riskFreeRate,
+        volatility: args.volatility,
+        price: args.price,
+        type: args.type,
+      })
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_volatility',
+    description:
+      'Realized volatility of a close series: population standard deviation of log returns, annualized ' +
+      '(default 252 trading days). Complements quant_option implied volatility — the RV-vs-IV gap is the ' +
+      'volatility-risk-premium research entry. Returns the aligned log-return series too.',
+    parameters: {
+      close: { type: 'array', items: { type: 'number' }, required: true, description: 'Positive close prices, oldest first' },
+      annualization: { type: 'integer', description: 'Annualization factor, default 252' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          annualized: { type: 'number', required: true },
+          perPeriod: { type: 'number', required: true },
+          annualization: { type: 'integer', required: true },
+          n: { type: 'integer', required: true },
+          logReturns: { type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] }, required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (_args, value) => [{
+        type: 'text',
+        text: `realized vol: ${(value.annualized * 100).toFixed(2)}% annualized (${value.perPeriod.toFixed(6)} per period, n=${value.n})`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return realizedVolatility(args.close, args.annualization)
     },
   }))
 
