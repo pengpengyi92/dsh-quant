@@ -27,6 +27,10 @@
 | AQR | 论文+数据集型（AQR Data Sets）| [aqr.md](aqr.md) |
 | GSA | 零开源（伦敦低调）| [gsa.md](gsa.md) |
 | Bridgewater | 思想开源（Principles）| [bridgewater.md](bridgewater.md) |
+| Balyasny | 零开源（平台保密）| [balyasny.md](balyasny.md) |
+| IMC | 竞赛 SDK（imc-prosperity）| [imc.md](imc.md) |
+| XTX | 极少（披露文件型）| [xtx.md](xtx.md) |
+| Five Rings | 零开源（神秘双极）| [fiverings.md](fiverings.md) |
 
 ## 收录规则（欢迎 PR）
 

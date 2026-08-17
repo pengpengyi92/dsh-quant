@@ -27,6 +27,10 @@
 | AQR | 1998（Cliff Asness）| 因子投资传教士 | [aqr.md](aqr.md) |
 | GSA Capital | 2005（伦敦）| 低调系统化多策略 | [gsa.md](gsa.md) |
 | Bridgewater | 1975（Ray Dalio）| 宏观之王 + 风险平价 | [bridgewater.md](bridgewater.md) |
+| Balyasny | 2001（Dmitry Balyasny）| 平台化多策略 | [balyasny.md](balyasny.md) |
+| IMC Trading | 1989（阿姆斯特丹）| 全自动做市 + Prosperity 竞赛 | [imc.md](imc.md) |
+| XTX Markets | 2015（Alexander Gerko）| 纯自动化做市，人均产值之王 | [xtx.md](xtx.md) |
+| Five Rings | 纽约 | 神秘精英自营 | [fiverings.md](fiverings.md) |
 
 ## 收录规则（欢迎 PR）
 
