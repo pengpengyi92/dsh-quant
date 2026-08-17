@@ -1,6 +1,6 @@
 # dsh-quant（DeepQuant Harness）
 
-🌐 **官网**：https://dsh-quant-site.pages.dev
+🌐 **官网**：https://dsh-quant-site.pages.dev · ✅ 已收录 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin)（dsh-market 插件市场可一键安装）
 
 [![npm](https://img.shields.io/npm/v/dsh-quant)](https://www.npmjs.com/package/dsh-quant)
 [![downloads](https://img.shields.io/npm/dm/dsh-quant)](https://www.npmjs.com/package/dsh-quant)
