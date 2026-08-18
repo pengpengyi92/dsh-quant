@@ -12,6 +12,7 @@
 |---|---|---|
 | Jane Street | 极度开放（~90 repos，OCaml 生态）| [janestreet.md](janestreet.md) |
 | Optiver | 教育型开源（做市竞赛 SDK）| [optiver.md](optiver.md) |
+| Susquehanna (SIG) | 零开源（母体的沉默）| [sig.md](sig.md) |
 | Citadel | 几乎为零（保密文化）| [citadel.md](citadel.md) |
 | Millennium | 几乎为零（pod 保密叠加）| [millennium.md](millennium.md) |
 | WorldQuant | 论文与平台型（101 Alphas/BRAIN）| [worldquant.md](worldquant.md) |

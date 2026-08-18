@@ -12,6 +12,7 @@
 |---|---|---|---|
 | Citadel | 1990（Ken Griffin）| 多策略对冲基金 + 做市 | [citadel.md](citadel.md) |
 | Optiver | 1986（阿姆斯特丹）| 期权做市 | [optiver.md](optiver.md) |
+| Susquehanna (SIG) | 1987（费城）| 期权做市母体 + 扑克概率文化 | [sig.md](sig.md) |
 | Jane Street | 2000（纽约）| ETF/股票做市 + 自营 | [janestreet.md](janestreet.md) |
 | Millennium | 1989（Izzy Englander）| 多策略对冲基金（pod 结构）| [millennium.md](millennium.md) |
 | WorldQuant | 2007（Igor Tulchinsky）| Alpha 工厂 + 研究平台 | [worldquant.md](worldquant.md) |
@@ -31,6 +32,10 @@
 | IMC Trading | 1989（阿姆斯特丹）| 全自动做市 + Prosperity 竞赛 | [imc.md](imc.md) |
 | XTX Markets | 2015（Alexander Gerko）| 纯自动化做市，人均产值之王 | [xtx.md](xtx.md) |
 | Five Rings | 纽约 | 神秘精英自营 | [fiverings.md](fiverings.md) |
+
+## 📅 量化编年史时间线
+
+跨机构大事记（1783 至今）：机构成立 / 行业事件 / 危机教训三条主线——见 [TIMELINE.md](TIMELINE.md)。
 
 ## 收录规则（欢迎 PR）
 
