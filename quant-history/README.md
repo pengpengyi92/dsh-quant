@@ -33,6 +33,10 @@
 | XTX Markets | 2015（Alexander Gerko）| 纯自动化做市，人均产值之王 | [xtx.md](xtx.md) |
 | Five Rings | 纽约 | 神秘精英自营 | [fiverings.md](fiverings.md) |
 
+## 🗺️ 补齐路线图
+
+待收录候选清单（中国量化篇 / 系统化 / 做市 / 宏观四梯队）见 [ROADMAP.md](ROADMAP.md)。
+
 ## 📅 量化编年史时间线
 
 跨机构大事记（1783 至今）：机构成立 / 行业事件 / 危机教训三条主线——见 [TIMELINE.md](TIMELINE.md)。
