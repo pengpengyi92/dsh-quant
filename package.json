@@ -47,7 +47,8 @@
     "LICENSE",
     "demos",
     "quant-history",
-    "quant-repo"
+    "quant-repo",
+    "plugin"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",

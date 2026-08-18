@@ -352,3 +352,5 @@ Ecosystem infrastructure: [quant ecosystem directory](docs/QUANT_ECOSYSTEM.md) �
 [ecosystem playbook](docs/ECOSYSTEM_PLAYBOOK.md) · [ecosystem map Discussion #11](https://github.com/pengpengyi92/dsh-quant/discussions/11)
 
 Research columns: [quant-history (firm archives)](quant-history/) · [quant-repo (open-source special)](quant-repo/)
+
+Plugin library (five slots × external repos & MCPs): [plugin/](plugin/)
