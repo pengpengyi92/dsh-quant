@@ -42,6 +42,11 @@
 | Akuna Capital | 2011（芝加哥）| Optiver 血统期权做市新锐 | [akuna.md](akuna.md) |
 | CTC | 1995（芝加哥）| 期权做市 OG（员工持股）| [ctc.md](ctc.md) |
 | Alameda Research | 2017（SBF）| 反面教材：风控缺席的崩塌 | [alameda.md](alameda.md) |
+| Marshall Wace | 1997（伦敦）| 多策略巨头 + TOPS 系统化选股 | [marshallwace.md](marshallwace.md) |
+| ExodusPoint | 2018（Gelband）| 史上最大首募的 pod 分店 | [exoduspoint.md](exoduspoint.md) |
+| Schonfeld | 1988（Steven Schonfeld）| 平台制老将 + 人才母校 | [schonfeld.md](schonfeld.md) |
+| Aspect Capital | 1997（Lueck/Adam）| 伦敦 CTA 双雄科学派 | [aspect.md](aspect.md) |
+| Verition | 2008（格林尼治）| 多策略中生代低调扩张 | [verition.md](verition.md) |
 
 ## 🗺️ 补齐路线图
 

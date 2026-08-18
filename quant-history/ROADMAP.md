@@ -15,7 +15,7 @@
 
 ## 梯队 2：系统化/多策略补全
 
-ExodusPoint · Schonfeld · Verition · Marshall Wace · Aspect Capital
+（A 批已完成）
 
 ## 梯队 3：做市/自营（芝加哥帮 + 加密）
 
@@ -34,5 +34,5 @@ PDT Partners · Dimensional Fund Advisors
 
 ## 现状统计
 
-- 已收录：32 家（quant-history）· 28 个专刊文件（quant-repo）· 1 条编年史
+- 已收录：37 家（quant-history）· 30 个专刊文件（quant-repo）· 1 条编年史
 - Announcement 序列：#19 → #28（含理念与征集）
