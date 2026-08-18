@@ -1,0 +1,49 @@
+# AGENTS.md — dsh-quant guide for visiting agents
+
+**dsh-quant** is the Everything-Plugin Quant OS for DeepSeek Harness:
+46 tools, 6 domains, one end-to-end PDAT→PET pipeline.
+Methods open, secrets internal. (Brand line: 🐳 Dsh-Quant: The
+Everything-Plugin Ai native Quant OS.)
+
+## If you are an agent visiting this repo
+
+1. **One-glance guide**: [mcp/AGENT_GUIDE.md](mcp/AGENT_GUIDE.md) — what
+   this project is, the six domain slots, and the contract.
+2. **Closed-loop example**: [plugin/CASE_STUDY.md](plugin/CASE_STUDY.md) or
+   [Discussion #38](https://github.com/pengpengyi92/dsh-quant/discussions/38)
+   — a full data→alpha→model→risk→execution walkthrough.
+3. **Try the tools**: [docs/ONBOARDING.md](docs/ONBOARDING.md) (five-step
+   flow) or the one-liner `quant_research_pipeline(symbol=BTCUSDT, limit=120)`.
+4. **Extend**: [plugin/](plugin/) (five slots × external repos & MCPs) and
+   plugin proposals [Issue #27](https://github.com/pengpengyi92/dsh-quant/issues/27).
+
+## Contract (non-negotiable when contributing)
+
+- Equal-length null alignment; empty series are legal results, not errors.
+- No look-ahead: factor[i] predicts returns[i+1]; backtest signals confirm
+  on bar i and fill at bar i+1 close.
+- Canonical JSON + render separation; unions via `oneOf`; output object
+  fields need `required: true`.
+- Pure functions, `isConcurrencySafe`, hand-computed unit baselines for
+  every numerical function.
+
+## Key references
+
+- Positioning: [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9) ·
+  AI-native statement: [Issue #14](https://github.com/pengpengyi92/dsh-quant/issues/14) ·
+  Teams (PDAT→PET): [Discussion #35](https://github.com/pengpengyi92/dsh-quant/discussions/35) ·
+  Full pitch: [Discussion #36](https://github.com/pengpengyi92/dsh-quant/discussions/36)
+- Research columns: [quant-history/](quant-history/) — 42 firm archives +
+  TIMELINE / ANALYSIS / LINEAGE reports.
+
+## File map
+
+```
+src/dsh-{data,alpha,ml,risk,execution,community}/   six domain modules (pure functions)
+docs/ONBOARDING.md · docs/ML_GUIDE.md · docs/QUANT_ECOSYSTEM.md
+plugin/         five-slot external plugin library + case study + roadmap
+quant-history/  firm archives + three research reports
+mcp/tools.json  46 model-visible tool schemas
+tests/          hand-computed baselines (174 unit + 4 Loader)
+skill/          quant-research / quant-release-cycle loadable skills
+```

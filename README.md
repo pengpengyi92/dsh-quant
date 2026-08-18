@@ -73,6 +73,13 @@ One goal: **build the most usable AI-native quant repo** 🐋
 
 **46 `quant_*` tools · 6 domains · 174 unit tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
 
+## 🤖 For visiting agents
+
+Agents landing on this repo: start at [AGENTS.md](AGENTS.md) (root-level, auto-read
+by Copilot / Claude Code / dsh), then the closed-loop example
+[plugin/CASE_STUDY.md](plugin/CASE_STUDY.md) or [Discussion #38](https://github.com/pengpengyi92/dsh-quant/discussions/38),
+and the one-glance contract [mcp/AGENT_GUIDE.md](mcp/AGENT_GUIDE.md).
+
 ## Quick Install (dsh users)
 
 ```sh
