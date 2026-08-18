@@ -1,6 +1,6 @@
 {
   "name": "dsh-quant",
-  "version": "0.32.0",
+  "version": "0.33.0",
   "description": "AI-native & DSH-native: the quant version of everything-is-a-plugin — 5 pluggable modules (data/alpha/ML/risk/execution) with example use cases each. Fill your own alpha, models & execution. Methods open, secrets internal.",
   "license": "MIT",
   "type": "module",
