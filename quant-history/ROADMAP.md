@@ -23,8 +23,7 @@ GSR（加密做市余下候选）
 
 ## 梯队 4：宏观与传奇
 
-Tudor (Paul Tudor Jones) · Brevan Howard · Rokos · Moore ·
-PDT Partners · Dimensional Fund Advisors
+Moore Capital（宏观余下候选）
 
 ## 收录规则（不变）
 
@@ -34,5 +33,5 @@ PDT Partners · Dimensional Fund Advisors
 
 ## 现状统计
 
-- 已收录：37 家（quant-history）· 30 个专刊文件（quant-repo）· 1 条编年史
+- 已收录：42 家（quant-history）· 32 个专刊文件（quant-repo）· 1 条编年史 · 1 份数据分析报告
 - Announcement 序列：#19 → #28（含理念与征集）

@@ -47,6 +47,15 @@
 | Schonfeld | 1988（Steven Schonfeld）| 平台制老将 + 人才母校 | [schonfeld.md](schonfeld.md) |
 | Aspect Capital | 1997（Lueck/Adam）| 伦敦 CTA 双雄科学派 | [aspect.md](aspect.md) |
 | Verition | 2008（格林尼治）| 多策略中生代低调扩张 | [verition.md](verition.md) |
+| Tudor | 1980（Paul Tudor Jones）| 宏观交易活化石（1987 预言）| [tudor.md](tudor.md) |
+| Brevan Howard | 2002（Alan Howard）| 宏观对冲基金之王 | [brevanhoward.md](brevanhoward.md) |
+| Rokos | 2015（Chris Rokos）| 一人宏观机器 | [rokos.md](rokos.md) |
+| PDT Partners | 1993 MS 组 → 2012 独立 | 大行自营后代最正宗样本 | [pdt.md](pdt.md) |
+| Dimensional | 1981（Booth/Sinquefield）| Fama 学术派的万亿产品化 | [dimensional.md](dimensional.md) |
+
+## 📊 数据分析报告
+
+42 家机构的全量统计（开源姿态/地理/组织/年代/谱系 + 八大洞察）见 [ANALYSIS.md](ANALYSIS.md)——栏目第一份数据研究。
 
 ## 🗺️ 补齐路线图
 
