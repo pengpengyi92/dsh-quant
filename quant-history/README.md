@@ -37,6 +37,11 @@
 | Winton | 1997（David Harding）| 科学研究型 CTA | [winton.md](winton.md) |
 | DRW | 1992（Don Wilson）| 芝加哥自营 + 加密（Cumberland）| [drw.md](drw.md) |
 | Tower Research | 1998（Mark Gorton）| LimeWire 创始人的 HFT 帝国 | [tower.md](tower.md) |
+| Wintermute | 2017（伦敦）| 加密做市之王 | [wintermute.md](wintermute.md) |
+| Wolverine | 1990s（芝加哥）| 期权做市老钱 | [wolverine.md](wolverine.md) |
+| Akuna Capital | 2011（芝加哥）| Optiver 血统期权做市新锐 | [akuna.md](akuna.md) |
+| CTC | 1995（芝加哥）| 期权做市 OG（员工持股）| [ctc.md](ctc.md) |
+| Alameda Research | 2017（SBF）| 反面教材：风控缺席的崩塌 | [alameda.md](alameda.md) |
 
 ## 🗺️ 补齐路线图
 

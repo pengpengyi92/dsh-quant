@@ -19,7 +19,7 @@ ExodusPoint · Schonfeld · Verition · Marshall Wace · Aspect Capital
 
 ## 梯队 3：做市/自营（芝加哥帮 + 加密）
 
-Wolverine · Akuna · CTC · Wintermute · GSR · Alameda（反面教材）
+GSR（加密做市余下候选）
 
 ## 梯队 4：宏观与传奇
 
@@ -34,5 +34,5 @@ PDT Partners · Dimensional Fund Advisors
 
 ## 现状统计
 
-- 已收录：27 家（quant-history）· 26 个专刊文件（quant-repo）· 1 条编年史
+- 已收录：32 家（quant-history）· 28 个专刊文件（quant-repo）· 1 条编年史
 - Announcement 序列：#19 → #28（含理念与征集）
