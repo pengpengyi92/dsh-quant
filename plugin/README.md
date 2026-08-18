@@ -27,6 +27,11 @@ plugin/
   更真的撮合）
 - 原则不变：**everything is a plugin**——内置与外部在同一套契约下协作
 
+## 案例与候选
+
+- 完整闭环案例（五槽组合，从数据到执行）：[CASE_STUDY.md](CASE_STUDY.md)
+- 我们自己可供给的插件候选：[ROADMAP.md](ROADMAP.md)
+
 ## 收录规则（欢迎 PR）
 
 - 每个 repo：一句话 + 类型（MCP/库/框架）+ 与插槽的对接方式
