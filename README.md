@@ -14,6 +14,29 @@
 > （data / alpha / ML / risk / execution / ecosystem）· 一条端到端 PDAT→PET
 > 研究管线。**Methods open, secrets internal**（方法公开，秘密内部）。
 
+## 🧩 核心理念：一切皆为插件（量化版）
+
+dsh 的哲学是 **everything is a plugin**；dsh-quant 把这套哲学带到量化——
+把内部五团队的范式（**PDAT → PAAT → PCPT → PRT → PET**）开源成**五个
+可插拔模块**：
+
+```
+数据插件   dsh-data     行情/数据源/质量标注        ← 你自己接 Binance / 自己的数据
+因子插件   dsh-alpha    指标/因子/评价               ← 你自己写 alpha（内部 alpha 不开源）
+模型插件   dsh-ml       回测/ML/DL/RL 框架          ← 你自己训模型（内部研究范式不开源）
+风控插件   dsh-risk     VaR/回撤/期权/债券/Kupiec    ← 你自己定红线
+执行插件   dsh-execution 模拟执行/基金/报告/图表     ← 你自己搭交易系统（实盘或模拟盘）
+```
+
+- **公开的是范式**：模块怎么拼、契约怎么定（null 对齐/无未来函数/
+  手算测试）、怎么验证——不是内部机密
+- **用户自己填充**：产品力 = UI + 策略 + 数据接口 + DL/RL 模型 +
+  交易系统搭建，一切按需自建，全部插件化
+- **无限自进化**：拿框架填自己的模块 → 实盘/模拟盘跑起来 →
+  生态反哺——这就是 dsh-quant
+
+插件征集见 [Issue #27（五个模块 × 多插件）](https://github.com/pengpengyi92/dsh-quant/issues/27)——欢迎 PDAT 多插件、PET 多插件、一切你能想到的模块 🐋
+
 ## 🤖 AI-native 是刻意的（设计声明）
 
 dsh-quant 的第一消费者是 **agent（模型），不是人**——这是从第一天起的
