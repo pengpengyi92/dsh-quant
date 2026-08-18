@@ -1,6 +1,6 @@
-# dsh-quant（DeepQuant Harness）
+# dsh-quant (DeepQuant Harness)
 
-🌐 **官网**：https://dsh-quant-site.pages.dev · ✅ 已收录 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin)（dsh-market 插件市场可一键安装）
+🌐 **Site**: https://dsh-quant-site.pages.dev · ✅ Listed in [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) (one-click install via dsh-market)
 
 [![npm](https://img.shields.io/npm/v/dsh-quant)](https://www.npmjs.com/package/dsh-quant)
 [![downloads](https://img.shields.io/npm/dm/dsh-quant)](https://www.npmjs.com/package/dsh-quant)
@@ -10,297 +10,345 @@
 [![ci](https://github.com/pengpengyi92/dsh-quant/actions/workflows/ci.yml/badge.svg)](https://github.com/pengpengyi92/dsh-quant/actions)
 [![dsh-plugin](https://img.shields.io/badge/dsh-plugin-blue)](https://github.com/topics/dsh-plugin)
 
-> **AI-native & DSH-native quant toolkit for every quant aspect** —— 46 工具 · 6 域
-> （data / alpha / ML / risk / execution / ecosystem）· 一条端到端 PDAT→PET
-> 研究管线。**Methods open, secrets internal**（方法公开，秘密内部）。
+> **AI-native & DSH-native quant toolkit for every quant aspect** — 46 tools · 6 domains
+> (data / alpha / ML / risk / execution / ecosystem) · one end-to-end PDAT→PET
+> research pipeline. **Methods open, secrets internal.**
 
-## 🧩 核心理念：一切皆为插件（量化版）
+## 🧩 Core Philosophy: Everything is a Plugin (quant edition)
 
-dsh 的哲学是 **everything is a plugin**；dsh-quant 把这套哲学带到量化——
-把内部五团队的范式（**PDAT → PAAT → PCPT → PRT → PET**）开源成**五个
-可插拔模块**：
+dsh's philosophy is **everything is a plugin**; dsh-quant brings it to quant —
+open-sourcing the internal five-team paradigm (**PDAT → PAAT → PCPT → PRT → PET**)
+as **five pluggable modules**:
 
 ```
-数据插件   dsh-data     行情/数据源/质量标注        ← 你自己接 Binance / 自己的数据
-因子插件   dsh-alpha    指标/因子/评价               ← 你自己写 alpha（内部 alpha 不开源）
-模型插件   dsh-ml       回测/ML/DL/RL 框架          ← 你自己训模型（内部研究范式不开源）
-风控插件   dsh-risk     VaR/回撤/期权/债券/Kupiec    ← 你自己定红线
-执行插件   dsh-execution 模拟执行/基金/报告/图表     ← 你自己搭交易系统（实盘或模拟盘）
+data plugin   dsh-data      market data / sources / quality  ← plug in Binance or your own data
+alpha plugin  dsh-alpha     indicators / factors / eval      ← write your own alpha (internal alpha stays private)
+model plugin  dsh-ml        backtests / ML/DL/RL framework   ← train your own models (internal research stays private)
+risk plugin   dsh-risk      VaR / drawdown / options / bonds ← set your own risk limits
+exec plugin   dsh-execution sim execution / fund / report    ← build your own trading system (paper or live)
 ```
 
-- **公开的是范式**：模块怎么拼、契约怎么定（null 对齐/无未来函数/
-  手算测试）、怎么验证——不是内部机密
-- **用户自己填充**：产品力 = UI + 策略 + 数据接口 + DL/RL 模型 +
-  交易系统搭建，一切按需自建，全部插件化
-- **无限自进化**：拿框架填自己的模块 → 实盘/模拟盘跑起来 →
-  生态反哺——这就是 dsh-quant
+- **What's open is the paradigm**: how modules compose, how contracts are defined
+  (null alignment / no look-ahead / hand-computed tests), how results are validated —
+  not the internal secrets
+- **You fill it in**: product power = UI + strategies + data interfaces + DL/RL
+  models + trading-system building, all self-assembled, all pluginized
+- **Infinite self-evolution**: fill the framework with your modules → run paper/live
+  → feed the ecosystem back — that's dsh-quant
 
-插件征集见 [Issue #27（五个模块 × 多插件）](https://github.com/pengpengyi92/dsh-quant/issues/27)——欢迎 PDAT 多插件、PET 多插件、一切你能想到的模块 🐋
+Plugin call for proposals: [Issue #27 (five modules × many plugins)](https://github.com/pengpengyi92/dsh-quant/issues/27) — PDAT plugins, PET plugins, anything you can imagine 🐋
 
-## 🤖 AI-native 是刻意的（设计声明）
+## 🤖 AI-Native Is Deliberate (design statement)
 
-dsh-quant 的第一消费者是 **agent（模型），不是人**——这是从第一天起的
-刻意设计，不是巧合：
+dsh-quant's primary consumer is the **agent (the model), not the human** — a
+deliberate choice from day one:
 
-- **工具 schema 自动进系统提示词**：每个工具的契约（参数/输出/对齐约定）
-  都从模型的视角写，模型不用猜
-- **等长 null 对齐**：所有输出与输入等长，头部算不出的窗口位是 null——
-  模型按索引直接对齐，永远不需要自己补 padding
-- **canonical JSON + render 分离**：机器读结构，人读渲染
-- **全部 isConcurrencySafe**：纯函数、无共享状态，agent 可并行调用 46 个
-  工具而互不污染
-- **skill 层**：`skill/quant-research` 让模型自己加载「怎么用这套工具」
-  的工作流知识
+- **Tool schemas are injected into the system prompt** — every contract (args /
+  outputs / alignment rules) is written from the model's perspective
+- **Equal-length null alignment** — outputs match input length; leading window
+  positions are `null`, so the model aligns by index and never pads
+- **Canonical JSON + render separation** — machines read structure, humans read prose
+- **All isConcurrencySafe** — pure functions, no shared state; agents can call all
+  46 tools in parallel without interference
+- **Skill layer** — `skill/quant-research` lets the model load the workflow itself
 
-完整设计声明见 [Issue #14](https://github.com/pengpengyi92/dsh-quant/issues/14)
-「AI-native 是刻意的」。
+Full statement: [Issue #14](https://github.com/pengpengyi92/dsh-quant/issues/14) "AI-native is deliberate".
 
-## 🐍 为什么几乎没有 Python？
+## 🐍 Why Almost No Python?
 
-经常被问到：量化项目怎么没有 `.py`？**答案：0 个 Python 文件，21 个
-TypeScript 源文件，零运行时依赖——这是刻意的**：
+A common question: a quant project without `.py` files? **Answer: 0 Python files,
+21 TypeScript source files, zero runtime dependencies — deliberate:**
 
-- dsh-quant 是 **dsh 插件**，跑在 harness 的 Node 运行时里：与 agent 同
-  进程、可被 Loader 组合、注册可逆（HMR 安全）——TS 是唯一自然选择
-- 需要 Python 的地方（akshare / tushare / baostock）走**渠道知识导航**
-  （`quant_data_guide` 15 渠道）：dsh 官方有 shell / subprocess 能力，
-  agent 自己决定要不要起 Python 子进程，dsh-quant 不背运行时
-- 一切数值方法（指标/回测/期权/债券）都是**纯函数 + 手算基准测试**：
-  零依赖、可离线验证、任何环境 `npm test` 即全绿
+- dsh-quant is a **dsh plugin** running inside the harness's Node runtime: same
+  process as the agent, composable by the Loader, reversible registration (HMR-safe)
+  — TypeScript is the only natural choice
+- Where Python is needed (akshare / tushare / baostock), use the **channel knowledge
+  base** (`quant_data_guide`, 15 channels): dsh ships shell / subprocess capabilities,
+  so the agent decides whether to spawn Python — dsh-quant carries no runtime
+- All numerical methods (indicators / backtests / options / bonds) are **pure
+  functions with hand-computed baselines**: zero deps, offline-verifiable,
+  `npm test` green anywhere
 
-我们的目标只有一个：**做出最好用的 AI-native quant repo** 🐋
+One goal: **build the most usable AI-native quant repo** 🐋
 
-**46 个 `quant_*` 工具 · 6 大域模块 · 174 单元测试 · 零外部依赖**。定位全景见置顶 [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9)。
+**46 `quant_*` tools · 6 domains · 174 unit tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
 
-## 快速安装（dsh 用户）
+## Quick Install (dsh users)
 
 ```sh
 npm i dsh-quant
 ```
 
-在 dsh 的 cordis.yml 里加一行：
+Add one line to your cordis.yml:
 
 ```yaml
 - name: 'dsh-quant'
 ```
 
-46 个工具自动注册，指标 / 回测 / 因子 / 风控 / 基金模拟 / 生态影响力开箱即用。一条 `quant_research_pipeline` 跑通 PDAT→PET 全链路。ML/DL 架构知识见 [docs/ML_GUIDE.md](docs/ML_GUIDE.md)，可执行 demo：`npx tsx demos/ml-workflow.ts`。
+46 tools auto-register — indicators / backtests / factors / risk / fund simulation /
+ecosystem metrics out of the box. One `quant_research_pipeline` runs the whole
+PDAT→PET chain. ML/DL knowledge: [docs/ML_GUIDE.md](docs/ML_GUIDE.md);
+executable demo: `npx tsx demos/ml-workflow.ts`.
 
-## 🚀 产品体验：三分钟上手一条量化流水线
+## 🚀 Product Experience: Three Minutes to a Full Quant Pipeline
 
-装完立刻体验完整 PDAT→PET 流程（BTC 公开数据 + 简单策略 + 回测 +
-模拟盘示例）：
+Right after install, experience the complete PDAT→PET flow (BTC public data +
+simple strategy + backtest + paper trading):
 
 ```
-数据(quant_market_fetch) → 质量(quant_data_quality) → 因子(quant_factor_evaluate)
-→ 回测(quant_backtest) → 指标(quant_metrics) → 风控(quant_risk)
-→ 回撤(quant_drawdown) → 模拟盘(quant_execute_sim) → 私募模拟(quant_fund)
-→ 报告(quant_report)
+data(quant_market_fetch) → quality(quant_data_quality) → factors(quant_factor_evaluate)
+→ backtest(quant_backtest) → metrics(quant_metrics) → risk(quant_risk)
+→ drawdown(quant_drawdown) → paper sim(quant_execute_sim) → fund sim(quant_fund)
+→ report(quant_report)
 ```
 
-一键版：`quant_research_pipeline(symbol=BTCUSDT, limit=120)` 全链路一次返回。
+One-liner: `quant_research_pipeline(symbol=BTCUSDT, limit=120)` returns everything
+in one call.
 
-之后按自己的想法给每个模块**插自己的插件**（数据源/alpha/模型/风控/
-执行——everything is a plugin，征集见 Issue #27）。
+Then plug **your own plugins** into each module (data sources / alpha / models /
+risk / execution — everything is a plugin, proposals at Issue #27).
 
-完整五步体验（每步带解读）：[docs/ONBOARDING.md](docs/ONBOARDING.md) ·
-Agent 一眼看懂版：[mcp/AGENT_GUIDE.md](mcp/AGENT_GUIDE.md)
+Five-step walkthrough with commentary: [docs/ONBOARDING.md](docs/ONBOARDING.md) ·
+Agent one-glance guide: [mcp/AGENT_GUIDE.md](mcp/AGENT_GUIDE.md)
 
-## 🖥️ UI 工作台（dsh-quant-ui）
+## 🖥️ UI Workbench (dsh-quant-ui)
 
 ![dsh-quant UI](demos/ui-demo-preview.png)
 
-[dsh-quant-ui](https://github.com/pengpengyi92/dsh-quant-ui)：K 线 + 均线叠加 + 交易标记、资金曲线、基金净值 / 管理费 / 提成卡片、指标选择器——还有一只会游泳的 Q 版鲸鱼 🐋（点标题 3 下试试）。
+[dsh-quant-ui](https://github.com/pengpengyi92/dsh-quant-ui): candlesticks + MA
+overlays + trade markers, equity curves, fund NAV / management-fee / performance-fee
+cards, metric selector — plus a swimming chibi whale 🐋 (click the title 3 times).
 
-在线演示：https://dsh-quant-ui.pages.dev
+Live demo: https://dsh-quant-ui.pages.dev
 
-## 工具
+## Tools
 
-| 工具 | 参数 | canonical 输出 | 首个有效位置 |
+| Tool | Parameters | Canonical output | First valid index |
 |---|---|---|---|
-| `quant_data_compare` | `dataType`（如 "财务"/"日线行情"）| `{ dataType, channels: [{ name, cost, covers, bestFor }] }`（覆盖者排前）| — |
-| `quant_data_advice` | `dataType` + `budget`（free/low/institutional）+ `purpose`（research/backtest/official）| `{ recommendations: [{ rank, name, reason }] }`（决策树排序）| — |
-| `quant_series_stats` | `values: number[]` | `{ count, mean, std, min, max, median, skew, kurtosis, autocorr1, annualizedVol, totalReturnPct }` | —（取数后第一步）|
-| `quant_var_backtest` | `returns` + `varSeries` + `confidence=0.95` | `{ failures, expected, lrStat, pValue, passed, periods }`（Kupiec POF 检验）| —（VaR 模型准不准的标准答案）|
-| `quant_option` | `spot` + `strike` + `timeToMaturity` + `riskFreeRate` + `type` + 恰好一个 `volatility`/`price` | `{ price, impliedVolatility, delta, gamma, vega, theta, rho, … }` | —（Optiver 灵感：BS 定价 + 五大希腊 + IV 反解）|
-| `quant_volatility` | `close: number[]` + `annualization=252` | `{ annualized, perPeriod, n, logReturns(对齐) }` | —（已实现波动率，RV vs IV 研究入口）|
-| `quant_bond` | `couponRate` + `periodsToMaturity` + `paymentsPerYear?` + 恰好一个 `ytm`/`price` | `{ price, yieldToMaturity, macaulayDuration, modifiedDuration, convexity, dv01, … }` | —（FICC 联动：定价/久期/凸性/DV01，教科书现金流折现）|
-| `quant_drawdown` | `equity: number[]` | `{ underwater(对齐), maxDrawdownPct, currentDrawdownPct, periods(峰/谷/恢复/深度/时长), ongoing }` | —（回撤段分析）|
-| `quant_resample` | `candles` + `period`（week=7根/month=30根）| `{ candles }`（OHLCV 周期聚合，7×24 市场）| — |
-| `quant_report` | strategy/metrics/risk/factor/fund（各模块输出）| `{ report }`（Markdown 研究报告）| —（R&D 结论生成）|
-| `quant_repo_stats` | `owner` + `repo` | `{ stars, forks, watchers, openIssues, openPullRequests, topics, latestRelease, … }`（GitHub 公共 API，无需凭据）| —（生态数据）|
-| `quant_npm_stats` | `pkg` | `{ latest, weeklyDownloads, monthlyDownloads, description, … }`（npm registry + downloads API）| —（生态数据）|
-| `quant_oss_pulse` | `stars` + `downloadsWeekly?` + `starsPrevious?` + `openIssues?` + `openPullRequests?` + `daysSinceRelease?` | `{ score(0-100), grade(A-D), components, suggestions, summary }` | —（开源影响力评分，缺省项中性 50）|
-| `quant_risk` | `returns`（小数收益序列）+ `benchmarkReturns?` + `confidence=0.95` | `{ var95, cvar95, downsideDeviation, maxDrawdownPct, beta, alpha, informationRatio, trackingError, periods }` | —（风险分析核心模块）|
-| `quant_fund` | `equityCurve` + `initialCapital=1e8` + `managementFeeRate=0.02` + `performanceFeeRate=0.2` | `{ initialCapital, finalNavNet, finalAum, peakNav, peakAum, gross/netReturnPct, fees, navNet }` | —（模拟量化私募：净值 1.00 起步，管理费按日，提成高水位 20%）|
-| `quant_metrics` | `equityCurve` + `trades?` | `{ totalReturnPct, maxDrawdownPct, sharpe, annualizedVol, calmar, sortino, winRate, profitFactor, avgPeriodReturnPct, tradeMetrics }`（必有：收益/回撤/夏普）| —（指标目录 METRIC_CATALOG 供 UI 勾选）|
-| `quant_chart` | `kind`（candles/series/annotations）+ 对应数据 | 结构化图表数据（dsh-chart 协议：K线+叠加+标记 / 多序列 / 标注可视化）| —（UI 路线数据面）|
-| `quant_execute_sim` | `close` + `orders[{index, side, quantity?/valueFraction?}]` + `initialCash?` + `feeRate?` + `slippageBps?` + `latencyBars?` | `{ fills, equityCurve, finalEquity, totalReturnPct, totalFee, totalSlippageCost, tradeCount, unfilledCount, cash, position }` | —（交易执行框架，无实盘）|
-| `quant_research_pipeline` | `symbol?` + `interval?` + `limit?` + `provider?` + `candles?` + 策略/基金参数 | `{ candles, quality, stats, metrics, risk, drawdown, fund, factor, report, charts }` | —（PDAT→PET 全链路一键研究）|
-| `quant_factor_evaluate` | `factorValues` + `forwardReturns`（factor[i] 预测 ret[i+1]）+ `quantiles=5` + `window=20` + `decayHorizons=5` | `{ ic, rankIc, icDecay, icir, icSeries, quantileReturns, longShort, turnover, autocorr1, n }`（alphalens 指标集 + RankIC/IC衰减）| — |
-| `quant_factor_neutralize` | `factorValues` + `groups?` + `styleFactors?` + `method?` | `{ values(标准化后), method, groupCount, styleCount, rSquared }` | —（分组 z-score / OLS 残差中性化）|
-| `quant_walk_forward` | `returns` + `features[][]` + `trainWindow` + `testWindow` + `step?` | `{ predictions(null 对齐), oosIc, oosRankIc, oosCount, windows, trainR2Mean }` | —（滚动训练/样本外，无未来函数）|
-| `quant_linear_model` | `X(样本×特征)` + `y` + `lambda?` + `predictX?` + `yTest?` | `{ intercept, weights, lambda, trainR2, n, predictions?, testR2?, testIc? }` | —（OLS/Ridge 独立拟合预测）|
-| `quant_factor_combine` | `factors: number[][]`（等长）+ `weights?` | `{ signal(rank 0..1), effectiveWeights, factorCount }` | —（z-score 加权 + 截面排序）|
-| `quant_series_quality` | `values: number[]`, `jumpThreshold=0.2` | `{ count, missingCount, zOutliers, jumps, longestConstantRun, healthy }` | —（序列级质量）|
-| `quant_data_annotate` | `values: number[]`, `jumpThreshold=0.2` | `{ count, annotations: [{index, label, severity, detail}], summary }` | —（点级标注，致敬 Scale AI）|
-| `quant_data_quality` | `candles`（quant_market_fetch 输出）| `{ count, highBelowLow, nonPositive, timeNotIncreasing, timeGaps, extremeMoves, healthy }` | —（分析前健康检查）|
-| `quant_data_guide` | `query`（渠道名/数据类型，如 "tushare"/"财务"）或 `channel`（精确渠道名）| `{ query, results: [{ name, url, cost, dataTypes, setup, tutorialUrls, bestFor, … }] }` | —（内置 15 大数据渠道知识库：A股/美股/债券 + dsh 生态数据插件）|
-| `quant_market_fetch` | `symbol: string`（如 BTCUSDT / sh600000 / AAPL）, `interval: 1m…1M`, `limit: 1-1000`, `provider: binance/okx/bybit/sina/tencent/yahoo` | `{ symbol, interval, provider, candles: [{openTime, open, high, low, close, volume}] }` | — |
+| `quant_data_compare` | `dataType` (e.g. "financials"/"daily bars") | `{ dataType, channels: [{ name, cost, covers, bestFor }] }` (covering first) | — |
+| `quant_data_advice` | `dataType` + `budget` (free/low/institutional) + `purpose` (research/backtest/official) | `{ recommendations: [{ rank, name, reason }] }` (decision-tree ranked) | — |
+| `quant_series_stats` | `values: number[]` | `{ count, mean, std, min, max, median, skew, kurtosis, autocorr1, annualizedVol, totalReturnPct }` | — (first step after fetching) |
+| `quant_var_backtest` | `returns` + `varSeries` + `confidence=0.95` | `{ failures, expected, lrStat, pValue, passed, periods }` (Kupiec POF test) | — (the ground truth for VaR models) |
+| `quant_option` | `spot` + `strike` + `timeToMaturity` + `riskFreeRate` + `type` + exactly one of `volatility`/`price` | `{ price, impliedVolatility, delta, gamma, vega, theta, rho, … }` | — (Optiver-inspired: BS pricing + five greeks + IV solve) |
+| `quant_volatility` | `close: number[]` + `annualization=252` | `{ annualized, perPeriod, n, logReturns(aligned) }` | — (realized vol; the RV-vs-IV research entry) |
+| `quant_bond` | `couponRate` + `periodsToMaturity` + `paymentsPerYear?` + exactly one of `ytm`/`price` | `{ price, yieldToMaturity, macaulayDuration, modifiedDuration, convexity, dv01, … }` | — (FICC link: pricing/duration/convexity/DV01, textbook discounting) |
+| `quant_drawdown` | `equity: number[]` | `{ underwater(aligned), maxDrawdownPct, currentDrawdownPct, periods(peak/trough/recovery/depth/duration), ongoing }` | — (drawdown episode analysis) |
+| `quant_resample` | `candles` + `period` (week=7 bars/month=30 bars) | `{ candles }` (OHLCV aggregation, 24/7 markets) | — |
+| `quant_report` | strategy/metrics/risk/factor/fund (module outputs) | `{ report }` (Markdown research report) | — (R&D conclusion assembly) |
+| `quant_repo_stats` | `owner` + `repo` | `{ stars, forks, watchers, openIssues, openPullRequests, topics, latestRelease, … }` (public GitHub API, no credentials) | — (ecosystem data) |
+| `quant_npm_stats` | `pkg` | `{ latest, weeklyDownloads, monthlyDownloads, description, … }` (npm registry + downloads API) | — (ecosystem data) |
+| `quant_oss_pulse` | `stars` + `downloadsWeekly?` + `starsPrevious?` + `openIssues?` + `openPullRequests?` + `daysSinceRelease?` | `{ score(0-100), grade(A-D), components, suggestions, summary }` | — (open-source influence score; missing inputs score neutral 50) |
+| `quant_risk` | `returns` (decimal series) + `benchmarkReturns?` + `confidence=0.95` | `{ var95, cvar95, downsideDeviation, maxDrawdownPct, beta, alpha, informationRatio, trackingError, periods }` | — (core risk module) |
+| `quant_fund` | `equityCurve` + `initialCapital=1e8` + `managementFeeRate=0.02` + `performanceFeeRate=0.2` | `{ initialCapital, finalNavNet, finalAum, peakNav, peakAum, gross/netReturnPct, fees, navNet }` | — (quant hedge-fund sim: NAV 1.00 start, daily mgmt fee, 20% high-water-mark performance fee) |
+| `quant_metrics` | `equityCurve` + `trades?` | `{ totalReturnPct, maxDrawdownPct, sharpe, annualizedVol, calmar, sortino, winRate, profitFactor, avgPeriodReturnPct, tradeMetrics }` (required trio: return/drawdown/sharpe) | — (METRIC_CATALOG for UI pickers) |
+| `quant_chart` | `kind` (candles/series/annotations) + matching data | structured chart data (dsh-chart protocol: candles+overlays+markers / multi-series / annotation views) | — (UI-route data plane) |
+| `quant_execute_sim` | `close` + `orders[{index, side, quantity?/valueFraction?}]` + `initialCash?` + `feeRate?` + `slippageBps?` + `latencyBars?` | `{ fills, equityCurve, finalEquity, totalReturnPct, totalFee, totalSlippageCost, tradeCount, unfilledCount, cash, position }` | — (execution framework, no live trading) |
+| `quant_research_pipeline` | `symbol?` + `interval?` + `limit?` + `provider?` + `candles?` + strategy/fund params | `{ candles, quality, stats, metrics, risk, drawdown, fund, factor, report, charts }` | — (one-call PDAT→PET research) |
+| `quant_factor_evaluate` | `factorValues` + `forwardReturns` (factor[i] predicts ret[i+1]) + `quantiles=5` + `window=20` + `decayHorizons=5` | `{ ic, rankIc, icDecay, icir, icSeries, quantileReturns, longShort, turnover, autocorr1, n }` (alphalens set + RankIC/IC decay) | — |
+| `quant_factor_neutralize` | `factorValues` + `groups?` + `styleFactors?` + `method?` | `{ values(standardized), method, groupCount, styleCount, rSquared }` | — (group z-score / OLS residual neutralization) |
+| `quant_walk_forward` | `returns` + `features[][]` + `trainWindow` + `testWindow` + `step?` | `{ predictions(null-aligned), oosIc, oosRankIc, oosCount, windows, trainR2Mean }` | — (rolling train / out-of-sample, no look-ahead) |
+| `quant_linear_model` | `X(samples×features)` + `y` + `lambda?` + `predictX?` + `yTest?` | `{ intercept, weights, lambda, trainR2, n, predictions?, testR2?, testIc? }` | — (standalone OLS/Ridge fit & predict) |
+| `quant_factor_combine` | `factors: number[][]` (equal length) + `weights?` | `{ signal(rank 0..1), effectiveWeights, factorCount }` | — (z-score weighting + cross-sectional ranking) |
+| `quant_series_quality` | `values: number[]`, `jumpThreshold=0.2` | `{ count, missingCount, zOutliers, jumps, longestConstantRun, healthy }` | — (series-level quality) |
+| `quant_data_annotate` | `values: number[]`, `jumpThreshold=0.2` | `{ count, annotations: [{index, label, severity, detail}], summary }` | — (point-level labeling, a tribute to Scale AI) |
+| `quant_data_quality` | `candles` (quant_market_fetch output) | `{ count, highBelowLow, nonPositive, timeNotIncreasing, timeGaps, extremeMoves, healthy }` | — (pre-analysis health check) |
+| `quant_data_guide` | `query` (channel name/data type, e.g. "tushare"/"financials") or `channel` (exact name) | `{ query, results: [{ name, url, cost, dataTypes, setup, tutorialUrls, bestFor, … }] }` | — (built-in 15-channel data knowledge base: A-shares/US/bonds + dsh ecosystem data plugins) |
+| `quant_market_fetch` | `symbol: string` (e.g. BTCUSDT / sh600000 / AAPL), `interval: 1m…1M`, `limit: 1-1000`, `provider: binance/okx/bybit/sina/tencent/yahoo` | `{ symbol, interval, provider, candles: [{openTime, open, high, low, close, volume}] }` | — |
 | `quant_sma` | `values: number[]`, `window: integer` | `{ values: (number\|null)[], window }` | index `window-1` |
-| `quant_ema` | `values: number[]`, `window: integer` | `{ values: (number\|null)[], window }` | index `window-1`（seed = 前 window 均值，alpha = 2/(w+1)）|
-| `quant_rsi` | `values: number[]`, `window: integer = 14` | `{ values: (number\|null)[], window }` | index `window`（Wilder 平滑）|
-| `quant_macd` | `values: number[]`, `fast=12`, `slow=26`, `signal=9` | `{ macd, signal, histogram }`（等长）| macd: `slow-1`；signal/histogram: `slow+signal-2` |
-| `quant_bollinger` | `values: number[]`, `window=20`, `multiplier=2` | `{ upper, middle, lower, window, multiplier }` | index `window-1`（总体标准差）|
-| `quant_atr` | `high/low/close: number[]`, `window=14` | `{ values: (number\|null)[], window }` | index `window`（Wilder 平滑）|
-| `quant_kdj` | `high/low/close: number[]`, `window=9` | `{ k, d, j }`（等长）| index `window-1`（RSV 法，K/D 初始 50）|
-| `quant_williams_r` | `high/low/close: number[]`, `window=14` | `{ values: (number\|null)[], window }` | index `window-1`（区间 -100..0）|
-| `quant_cci` | `high/low/close: number[]`, `window=20` | `{ values: (number\|null)[], window }` | index `window-1`（±100 超买超卖）|
-| `quant_obv` | `close/volume: number[]` | `{ values: number[] }` | 全程（首值 0，无 null）|
-| `quant_adx` | `high/low/close: number[]`, `window=14` | `{ adx, plusDi, minusDi, window }` | ±DI: index `window`；ADX: index `2*window-1` |
+| `quant_ema` | `values: number[]`, `window: integer` | `{ values: (number\|null)[], window }` | index `window-1` (seed = first-window mean, alpha = 2/(w+1)) |
+| `quant_rsi` | `values: number[]`, `window: integer = 14` | `{ values: (number\|null)[], window }` | index `window` (Wilder smoothing) |
+| `quant_macd` | `values: number[]`, `fast=12`, `slow=26`, `signal=9` | `{ macd, signal, histogram }` (equal length) | macd: `slow-1`; signal/histogram: `slow+signal-2` |
+| `quant_bollinger` | `values: number[]`, `window=20`, `multiplier=2` | `{ upper, middle, lower, window, multiplier }` | index `window-1` (population std) |
+| `quant_atr` | `high/low/close: number[]`, `window=14` | `{ values: (number\|null)[], window }` | index `window` (Wilder smoothing) |
+| `quant_kdj` | `high/low/close: number[]`, `window=9` | `{ k, d, j }` (equal length) | index `window-1` (RSV method, K/D seeded at 50) |
+| `quant_williams_r` | `high/low/close: number[]`, `window=14` | `{ values: (number\|null)[], window }` | index `window-1` (range -100..0) |
+| `quant_cci` | `high/low/close: number[]`, `window=20` | `{ values: (number\|null)[], window }` | index `window-1` (±100 overbought/oversold) |
+| `quant_obv` | `close/volume: number[]` | `{ values: number[] }` | everywhere (first value 0, no nulls) |
+| `quant_adx` | `high/low/close: number[]`, `window=14` | `{ adx, plusDi, minusDi, window }` | ±DI: index `window`; ADX: index `2*window-1` |
 | `quant_roc` | `values: number[]`, `window=12` | `{ values: (number\|null)[], window }` | index `window` |
-| `quant_backtest` | `close: number[]`, `fast=10`, `slow=30`, `feeRate=0.001`, `stopLoss?`, `takeProfit?` | `{ totalReturnPct, maxDrawdownPct, sharpe, position, equityCurve, trades(含 exitReason) }` | 首笔交易在首次交叉确认后一根 |
-| `quant_backtest_bollinger` | `close: number[]`, `window=20`, `multiplier=2`, `feeRate=0.001`, `stopLoss?`, `takeProfit?` | 同上（突破上轨买入、下穿中轨卖出）| 首次突破确认后一根 |
-| `quant_backtest_rsi` | `close: number[]`, `rsiWindow=14`, `buyBelow=30`, `sellAbove=70`, `feeRate=0.001`, `stopLoss?`, `takeProfit?` | 同上（RSI 上穿 buyBelow 买入、下穿 sellAbove 卖出）| 首次信号确认后一根 |
-| `quant_backtest_portfolio` | `assets: [{name, close}]`, `weights?`, `rebalanceEvery?`, `feeRate=0.001` | `{ totalReturnPct, maxDrawdownPct, sharpe, equityCurve, assetNames, finalWeights, rebalances }` | —（多资产组合）|
-| `quant_backtest_grid` | `close: number[]`, `fastMin=3`, `fastMax=10`, `slowMin=10`, `slowMax=30`, `feeRate=0.001` | `{ results(按收益降序), best, fastRange, slowRange, feeRate }` | —（网格搜索，跳过 fast >= slow）|
+| `quant_backtest` | `close: number[]`, `fast=10`, `slow=30`, `feeRate=0.001`, `stopLoss?`, `takeProfit?` | `{ totalReturnPct, maxDrawdownPct, sharpe, position, equityCurve, trades(with exitReason) }` | first trade one bar after first confirmed cross |
+| `quant_backtest_bollinger` | `close: number[]`, `window=20`, `multiplier=2`, `feeRate=0.001`, `stopLoss?`, `takeProfit?` | same (buy on upper-band breakout, sell on mid-band cross-down) | one bar after first confirmed breakout |
+| `quant_backtest_rsi` | `close: number[]`, `rsiWindow=14`, `buyBelow=30`, `sellAbove=70`, `feeRate=0.001`, `stopLoss?`, `takeProfit?` | same (buy on RSI cross-up through buyBelow, sell on cross-down through sellAbove) | one bar after first confirmed signal |
+| `quant_backtest_portfolio` | `assets: [{name, close}]`, `weights?`, `rebalanceEvery?`, `feeRate=0.001` | `{ totalReturnPct, maxDrawdownPct, sharpe, equityCurve, assetNames, finalWeights, rebalances }` | — (multi-asset portfolio) |
+| `quant_backtest_grid` | `close: number[]`, `fastMin=3`, `fastMax=10`, `slowMin=10`, `slowMax=30`, `feeRate=0.001` | `{ results(sorted by return desc), best, fastRange, slowRange, feeRate }` | — (grid search; skips fast >= slow) |
 
-### 典型链路（模型视角）
+### Typical chain (model's view)
 
 ```
 quant_market_fetch(symbol: BTCUSDT, interval: 1d, limit: 100)
-  → 取 close 数组 → quant_sma / quant_ema / quant_rsi / quant_macd / … → quant_backtest
+  → take close → quant_sma / quant_ema / quant_rsi / quant_macd / … → quant_backtest
 ```
 
-已实测：真实 Binance 日线 → 指标 → 回测（fast 5 / slow 20）端到端跑通。
+Verified live: real Binance daily bars → indicators → backtest (fast 5 / slow 20) end to end.
 
-### 回测契约
+### Backtest contract
 
-- 双均线交叉：fast SMA 上穿 slow SMA 全仓买入，下穿清仓；信号在 bar `i` 确认、`i+1` 收盘价成交（**无未来函数**）。
-- 手续费按成交金额双边收取（`feeRate` 每边）。
-- 尾部未平仓：最后一笔交易 `exitIndex/exitPrice/returnPct` 为 `null`。
-- `position` 与 `equityCurve` 与输入等长；资金曲线归一化（初始 1）；夏普年化假设日频（√365）。
+- Dual-MA crossover: buy all-in when fast SMA crosses above slow SMA, liquidate when
+  it crosses below; signals confirm on bar `i` and fill at bar `i+1` close
+  (**no look-ahead**).
+- Fees are charged on both sides of notional (`feeRate` per side).
+- Open tail position: the last trade's `exitIndex/exitPrice/returnPct` are `null`.
+- `position` and `equityCurve` match input length; equity is normalized (starts at 1);
+  Sharpe is annualized assuming daily frequency (√365).
 
-## 对齐约定
+## Alignment conventions
 
-- 所有输出与输入**等长**，头部无法计算的窗口位置为 `null`——模型可以按索引直接对齐，无需自己补 padding。
-- 空序列或 `window > 序列长度` 是**合法结果**（全 `null`），不是错误。
-- 非有限数（NaN/Infinity）在 registry 的 lossless-JSON 参数快照层即被拒绝（模型 JSON 边界），不会到达 execute。
-- 约束（window ≥ 1 整数、macd 要求 fast < slow、atr 三数组等长、multiplier > 0）在 execute 手检，抛错经 registry 转为 `isError` 结果。
+- All outputs are **equal-length** with inputs; leading unwindowed positions are
+  `null` — the model aligns by index, no padding needed.
+- Empty series or `window > series length` is a **legal result** (all `null`),
+  not an error.
+- Non-finite numbers (NaN/Infinity) are rejected at the registry's lossless-JSON
+  argument snapshot layer (the model's JSON boundary) and never reach `execute`.
+- Constraints (window ≥ 1 integer, macd fast < slow, atr arrays equal length,
+  multiplier > 0) are hand-checked in `execute`; thrown errors become `isError`
+  results via the registry.
 
-## 契约（defineTool）
+## Contract (defineTool)
 
-- 参数用统一 schema DSL，由 `defineTool` 在 execute 前校验（类型/必填/整数）。
-- `execute` 只返回 canonical JSON 值；`output.render` 给模型渲染。
-- 所有工具 `isConcurrencySafe: true`——纯函数、无共享状态、无副作用，可并行调度。
-- 注册是可逆 effect：`ctx.tools.register` 返回 disposer，fiber 释放即注销。
+- Arguments use the unified schema DSL, validated by `defineTool` before `execute`
+  (types / required / integers).
+- `execute` returns only the canonical JSON value; `output.render` produces the
+  model-facing prose.
+- Every tool is `isConcurrencySafe: true` — pure functions, no shared state, no side
+  effects, parallel-schedulable.
+- Registration is a reversible effect: `ctx.tools.register` returns a disposer;
+  fiber disposal unregisters.
 
 ## Model Experience
 
-### 模型看到什么
+### What the model sees
 
-每个工具的 name/description/JSON schema 自动进入系统提示词装配（`ctx.systemPrompt.tools()`）。description 说明了对齐约定（哪些头部位置是 null），模型无需猜测。
+Each tool's name/description/JSON schema is injected into the system-prompt assembly
+(`ctx.systemPrompt.tools()`). Descriptions state the alignment rules (which head
+positions are null), so the model never guesses.
 
-### Token 影响
+### Token impact
 
-每个工具固定一份 schema 成本；调用结果按渲染内容计。`null` 对齐设计避免了模型为了对齐而重复请求 padding 计算。
+Each tool costs one fixed schema block; call results are charged by rendered content.
+The `null`-alignment design avoids repeated padding requests from the model.
 
-### KV Cache 影响
+### KV cache impact
 
-schema 前缀稳定（工具集与顺序不变则复用）；结果追加在可复用前缀之后。
+The schema prefix is stable (reused as long as the tool set and order are unchanged);
+results append after the reusable prefix.
 
-## 迭代记录（NEWS）
+## Release history (NEWS)
 
-| 版本 | 日期 | 更新 |
+| Version | Date | Notes |
 |---|---|---|
-| 0.20.0 | 2026-08-16 | 数据整合：yahoo 美股/全球行情 + 渠道库扩到 13（含 dsh 生态数据插件）+ researchMultiAsset 多标的并行研究 |
-| 0.19.0 | 2026-08-16 | PCPT 补完：quant_linear_model（OLS/Ridge）+ docs/ML_GUIDE.md（ML/DL 架构知识地图）+ demos/ml-workflow.ts（42→43 工具）|
-| 0.18.0 | 2026-08-16 | 链路补全：A股免费行情（新浪/腾讯前复权）+ RankIC/IC衰减 + 因子中性化 + Walk-forward + 回撤分析 + 执行模拟 + 端到端管线（37→42 工具）|
-| 0.17.0 | 2026-08-16 | 开源生态域 dsh-community：quant_repo_stats / quant_npm_stats / quant_oss_pulse（0-100 影响力评分）|
-| 0.16.0 | 2026-08-16 | 域驱动重构：dsh-data/alpha/ml/risk/execution ↔ PDAT/PAAT/PCPT/PRT/PET + 交易所容错链（Binance→OKX→Bybit）|
-| 0.15.0 | 2026-08-16 | Kupiec VaR 回测 + 周期聚合 + 研究报告生成；100 单元测试里程碑 |
-| 0.14.0 | 2026-08-16 | 风控模块 quant_risk（VaR/CVaR/Beta/Alpha/IR/TE）|
-| 0.13.0 | 2026-08-16 | 基金模拟 quant_fund（1 亿起、净值 1.00、高水位 20% 提成）+ UI Fund 卡片 |
-| 0.12.0 | 2026-08-16 | 指标目录 quant_metrics（9+ 指标）+ Jane Street 风格 UI demo |
-| 0.11.0 | 2026-08-16 | 图表协议 quant_chart（dsh-chart 数据面）|
-| 0.10.0 | 2026-08-16 | 因子评估 quant_factor_evaluate / combine（alphalens 方法论）|
-| 0.9.0 | 2026-08-16 | 统计 quant_series_stats + 数据质量 quant_data_quality + 标注（致敬 Scale AI）|
-| 0.8.0 | 2026-08-16 | 渠道对比 quant_data_compare + 决策树建议 quant_data_advice |
-| 0.7.0 | 2026-08-16 | mcp/tools.json + 纯函数 re-export + 文档体系 |
-| 0.6.0 | 2026-08-16 | 数据渠道指南 quant_data_guide（A 股 8 大渠道）+ 更名 dsh-quant |
-| 0.5.0 | 2026-08-16 | 多交易所数据源（OKX / Bybit）|
-| 0.4.0 | 2026-08-16 | 多资产组合回测（定期再平衡）|
-| 0.3.0 | 2026-08-16 | 策略族（布林带突破 / RSI 反转）+ 止损止盈 + exitReason |
-| 0.2.0 | 2026-08-16 | +6 指标（KDJ / W%R / CCI / OBV / ADX / ROC）|
-| 0.1.0 | 2026-08-16 | 首发：行情 + 6 指标 + 双均线回测/网格 + CI/自动发布 |
+| 0.35.0 | 2026-08-17 | Core UX: PDAT→PET onboarding (BTC example) + mcp/AGENT_GUIDE |
+| 0.34.0 | 2026-08-17 | Quant lineage report (five motherships) |
+| 0.33.0 | 2026-08-17 | Macro legends batch (42 firms) + first data analysis report |
+| 0.32.0 | 2026-08-17 | Systematic Europe batch (37 firms) |
+| 0.31.0 | 2026-08-17 | Market-making & crypto batch incl. Alameda failure case (32 firms) |
+| 0.30.0 | 2026-08-17 | QRT/Capula/Winton/DRW/Tower batch (27 firms) |
+| 0.29.0 | 2026-08-17 | SIG + quant chronicle timeline (22 firms) |
+| 0.28.0 | 2026-08-17 | Balyasny/IMC/XTX/Five Rings + DE Shaw boost (21 firms) |
+| 0.27.0 | 2026-08-17 | Man Group/AQR/GSA/Bridgewater batch (17 firms) |
+| 0.26.0 | 2026-08-17 | Two Sigma/Virtu/DE Shaw/Renaissance batch (13 firms) |
+| 0.25.0 | 2026-08-17 | HRT/Point72/Squarepoint batch (9 firms) |
+| 0.24.0 | 2026-08-17 | Millennium/WorldQuant/Jump batch (6 firms) |
+| 0.23.0 | 2026-08-17 | quant-history + quant-repo columns (Citadel/Optiver/Jane Street) |
+| 0.22.0 | 2026-08-17 | Options & volatility board (Optiver-inspired) |
+| 0.21.0 | 2026-08-17 | FICC link: quant_bond + bond data channels |
+| 0.20.0 | 2026-08-16 | yahoo US/global klines + 13-channel guide + researchMultiAsset |
+| 0.19.0 | 2026-08-16 | quant_linear_model + docs/ML_GUIDE + ml-workflow demo |
+| 0.18.0 | 2026-08-16 | Chain completion: A-share klines, RankIC/IC decay, neutralization, walk-forward, drawdown, execution sim, pipeline |
+| 0.17.0 | 2026-08-16 | dsh-community domain: quant_repo_stats / quant_npm_stats / quant_oss_pulse |
+| 0.16.0 | 2026-08-16 | Domain-driven layout ↔ PDAT/PAAT/PCPT/PRT/PET + exchange fallback chain |
+| 0.15.0 | 2026-08-16 | Kupiec VaR backtest + resample + report; 100 unit tests milestone |
+| 0.14.0 | 2026-08-16 | quant_risk (VaR/CVaR/Beta/Alpha/IR/TE) |
+| 0.13.0 | 2026-08-16 | quant_fund (1e8 capital, NAV 1.00, HWM 20% fee) + UI fund cards |
+| 0.12.0 | 2026-08-16 | quant_metrics (9+ metrics) + Jane Street-style UI demo |
+| 0.11.0 | 2026-08-16 | quant_chart (dsh-chart protocol) |
+| 0.10.0 | 2026-08-16 | quant_factor_evaluate / combine (alphalens methodology) |
+| 0.9.0 | 2026-08-16 | series stats + data quality + annotation (tribute to Scale AI) |
+| 0.8.0 | 2026-08-16 | channel compare + decision-tree advice |
+| 0.7.0 | 2026-08-16 | mcp/tools.json + pure-function re-exports + docs |
+| 0.6.0 | 2026-08-16 | data channel guide (8 A-share channels) + rename to dsh-quant |
+| 0.5.0 | 2026-08-16 | multi-exchange sources (OKX / Bybit) |
+| 0.4.0 | 2026-08-16 | multi-asset portfolio backtest (periodic rebalancing) |
+| 0.3.0 | 2026-08-16 | strategy family (Bollinger breakout / RSI reversion) + stop-loss/take-profit |
+| 0.2.0 | 2026-08-16 | +6 indicators (KDJ / W%R / CCI / OBV / ADX / ROC) |
+| 0.1.0 | 2026-08-16 | Launch: market data + 6 indicators + MA backtest/grid + CI/auto-release |
 
-完整更新记录见 [NEWS.md](NEWS.md) 与 [CHANGELOG.md](CHANGELOG.md)。
+Full records: [NEWS.md](NEWS.md) and [CHANGELOG.md](CHANGELOG.md).
 
-## 已知限制与后续路线
+## Known limitations & roadmap
 
-- **行情覆盖加密市场**：Binance / OKX / Bybit 三所公共 API（自动容错切换），无需凭据；A 股走渠道知识库导航（akshare 等作为后续 provider）。
-- **回测为内置策略族**：双均线 / 布林带突破 / RSI 反转 / 组合再平衡 / 网格搜索；自定义策略回调是后续路线。
-- **presentCall/presentResult 未定制**：指标结果无文件/终端/diff 语义，UI 走 generic 卡片兜底。
-- **行情工具依赖网络**：在线用例在 verify.ts 中，网络不可达时该用例失败（离线指标/回测用例不受影响）。
+- **Market coverage is crypto-first**: Binance / OKX / Bybit public APIs (automatic
+  fallback), no credentials; A-shares go through the channel knowledge base (akshare
+  et al. as future providers).
+- **Backtests are a built-in strategy family**: dual-MA / Bollinger breakout / RSI
+  reversion / portfolio rebalancing / grid search; custom strategy callbacks are the
+  future route.
+- **presentCall/presentResult not customized**: indicator results have no file /
+  terminal / diff semantics; UI falls back to generic cards.
+- **Market tools need network**: live cases live in verify.ts; offline indicator /
+  backtest cases are unaffected.
 
-## 域结构（PDAT→PET pipeline 映射）
+## Domain layout (PDAT→PET pipeline mapping)
 
 ```
-src/dsh-data/      数据域（PDAT）：行情 3 所、A 股 8 渠道、质量/标注、周期聚合
-src/dsh-alpha/     因子域（PAAT）：12 指标 + 因子评估/合成（alphalens 方法论）
-src/dsh-ml/        组合域（PCPT）：策略回测 + 组合 + 指标库
-src/dsh-risk/      风控域（PRT）：VaR/CVaR/Beta/Alpha/IR + Kupiec 检验
-src/dsh-execution/ 交付域（PET）：chart 数据面、基金模拟、研究报告（不接实盘）
-src/dsh-community/ 开源生态域（dsh-quant 独有）：GitHub/npm 生态数据 + 影响力评分 pulse
+src/dsh-data/       data (PDAT): 3 exchanges, 15 channels, quality/annotation, resample
+src/dsh-alpha/      alpha (PAAT): 12 indicators + factor eval/combine (alphalens methodology)
+src/dsh-ml/         portfolio (PCPT): strategy backtests + portfolio + metric catalog
+src/dsh-risk/       risk (PRT): VaR/CVaR/Beta/Alpha/IR + Kupiec test + options + bonds
+src/dsh-execution/  delivery (PET): chart data plane, fund sim, research report (no live trading)
+src/dsh-community/  ecosystem (unique to the open side): GitHub/npm data + influence pulse
 ```
 
-**内外边界**：数据与结论留在内部，工具与方法进入 dsh-quant——外部不提供 alpha / 生产策略 / 实盘工程，但提供框架、指标、因子评价、UI 与 demo。详见置顶 [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9)。
+**The boundary**: data and conclusions stay internal; tools and methods ship to
+dsh-quant — no alpha, no production strategies, no live-trading engineering, but
+frameworks, indicators, factor evaluation, UI and demos. See pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
 
-## 快速开始（fork/pull 后）
+## Quick start (after fork/pull)
 
 ```sh
-npm ci && npm run build && npm test    # 离线全测试（100 单元 + 4 Loader）
-npm run test:verify                    # 真实行情集成（需网络）
-npm run gen:tools                      # 重新生成 mcp/tools.json
+npm ci && npm run build && npm test    # offline full tests (174 unit + 4 Loader)
+npm run test:verify                    # live market integration (needs network)
+npm run gen:tools                      # regenerate mcp/tools.json
 ```
 
-## 构建与使用
+## Build & use
 
 ```sh
-# 构建 lib/（tsc, NodeNext ESM；产物含 .js + .d.ts）
+# build lib/ (tsc, NodeNext ESM; ships .js + .d.ts)
 cd quant-indicators && tsc -p tsconfig.json
 
-# 在 dsh 中使用：cordis.yml 里加一行
+# use in dsh: add one line to cordis.yml
 # - name: 'dsh-quant'
-# （Loader 从 node_modules 解析包的 exports → lib/index.js）
+# (the Loader resolves the package exports → lib/index.js from node_modules)
 ```
 
-## 验证
+## Verification
 
 ```sh
-# 纯函数数值正确性 + 行情解析 + 回测（100 用例，node:test，零依赖）
-cd deepseek-harness && pnpm exec tsx --test ../quant-indicators/tests/indicators.spec.ts ../quant-indicators/tests/market.spec.ts ../quant-indicators/tests/backtest.spec.ts
+# pure-function numeric correctness + market parsing + backtests (174 cases, node:test, zero deps)
+cd deepseek-harness && pnpm exec tsx --test ../quant-indicators/tests/*.spec.ts
 
-# REAL-composition：cordis.yml 经真实 Loader boot（4 用例：注册可见/管线/isError/HMR-safety）
+# REAL-composition: cordis.yml booted through the real Loader (registration visible / pipeline / isError / HMR-safety)
 cd deepseek-harness && pnpm exec tsx --test ../quant-indicators/tests/loader-composition.spec.ts
 
-# harness 集成（schemas → 执行管线 → isError → 真实行情 fetch→指标→回测 端到端）
+# harness integration (schemas → execution pipeline → isError → live fetch→indicators→backtest end-to-end)
 cd deepseek-harness && pnpm exec tsx ../quant-indicators/verify.ts
 
-# 消费者模拟：真实 node_modules 解析加载构建产物 lib（模拟 npm 安装后）
+# consumer simulation: built lib loaded through real node_modules resolution (simulates post-install)
 cd deepseek-harness && pnpm exec tsx ../quant-indicators/consumer-test/boot.ts
 ```
 
-## ⭐ 支持
+## ⭐ Support
 
-如果 dsh-quant 帮到了你的研究，欢迎点个 ⭐——每一颗星都会让更多 dsh 用户看到这个项目。
+If dsh-quant helps your research, a ⭐ makes the project visible to more dsh users.
 
-<p align="center"><img src="demos/whale-trading.png" alt="dsh 鲸鱼举着激光屏看盘" width="420" /></p>
+<p align="center"><img src="demos/whale-trading.png" alt="dsh whale trading on a holographic screen" width="420" /></p>
 
-这只鲸鱼指代 DeepSeek Harness（dsh）——它正举着激光屏看盘 🐋
+This whale stands for DeepSeek Harness (dsh) — trading on its holographic screen 🐋
 
-欢迎 issue / PR / discussion，也欢迎把你的域视角发到 [Discussion #10](https://github.com/pengpengyi92/dsh-quant/discussions/10) 一起交流。🐋
+Issues / PRs / discussions welcome; share your domain perspective in
+[Discussion #10](https://github.com/pengpengyi92/dsh-quant/discussions/10). 🐋
 
-生态基建：[量化生态目录](docs/QUANT_ECOSYSTEM.md) · [生态内化手册](docs/ECOSYSTEM_PLAYBOOK.md) · [生态地图 Discussion #11](https://github.com/pengpengyi92/dsh-quant/discussions/11)
+Ecosystem infrastructure: [quant ecosystem directory](docs/QUANT_ECOSYSTEM.md) ·
+[ecosystem playbook](docs/ECOSYSTEM_PLAYBOOK.md) · [ecosystem map Discussion #11](https://github.com/pengpengyi92/dsh-quant/discussions/11)
 
-研究栏目：[quant-history 量化大厂历史](quant-history/) · [quant-repo 大厂开源专刊](quant-repo/)
+Research columns: [quant-history (firm archives)](quant-history/) · [quant-repo (open-source special)](quant-repo/)
