@@ -53,6 +53,10 @@
 | PDT Partners | 1993 MS 组 → 2012 独立 | 大行自营后代最正宗样本 | [pdt.md](pdt.md) |
 | Dimensional | 1981（Booth/Sinquefield）| Fama 学术派的万亿产品化 | [dimensional.md](dimensional.md) |
 
+## 🌳 量化家谱
+
+五大母体（SIG/DE Shaw/AHL/Millennium/大行自营组）与它们的根系、渊源规律见 [LINEAGE.md](LINEAGE.md)。
+
 ## 📊 数据分析报告
 
 42 家机构的全量统计（开源姿态/地理/组织/年代/谱系 + 八大洞察）见 [ANALYSIS.md](ANALYSIS.md)——栏目第一份数据研究。
