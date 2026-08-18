@@ -48,7 +48,9 @@
     "demos",
     "quant-history",
     "quant-repo",
-    "plugin"
+    "plugin",
+    "AGENTS.md",
+    "CLAUDE.md"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
