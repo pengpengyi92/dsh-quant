@@ -86,6 +86,26 @@ npm i dsh-quant
 
 46 个工具自动注册，指标 / 回测 / 因子 / 风控 / 基金模拟 / 生态影响力开箱即用。一条 `quant_research_pipeline` 跑通 PDAT→PET 全链路。ML/DL 架构知识见 [docs/ML_GUIDE.md](docs/ML_GUIDE.md)，可执行 demo：`npx tsx demos/ml-workflow.ts`。
 
+## 🚀 产品体验：三分钟上手一条量化流水线
+
+装完立刻体验完整 PDAT→PET 流程（BTC 公开数据 + 简单策略 + 回测 +
+模拟盘示例）：
+
+```
+数据(quant_market_fetch) → 质量(quant_data_quality) → 因子(quant_factor_evaluate)
+→ 回测(quant_backtest) → 指标(quant_metrics) → 风控(quant_risk)
+→ 回撤(quant_drawdown) → 模拟盘(quant_execute_sim) → 私募模拟(quant_fund)
+→ 报告(quant_report)
+```
+
+一键版：`quant_research_pipeline(symbol=BTCUSDT, limit=120)` 全链路一次返回。
+
+之后按自己的想法给每个模块**插自己的插件**（数据源/alpha/模型/风控/
+执行——everything is a plugin，征集见 Issue #27）。
+
+完整五步体验（每步带解读）：[docs/ONBOARDING.md](docs/ONBOARDING.md) ·
+Agent 一眼看懂版：[mcp/AGENT_GUIDE.md](mcp/AGENT_GUIDE.md)
+
 ## 🖥️ UI 工作台（dsh-quant-ui）
 
 ![dsh-quant UI](demos/ui-demo-preview.png)

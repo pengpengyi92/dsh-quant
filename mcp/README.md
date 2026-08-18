@@ -1,5 +1,7 @@
 # dsh-quant 与其他 Agent / dsh 的交互（MCP & Integration）
 
+> 📖 Agent 第一眼说明书：[AGENT_GUIDE.md](AGENT_GUIDE.md)（一句话/六域/契约/怎么开始/怎么扩展）· 五步上手体验：[../docs/ONBOARDING.md](../docs/ONBOARDING.md)
+
 > 本插件以 dsh 工具契约为核心；其他 agent、MCP client、dsh 实例均可按下面方式直接交互。
 
 ## 1. 三种交互方式
@@ -11,13 +13,13 @@ dsh plugin add dsh-quant          # 或 cordis.yml:
 - name: 'dsh-quant'
 ```
 
-dsh agent 的模型直接看到 19 个 `quant_*` 工具（schema 由 system-prompt 装配注入），
+dsh agent 的模型直接看到 46 个 `quant_*` 工具（schema 由 system-prompt 装配注入），
 调用走 dsh 完整执行管线（pre-execute → guards → execute → post-execute → result）。
 这是"零胶水"的交互：装完即用。
 
 ### 方式 B：其他 agent / MCP client（通过 tools.json）
 
-`mcp/tools.json` 是 19 个工具的**模型可见 JSON Schema 清单**（运行时从
+`mcp/tools.json` 是 46 个工具的**模型可见 JSON Schema 清单**（运行时从
 `ctx.tools.schemas()` 提取，永远与代码一致）。任何支持 function-calling 的
 agent 框架（Claude tool use、OpenAI functions、MCP servers）可直接把它当
 工具清单接入：
