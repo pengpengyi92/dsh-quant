@@ -1,7 +1,7 @@
 {
   "name": "dsh-quant",
   "version": "0.29.1",
-  "description": "AI-native & DSH-native quant toolkit for every quant aspect — 46 tools across data, alpha, ML, risk, execution and ecosystem domains, with one end-to-end research pipeline. Methods open, secrets internal.",
+  "description": "AI-native & DSH-native: the quant version of everything-is-a-plugin — 5 pluggable modules (data/alpha/ML/risk/execution) with example use cases each. Fill your own alpha, models & execution. Methods open, secrets internal.",
   "license": "MIT",
   "type": "module",
   "keywords": [
