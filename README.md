@@ -1,4 +1,4 @@
-# dsh-quant (DeepQuant Harness)
+# 🐳 dsh-quant — The Everything-Plugin Quant OS
 
 🌐 **Site**: https://dsh-quant-site.pages.dev · ✅ Listed in [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) (one-click install via dsh-market)
 
