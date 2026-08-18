@@ -15,13 +15,11 @@
 
 ## 梯队 2：系统化/多策略补全
 
-Qube Research (QRT) · ExodusPoint · Schonfeld · Verition ·
-Marshall Wace · Capula · Aspect Capital · Winton
+ExodusPoint · Schonfeld · Verition · Marshall Wace · Aspect Capital
 
 ## 梯队 3：做市/自营（芝加哥帮 + 加密）
 
-DRW · Wolverine · Tower Research · Akuna · CTC ·
-Wintermute · GSR · Alameda（反面教材）
+Wolverine · Akuna · CTC · Wintermute · GSR · Alameda（反面教材）
 
 ## 梯队 4：宏观与传奇
 
@@ -36,5 +34,5 @@ PDT Partners · Dimensional Fund Advisors
 
 ## 现状统计
 
-- 已收录：22 家（quant-history）· 22 家（quant-repo）· 1 条编年史
+- 已收录：27 家（quant-history）· 26 个专刊文件（quant-repo）· 1 条编年史
 - Announcement 序列：#19 → #28（含理念与征集）

@@ -32,6 +32,11 @@
 | IMC Trading | 1989（阿姆斯特丹）| 全自动做市 + Prosperity 竞赛 | [imc.md](imc.md) |
 | XTX Markets | 2015（Alexander Gerko）| 纯自动化做市，人均产值之王 | [xtx.md](xtx.md) |
 | Five Rings | 纽约 | 神秘精英自营 | [fiverings.md](fiverings.md) |
+| Qube Research (QRT) | 2015（伦敦）| 数据驱动系统化新王 | [qrt.md](qrt.md) |
+| Capula | 2005（伦敦）| 利率/固收相对价值 | [capula.md](capula.md) |
+| Winton | 1997（David Harding）| 科学研究型 CTA | [winton.md](winton.md) |
+| DRW | 1992（Don Wilson）| 芝加哥自营 + 加密（Cumberland）| [drw.md](drw.md) |
+| Tower Research | 1998（Mark Gorton）| LimeWire 创始人的 HFT 帝国 | [tower.md](tower.md) |
 
 ## 🗺️ 补齐路线图
 

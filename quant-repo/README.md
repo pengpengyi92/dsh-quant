@@ -32,6 +32,7 @@
 | IMC | 竞赛 SDK（imc-prosperity）| [imc.md](imc.md) |
 | XTX | 极少（披露文件型）| [xtx.md](xtx.md) |
 | Five Rings | 零开源（神秘双极）| [fiverings.md](fiverings.md) |
+| QRT / Capula / Winton / DRW / Tower | 五家集中专刊（低调系统化一族，公开资产替代物）| [quiet-five.md](quiet-five.md) |
 
 ## 收录规则（欢迎 PR）
 
