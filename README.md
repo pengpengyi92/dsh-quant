@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.50.0 | 2026-08-19 | Age chronicles ×2 — AGE_CN (2004-2022) + AGE_GLOBAL (1783-2018), 11 reports total |
 | 0.49.0 | 2026-08-19 | D-tier research reports ×4 — REGULATION / TALENT_MAP / STAR_PRODUCTS / QUANT_AI (9 reports total) |
 | 0.48.0 | 2026-08-19 | 5 cross-border archives — Tengsheng/Inshiman/Yuansheng/GSR/Eisler (94 firms) |
 | 0.47.0 | 2026-08-19 | 8 CN Lite archives — Kaifeng/Honghu/Egret/Zhuoshi/Hande/Niankong/Mengxi/Xinhong (89 firms) |

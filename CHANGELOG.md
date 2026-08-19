@@ -4,6 +4,14 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.50.0] - 2026-08-19
+
+### Added
+- Age chronicles (two files): AGE_CN.md (Chinese firms 2004-2022, four
+  eras, the 2013-2015 burst window = 57% of the archive) and
+  AGE_GLOBAL.md (global firms 1783-2018, six eras, tool-revolution
+  cycles, China-global generational mapping)
+
 ## [0.49.0] - 2026-08-19
 
 ### Added

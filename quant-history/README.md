@@ -123,6 +123,10 @@
 - 金牛奖 × 产品命运交叉榜（常青/消失/回归/翻车四象限）见 [STAR_PRODUCTS.md](STAR_PRODUCTS.md)
 - 量化 × AI 交叉谱（三阶段 + 九机构样本 + 三大规律）见 [QUANT_AI.md](QUANT_AI.md)
 
+**年龄编年史（2026-08-19，国内/国外分开）**：
+- 中国篇（2004-2022 四时代 + 爆发窗口分析）见 [AGE_CN.md](AGE_CN.md)
+- 国外篇（1783-2018 六时代 + 中外代际映射）见 [AGE_GLOBAL.md](AGE_GLOBAL.md)
+
 ## 🗺️ 补齐路线图
 
 待收录候选清单（中国量化篇 / 系统化 / 做市 / 宏观四梯队）见 [ROADMAP.md](ROADMAP.md)。
