@@ -50,7 +50,8 @@
     "quant-repo",
     "plugin",
     "AGENTS.md",
-    "CLAUDE.md"
+    "CLAUDE.md",
+    "cli"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -75,5 +76,8 @@
     "@types/node": "^24.0.0",
     "tsx": "^4.19.0",
     "typescript": "^5.6.0"
+  },
+  "bin": {
+    "dsh-quant": "./cli/main.mjs"
   }
 }

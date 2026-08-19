@@ -128,6 +128,24 @@ cards, metric selector — plus a swimming chibi whale 🐋 (click the title 3 t
 
 Live demo: https://dsh-quant-ui.pages.dev
 
+## ⌨️ CLI (dsh-quant terminal)
+
+Zero-dependency readable terminal (pure Node + ANSI, same philosophy as the
+P-Research CLI). Browse the research columns and live market data without a
+browser:
+
+```bash
+node cli/main.mjs repo                      # 46 tools · 6 domains
+node cli/main.mjs history                   # 53 firm archives index
+node cli/main.mjs history citadel           # one firm's archive (rendered)
+node cli/main.mjs history --reports         # ANALYSIS / TIMELINE / LINEAGE / BANK_LINEAGE
+node cli/main.mjs history --search 高频      # cross-archive search
+node cli/main.mjs kline BTCUSDT --limit 20  # colored OHLC table + stats
+```
+
+After `npm install -g .`, the commands shorten to `dsh-quant repo`,
+`dsh-quant history citadel`, etc.
+
 ## Tools
 
 | Tool | Parameters | Canonical output | First valid index |
