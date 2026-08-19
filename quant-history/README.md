@@ -91,6 +91,14 @@
 | 尊嘉 Zunjia | 2009（宋炳山）| 诚奇前雇主 · Fintech 转型（Lite）| [zunjia.md](zunjia.md) |
 | 千宜 Qianyi | 2015（裘慧明/解环宇）| 明汯第二平台（Lite）| [qianyi.md](qianyi.md) |
 | 平方和 Pingfanghe | 2015（吕杰勇）| 北大学霸的百亿与罚单（Lite）| [pingfanghe.md](pingfanghe.md) |
+| 凯丰 Kaifeng | 2012（吴星）| 期货入行宏观翘楚（Lite）| [kaifeng.md](kaifeng.md) |
+| 泓湖 Honghu | 2010（梁文涛）| 首届金牛·十一年长线（Lite）| [honghu.md](honghu.md) |
+| 白鹭 Egret | 2013 | 浙江多策略百亿（Lite）| [bailu.md](bailu.md) |
+| 卓识 Zhuoshi | 2016（张卓）| 低频纯 α 派（Lite）| [zhuoshi.md](zhuoshi.md) |
+| 涵德 Hande | 2013 | 千禧+世坤三学霸（Lite）| [hande.md](hande.md) |
+| 念空 Niankong | 2015（王啸）| 量化流水线车间（Lite）| [niankong.md](niankong.md) |
+| 蒙玺 Mengxi | 2016（李骧）| 全频段 Alpha（Lite）| [mengxi.md](mengxi.md) |
+| 信弘天禾 Xinhong | 2012 | 相对价值三连黑马（Lite）| [xinhongtianhe.md](xinhongtianhe.md) |
 
 ## 🌳 量化家谱
 

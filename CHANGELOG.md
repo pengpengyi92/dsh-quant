@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.47.0] - 2026-08-19
+
+### Added
+- Eight more Chinese Lite archives (89 firms total), the Golden Bull
+  evergreen tier: Kaifeng (macro decade), Honghu (first-award survivor),
+  Egret (Zhejiang multi-strategy), Zhuoshi (low-frequency pure alpha),
+  Hande (Millennium/WorldQuant Tsinghua trio), Niankong (quant assembly
+  line, NeurIPS paper), Mengxi (full-spectrum alpha), Xinhong Tianhe
+  (relative-value three-peat)
+
 ## [0.46.0] - 2026-08-19
 
 ### Added
