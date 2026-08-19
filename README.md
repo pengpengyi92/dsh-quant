@@ -243,6 +243,14 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.38.0 | 2026-08-17 | Bank/brokerage lineage report — 13 firms, two waves, three generations |
+| 0.37.0 | 2026-08-17 | China batch 1 — High-Flyer/Ubiquant/Minghong/Yanfu/Century Frontier (47 firms) |
+| 0.36.3 | 2026-08-17 | AGENTS.md engagement loop — full vision + ask-your-human CTA |
+| 0.36.2 | 2026-08-17 | AGENTS.md + CLAUDE.md agent onboarding |
+| 0.36.1 | 2026-08-17 | Five-slot closed-loop case study + 10 supplyable candidates |
+| 0.36.0 | 2026-08-17 | plugin/ five-slot external plugin library (22 repos & MCPs) |
+| 0.35.2 | 2026-08-17 | Brand line 🐳 Dsh-Quant — The Everything-Plugin Quant OS |
+| 0.35.1 | 2026-08-17 | Full English README |
 | 0.35.0 | 2026-08-17 | Core UX: PDAT→PET onboarding (BTC example) + mcp/AGENT_GUIDE |
 | 0.34.0 | 2026-08-17 | Quant lineage report (five motherships) |
 | 0.33.0 | 2026-08-17 | Macro legends batch (42 firms) + first data analysis report |

@@ -50,8 +50,8 @@ Everything-Plugin Ai native Quant OS.)
   AI-native statement: [Issue #14](https://github.com/pengpengyi92/dsh-quant/issues/14) ·
   Teams (PDAT→PET): [Discussion #35](https://github.com/pengpengyi92/dsh-quant/discussions/35) ·
   Full pitch: [Discussion #36](https://github.com/pengpengyi92/dsh-quant/discussions/36)
-- Research columns: [quant-history/](quant-history/) — 42 firm archives +
-  TIMELINE / ANALYSIS / LINEAGE reports.
+- Research columns: [quant-history/](quant-history/) — 47 firm archives +
+  TIMELINE / ANALYSIS / LINEAGE / BANK_LINEAGE reports.
 
 ## File map
 
@@ -59,7 +59,7 @@ Everything-Plugin Ai native Quant OS.)
 src/dsh-{data,alpha,ml,risk,execution,community}/   six domain modules (pure functions)
 docs/ONBOARDING.md · docs/ML_GUIDE.md · docs/QUANT_ECOSYSTEM.md
 plugin/         five-slot external plugin library + case study + roadmap
-quant-history/  firm archives + three research reports
+quant-history/  firm archives + four research reports
 mcp/tools.json  46 model-visible tool schemas
 tests/          hand-computed baselines (174 unit + 4 Loader)
 skill/          quant-research / quant-release-cycle loadable skills

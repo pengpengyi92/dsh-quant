@@ -4,6 +4,117 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.38.0] - 2026-08-17
+
+### Added
+- Bank/brokerage lineage report (`quant-history/BANK_LINEAGE.md`): 13 firms
+  tracing to big-bank desks or broker prop — two founding waves (1988-2005,
+  2012-2018 Volcker spinoffs), three-generation propagation tree
+  (AQR/BH/GSA/Capula/PDT/Squarepoint/QRT → XTX/Rokos/Balyasny →
+  ExodusPoint), asset-class genes (London fixed income vs NY equities), and
+  the zero-open-source finding for the whole bank line
+
+## [0.23.0] - 2026-08-17
+
+### Added
+- quant-history + quant-repo columns (Citadel/Optiver/Jane Street)
+
+## [0.24.0] - 2026-08-17
+
+### Added
+- Millennium/WorldQuant/Jump batch (6 firms)
+
+## [0.25.0] - 2026-08-17
+
+### Added
+- HRT/Point72/Squarepoint batch (9 firms)
+
+## [0.26.0] - 2026-08-17
+
+### Added
+- Two Sigma/Virtu/DE Shaw/Renaissance batch (13 firms)
+
+## [0.27.0] - 2026-08-17
+
+### Added
+- Man Group/AQR/GSA/Bridgewater batch (17 firms)
+
+## [0.28.0] - 2026-08-17
+
+### Added
+- Balyasny/IMC/XTX/Five Rings + DE Shaw boost (21 firms)
+
+## [0.29.0] - 2026-08-17
+
+### Added
+- SIG + quant chronicle timeline (22 firms)
+
+## [0.30.0] - 2026-08-17
+
+### Added
+- QRT/Capula/Winton/DRW/Tower batch (27 firms)
+
+## [0.31.0] - 2026-08-17
+
+### Added
+- Market-making & crypto batch incl. Alameda failure case (32 firms)
+
+## [0.32.0] - 2026-08-17
+
+### Added
+- Systematic Europe batch (37 firms)
+
+## [0.33.0] - 2026-08-17
+
+### Added
+- Macro legends batch (42 firms) + first data analysis report
+
+## [0.34.0] - 2026-08-17
+
+### Added
+- Quant lineage report (five motherships)
+
+## [0.35.0] - 2026-08-17
+
+### Added
+- Core UX: PDAT→PET onboarding (BTC example) + mcp/AGENT_GUIDE
+
+## [0.35.1] - 2026-08-17
+
+### Added
+- Full English README (all content translated, counts refreshed)
+
+## [0.35.2] - 2026-08-17
+
+### Added
+- Brand line: 🐳 dsh-quant — The Everything-Plugin Quant OS
+
+## [0.36.0] - 2026-08-17
+
+### Added
+- plugin/ five-slot external plugin library (22 repos & MCPs)
+
+## [0.36.1] - 2026-08-17
+
+### Added
+- Five-slot closed-loop case study + 10 supplyable plugin candidates
+
+## [0.36.2] - 2026-08-17
+
+### Added
+- AGENTS.md + CLAUDE.md agent onboarding
+
+## [0.36.3] - 2026-08-17
+
+### Added
+- AGENTS.md engagement loop — full vision (#36) + ask-your-human CTA
+
+## [0.37.0] - 2026-08-17
+
+### Added
+- China batch 1 — High-Flyer, Ubiquant, Minghong, Yanfu, Century Frontier
+  (47 firms, lineage closes)
+
 ## [0.22.0] - 2026-08-17
 
 ### Added
