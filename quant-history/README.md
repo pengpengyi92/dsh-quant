@@ -56,7 +56,7 @@
 | 九坤 Ubiquant | 2012（王琛）| WorldQuant 竞赛中国力量 | [ubiquant.md](ubiquant.md) |
 | 明汯 Minghong | 2014（裘慧明）| Millennium 系中国分支 | [minghong.md](minghong.md) |
 | 衍复 Yanfu | 2019（高亢）| Two Sigma 系中国新锐 | [yanfu.md](yanfu.md) |
-| 世纪前沿 | 2021（陈家馨）| 高频新锐学术底色 | [centuryfrontier.md](centuryfrontier.md) |
+| 世纪前沿 | 2021（吴敌/陈家馨）| 高频新锐学术底色 | [centuryfrontier.md](centuryfrontier.md) |
 | 知行通达 | 2021（韩嘉睿）| Citadel 亚太主管归来 · 百亿新贵 | [zhixingtongda.md](zhixingtongda.md) |
 | 诚奇 Chengqi | 2013（何文奇）| Millennium→WorldQuant 深圳老牌 | [chengqi.md](chengqi.md) |
 | 锐天 Ruitian | 2013（徐晓波）| 前四大天王 · 分家样本 | [ruitian.md](ruitian.md) |
