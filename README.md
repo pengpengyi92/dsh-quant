@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.46.0 | 2026-08-19 | 7 CN Lite archives — Shenyi/Jasper/Liyi/Bodao/Zunjia/Qianyi/Pingfanghe (81 firms) |
 | 0.45.0 | 2026-08-19 | 3 CN Lite archives — Tianyan/Aifang/Maoyuan (74 firms) |
 | 0.44.0 | 2026-08-19 | 10 CN Lite archives — Zhicheng/Qianxiang/Blackwing/Inno/LongQi/JoinQuant/Evolution/Sixie/Bridgewater-CN/Beyang (71 firms) |
 | 0.43.0 | 2026-08-19 | Golden Bull special — 12 years of quant winners (2014-2025) + archive cross-analysis |

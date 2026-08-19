@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.46.0] - 2026-08-19
+
+### Added
+- Seven more Chinese Lite archives (81 firms total), the 'storied'
+  tier: Shenyi (2004, ex-Goldman pioneer), Jasper Dayan (Wang Yiping's
+  boom-and-bust decade), Liyi (2008, vanished relative-value champion),
+  Bodao (Mo Taishan's private-to-public-fund transition), Zunjia (2009,
+  Chengqi's former employer, Fintech pivot), Qianyi (Minghong's second
+  platform, 50:50 governance), Pingfanghe (PKU founder's 100亿 and the
+  invoice-fraud fine)
+
 ## [0.45.0] - 2026-08-19
 
 ### Added

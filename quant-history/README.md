@@ -84,6 +84,13 @@
 | 天演 Tianyan | 2014（谢晓阳）| 内斗大戏样本（Lite）| [tianyan.md](tianyan.md) |
 | 艾方 Aifang | 2012（蒋锴）| 上海国资套利老店（Lite）| [aifang.md](aifang.md) |
 | 茂源 Maoyuan | 2013（郭学文）| 14 岁清华传奇创始人（Lite）| [maoyuan.md](maoyuan.md) |
+| 申毅 Shenyi | 2004（申毅）| 前高盛 · 二十年老店（Lite）| [shenyi.md](shenyi.md) |
+| 嘉石大岩 Jasper | 2013（汪义平）| 十年上万点 · 大起大落（Lite）| [dayan.md](dayan.md) |
+| 礼一 Liyi | 2008（林伟健）| 相对价值冠军的消失样本（Lite）| [liyi.md](liyi.md) |
+| 博道 Bodao | 2013（莫泰山）| 私转公独家样本（Lite）| [bodao.md](bodao.md) |
+| 尊嘉 Zunjia | 2009（宋炳山）| 诚奇前雇主 · Fintech 转型（Lite）| [zunjia.md](zunjia.md) |
+| 千宜 Qianyi | 2015（裘慧明/解环宇）| 明汯第二平台（Lite）| [qianyi.md](qianyi.md) |
+| 平方和 Pingfanghe | 2015（吕杰勇）| 北大学霸的百亿与罚单（Lite）| [pingfanghe.md](pingfanghe.md) |
 
 ## 🌳 量化家谱
 
