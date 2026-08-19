@@ -36,6 +36,7 @@
 | Wintermute / Wolverine / Akuna / CTC / Alameda | 做市加密批集中专刊（做市系零开源铁律 + 负面教材）| [market-making-crypto-five.md](market-making-crypto-five.md) |
 | Marshall Wace / ExodusPoint / Schonfeld / Aspect / Verition | 系统化五强集中专刊（欧洲系统化全封闭 + 公开资产多样性）| [systematic-europe-five.md](systematic-europe-five.md) |
 | Tudor / BH / Rokos / PDT / Dimensional | 宏观传奇批集中专刊（公开资产形态清单补全：影像+学术库）| [macro-legends-five.md](macro-legends-five.md) |
+| 幻方 / 九坤 / 明汯 / 衍复 / 世纪前沿 | 中国篇集中专刊（幻方=DeepSeek 开源旗帜，血缘闭环）| [china-five.md](china-five.md) |
 
 ## 收录规则（欢迎 PR）
 

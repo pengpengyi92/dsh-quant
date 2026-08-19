@@ -52,6 +52,11 @@
 | Rokos | 2015（Chris Rokos）| 一人宏观机器 | [rokos.md](rokos.md) |
 | PDT Partners | 1993 MS 组 → 2012 独立 | 大行自营后代最正宗样本 | [pdt.md](pdt.md) |
 | Dimensional | 1981（Booth/Sinquefield）| Fama 学术派的万亿产品化 | [dimensional.md](dimensional.md) |
+| 幻方 High-Flyer | 2015（梁文锋）| DeepSeek 的起源 · 中国量化旗帜 | [highflyer.md](highflyer.md) |
+| 九坤 Ubiquant | 2012（王琛）| WorldQuant 竞赛中国力量 | [ubiquant.md](ubiquant.md) |
+| 明汯 Minghong | 2014（裘慧明）| Millennium 系中国分支 | [minghong.md](minghong.md) |
+| 衍复 Yanfu | 2019（高亢）| Two Sigma 系中国新锐 | [yanfu.md](yanfu.md) |
+| 世纪前沿 | 2021（陈家馨）| 高频新锐学术底色 | [centuryfrontier.md](centuryfrontier.md) |
 
 ## 🌳 量化家谱
 
