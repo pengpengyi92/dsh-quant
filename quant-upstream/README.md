@@ -38,7 +38,11 @@ quant-upstream 记"**大家打仗时，谁是卖水卖铲子的**"。
 | CHOICE.md | 东方财富 Choice | ✅ |
 | TRADINGVIEW.md | TradingView | ✅ |
 | JOINQUANT.md | 聚宽 JoinQuant | ✅ |
-| （队列） | 米筐 · 朝阳永续 · 路透数据 · 国内另类数据商 | 📋 |
+| RICEQUANT.md | 米筐 RiceQuant | ✅ |
+| GO-GOAL.md | 朝阳永续 Go-Goal | ✅ |
+| REUTERS-DATA.md | 路透数据（新闻数据血统，1851 信鸽起家） | ✅ |
+| ALT-DATA-CN.md | 国内另类数据商（品类地图合集） | ✅ |
+| （队列） | 通联数据 · 数库科技 · 四象爱数 · 恒生聚源 | 📋 |
 
 ## 栏目哲学
 
