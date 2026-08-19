@@ -4,6 +4,23 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.40.0] - 2026-08-19
+
+### Changed
+- Due-diligence standard v1 (`quant-history/DD_STANDARD.md`): nine-section
+  checklist (all founders with backgrounds, founding dates, negative-event
+  timelines, AUM evolution with source attribution, strategies, lineage,
+  open-source posture, directional analysis, per-fact sources + to-verify
+  list) — now mandatory for new and revised archives
+- China batch 1 re-due-diligenced to the standard: High-Flyer (DeepSeek
+  dual engine, 1000亿 peak, 老鼠仓 suspicion), Ubiquant (Wang Chen / Yao
+  Qicong WorldQuant lineage, -39.13% USD fund, IQuest-Coder open source),
+  Minghong (first 1000亿 quant, 暂停备案三个月 penalty), Yanfu (the
+  Ruitian split, two voluntary closes, 800-900亿), Century Frontier (Chen
+  Jiaxin & Wu Di CUHK co-founders verified, model-failure 2024-02)
+- Preserved the original R&D-insight sections and fun facts alongside the
+  new detail set
+
 ## [0.39.0] - 2026-08-19
 
 ### Added
