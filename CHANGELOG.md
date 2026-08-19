@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.51.0] - 2026-08-19
+
+### Added
+- Signature encyclopedias (two files): SIGNATURES_GLOBAL.md (naming
+  science — Optiver = Dutch for options market maker, Wintermute from
+  Neuromancer — OCaml culture, pod structures, lore) and
+  SIGNATURES_CN.md (Chinese naming art — Banyang/Luoshu/Jiukun's
+  I Ching — the compute camp vs factor camp, quirks as memory points)
+
 ## [0.50.0] - 2026-08-19
 
 ### Added

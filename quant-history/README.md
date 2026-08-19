@@ -127,6 +127,10 @@
 - 中国篇（2004-2022 四时代 + 爆发窗口分析）见 [AGE_CN.md](AGE_CN.md)
 - 国外篇（1783-2018 六时代 + 中外代际映射）见 [AGE_GLOBAL.md](AGE_GLOBAL.md)
 
+**机构特色百科（2026-08-19，国内/国外分开）**：
+- 国外篇（命名学/技术栈/组织怪癖/江湖传说）见 [SIGNATURES_GLOBAL.md](SIGNATURES_GLOBAL.md)
+- 国内篇（中文名字艺术/算力派 vs 因子派/怪癖即记忆点）见 [SIGNATURES_CN.md](SIGNATURES_CN.md)
+
 ## 🗺️ 补齐路线图
 
 待收录候选清单（中国量化篇 / 系统化 / 做市 / 宏观四梯队）见 [ROADMAP.md](ROADMAP.md)。
