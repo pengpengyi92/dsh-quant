@@ -56,13 +56,16 @@
 | 九坤 Ubiquant | 2012（王琛）| WorldQuant 竞赛中国力量 | [ubiquant.md](ubiquant.md) |
 | 明汯 Minghong | 2014（裘慧明）| Millennium 系中国分支 | [minghong.md](minghong.md) |
 | 衍复 Yanfu | 2019（高亢）| Two Sigma 系中国新锐 | [yanfu.md](yanfu.md) |
-| 世纪前沿 | 2021（吴敌/陈家馨）| 高频新锐学术底色 | [centuryfrontier.md](centuryfrontier.md) |
+| 世纪前沿 | 2015（吴敌/陈家馨）| 高频新锐学术底色 | [centuryfrontier.md](centuryfrontier.md) |
 | 知行通达 | 2021（韩嘉睿）| Citadel 亚太主管归来 · 百亿新贵 | [zhixingtongda.md](zhixingtongda.md) |
 | 诚奇 Chengqi | 2013（何文奇）| Millennium→WorldQuant 深圳老牌 | [chengqi.md](chengqi.md) |
 | 锐天 Ruitian | 2013（徐晓波）| 前四大天王 · 分家样本 | [ruitian.md](ruitian.md) |
 | 宽德 WizardQuant | 2013（冯鑫）| 华尔街 SAC 系 · 系统技术流 | [kuande.md](kuande.md) |
 | 灵均 Lingjun | 2014（蔡枚杰/马志宇）| 2·19 处罚后 V 型夺冠 | [lingjun.md](lingjun.md) |
 | 孝庸 Xiaoyong | 2016（张培佳）| 本土自建系长跑黑马 | [xiaoyong.md](xiaoyong.md) |
+| 超量子 ChaoQuanZi | 待核（张晓泉）| CUHK 教授学术派（Lite）| [chaoquanzi.md](chaoquanzi.md) |
+| 衍盛 YanSheng | ~2015（章友）| 清华章友期权多策略（Lite）| [yansheng.md](yansheng.md) |
+| 半鞅 Banyang | 待核 | 名字即数学的中高频新锐（Lite）| [banyang.md](banyang.md) |
 
 ## 🌳 量化家谱
 

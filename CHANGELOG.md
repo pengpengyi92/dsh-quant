@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.41.0] - 2026-08-19
+
+### Added
+- Two-mode DD system: Deep (nine-section) vs Lite (six-section quick
+  sketch with fun facts / data-analysis hooks / lineage front and center)
+- Three new Lite archives: ChaoQuanZi (CUHK professor Zhang Xiaoquan),
+  YanSheng (Tsinghua's Zhang You, options & multi-strategy), Banyang
+  (named after the semimartingale — mid-high frequency newcomer)
+
 ## [0.40.0] - 2026-08-19
 
 ### Changed
