@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.42.0] - 2026-08-19
+
+### Added
+- Five new Lite archives (61 firms total): Hongxi (Guangdong quant CTA,
+  Golden Bull 2025), Mingshi (founded 2010 — earliest quant privates,
+  the 2021 power struggle), Wenbo (Zheng Yao's high-frequency 'Sisyphus'),
+  Luoshu (Xie Dong's CTA ten-year trailblazer), Pansong (Wu Que's
+  low-frequency star, fastest to 100亿, 2024 rumor rebuttal)
+- Founding dates verified and backfilled: ChaoQuanZi 2015-06, YanSheng
+  2014 (ex-Goldman lineage confirmed), Banyang 2021-09-03
+
 ## [0.41.0] - 2026-08-19
 
 ### Added

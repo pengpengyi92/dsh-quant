@@ -243,6 +243,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.42.0 | 2026-08-19 | 5 Lite archives — Hongxi/Mingshi/Wenbo/Luoshu/Pansong (61 firms) + founding-date backfill |
 | 0.41.0 | 2026-08-19 | Two-mode DD (Deep/Lite) + 3 Lite archives — ChaoQuanZi/YanSheng/Banyang (56 firms) |
 | 0.40.0 | 2026-08-19 | DD standard v1 + China batch 1 re-due-diligenced (nine-section format, to-verify lists) |
 | 0.39.0 | 2026-08-19 | China batch 2 — Zhixing Tongda/Chengqi/Ruitian/KuanDe/Lingjun/Xiaoyong (53 firms, WorldQuant lineage) |

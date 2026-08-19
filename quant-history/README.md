@@ -63,9 +63,14 @@
 | 宽德 WizardQuant | 2013（冯鑫）| 华尔街 SAC 系 · 系统技术流 | [kuande.md](kuande.md) |
 | 灵均 Lingjun | 2014（蔡枚杰/马志宇）| 2·19 处罚后 V 型夺冠 | [lingjun.md](lingjun.md) |
 | 孝庸 Xiaoyong | 2016（张培佳）| 本土自建系长跑黑马 | [xiaoyong.md](xiaoyong.md) |
-| 超量子 ChaoQuanZi | 待核（张晓泉）| CUHK 教授学术派（Lite）| [chaoquanzi.md](chaoquanzi.md) |
-| 衍盛 YanSheng | ~2015（章友）| 清华章友期权多策略（Lite）| [yansheng.md](yansheng.md) |
-| 半鞅 Banyang | 待核 | 名字即数学的中高频新锐（Lite）| [banyang.md](banyang.md) |
+| 超量子 ChaoQuanZi | 2015（张晓泉）| CUHK 教授学术派（Lite）| [chaoquanzi.md](chaoquanzi.md) |
+| 衍盛 YanSheng | 2014（章友）| 前高盛系 · 期权多策略（Lite）| [yansheng.md](yansheng.md) |
+| 半鞅 Banyang | 2021 | 名字即数学的中高频新锐（Lite）| [banyang.md](banyang.md) |
+| 宏锡 Hongxi | 2015（刘锡斌）| 广东量化 CTA 工匠（Lite）| [hongxi.md](hongxi.md) |
+| 鸣石 Mingshi | 2010（袁宇）| 最早量化私募 · 权力游戏（Lite）| [mingshi.md](mingshi.md) |
+| 稳博 Wenbo | 2014（郑耀）| 高频起家的西西弗斯（Lite）| [wenbo.md](wenbo.md) |
+| 洛书 Luoshu | 2015（谢冬）| CTA 十年拓荒者（Lite）| [luoshu.md](luoshu.md) |
+| 磐松 Pansong | 2022（吴确）| 温州 90 后低频新星（Lite）| [pansong.md](pansong.md) |
 
 ## 🌳 量化家谱
 
