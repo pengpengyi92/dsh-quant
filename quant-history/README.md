@@ -117,6 +117,12 @@
 
 中国私募金牛奖 · 量化类十年全名单（2014-2025 逐年全列 + 与 61 家档案交叉的十大 fun facts）见 [GOLDEN_BULL.md](GOLDEN_BULL.md)——第三份专题。
 
+**D 梯队四连发（2026-08-19）**：
+- 量化监管编年史（2015-2026 处罚与法规全时间线）见 [REGULATION.md](REGULATION.md)
+- 中国量化人才流动图谱（八大母体 + 学术母体 + 分家大事件）见 [TALENT_MAP.md](TALENT_MAP.md)
+- 金牛奖 × 产品命运交叉榜（常青/消失/回归/翻车四象限）见 [STAR_PRODUCTS.md](STAR_PRODUCTS.md)
+- 量化 × AI 交叉谱（三阶段 + 九机构样本 + 三大规律）见 [QUANT_AI.md](QUANT_AI.md)
+
 ## 🗺️ 补齐路线图
 
 待收录候选清单（中国量化篇 / 系统化 / 做市 / 宏观四梯队）见 [ROADMAP.md](ROADMAP.md)。

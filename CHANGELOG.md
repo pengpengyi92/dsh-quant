@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.49.0] - 2026-08-19
+
+### Added
+- D-tier research reports (four): REGULATION.md (2015-2026 penalty &
+  rule timeline), TALENT_MAP.md (eight foreign mothership lineages +
+  academic motherships + split events), STAR_PRODUCTS.md (Golden Bull ×
+  fate four-quadrant cross table), QUANT_AI.md (three phases, nine firm
+  samples, the quant-to-AI spillover spectrum)
+
 ## [0.48.0] - 2026-08-19
 
 ### Added
