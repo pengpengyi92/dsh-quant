@@ -30,14 +30,28 @@ quant-upstream 记"**大家打仗时，谁是卖水卖铲子的**"。
 
 | 文件 | 供应商 | 状态 |
 |------|--------|------|
-| COMPARISON.md | 四家对比总表 + 产业链分析 | ✅ |
+| COMPARISON.md | 对比总表 + 产业链分析 | ✅ |
 | BLOOMBERG.md | Bloomberg Terminal | ✅ |
 | WIND.md | Wind 万得 | ✅ |
 | REFINITIV.md | LSEG Refinitiv（Eikon → Workspace） | ✅ |
 | IFIND.md | 同花顺 iFinD | ✅ |
-| （队列） | Choice · TradingView · 聚宽 · 米筐 · 朝阳永续 | 📋 |
+| CHOICE.md | 东方财富 Choice | ✅ |
+| TRADINGVIEW.md | TradingView | ✅ |
+| JOINQUANT.md | 聚宽 JoinQuant | ✅ |
+| （队列） | 米筐 · 朝阳永续 · 路透数据 · 国内另类数据商 | 📋 |
 
 ## 栏目哲学
 
 > 量化人花大量时间选数据源——这件事本身就该被研究。
 > 上游厂商的产品逻辑，决定了整个行业能做什么研究。
+
+## 上游七家的产品哲学光谱
+
+| 哲学 | 代表 | 一句话 |
+|------|------|--------|
+| 键盘流 TUI 贵族 | Bloomberg / Wind | 效率是定价权 |
+| 图形化守成 | Refinitiv | 鼠标 vs 键盘路线之争 |
+| 自然语言先行 | 同花顺 iFinD（问财） | AI-native 的预告 |
+| 流量派价格战 | 东方财富 Choice | 互联网思维进金融 |
+| 图表即产品 | TradingView | 给 DSL，用户长生态 |
+| 平台派双扩张 | 聚宽 JoinQuant | 中游起家，上下游通吃 |

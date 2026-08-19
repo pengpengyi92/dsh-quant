@@ -17,6 +17,7 @@ import readline from 'node:readline'
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const HISTORY_DIR = join(ROOT, 'quant-history')
 const REPORTS = ['ANALYSIS', 'TIMELINE', 'LINEAGE', 'BANK_LINEAGE', 'DD_STANDARD']
+const UPSTREAM_DIR = join(ROOT, 'quant-upstream')
 
 // ---------- ANSI ----------
 const A = {
@@ -110,8 +111,8 @@ function makeFrame(topTitle, bodyLines, footerLines) {
   return lines
 }
 
-function listView(firms, selected, filter, termHeight) {
-  const title = `dsh-quant · quant-history ${filter ? `(匹配 ${firms.length})` : `(${firms.length} 家)`}`
+function listView(firms, selected, filter, termHeight, column) {
+  const title = `dsh-quant · quant-${column} ${filter ? `(匹配 ${firms.length})` : `(${firms.length} 家)`}`
   const body = []
   const listHeight = Math.max(4, termHeight - 6)
   const start = Math.max(0, selected - Math.floor(listHeight / 2))
@@ -154,16 +155,17 @@ function getTermHeight() {
 }
 
 // ---------- 主循环 ----------
-export async function browse() {
+export async function browse(column = 'history') {
   if (!process.stdin.isTTY || !process.stdout.isTTY) {
     console.log(paint('yellow', '⚠ 非交互终端：browse 需要 TTY（真实终端）。回退到静态索引：'))
     console.log('')
     const { execSync } = await import('node:child_process')
-    execSync(`node ${join(ROOT, 'cli/main.mjs')} history`, { stdio: 'inherit' })
+    execSync(`node ${join(ROOT, 'cli/main.mjs')} ${column}`, { stdio: 'inherit' })
     return
   }
 
-  const firms = listArchives(HISTORY_DIR)
+  const DIR = column === 'upstream' ? UPSTREAM_DIR : HISTORY_DIR
+  const firms = listArchives(DIR)
   let selected = 0
   let filter = ''
   let mode = 'list' // 'list' | 'filter' | 'pager'
@@ -174,7 +176,7 @@ export async function browse() {
     if (!filter) return firms
     const kw = filter.toLowerCase()
     return firms.filter((f) => {
-      const md = readFileSync(join(HISTORY_DIR, f), 'utf8').toLowerCase()
+      const md = readFileSync(join(DIR, f), 'utf8').toLowerCase()
       return f.includes(kw) || md.includes(kw)
     })
   }
@@ -186,7 +188,7 @@ export async function browse() {
     } else {
       const list = filtered()
       if (selected >= list.length) selected = Math.max(0, list.length - 1)
-      draw(listView(list, selected, filter, height))
+      draw(listView(list, selected, filter, height, column))
     }
   }
 
@@ -223,7 +225,7 @@ export async function browse() {
       const firm = list[selected]
       mode = 'pager'
       pagerOffset = 0
-      pagerLines = renderMd(readFileSync(join(HISTORY_DIR, firm), 'utf8')).split('\n')
+      pagerLines = renderMd(readFileSync(join(DIR, firm), 'utf8')).split('\n')
     } else if (str === '/') { mode = 'filter'; filter = '' }
     else if (key.name === 'escape') filter = ''
     else if (str === 'q') return exit()
