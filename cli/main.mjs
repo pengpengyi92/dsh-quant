@@ -24,6 +24,7 @@ import { seriesStats } from '../lib/dsh-data/stats.js'
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const HISTORY_DIR = join(ROOT, 'quant-history')
 const REPO_DIR = join(ROOT, 'quant-repo')
+const UPSTREAM_DIR = join(ROOT, 'quant-upstream')
 
 // ---------- ANSI helpers ----------
 const A = {
@@ -210,6 +211,31 @@ function cmdHistorySearch(keyword) {
   console.log('')
 }
 
+function cmdUpstreamIndex() {
+  console.log('')
+  console.log(`${paint('bold', paint('cyan', 'quant-upstream'))} ${paint('dim', '— 量化产业链 · 上游（数据服务供给商）')}`)
+  console.log('')
+  for (const file of listArchives(UPSTREAM_DIR)) {
+    const title = firstHeading(join(UPSTREAM_DIR, file))
+    console.log(` ${paint('cyan', file.replace('.md', '').padEnd(14))} ${paint('dim', title)}`)
+  }
+  console.log('')
+  console.log(paint('dim', ' 查看: dsh-quant upstream bloomberg   |  总表: dsh-quant upstream comparison'))
+  console.log('')
+}
+
+function cmdUpstreamFirm(name) {
+  const file = join(UPSTREAM_DIR, `${name}.md`)
+  let md
+  try {
+    md = readFileSync(file, 'utf8')
+  } catch {
+    console.error(paint('red', `✗ 无 ${name} 档案，可用：${listArchives(UPSTREAM_DIR).map((f) => f.replace('.md', '')).join(', ')}`))
+    process.exit(1)
+  }
+  console.log(renderMd(md))
+}
+
 // ---------- kline 命令 ----------
 function fmtNum(value, digits = 2) {
   if (!Number.isFinite(value)) return '—'
@@ -309,6 +335,7 @@ function usage() {
   console.log(`  ${paint('cyan', 'history --reports')}           ${paint('dim', '四大研究报告')}`)
   console.log(`  ${paint('cyan', 'history --search <关键词>')}    ${paint('dim', '跨档案检索')}`)
   console.log(`  ${paint('cyan', 'browse')}                     ${paint('dim', '交互式 TUI：方向键浏览 53 家档案（↑↓ / Enter 查看 / / 搜索 / q 退出）')}`)
+  console.log(`  ${paint('cyan', 'upstream [<firm>]')}           ${paint('dim', '产业链上游：数据服务供给商对比（Wind/Bloomberg...）')}`)
   console.log(`  ${paint('cyan', 'kline <symbol>')}              ${paint('dim', '行情 OHLC（彩色）+ 统计')}`)
   console.log('')
   console.log(paint('dim', ' 示例: dsh-quant history citadel'))
@@ -331,6 +358,10 @@ async function main() {
       else if (rest[0] === '--search') cmdHistorySearch(rest.slice(1).join(' '))
       else if (rest[0] && !rest[0].startsWith('--')) cmdHistoryFirm(rest[0])
       else cmdHistoryIndex()
+      return
+    case 'upstream':
+      if (rest[0] && !rest[0].startsWith('--')) cmdUpstreamFirm(rest[0].toLowerCase())
+      else cmdUpstreamIndex()
       return
     case 'kline':
     case 'market':
