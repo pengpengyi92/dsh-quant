@@ -308,6 +308,7 @@ function usage() {
   console.log(`  ${paint('cyan', 'history <firm>')}              ${paint('dim', '某家机构档案')}`)
   console.log(`  ${paint('cyan', 'history --reports')}           ${paint('dim', '四大研究报告')}`)
   console.log(`  ${paint('cyan', 'history --search <关键词>')}    ${paint('dim', '跨档案检索')}`)
+  console.log(`  ${paint('cyan', 'browse')}                     ${paint('dim', '交互式 TUI：方向键浏览 53 家档案（↑↓ / Enter 查看 / / 搜索 / q 退出）')}`)
   console.log(`  ${paint('cyan', 'kline <symbol>')}              ${paint('dim', '行情 OHLC（彩色）+ 统计')}`)
   console.log('')
   console.log(paint('dim', ' 示例: dsh-quant history citadel'))
@@ -321,6 +322,9 @@ async function main() {
     case 'repo':
       if (rest[0] && !rest[0].startsWith('--')) cmdRepoFirm(rest[0])
       else cmdRepoTools()
+      return
+    case 'browse':
+      await import('./tui.mjs').then((m) => m.browse())
       return
     case 'history':
       if (rest[0] === '--reports') cmdHistoryReports()

@@ -141,6 +141,7 @@ node cli/main.mjs history citadel           # one firm's archive (rendered)
 node cli/main.mjs history --reports         # ANALYSIS / TIMELINE / LINEAGE / BANK_LINEAGE
 node cli/main.mjs history --search 高频      # cross-archive search
 node cli/main.mjs kline BTCUSDT --limit 20  # colored OHLC table + stats
+node cli/main.mjs browse                   # interactive TUI: arrow-key firm browser
 ```
 
 After `npm install -g .`, the commands shorten to `dsh-quant repo`,
