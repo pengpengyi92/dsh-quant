@@ -144,6 +144,9 @@
 - 外资中国地图（WFOE 实体 4 家全上海 + 研究办公室 + 待核分支）见 [FOREIGN_CN_MAP.md](FOREIGN_CN_MAP.md)
 - 外资中国地图 v2（全核定版：7 家 PFM + 技术实体 + 2024-2026 第二波 + 新发现 QRT 宽立/CFM/安贤 AXQ）见 [FOREIGN_CN_MAP_V2.md](FOREIGN_CN_MAP_V2.md)
 
+**模块供应商专题（2026-08-19）**：
+- 中国量化模块供应商图谱（数据/交易/FPGA/算法/平台六层 + 卡方科技样本 + 与 94 家档案联动）见 [QUANT_VENDORS_CN.md](QUANT_VENDORS_CN.md)
+
 ## 🗺️ 补齐路线图
 
 待收录候选清单（中国量化篇 / 系统化 / 做市 / 宏观四梯队）见 [ROADMAP.md](ROADMAP.md)。

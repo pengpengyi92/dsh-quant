@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.56.0 | 2026-08-19 | QUANT_VENDORS_CN — China's picks-and-shovels layer (Kafang/RQAlpha/jqdatasdk), 21 reports total |
 | 0.55.0 | 2026-08-19 | FOREIGN_CN_MAP_V2 — fully verified foreign-in-China map (7 PFM, second wave 2024-2026), 20 reports total |
 | 0.54.0 | 2026-08-19 | Shanghai gravity + foreign-in-China map — SHANGHAI_GRAVITY + FOREIGN_CN_MAP, 19 reports total |
 | 0.53.0 | 2026-08-19 | Quant maps ×2 — QUANT_MAP_CN + QUANT_MAP_GLOBAL (city-centric), 17 reports total |

@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.56.0] - 2026-08-19
+
+### Added
+- QUANT_VENDORS_CN.md — China's picks-and-shovels layer: data vendors
+  (Wind/iFinD/Choice/DataYes/聚源/朝阳永续/排排网), trading systems
+  (Hundsun/QMT/A5/ATP/Esunny), FPGA low-latency (Shengli/AcceleCom),
+  execution algos (Kafang Tech as the flagship sample, JoinQuant
+  Alpha-T), platforms (JoinQuant/RiceQuant's open-source RQAlpha/
+  MyQuant/UQER/BigQuant), alt-data — with the 94-archive linkage and
+  the two open-source milestones (RQAlpha + jqdatasdk)
+
 ## [0.55.0] - 2026-08-19
 
 ### Added
