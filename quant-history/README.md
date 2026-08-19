@@ -142,6 +142,7 @@
 **上海与外资料专题（2026-08-19）**：
 - 上海量化虹吸效应（五大引擎：交易所/资本/人才/路径/政策）见 [SHANGHAI_GRAVITY.md](SHANGHAI_GRAVITY.md)
 - 外资中国地图（WFOE 实体 4 家全上海 + 研究办公室 + 待核分支）见 [FOREIGN_CN_MAP.md](FOREIGN_CN_MAP.md)
+- 外资中国地图 v2（全核定版：7 家 PFM + 技术实体 + 2024-2026 第二波 + 新发现 QRT 宽立/CFM/安贤 AXQ）见 [FOREIGN_CN_MAP_V2.md](FOREIGN_CN_MAP_V2.md)
 
 ## 🗺️ 补齐路线图
 

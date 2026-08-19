@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.55.0] - 2026-08-19
+
+### Added
+- FOREIGN_CN_MAP_V2.md — fully verified foreign-in-China map: 7 WFOE
+  PFM entities all in Shanghai (adding DE Shaw 2019, QRT 宽立 2024-12,
+  Optiver 澳帝桦), tech/service entities (Akuna 奥可纳, Citadel 城堡
+  咨询, Marshall Wace 马歇尔伟世), HRT Xuhui office, the 2024-2026
+  second wave (CFM Paris 2026-05, AXQ Capital 安贤 breaking 100亿),
+  Schonfeld demoted to unverified
+
 ## [0.54.0] - 2026-08-19
 
 ### Added
