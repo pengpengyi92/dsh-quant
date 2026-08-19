@@ -81,6 +81,9 @@
 | 思勰 Sixie | 2016（陈磐颖/李苏苏/吴家麒）| 「勰」字三人行（Lite）| [sixie.md](sixie.md) |
 | 桥水中国 Bridgewater CN | 2016 | 外资唯一金牛常客（Lite）| [bridgewatercn.md](bridgewatercn.md) |
 | 倍漾 Beyang | 2020（冯霁）| 周志华弟子 AI 原生（Lite）| [beiyang.md](beiyang.md) |
+| 天演 Tianyan | 2014（谢晓阳）| 内斗大戏样本（Lite）| [tianyan.md](tianyan.md) |
+| 艾方 Aifang | 2012（蒋锴）| 上海国资套利老店（Lite）| [aifang.md](aifang.md) |
+| 茂源 Maoyuan | 2013（郭学文）| 14 岁清华传奇创始人（Lite）| [maoyuan.md](maoyuan.md) |
 
 ## 🌳 量化家谱
 

@@ -4,6 +4,14 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.45.0] - 2026-08-19
+
+### Added
+- Three more Chinese Lite archives (74 firms total): Tianyan (2014,
+  the 2023 power-struggle case), Aifang (2012, Shanghai state-capital
+  arbitrage veteran), Maoyuan (2013, founder Guo Xuewen — entered
+  Tsinghua at 14; the first foreign-hiring penalty case)
+
 ## [0.44.0] - 2026-08-19
 
 ### Added
