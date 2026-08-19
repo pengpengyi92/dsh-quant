@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.44.0] - 2026-08-19
+
+### Added
+- Ten more Chinese Lite archives (71 firms total): Zhicheng Zhuoyuan
+  (the Kunming-based 'Four King', bank-data crossover), Qianxiang
+  (CTA evergreen), Blackwing (Stanford twins), Inno AM (multi-PM),
+  LongQi (BGI lineage, α+β+Σ logo), JoinQuant (open-community-driven,
+  GitHub jqdatasdk), Evolution (hand-written logic factors), Sixie
+  (the 勰 trio), Bridgewater China (foreign sole Golden Bull regular),
+  Beyang (Zhou Zhihua disciple, all-AI team)
+
 ## [0.43.0] - 2026-08-19
 
 ### Added

@@ -71,6 +71,16 @@
 | 稳博 Wenbo | 2014（郑耀）| 高频起家的西西弗斯（Lite）| [wenbo.md](wenbo.md) |
 | 洛书 Luoshu | 2015（谢冬）| CTA 十年拓荒者（Lite）| [luoshu.md](luoshu.md) |
 | 磐松 Pansong | 2022（吴确）| 温州 90 后低频新星（Lite）| [pansong.md](pansong.md) |
+| 致诚卓远 Zhicheng | 2014（史帆）| 昆明的四大天王 · 银行跨界（Lite）| [zhichengzhuoyuan.md](zhichengzhuoyuan.md) |
+| 千象 Qianxiang | 2014（陈斌/马科超）| CTA 常青树 · 资管华为（Lite）| [qianxiang.md](qianxiang.md) |
+| 黑翼 Blackwing | 2014（陈泽浩/邹倚天）| 斯坦福双子星 · 双翼（Lite）| [heiyi.md](heiyi.md) |
+| 因诺 Inno AM | 2014（徐书楠）| IMC 系多 PM 帝国（Lite）| [yinnuo.md](yinnuo.md) |
+| 龙旗 LongQi | 2011（朱晓康/张露）| BGI 血统 · α+β+Σ（Lite）| [longqi.md](longqi.md) |
+| 聚宽 JoinQuant | 2015（高斯蒙）| 开源社区养出的百亿（Lite）| [joinquant.md](joinquant.md) |
+| 进化论 Evolution | 2014（王一平）| 10万变500万 · 逻辑因子（Lite）| [jinhualun.md](jinhualun.md) |
+| 思勰 Sixie | 2016（陈磐颖/李苏苏/吴家麒）| 「勰」字三人行（Lite）| [sixie.md](sixie.md) |
+| 桥水中国 Bridgewater CN | 2016 | 外资唯一金牛常客（Lite）| [bridgewatercn.md](bridgewatercn.md) |
+| 倍漾 Beyang | 2020（冯霁）| 周志华弟子 AI 原生（Lite）| [beiyang.md](beiyang.md) |
 
 ## 🌳 量化家谱
 
