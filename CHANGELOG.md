@@ -4,6 +4,14 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.52.0] - 2026-08-19
+
+### Added
+- Office maps (two files): OFFICE_GLOBAL.md (42 firms' office networks,
+  city ranking — London the global No.1 with ~30) and OFFICE_CN.md
+  (Shanghai hegemony ~25/47, overseas-office rate below 10%, HK as the
+  sole outbound bridgehead)
+
 ## [0.51.0] - 2026-08-19
 
 ### Added

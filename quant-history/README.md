@@ -131,6 +131,10 @@
 - 国外篇（命名学/技术栈/组织怪癖/江湖传说）见 [SIGNATURES_GLOBAL.md](SIGNATURES_GLOBAL.md)
 - 国内篇（中文名字艺术/算力派 vs 因子派/怪癖即记忆点）见 [SIGNATURES_CN.md](SIGNATURES_CN.md)
 
+**全球 Office 分布地图（2026-08-19，国内/国外分开）**：
+- 国外篇（42 家办公室网络 + 城市统计：伦敦第一城）见 [OFFICE_GLOBAL.md](OFFICE_GLOBAL.md)
+- 国内篇（上海霸权 + 中国机构出海率 <10%）见 [OFFICE_CN.md](OFFICE_CN.md)
+
 ## 🗺️ 补齐路线图
 
 待收录候选清单（中国量化篇 / 系统化 / 做市 / 宏观四梯队）见 [ROADMAP.md](ROADMAP.md)。
