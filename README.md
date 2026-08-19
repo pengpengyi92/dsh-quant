@@ -243,6 +243,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.39.0 | 2026-08-19 | China batch 2 — Zhixing Tongda/Chengqi/Ruitian/KuanDe/Lingjun/Xiaoyong (53 firms, WorldQuant lineage) |
 | 0.38.0 | 2026-08-17 | Bank/brokerage lineage report — 13 firms, two waves, three generations |
 | 0.37.0 | 2026-08-17 | China batch 1 — High-Flyer/Ubiquant/Minghong/Yanfu/Century Frontier (47 firms) |
 | 0.36.3 | 2026-08-17 | AGENTS.md engagement loop — full vision + ask-your-human CTA |

@@ -4,6 +4,20 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.39.0] - 2026-08-19
+
+### Added
+- China batch 2 (53 firms total) — six detailed archives: Zhixing Tongda
+  (Citadel APAC chief Han Jiarui), Chengqi (Millennium/WorldQuant), Ruitian
+  (the 2019 split that spawned Yanfu + the Huanfang lawsuit), WizardQuant
+  (SAC lineage), Lingjun (the 2·19 penalty → 2025 champion V-shape),
+  Xiaoyong (native self-built, Liang Jie joined 2025)
+- Each archive now carries the full detail set: founders with backgrounds,
+  founding date, event timeline, AUM evolution table, strategies, lineage,
+  open-source posture, directional analysis, and sources
+- Cross-batch finding: the WorldQuant China lineage (Ubiquant/Chengqi/
+  Lingjun/Xiaoyong) is the strongest talent tree in Chinese quant
+
 ## [0.38.0] - 2026-08-17
 
 ### Added

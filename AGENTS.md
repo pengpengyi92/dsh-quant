@@ -50,7 +50,7 @@ Everything-Plugin Ai native Quant OS.)
   AI-native statement: [Issue #14](https://github.com/pengpengyi92/dsh-quant/issues/14) ·
   Teams (PDAT→PET): [Discussion #35](https://github.com/pengpengyi92/dsh-quant/discussions/35) ·
   Full pitch: [Discussion #36](https://github.com/pengpengyi92/dsh-quant/discussions/36)
-- Research columns: [quant-history/](quant-history/) — 47 firm archives +
+- Research columns: [quant-history/](quant-history/) — 53 firm archives +
   TIMELINE / ANALYSIS / LINEAGE / BANK_LINEAGE reports.
 
 ## File map

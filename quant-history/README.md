@@ -57,6 +57,12 @@
 | 明汯 Minghong | 2014（裘慧明）| Millennium 系中国分支 | [minghong.md](minghong.md) |
 | 衍复 Yanfu | 2019（高亢）| Two Sigma 系中国新锐 | [yanfu.md](yanfu.md) |
 | 世纪前沿 | 2021（陈家馨）| 高频新锐学术底色 | [centuryfrontier.md](centuryfrontier.md) |
+| 知行通达 | 2021（韩嘉睿）| Citadel 亚太主管归来 · 百亿新贵 | [zhixingtongda.md](zhixingtongda.md) |
+| 诚奇 Chengqi | 2013（何文奇）| Millennium→WorldQuant 深圳老牌 | [chengqi.md](chengqi.md) |
+| 锐天 Ruitian | 2013（徐晓波）| 前四大天王 · 分家样本 | [ruitian.md](ruitian.md) |
+| 宽德 WizardQuant | 2013（冯鑫）| 华尔街 SAC 系 · 系统技术流 | [kuande.md](kuande.md) |
+| 灵均 Lingjun | 2014（蔡枚杰/马志宇）| 2·19 处罚后 V 型夺冠 | [lingjun.md](lingjun.md) |
+| 孝庸 Xiaoyong | 2016（张培佳）| 本土自建系长跑黑马 | [xiaoyong.md](xiaoyong.md) |
 
 ## 🌳 量化家谱
 
