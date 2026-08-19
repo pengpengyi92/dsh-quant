@@ -99,6 +99,11 @@
 | 念空 Niankong | 2015（王啸）| 量化流水线车间（Lite）| [niankong.md](niankong.md) |
 | 蒙玺 Mengxi | 2016（李骧）| 全频段 Alpha（Lite）| [mengxi.md](mengxi.md) |
 | 信弘天禾 Xinhong | 2012 | 相对价值三连黑马（Lite）| [xinhongtianhe.md](xinhongtianhe.md) |
+| 腾胜 Tengsheng | 2018（备案 2019）| Two Sigma 中国官方实体（Lite）| [tengsheng.md](tengsheng.md) |
+| 英仕曼 Inshiman | 2017（牌照）| Man Group 中国支线（Lite）| [inshiman.md](inshiman.md) |
+| 元胜 Yuansheng | 2017（登记 2018）| Winton 中国分支（Lite）| [yuansheng.md](yuansheng.md) |
+| GSR | 2013 | 前高盛系加密做市巨头（Lite）| [gsr.md](gsr.md) |
+| Eisler Capital | 2015（Edward Eisler）| 高盛天才的伦敦多策略（Lite）| [eisler.md](eisler.md) |
 
 ## 🌳 量化家谱
 

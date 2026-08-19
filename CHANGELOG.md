@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.48.0] - 2026-08-19
+
+### Added
+- Five cross-border/foreign Lite archives (94 firms total): Tengsheng
+  (Two Sigma's official China entity), Inshiman (Man Group China),
+  Yuansheng (Winton China), GSR (ex-Goldman crypto market maker,
+  SC Ventures-backed), Eisler Capital (the Goldman prodigy's London
+  multi-strategy)
+
 ## [0.47.0] - 2026-08-19
 
 ### Added

@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.48.0 | 2026-08-19 | 5 cross-border archives — Tengsheng/Inshiman/Yuansheng/GSR/Eisler (94 firms) |
 | 0.47.0 | 2026-08-19 | 8 CN Lite archives — Kaifeng/Honghu/Egret/Zhuoshi/Hande/Niankong/Mengxi/Xinhong (89 firms) |
 | 0.46.0 | 2026-08-19 | 7 CN Lite archives — Shenyi/Jasper/Liyi/Bodao/Zunjia/Qianyi/Pingfanghe (81 firms) |
 | 0.45.0 | 2026-08-19 | 3 CN Lite archives — Tianyan/Aifang/Maoyuan (74 firms) |
