@@ -30,18 +30,18 @@ quant-upstream 记"**大家打仗时，谁是卖水卖铲子的**"。
 
 | 文件 | 供应商 | 状态 |
 |------|--------|------|
-| COMPARISON.md | 对比总表 + 产业链分析 | ✅ |
-| BLOOMBERG.md | Bloomberg Terminal | ✅ |
-| WIND.md | Wind 万得 | ✅ |
-| REFINITIV.md | LSEG Refinitiv（Eikon → Workspace） | ✅ |
-| IFIND.md | 同花顺 iFinD | ✅ |
-| CHOICE.md | 东方财富 Choice | ✅ |
-| TRADINGVIEW.md | TradingView | ✅ |
-| JOINQUANT.md | 聚宽 JoinQuant | ✅ |
-| RICEQUANT.md | 米筐 RiceQuant | ✅ |
-| GO-GOAL.md | 朝阳永续 Go-Goal | ✅ |
-| REUTERS-DATA.md | 路透数据（新闻数据血统，1851 信鸽起家） | ✅ |
-| ALT-DATA-CN.md | 国内另类数据商（品类地图合集） | ✅ |
+| [COMPARISON.md](./COMPARISON.md) | 对比总表 + 产业链分析 | ✅ |
+| [BLOOMBERG.md](./BLOOMBERG.md) | Bloomberg Terminal | ✅ |
+| [WIND.md](./WIND.md) | Wind 万得 | ✅ |
+| [REFINITIV.md](./REFINITIV.md) | LSEG Refinitiv（Eikon → Workspace） | ✅ |
+| [IFIND.md](./IFIND.md) | 同花顺 iFinD | ✅ |
+| [CHOICE.md](./CHOICE.md) | 东方财富 Choice | ✅ |
+| [TRADINGVIEW.md](./TRADINGVIEW.md) | TradingView | ✅ |
+| [JOINQUANT.md](./JOINQUANT.md) | 聚宽 JoinQuant | ✅ |
+| [RICEQUANT.md](./RICEQUANT.md) | 米筐 RiceQuant | ✅ |
+| [GO-GOAL.md](./GO-GOAL.md) | 朝阳永续 Go-Goal | ✅ |
+| [REUTERS-DATA.md](./REUTERS-DATA.md) | 路透数据（新闻数据血统，1851 信鸽起家） | ✅ |
+| [ALT-DATA-CN.md](./ALT-DATA-CN.md) | 国内另类数据商（品类地图合集） | ✅ |
 | （队列） | 通联数据 · 数库科技 · 四象爱数 · 恒生聚源 | 📋 |
 
 ## 栏目哲学
