@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.53.0] - 2026-08-19
+
+### Added
+- Quant maps (city-centric, two files): QUANT_MAP_GLOBAL.md (London/
+  New York/Chicago/Greenwich/HK/Singapore/Amsterdam and more, every
+  city with its full firm list) and QUANT_MAP_CN.md (Shanghai ~26 HQ,
+  Shenzhen retention concern, Beijing academia, city-university binding,
+  the register-office split phenomenon)
+
 ## [0.52.0] - 2026-08-19
 
 ### Added

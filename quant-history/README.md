@@ -135,6 +135,10 @@
 - 国外篇（42 家办公室网络 + 城市统计：伦敦第一城）见 [OFFICE_GLOBAL.md](OFFICE_GLOBAL.md)
 - 国内篇（上海霸权 + 中国机构出海率 <10%）见 [OFFICE_CN.md](OFFICE_CN.md)
 
+**量化地图 QUANT MAP（2026-08-19，城市视角，国内/国外分开）**：
+- 国外城市版（伦敦/纽约/芝加哥/香港/新加坡…每城全名单）见 [QUANT_MAP_GLOBAL.md](QUANT_MAP_GLOBAL.md)
+- 国内城市版（上海/深圳/北京/杭州/宁波…每城全名单）见 [QUANT_MAP_CN.md](QUANT_MAP_CN.md)
+
 ## 🗺️ 补齐路线图
 
 待收录候选清单（中国量化篇 / 系统化 / 做市 / 宏观四梯队）见 [ROADMAP.md](ROADMAP.md)。
