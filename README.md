@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.54.0 | 2026-08-19 | Shanghai gravity + foreign-in-China map — SHANGHAI_GRAVITY + FOREIGN_CN_MAP, 19 reports total |
 | 0.53.0 | 2026-08-19 | Quant maps ×2 — QUANT_MAP_CN + QUANT_MAP_GLOBAL (city-centric), 17 reports total |
 | 0.52.0 | 2026-08-19 | Office maps ×2 — OFFICE_CN + OFFICE_GLOBAL, 15 reports total |
 | 0.51.0 | 2026-08-19 | Signature encyclopedias ×2 — SIGNATURES_CN + SIGNATURES_GLOBAL, 13 reports total |

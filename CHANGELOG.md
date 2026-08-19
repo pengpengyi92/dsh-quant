@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.54.0] - 2026-08-19
+
+### Added
+- SHANGHAI_GRAVITY.md (why Shanghai holds 55% of Chinese quant HQ —
+  five engines: exchange infrastructure incl. CFFEX, capital/channel
+  density, Fudan/SJTU talent, path dependence, policy) and
+  FOREIGN_CN_MAP.md (all foreign quant footprints in China: 4 WFOE PFM
+  entities all in Shanghai, WorldQuant/Millennium Beijing offices, and
+  a to-verify branch list)
+
 ## [0.53.0] - 2026-08-19
 
 ### Added

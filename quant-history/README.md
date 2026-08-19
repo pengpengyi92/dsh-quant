@@ -139,6 +139,10 @@
 - 国外城市版（伦敦/纽约/芝加哥/香港/新加坡…每城全名单）见 [QUANT_MAP_GLOBAL.md](QUANT_MAP_GLOBAL.md)
 - 国内城市版（上海/深圳/北京/杭州/宁波…每城全名单）见 [QUANT_MAP_CN.md](QUANT_MAP_CN.md)
 
+**上海与外资料专题（2026-08-19）**：
+- 上海量化虹吸效应（五大引擎：交易所/资本/人才/路径/政策）见 [SHANGHAI_GRAVITY.md](SHANGHAI_GRAVITY.md)
+- 外资中国地图（WFOE 实体 4 家全上海 + 研究办公室 + 待核分支）见 [FOREIGN_CN_MAP.md](FOREIGN_CN_MAP.md)
+
 ## 🗺️ 补齐路线图
 
 待收录候选清单（中国量化篇 / 系统化 / 做市 / 宏观四梯队）见 [ROADMAP.md](ROADMAP.md)。
