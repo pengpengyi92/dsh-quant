@@ -82,6 +82,8 @@
 
 银行系/券商系出身盘点（13 家 · 两波年代 · 三代传播 · 全零开源）见 [BANK_LINEAGE.md](BANK_LINEAGE.md)——第二份专题。
 
+中国私募金牛奖 · 量化类十年全名单（2014-2025 逐年全列 + 与 61 家档案交叉的十大 fun facts）见 [GOLDEN_BULL.md](GOLDEN_BULL.md)——第三份专题。
+
 ## 🗺️ 补齐路线图
 
 待收录候选清单（中国量化篇 / 系统化 / 做市 / 宏观四梯队）见 [ROADMAP.md](ROADMAP.md)。

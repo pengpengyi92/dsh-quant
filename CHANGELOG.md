@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.43.0] - 2026-08-19
+
+### Added
+- Golden Bull special report (`quant-history/GOLDEN_BULL.md`): every
+  quant-category winner of the China Private Fund Golden Bull Awards
+  2014-2025, listed year by year regardless of count — plus cross-analysis
+  with the 61 archives (12 in-archive winners, ten fun facts incl. Huanfang
+  winning as 'Zhejiang Jiuzhang', Minghong's 2022 double award, the 2025
+  'quant coming-of-age' categories, and Qiaoshui's macro triple)
+
 ## [0.42.0] - 2026-08-19
 
 ### Added
