@@ -1,6 +1,6 @@
 {
   "name": "dsh-quant",
-  "version": "0.72.0",
+  "version": "0.73.0",
   "description": "🐳 The Everything-Plugin Quant OS — AI-native & DSH-native: 46 tools, 6 pluggable domains (data/alpha/ML/risk/execution), one end-to-end PDAT→PET pipeline. Methods open, secrets internal.",
   "license": "MIT",
   "type": "module",
