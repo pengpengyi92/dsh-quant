@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.75.0] - 2026-08-20
+
+### Added
+- HK_FOREIGN_QUANT.md — the Hong Kong foreign-quant census:
+  ~26 foreign quant/hedge-fund offices in five categories
+  (multi-strat / systematic / market-making / macro / crypto),
+  each with establishment, scale, role-in-system and approximate
+  headcount (marked 待核 where unverified), the 2025-2026
+  expansion wave (Jane Street / QRT / Citadel Securities /
+  Point72 / Jain Global), the hub-vs-branch structure analysis,
+  and the GSR/QRT-as-HQ samples
+
 ## [0.74.0] - 2026-08-20
 
 ### Added

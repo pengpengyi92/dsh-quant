@@ -163,6 +163,9 @@
 - Two Sigma 超级深挖专刊（ML 先驱：DE Shaw 分蘖旗舰 + 数据先行 + 开源 BeakerX/Flint + 双头共治的成与败）见 [TWOSIGMA_SPECIAL.md](TWOSIGMA_SPECIAL.md)
 - QRT 超级深挖专刊（数据驱动新王：瑞信 MBO 分蘖 + 10 年 $420 亿 + Dao 中国基金 1 年 10 倍/98% + 平台化研究）见 [QRT_SPECIAL.md](QRT_SPECIAL.md)
 
+**城市专题（2026-08-20）**：
+- 香港外资量化全景（~26 家 · 多策略/系统化/做市/宏观/加密五类 · hub-vs-分支 · 2025-26 扩张潮 · GSR/QRT 总部样本）见 [HK_FOREIGN_QUANT.md](HK_FOREIGN_QUANT.md)
+
 **专题深研**：
 - POD 平台制深度研究（组织/募资/自营/多地点/产品五角度 + 与 dsh-quant 五槽架构的同构）见 [POD_PLATFORM.md](POD_PLATFORM.md)
 - 外资资本模式大总结（自营系/募资系/双轨系三分类 + 中国对照）见 [CAPITAL_MODEL.md](CAPITAL_MODEL.md)

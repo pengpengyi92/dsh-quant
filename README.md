@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.75.0 | 2026-08-20 | HK_FOREIGN_QUANT — Hong Kong foreign-quant census (~26 firms, 5 categories, hub-vs-branch, 2025-26 expansion wave), 40 reports total |
 | 0.74.0 | 2026-08-20 | QRT_SPECIAL — data-king deep-dive (Credit Suisse MBO, $42B in 10y, Dao China 10×/98%), 39 reports total |
 | 0.73.0 | 2026-08-20 | TWOSIGMA_SPECIAL — ML-pioneer deep-dive (DE Shaw spawn flagship, data-first, dual-founder governance crisis), 38 reports total |
 | 0.72.0 | 2026-08-20 | DESHAW_SPECIAL — cradle-king deep-dive (computational finance origin, DE Shaw Mafia, Anton supercomputer), 37 reports total |
