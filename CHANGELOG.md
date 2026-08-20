@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.69.0] - 2026-08-20
+
+### Added
+- SIG_SPECIAL.md — the poker-mother deep-dive: why Susquehanna is
+  the industry's mother firm (probability-as-operating-system,
+  the 1987 poker-table founding, 7-round poker-flavored interviews,
+  the talent tree root for Jane Street/HRT/Five Rings, the hidden
+  ByteDance angel round with ~15,000× return, $572B→$868B 13F
+  options-heavy portfolio, and the four-path showdown with
+  Jane Street/Citadel/XTX)
+
 ## [0.68.0] - 2026-08-20
 
 ### Added
