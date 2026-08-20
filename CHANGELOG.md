@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.58.0] - 2026-08-19
+
+### Added
+- JANE_STREET_SPECIAL.md — the second firm deep-dive: the SIG ETF-trio
+  origin (Reynolds/Granieri/Gerstein + Jenkins), the Greenwich Village
+  street-name, office chronicle (NYC 2000 → London/HK/Singapore/
+  Amsterdam), full-stack OCaml culture with the Dune build system, and
+  the type-safety-as-contract parallel to dsh-quant's schema DSL
+
 ## [0.57.0] - 2026-08-19
 
 ### Added

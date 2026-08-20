@@ -149,6 +149,7 @@
 
 **机构深挖专刊**：
 - IMC 深挖专刊（历史 + 办公室编年史 + Prosperity 竞赛 + 2016 被查事件）见 [IMC_SPECIAL.md](IMC_SPECIAL.md)
+- Jane Street 深挖专刊（SIG 三人组分蘖 + OCaml 全栈文化 + 办公室编年史）见 [JANE_STREET_SPECIAL.md](JANE_STREET_SPECIAL.md)
 
 ## 🗺️ 补齐路线图
 

@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.58.0 | 2026-08-19 | JANE_STREET_SPECIAL — second firm deep-dive (SIG trio + OCaml culture), 23 reports total |
 | 0.57.0 | 2026-08-19 | IMC_SPECIAL — first firm deep-dive special (office chronicle + Prosperity), 22 reports total |
 | 0.56.0 | 2026-08-19 | QUANT_VENDORS_CN — China's picks-and-shovels layer (Kafang/RQAlpha/jqdatasdk), 21 reports total |
 | 0.55.0 | 2026-08-19 | FOREIGN_CN_MAP_V2 — fully verified foreign-in-China map (7 PFM, second wave 2024-2026), 20 reports total |
