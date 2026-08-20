@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.73.0] - 2026-08-20
+
+### Added
+- TWOSIGMA_SPECIAL.md — the ML-pioneer deep-dive: the DE Shaw
+  spawn flagship (Overdeck math + Siegel engineering), science-
+  method-as-brand (Two Sigma = two standard deviations),
+  data-infrastructure-first strategy, tech-company culture,
+  BeakerX/Flint open source, Venn productization, the China
+  talent branch (Yanfu/Zhixingtongda), the dual-founder
+  governance rise and 2024-2025 arbitration crisis, and the
+  eight-path showdown with DE Shaw/RenTec/SIG/WorldQuant/
+  Citadel/XTX/JS
+
 ## [0.72.0] - 2026-08-20
 
 ### Added

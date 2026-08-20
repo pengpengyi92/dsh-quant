@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.73.0 | 2026-08-20 | TWOSIGMA_SPECIAL — ML-pioneer deep-dive (DE Shaw spawn flagship, data-first, dual-founder governance crisis), 38 reports total |
 | 0.72.0 | 2026-08-20 | DESHAW_SPECIAL — cradle-king deep-dive (computational finance origin, DE Shaw Mafia, Anton supercomputer), 37 reports total |
 | 0.71.0 | 2026-08-20 | RENAISSANCE_SPECIAL — black-box-king deep-dive (Simons' three turns, Medallion 66%/30y, $100B+ profits), 36 reports total |
 | 0.70.0 | 2026-08-20 | WORLDQUANT_SPECIAL — alpha-factory deep-dive (BRAIN crowdsourcing, 100M alphas, IQC, 101 Alphas), 35 reports total |
