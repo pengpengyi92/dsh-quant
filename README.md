@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.79.0 | 2026-08-20 | QUANT_WORLD_MAP — 100th-release special: global quant world map (5-city axis, 9 paths, talent trees, 4-city census synthesis), 44 reports total |
 | 0.78.0 | 2026-08-20 | NYC_FOREIGN_QUANT — New York hedge-fund-universe census (~28 firms, 12 HQs, CT suburb dark core, NY-LDN twin), 43 reports total |
 | 0.77.0 | 2026-08-20 | LDN_FOREIGN_QUANT — London global-quant-hub census (~30 firms, 12 HQs, four-city comparison), 42 reports total |
 | 0.76.0 | 2026-08-20 | SG_FOREIGN_QUANT — Singapore foreign-quant census (~20 firms, crypto/MM/family-office edge, HK twin comparison), 41 reports total |

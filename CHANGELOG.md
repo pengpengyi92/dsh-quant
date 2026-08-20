@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.79.0] - 2026-08-20
+
+### Added
+- QUANT_WORLD_MAP.md — the 100th-release special: the global
+  quant world map synthesizing 14 firm deep-dives + 4 city
+  censuses (HK/SG/LDN/NYC) + the office network into one map:
+  five-city axis (London-NY-Chicago triangle + HK-SG twins),
+  nine success paths (black-box/cradle/mother/factory/ML/data/
+  scale/per-capita/type), the global talent tree (mother →
+  spawn → China branches), the four-city census summary table,
+  and five map laws distilled from 94 firm archives
+
 ## [0.78.0] - 2026-08-20
 
 ### Added

@@ -169,6 +169,9 @@
 - 伦敦外资量化全景（~30 家全球第一城 · **12 家总部** · 固收宏观CTA母港 · 四城对照）见 [LDN_FOREIGN_QUANT.md](LDN_FOREIGN_QUANT.md)
 - 纽约外资量化全景（~28 家对冲基金腹地 · **12 家总部** · 康州郊区暗核 · 与伦敦双核分工）见 [NYC_FOREIGN_QUANT.md](NYC_FOREIGN_QUANT.md)
 
+**总集篇（100 期特刊）**：
+- 量化世界地图（五城轴心 + 九条成功路径 + 全球人才树 + 四城普查收官总表 + 地图五规律）见 [QUANT_WORLD_MAP.md](QUANT_WORLD_MAP.md)
+
 **专题深研**：
 - POD 平台制深度研究（组织/募资/自营/多地点/产品五角度 + 与 dsh-quant 五槽架构的同构）见 [POD_PLATFORM.md](POD_PLATFORM.md)
 - 外资资本模式大总结（自营系/募资系/双轨系三分类 + 中国对照）见 [CAPITAL_MODEL.md](CAPITAL_MODEL.md)
