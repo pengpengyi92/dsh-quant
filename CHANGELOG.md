@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.76.0] - 2026-08-20
+
+### Added
+- SG_FOREIGN_QUANT.md — the Singapore foreign-quant census:
+  ~20 foreign quant/hedge-fund offices in five categories
+  (multi-strat / systematic / market-making / macro / crypto),
+  the 2024-2026 expansion wave (Wintermute Asia new SG HQ with
+  doubled APAC headcount, Jane Street relocation, Citadel hub,
+  Balyasny PM hires), the crypto/market-making/family-office
+  edge, the Modular reverse flow (SG-born → HK), and the
+  HK-vs-SG "Asian twins" comparison table
+
 ## [0.75.0] - 2026-08-20
 
 ### Added
