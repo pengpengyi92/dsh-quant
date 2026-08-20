@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.80.0] - 2026-08-20
+
+### Added
+- QUANT_PEOPLE_CN.md + QUANT_PEOPLE_GLOBAL.md — the 101st-release
+  quant headcount estimates: China (~30,000-50,000 broad quant
+  workers, top-60 firms ~9,000, structure analysis) and the
+  four-city version (London ~8-12k / New York ~10-15k /
+  Singapore ~3-5k / Hong Kong ~3.5-6k, ~25-38k combined,
+  global ~80-120k), with the CN-vs-four-city single-firm scale
+  comparison and the density findings
+
 ## [0.79.0] - 2026-08-20
 
 ### Added

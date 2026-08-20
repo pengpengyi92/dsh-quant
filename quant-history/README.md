@@ -172,6 +172,10 @@
 **总集篇（100 期特刊）**：
 - 量化世界地图（五城轴心 + 九条成功路径 + 全球人才树 + 四城普查收官总表 + 地图五规律）见 [QUANT_WORLD_MAP.md](QUANT_WORLD_MAP.md)
 
+**人数分析（101 期）**：
+- 中国量化从业人数估算（广义 ~30,000-50,000 · 头部 60 家 ~9,000 · 结构特征）见 [QUANT_PEOPLE_CN.md](QUANT_PEOPLE_CN.md)
+- 全球量化从业人数四城版（伦敦/纽约/新加坡/香港 ~25,000-38,000 · 全球 ~80,000-120,000 · 单厂规模对照）见 [QUANT_PEOPLE_GLOBAL.md](QUANT_PEOPLE_GLOBAL.md)
+
 **专题深研**：
 - POD 平台制深度研究（组织/募资/自营/多地点/产品五角度 + 与 dsh-quant 五槽架构的同构）见 [POD_PLATFORM.md](POD_PLATFORM.md)
 - 外资资本模式大总结（自营系/募资系/双轨系三分类 + 中国对照）见 [CAPITAL_MODEL.md](CAPITAL_MODEL.md)
