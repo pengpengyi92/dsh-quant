@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.74.0] - 2026-08-20
+
+### Added
+- QRT_SPECIAL.md — the data-king deep-dive: how the Credit Suisse
+  systematic team's management buyout became the most successful
+  bank-spinoff (MBO 2015-2016 → $42B in 2025, 40× in ten years),
+  the data-and-engineering platform (one platform, four asset
+  classes), the extreme-low-profile culture, the Dao China fund
+  10×/98% breakout as the foreign-quant China comeback flagbearer,
+  and the nine-path showdown with Two Sigma/WorldQuant/Citadel/
+  XTX/RenTec/SIG/DE Shaw/JS
+
 ## [0.73.0] - 2026-08-20
 
 ### Added
