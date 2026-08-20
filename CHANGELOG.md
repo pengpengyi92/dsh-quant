@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.65.0] - 2026-08-19
+
+### Added
+- LISTED_QUANT.md — the listed-quant census: Virtu is not alone
+  (Man Group LSE 1994, Virtu NASDAQ 2015, Flow Traders Euronext 2015,
+  the 2015 market-maker IPO year), the Knight Capital death chain
+  (45-minute $440M bug → KCG → Virtu 2017), five reasons listing is
+  rare, the Citadel Securities rumor, and China's zero listed quant
+  firms
+
 ## [0.64.0] - 2026-08-19
 
 ### Added
