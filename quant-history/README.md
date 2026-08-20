@@ -159,6 +159,7 @@
 - SIG 超级深挖专刊（扑克母体：概率操作系统 + 字节跳动 15000 倍回报 + 人才树之根 + 与 JS/Citadel/XTX 四路对照）见 [SIG_SPECIAL.md](SIG_SPECIAL.md)
 - WorldQuant 超级深挖专刊（Alpha 工厂：BRAIN 众包流水线 + 1 亿 alpha + IQC 竞赛 + 101 Alphas 公开教科书 + 中国人才树最强母体）见 [WORLDQUANT_SPECIAL.md](WORLDQUANT_SPECIAL.md)
 - Renaissance 超级深挖专刊（黑箱之王 + Simons 老爷子：数学家三次转身 + 大奖章 30 年 66% + $1000 亿累计利润 + 慈善遗产）见 [RENAISSANCE_SPECIAL.md](RENAISSANCE_SPECIAL.md)
+- DE Shaw 超级深挖专刊（计算金融鼻祖 + Mafia 摇篮：Bezos/Two Sigma 孵化器 + Anton 超算科学家底色 + 制度化治理典范）见 [DESHAW_SPECIAL.md](DESHAW_SPECIAL.md)
 
 **专题深研**：
 - POD 平台制深度研究（组织/募资/自营/多地点/产品五角度 + 与 dsh-quant 五槽架构的同构）见 [POD_PLATFORM.md](POD_PLATFORM.md)

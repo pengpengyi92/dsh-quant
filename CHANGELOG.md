@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.72.0] - 2026-08-20
+
+### Added
+- DESHAW_SPECIAL.md — the cradle-king deep-dive: how Columbia
+  professor David Shaw brought computation into finance (1988),
+  the DE Shaw Mafia talent tree (Bezos → Amazon, Overdeck/Siegel
+  → Two Sigma), the Anton supercomputer scientist turn (DESRES
+  molecular dynamics, COVID-19 simulations), institutionalized
+  governance after the founder, and the seven-path showdown with
+  RenTec/SIG/WorldQuant/Citadel/XTX/JS
+
 ## [0.71.0] - 2026-08-20
 
 ### Added

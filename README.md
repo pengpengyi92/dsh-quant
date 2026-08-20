@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.72.0 | 2026-08-20 | DESHAW_SPECIAL — cradle-king deep-dive (computational finance origin, DE Shaw Mafia, Anton supercomputer), 37 reports total |
 | 0.71.0 | 2026-08-20 | RENAISSANCE_SPECIAL — black-box-king deep-dive (Simons' three turns, Medallion 66%/30y, $100B+ profits), 36 reports total |
 | 0.70.0 | 2026-08-20 | WORLDQUANT_SPECIAL — alpha-factory deep-dive (BRAIN crowdsourcing, 100M alphas, IQC, 101 Alphas), 35 reports total |
 | 0.69.0 | 2026-08-20 | SIG_SPECIAL — poker-mother deep-dive (probability OS, ByteDance 15,000×, talent tree root), 34 reports total |
