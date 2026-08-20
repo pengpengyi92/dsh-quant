@@ -166,6 +166,7 @@
 **城市专题（2026-08-20）**：
 - 香港外资量化全景（~26 家 · 多策略/系统化/做市/宏观/加密五类 · hub-vs-分支 · 2025-26 扩张潮 · GSR/QRT 总部样本）见 [HK_FOREIGN_QUANT.md](HK_FOREIGN_QUANT.md)
 - 新加坡外资量化全景（~20 家 · 加密/做市/家办三张牌 · Wintermute 亚太总部 · 与香港「亚洲双子」对照）见 [SG_FOREIGN_QUANT.md](SG_FOREIGN_QUANT.md)
+- 伦敦外资量化全景（~30 家全球第一城 · **12 家总部** · 固收宏观CTA母港 · 四城对照）见 [LDN_FOREIGN_QUANT.md](LDN_FOREIGN_QUANT.md)
 
 **专题深研**：
 - POD 平台制深度研究（组织/募资/自营/多地点/产品五角度 + 与 dsh-quant 五槽架构的同构）见 [POD_PLATFORM.md](POD_PLATFORM.md)

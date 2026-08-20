@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.77.0 | 2026-08-20 | LDN_FOREIGN_QUANT — London global-quant-hub census (~30 firms, 12 HQs, four-city comparison), 42 reports total |
 | 0.76.0 | 2026-08-20 | SG_FOREIGN_QUANT — Singapore foreign-quant census (~20 firms, crypto/MM/family-office edge, HK twin comparison), 41 reports total |
 | 0.75.0 | 2026-08-20 | HK_FOREIGN_QUANT — Hong Kong foreign-quant census (~26 firms, 5 categories, hub-vs-branch, 2025-26 expansion wave), 40 reports total |
 | 0.74.0 | 2026-08-20 | QRT_SPECIAL — data-king deep-dive (Credit Suisse MBO, $42B in 10y, Dao China 10×/98%), 39 reports total |

@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.77.0] - 2026-08-20
+
+### Added
+- LDN_FOREIGN_QUANT.md — the London global-quant-hub census:
+  ~30 firms (world #1 city), the 12-HQ core (Man Group /
+  Brevan Howard / Winton / Aspect / Marshall Wace / XTX / QRT /
+  GSA / Capula / Rokos / Eisler / Wintermute), the ~20 US-firm
+  Europe-hub layer (Citadel Tower move, Point72 £650k avg pay
+  on 300+ staff, Millennium/JS Europe hubs), the FT/Hedgeweek
+  2025 "London = global quant hub" verdict, the four-city
+  comparison (London/New York/HK/SG), and the five rules of
+  London dominance
+
 ## [0.76.0] - 2026-08-20
 
 ### Added
