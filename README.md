@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.63.0 | 2026-08-19 | POD_PLATFORM — pod-shop capstone (5 angles + dsh isomorphism), 28 reports total |
 | 0.62.0 | 2026-08-19 | BALYASNY_SPECIAL — sixth firm deep-dive (Schonfeld lineage + 2018 halving + rebuild), 27 reports total |
 | 0.61.0 | 2026-08-19 | MILLENNIUM_SPECIAL — fifth firm deep-dive (pod federation + China talent root), 26 reports total |
 | 0.60.0 | 2026-08-19 | POINT72_SPECIAL — fourth firm deep-dive (SAC rebirth + Cubist + 14 offices), 25 reports total |

@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.63.0] - 2026-08-19
+
+### Added
+- POD_PLATFORM.md — the pod-shop capstone: how platform-structure
+  firms operate across five angles (organization/fundraising/prop
+  capital/multi-office/product), the risk-and-rebuild lessons, and the
+  isomorphism with dsh-quant's five-slot free-fill / unified-contract
+  architecture
+
 ## [0.62.0] - 2026-08-19
 
 ### Added

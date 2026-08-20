@@ -155,6 +155,9 @@
 - Millennium 深挖专刊（pod 联邦制祖师 + 14 办公室 + 中国人才树的祖父母体）见 [MILLENNIUM_SPECIAL.md](MILLENNIUM_SPECIAL.md)
 - Balyasny 深挖专刊（券商二代 + 2018 腰斩重生 + 「交易太多投资不够」自省）见 [BALYASNY_SPECIAL.md](BALYASNY_SPECIAL.md)
 
+**专题深研**：
+- POD 平台制深度研究（组织/募资/自营/多地点/产品五角度 + 与 dsh-quant 五槽架构的同构）见 [POD_PLATFORM.md](POD_PLATFORM.md)
+
 ## 🗺️ 补齐路线图
 
 待收录候选清单（中国量化篇 / 系统化 / 做市 / 宏观四梯队）见 [ROADMAP.md](ROADMAP.md)。
