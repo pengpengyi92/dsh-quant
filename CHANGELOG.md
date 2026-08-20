@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.59.0] - 2026-08-19
+
+### Added
+- OPTIVER_SPECIAL.md — the third firm deep-dive: the Dutch name
+  (optie verhandelaar), 1986 Amsterdam origin (Johann Kaemingk), office
+  chronicle (Amsterdam → Chicago/Sydney → London/Singapore/Shanghai →
+  Austin/Mumbai), the 2007-08 CFTC crude-oil case, Ready Trader Go,
+  Pyth data provider — and the tool-level lineage to dsh-quant's
+  options/volatility board
+
 ## [0.58.0] - 2026-08-19
 
 ### Added
