@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.60.0] - 2026-08-19
+
+### Added
+- POINT72_SPECIAL.md — the fourth firm deep-dive: the 72 Cummings
+  Point Road name, the SAC rebirth story (18亿美元 plea → family
+  office → 2018 reopening), all 14 offices from the official locations
+  page (incl. the Taipei systematic-research office and the Warsaw/
+  Bengaluru talent hubs), Cubist Systematic Strategies, and Steve
+  Cohen the Mets owner/art collector
+
 ## [0.59.0] - 2026-08-19
 
 ### Added
