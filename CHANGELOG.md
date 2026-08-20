@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.78.0] - 2026-08-20
+
+### Added
+- NYC_FOREIGN_QUANT.md — the New York hedge-fund-universe census:
+  ~28 firms, the 12-HQ old-money core (Millennium / Point72 /
+  Schonfeld / Squarepoint / ExodusPoint / PDT + DE Shaw /
+  Two Sigma / Jane Street / HRT / Tower / Virtu / Renaissance),
+  the ~16 US-firm branch layer (Citadel / Balyasny / BH / XTX /
+  QRT etc.), the Connecticut suburb dark core (Greenwich /
+  Stamford / East Setauket), the NY-vs-London twin-city
+  comparison (multi-strat home vs fixed-income/macro port),
+  and the five rules of New York dominance
+
 ## [0.77.0] - 2026-08-20
 
 ### Added
