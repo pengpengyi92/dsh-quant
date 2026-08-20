@@ -154,6 +154,7 @@
 - Point72 深挖专刊（72 号门牌的重生史 + Cubist 量化线 + 14 办公室编年史 + Mets 老板）见 [POINT72_SPECIAL.md](POINT72_SPECIAL.md)
 - Millennium 深挖专刊（pod 联邦制祖师 + 14 办公室 + 中国人才树的祖父母体）见 [MILLENNIUM_SPECIAL.md](MILLENNIUM_SPECIAL.md)
 - Balyasny 深挖专刊（券商二代 + 2018 腰斩重生 + 「交易太多投资不够」自省）见 [BALYASNY_SPECIAL.md](BALYASNY_SPECIAL.md)
+- XTX 超级深挖专刊（人均产值之王：£14M/人 + 零交易员 + AI 芯片军备的六大秘密）见 [XTX_SPECIAL.md](XTX_SPECIAL.md)
 
 **专题深研**：
 - POD 平台制深度研究（组织/募资/自营/多地点/产品五角度 + 与 dsh-quant 五槽架构的同构）见 [POD_PLATFORM.md](POD_PLATFORM.md)

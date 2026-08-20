@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.67.0] - 2026-08-19
+
+### Added
+- XTX_SPECIAL.md — the per-capita-productivity king deep-dive:
+  £1.28B profit on ~200 people (£14M per head), the six secrets
+  (zero human traders, single-business focus, pure prop, ML-first
+  H100 arsenal, flat partnership, mathematician founder), the
+  biggest-taxpayer and AI-chip-buyer stories, and the lean-scale
+  philosophy parallel to dsh-quant
+
 ## [0.66.0] - 2026-08-19
 
 ### Added
