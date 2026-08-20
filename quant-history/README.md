@@ -159,6 +159,7 @@
 - POD 平台制深度研究（组织/募资/自营/多地点/产品五角度 + 与 dsh-quant 五槽架构的同构）见 [POD_PLATFORM.md](POD_PLATFORM.md)
 - 外资资本模式大总结（自营系/募资系/双轨系三分类 + 中国对照）见 [CAPITAL_MODEL.md](CAPITAL_MODEL.md)
 - 上市量化机构全谱（Virtu/Flow Traders/Man Group + Knight 死亡链 + 为何这么少）见 [LISTED_QUANT.md](LISTED_QUANT.md)
+- 中外量化顶尖对决（薪资/规模/策略/市场/年龄/资本风格六维 + 透明度倒挂发现）见 [SHOWDOWN_CN_GLOBAL.md](SHOWDOWN_CN_GLOBAL.md)
 
 ## 🗺️ 补齐路线图
 

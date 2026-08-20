@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.66.0] - 2026-08-19
+
+### Added
+- SHOWDOWN_CN_GLOBAL.md — the six-dimension China-vs-global quant
+  showdown: pay (converging at $300-400k for grads), AUM (5-15x gap),
+  strategy spectrum (8 lines vs 3), market access (bidirectional
+  asymmetry), age (242 vs 22 years), capital style — plus the
+  transparency inversion discovery (Chinese privates must disclose
+  while foreign prop shops disclose nothing)
+
 ## [0.65.0] - 2026-08-19
 
 ### Added

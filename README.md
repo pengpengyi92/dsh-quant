@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.66.0 | 2026-08-19 | SHOWDOWN_CN_GLOBAL — six-dimension CN-vs-global showdown (+ transparency inversion), 31 reports total |
 | 0.65.0 | 2026-08-19 | LISTED_QUANT — listed-quant census (Virtu/Flow/Man + Knight death chain), 30 reports total |
 | 0.64.0 | 2026-08-19 | CAPITAL_MODEL — foreign capital-structure census (prop/fundraise/hybrid), 29 reports total |
 | 0.63.0 | 2026-08-19 | POD_PLATFORM — pod-shop capstone (5 angles + dsh isomorphism), 28 reports total |
