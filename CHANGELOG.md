@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.71.0] - 2026-08-20
+
+### Added
+- RENAISSANCE_SPECIAL.md — the black-box-king deep-dive: Jim
+  Simons' three turns (mathematician → NSA code-breaker → quant
+  king), the Medallion myth (66% pre-fee annualized for 30 years,
+  ~$100B+ cumulative profits, +80% in 2008, size-capped on
+  purpose), the scientist-culture secret (IBM speech-recognition
+  transplant, no-finance-hiring), the external-funds cautionary
+  tale, the philanthropic legacy, and the six-path showdown with
+  SIG/WorldQuant/Citadel/XTX/JS
+
 ## [0.70.0] - 2026-08-20
 
 ### Added
