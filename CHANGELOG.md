@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.64.0] - 2026-08-19
+
+### Added
+- CAPITAL_MODEL.md — the capital-structure census of all 42 foreign
+  archives: prop (Jane Street/Optiver/IMC/SIG/Jump/HRT/XTX/crypto
+  makers), hedge-fund (pod shops, macro, quant funds), hybrid
+  (RenTec's internalized Medallion, DE Shaw's Oculus, Citadel's dual
+  engine, Point72's family-office-to-fundraise transition), plus the
+  China contrast and the open-source-prop positioning of dsh-quant
+
 ## [0.63.0] - 2026-08-19
 
 ### Added

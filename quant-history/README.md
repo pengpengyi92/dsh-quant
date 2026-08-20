@@ -157,6 +157,7 @@
 
 **专题深研**：
 - POD 平台制深度研究（组织/募资/自营/多地点/产品五角度 + 与 dsh-quant 五槽架构的同构）见 [POD_PLATFORM.md](POD_PLATFORM.md)
+- 外资资本模式大总结（自营系/募资系/双轨系三分类 + 中国对照）见 [CAPITAL_MODEL.md](CAPITAL_MODEL.md)
 
 ## 🗺️ 补齐路线图
 
