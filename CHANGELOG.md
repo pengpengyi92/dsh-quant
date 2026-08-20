@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.57.0] - 2026-08-19
+
+### Added
+- IMC_SPECIAL.md — the first firm deep-dive special: full name
+  (International Marketmakers Combination), 1989 Amsterdam origin,
+  office chronicle (establishment/scale/positioning per office), the
+  Prosperity competition series, the 2016 CSRC investigation event,
+  Rob Defares the art collector, and the R&D takeaways
+
 ## [0.56.0] - 2026-08-19
 
 ### Added

@@ -147,6 +147,9 @@
 **模块供应商专题（2026-08-19）**：
 - 中国量化模块供应商图谱（数据/交易/FPGA/算法/平台六层 + 卡方科技样本 + 与 94 家档案联动）见 [QUANT_VENDORS_CN.md](QUANT_VENDORS_CN.md)
 
+**机构深挖专刊**：
+- IMC 深挖专刊（历史 + 办公室编年史 + Prosperity 竞赛 + 2016 被查事件）见 [IMC_SPECIAL.md](IMC_SPECIAL.md)
+
 ## 🗺️ 补齐路线图
 
 待收录候选清单（中国量化篇 / 系统化 / 做市 / 宏观四梯队）见 [ROADMAP.md](ROADMAP.md)。
