@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.70.0] - 2026-08-20
+
+### Added
+- WORLDQUANT_SPECIAL.md — the alpha-factory deep-dive: why
+  WorldQuant industrializes alpha production (BRAIN/WebSim
+  crowdsourced pipeline, ~100M simulated alphas, the IQC
+  competition-as-recruitment funnel, 101 Formulaic Alphas as the
+  industry's public textbook, LLM-accelerated research, the
+  China talent-tree mother role, and the factory-vs-mother-vs-
+  scale-vs-per-capita four-path showdown)
+
 ## [0.69.0] - 2026-08-20
 
 ### Added

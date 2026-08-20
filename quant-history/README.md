@@ -157,6 +157,7 @@
 - XTX 超级深挖专刊（人均产值之王：£14M/人 + 零交易员 + AI 芯片军备的六大秘密）见 [XTX_SPECIAL.md](XTX_SPECIAL.md)
 - Citadel 超级深挖专刊（规模之王：双引擎基金+做市 + $160 亿峰值年 + 迈阿密迁都 + 与 XTX 人均之王对照）见 [CITADEL_SPECIAL.md](CITADEL_SPECIAL.md)
 - SIG 超级深挖专刊（扑克母体：概率操作系统 + 字节跳动 15000 倍回报 + 人才树之根 + 与 JS/Citadel/XTX 四路对照）见 [SIG_SPECIAL.md](SIG_SPECIAL.md)
+- WorldQuant 超级深挖专刊（Alpha 工厂：BRAIN 众包流水线 + 1 亿 alpha + IQC 竞赛 + 101 Alphas 公开教科书 + 中国人才树最强母体）见 [WORLDQUANT_SPECIAL.md](WORLDQUANT_SPECIAL.md)
 
 **专题深研**：
 - POD 平台制深度研究（组织/募资/自营/多地点/产品五角度 + 与 dsh-quant 五槽架构的同构）见 [POD_PLATFORM.md](POD_PLATFORM.md)
