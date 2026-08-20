@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.62.0] - 2026-08-19
+
+### Added
+- BALYASNY_SPECIAL.md — the sixth firm deep-dive: the 2001 Chicago
+  three-founder origin (Balyasny/Schroeder/O'Malley), the Schonfeld
+  broker lineage, the 2018 AUM halving and rebuild, the 2024
+  'trading too much, not investing enough' self-critique, and the pod
+  shop's office chronicle
+
 ## [0.61.0] - 2026-08-19
 
 ### Added
