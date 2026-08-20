@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.68.0] - 2026-08-20
+
+### Added
+- CITADEL_SPECIAL.md — the scale-king deep-dive: dual-engine
+  (multi-strategy fund + world's largest market maker) how the two
+  engines feed each other, $16B peak profit year (2022, all-time
+  high), $97B→$120B Citadel Securities trading revenue (2024-2025),
+  the 2008 self-rescue, Miami HQ relocation, and the per-capita-king
+  (XTX) vs scale-king (Citadel) showdown
+
 ## [0.67.0] - 2026-08-19
 
 ### Added

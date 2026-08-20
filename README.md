@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.68.0 | 2026-08-20 | CITADEL_SPECIAL — scale-king deep-dive (dual-engine fund+market-making, $16B peak year, Miami HQ), 33 reports total |
 | 0.67.0 | 2026-08-19 | XTX_SPECIAL — per-capita-productivity king deep-dive (£14M/head, six secrets), 32 reports total |
 | 0.66.0 | 2026-08-19 | SHOWDOWN_CN_GLOBAL — six-dimension CN-vs-global showdown (+ transparency inversion), 31 reports total |
 | 0.65.0 | 2026-08-19 | LISTED_QUANT — listed-quant census (Virtu/Flow/Man + Knight death chain), 30 reports total |
