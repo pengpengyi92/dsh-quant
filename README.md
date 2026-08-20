@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.61.0 | 2026-08-19 | MILLENNIUM_SPECIAL — fifth firm deep-dive (pod federation + China talent root), 26 reports total |
 | 0.60.0 | 2026-08-19 | POINT72_SPECIAL — fourth firm deep-dive (SAC rebirth + Cubist + 14 offices), 25 reports total |
 | 0.59.0 | 2026-08-19 | OPTIVER_SPECIAL — third firm deep-dive (Dutch name + Ready Trader Go + tool lineage), 24 reports total |
 | 0.58.0 | 2026-08-19 | JANE_STREET_SPECIAL — second firm deep-dive (SIG trio + OCaml culture), 23 reports total |

@@ -152,6 +152,7 @@
 - Jane Street 深挖专刊（SIG 三人组分蘖 + OCaml 全栈文化 + 办公室编年史）见 [JANE_STREET_SPECIAL.md](JANE_STREET_SPECIAL.md)
 - Optiver 深挖专刊（名字=荷兰语期权做市商 + Ready Trader Go + 与 dsh-quant 期权工具的血缘）见 [OPTIVER_SPECIAL.md](OPTIVER_SPECIAL.md)
 - Point72 深挖专刊（72 号门牌的重生史 + Cubist 量化线 + 14 办公室编年史 + Mets 老板）见 [POINT72_SPECIAL.md](POINT72_SPECIAL.md)
+- Millennium 深挖专刊（pod 联邦制祖师 + 14 办公室 + 中国人才树的祖父母体）见 [MILLENNIUM_SPECIAL.md](MILLENNIUM_SPECIAL.md)
 
 ## 🗺️ 补齐路线图
 

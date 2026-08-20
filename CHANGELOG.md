@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.61.0] - 2026-08-19
+
+### Added
+- MILLENNIUM_SPECIAL.md — the fifth firm deep-dive: 1989 Belzberg-seeded
+  origin, the pod federated structure, all 14 offices (NYC HQ → London/
+  HK/Singapore/Tokyo/Dublin/Geneva/Zug/Tel Aviv/Paris/Miami/Bengaluru/
+  Dubai), the risk-hating track record, the $10B-cap-vs-$20B-demand
+  discipline, and the China talent-tree grandparent thesis
+
 ## [0.60.0] - 2026-08-19
 
 ### Added
