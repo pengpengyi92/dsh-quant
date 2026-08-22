@@ -10,7 +10,7 @@
 [![ci](https://github.com/pengpengyi92/dsh-quant/actions/workflows/ci.yml/badge.svg)](https://github.com/pengpengyi92/dsh-quant/actions)
 [![dsh-plugin](https://img.shields.io/badge/dsh-plugin-blue)](https://github.com/topics/dsh-plugin)
 
-> **AI-native & DSH-native quant toolkit for every quant aspect** — 48 tools · 6 domains
+> **AI-native & DSH-native quant toolkit for every quant aspect** — 50 tools · 6 domains
 > (data / alpha / ML / risk / execution / ecosystem) · one end-to-end PDAT→PET
 > research pipeline. **Methods open, secrets internal.**
 
@@ -49,7 +49,7 @@ deliberate choice from day one:
   positions are `null`, so the model aligns by index and never pads
 - **Canonical JSON + render separation** — machines read structure, humans read prose
 - **All isConcurrencySafe** — pure functions, no shared state; agents can call all
-  48 tools in parallel without interference
+  50 tools in parallel without interference
 - **Skill layer** — `skill/quant-research` lets the model load the workflow itself
 
 Full statement: [Issue #14](https://github.com/pengpengyi92/dsh-quant/issues/14) "AI-native is deliberate".
@@ -71,7 +71,7 @@ A common question: a quant project without `.py` files? **Answer: 0 Python files
 
 One goal: **build the most usable AI-native quant repo** 🐋
 
-**48 `quant_*` tools · 6 domains · 186 unit tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
+**50 `quant_*` tools · 6 domains · 193 unit tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
 
 ## 🤖 For visiting agents
 
@@ -92,7 +92,7 @@ Add one line to your cordis.yml:
 - name: 'dsh-quant'
 ```
 
-48 tools auto-register — indicators / backtests / factors / risk / fund simulation /
+50 tools auto-register — indicators / backtests / factors / risk / fund simulation /
 ecosystem metrics out of the box. One `quant_research_pipeline` runs the whole
 PDAT→PET chain. ML/DL knowledge: [docs/ML_GUIDE.md](docs/ML_GUIDE.md);
 executable demo: `npx tsx demos/ml-workflow.ts`.
@@ -135,7 +135,7 @@ P-Research CLI). Browse the research columns and live market data without a
 browser:
 
 ```bash
-node cli/main.mjs repo                      # 48 tools · 6 domains
+node cli/main.mjs repo                      # 50 tools · 6 domains
 node cli/main.mjs history                   # 53 firm archives index
 node cli/main.mjs history citadel           # one firm's archive (rendered)
 node cli/main.mjs history --reports         # ANALYSIS / TIMELINE / LINEAGE / BANK_LINEAGE
@@ -175,6 +175,7 @@ After `npm install -g .`, the commands shorten to `dsh-quant repo`,
 | `quant_walk_forward` | `returns` + `features[][]` + `trainWindow` + `testWindow` + `step?` | `{ predictions(null-aligned), oosIc, oosRankIc, oosCount, windows, trainR2Mean }` | — (rolling train / out-of-sample, no look-ahead) |
 | `quant_linear_model` | `X(samples×features)` + `y` + `lambda?` + `predictX?` + `yTest?` | `{ intercept, weights, lambda, trainR2, n, predictions?, testR2?, testIc? }` | — (standalone OLS/Ridge fit & predict) |
 | `quant_factor_combine` | `factors: number[][]` (equal length) + `weights?` | `{ signal(rank 0..1), effectiveWeights, factorCount }` | — (z-score weighting + cross-sectional ranking) |
+| `quant_ic_decay` | `factor` + `returns` (same length) + `maxHorizon=10` | `{ horizons, icByHorizon, halfLife, bestHorizon, peakIc, peakHorizon, signalType, notes }` | — (IC decay: signal shelf-life → rebalance frequency) |
 | `quant_series_quality` | `values: number[]`, `jumpThreshold=0.2` | `{ count, missingCount, zOutliers, jumps, longestConstantRun, healthy }` | — (series-level quality) |
 | `quant_data_annotate` | `values: number[]`, `jumpThreshold=0.2` | `{ count, annotations: [{index, label, severity, detail}], summary }` | — (point-level labeling, a tribute to Scale AI) |
 | `quant_data_quality` | `candles` (quant_market_fetch output) | `{ count, highBelowLow, nonPositive, timeNotIncreasing, timeGaps, extremeMoves, healthy }` | — (pre-analysis health check) |
@@ -198,6 +199,7 @@ After `npm install -g .`, the commands shorten to `dsh-quant repo`,
 | `quant_backtest_bollinger` | `close: number[]`, `window=20`, `multiplier=2`, `feeRate=0.001`, `stopLoss?`, `takeProfit?` | same (buy on upper-band breakout, sell on mid-band cross-down) | one bar after first confirmed breakout |
 | `quant_backtest_rsi` | `close: number[]`, `rsiWindow=14`, `buyBelow=30`, `sellAbove=70`, `feeRate=0.001`, `stopLoss?`, `takeProfit?` | same (buy on RSI cross-up through buyBelow, sell on cross-down through sellAbove) | one bar after first confirmed signal |
 | `quant_backtest_portfolio` | `assets: [{name, close}]`, `weights?`, `rebalanceEvery?`, `feeRate=0.001` | `{ totalReturnPct, maxDrawdownPct, sharpe, equityCurve, assetNames, finalWeights, rebalances }` | — (multi-asset portfolio) |
+| `quant_portfolio_optimize` | `returns` (time×asset matrix) + `method=maxSharpe\|minVar\|riskParity` + `iterations?` | `{ method, weights, annualReturnPct, annualVolPct, sharpe, assetSharpe, concentration }` | — (weight optimizer; feed result to quant_backtest_portfolio) |
 | `quant_backtest_grid` | `close: number[]`, `fastMin=3`, `fastMax=10`, `slowMin=10`, `slowMax=30`, `feeRate=0.001` | `{ results(sorted by return desc), best, fastRange, slowRange, feeRate }` | — (grid search; skips fast >= slow) |
 
 ### Typical chain (model's view)
@@ -385,7 +387,7 @@ frameworks, indicators, factor evaluation, UI and demos. See pinned [Issue #9](h
 ## Quick start (after fork/pull)
 
 ```sh
-npm ci && npm run build && npm test    # offline full tests (186 unit + 4 Loader)
+npm ci && npm run build && npm test    # offline full tests (193 unit + 4 Loader)
 npm run test:verify                    # live market integration (needs network)
 npm run gen:tools                      # regenerate mcp/tools.json
 ```
@@ -404,7 +406,7 @@ cd quant-indicators && tsc -p tsconfig.json
 ## Verification
 
 ```sh
-# pure-function numeric correctness + market parsing + backtests (186 cases, node:test, zero deps)
+# pure-function numeric correctness + market parsing + backtests (193 cases, node:test, zero deps)
 cd deepseek-harness && pnpm exec tsx --test ../quant-indicators/tests/*.spec.ts
 
 # REAL-composition: cordis.yml booted through the real Loader (registration visible / pipeline / isError / HMR-safety)

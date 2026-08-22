@@ -16,11 +16,13 @@ import type { Context } from '@deepseek-ai/cordis'
 import { defineTool } from '@deepseek-ai/dsh-tools'
 import { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './dsh-alpha/indicators.js'
 import { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './dsh-ml/backtest.js'
+import { portfolioOptimize } from './dsh-ml/optimizer.js'
 import { INTERVALS, MARKET_PROVIDERS, fetchKlines } from './dsh-data/market.js'
 import { accessReadiness, adviseChannels, channelAccessGuide, compareChannels, findChannel, searchChannels } from './dsh-data/data-guide.js'
 import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './dsh-data/stats.js'
 import { dataQualityReport } from './dsh-data/quality.js'
 import { combineFactors, factorEvaluate } from './dsh-alpha/factor.js'
+import { icDecayAnalysis } from './dsh-alpha/decay.js'
 import { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './dsh-execution/chart.js'
 import { equityMetrics, tradeMetrics } from './dsh-ml/metrics.js'
 import { kupiecTest, riskMetrics } from './dsh-risk/risk.js'
@@ -45,11 +47,13 @@ import { assertAShareSymbol, assertYahooSymbol } from './dsh-data/market.js'
 // 注意：本插件仍是纯 named-export 函数插件（无 default export），Loader 不受影响。
 export { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './dsh-alpha/indicators.js'
 export { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './dsh-ml/backtest.js'
+export { portfolioOptimize } from './dsh-ml/optimizer.js'
 export { fetchKlines, parseKlines, parseOkxKlines, parseBybitKlines, parseSinaKlines, parseTencentKlines, parseYahooChart, INTERVALS, MARKET_PROVIDERS } from './dsh-data/market.js'
 export { DATA_CHANNELS, accessReadiness, adviseChannels, channelAccessGuide, compareChannels, findChannel, searchChannels } from './dsh-data/data-guide.js'
 export { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './dsh-data/stats.js'
 export { channelReliability, dataQualityReport, pitCheck, survivorshipCheck } from './dsh-data/quality.js'
 export { combineFactors, factorEvaluate, factorNeutralize } from './dsh-alpha/factor.js'
+export { icDecayAnalysis } from './dsh-alpha/decay.js'
 export { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './dsh-execution/chart.js'
 export { equityMetrics, tradeMetrics, METRIC_CATALOG } from './dsh-ml/metrics.js'
 export { kupiecTest, riskMetrics } from './dsh-risk/risk.js'
@@ -839,6 +843,56 @@ export function apply(ctx: Context) {
       return backtestPortfolio(args.assets, args.weights, args.rebalanceEvery, feeRate)
     },
   }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_portfolio_optimize',
+    description:
+      'Portfolio weight optimizer: maxSharpe (mean-variance), minVar (minimum variance), or riskParity ' +
+      '(equal risk contribution). Input: return matrix (rows = time, cols = assets). Returns weights (non-negative, ' +
+      'sum 1), portfolio annual return/vol/Sharpe, per-asset Sharpe, and concentration. ' +
+      'Use quant_backtest_portfolio to backtest the optimized weights.',
+    parameters: {
+      returns: {
+        type: 'array', items: { type: 'array', items: { type: 'number' } },
+        required: true,
+        description: 'Return matrix: rows = time points, cols = assets (all rows same length)',
+      },
+      method: {
+        type: 'string', enum: ['maxSharpe', 'minVar', 'riskParity'],
+        description: 'Optimization objective (default maxSharpe)',
+      },
+      iterations: {
+        type: 'integer',
+        description: 'Risk-parity iterations (default 50)',
+      },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          method: { type: 'string', enum: ['maxSharpe', 'minVar', 'riskParity'], required: true },
+          weights: { type: 'array', items: { type: 'number' }, required: true },
+          annualReturnPct: { type: 'number', required: true },
+          annualVolPct: { type: 'number', required: true },
+          sharpe: { type: 'number', required: true },
+          assetSharpe: { type: 'array', items: { type: 'number' }, required: true },
+          concentration: { type: 'number', required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `${value.method}: weights [${value.weights.map((w: number) => w.toFixed(3)).join(', ')}], ` +
+          `annRet ${value.annualReturnPct.toFixed(1)}%, annVol ${value.annualVolPct.toFixed(1)}%, ` +
+          `Sharpe ${value.sharpe.toFixed(2)}, conc ${value.concentration.toFixed(3)}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return portfolioOptimize(args.returns, args.method, args.iterations)
+    },
+  }))
+
   ctx.tools.register(defineTool({
     name: 'quant_data_guide',
     description:
@@ -1380,6 +1434,55 @@ export function apply(ctx: Context) {
     isConcurrencySafe: () => true,
     async execute(args) {
       return factorEvaluate(args.factorValues, args.forwardReturns, args.quantiles, args.window, args.decayHorizons)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_ic_decay',
+    description:
+      'Analyze how a factor prediction decays across horizons: IC per horizon h (factor[i] vs cumulative returns[i+1..i+h]), ' +
+      'half-life (horizon where IC halves), best horizon (IC still above half-peak), and signal type (short/medium/long). ' +
+      'Feed a factor series and its matching return series. Use to choose rebalance frequency before backtesting.',
+    parameters: {
+      factor: {
+        type: 'array', items: { type: 'number' },
+        required: true,
+        description: 'Factor values (time series)',
+      },
+      returns: {
+        type: 'array', items: { type: 'number' },
+        required: true,
+        description: 'Return series, same length as factor (factor[i] predicts returns[i+1..])',
+      },
+      maxHorizon: {
+        type: 'integer',
+        description: 'Max horizon to test (default 10)',
+      },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          horizons: { type: 'array', items: { type: 'integer' }, required: true },
+          icByHorizon: { type: 'array', items: { type: 'number' }, required: true },
+          halfLife: { type: 'integer', required: true },
+          bestHorizon: { type: 'integer', required: true },
+          peakIc: { type: 'number', required: true },
+          peakHorizon: { type: 'integer', required: true },
+          signalType: { type: 'string', enum: ['short', 'medium', 'long'], required: true },
+          notes: { type: 'array', items: { type: 'string' }, required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `IC decay: peak ${value.peakIc.toFixed(4)} @ h=${value.peakHorizon}, half-life h=${value.halfLife}, ` +
+          `best h=${value.bestHorizon}, type ${value.signalType}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return icDecayAnalysis(args.factor, args.returns, args.maxHorizon)
     },
   }))
 

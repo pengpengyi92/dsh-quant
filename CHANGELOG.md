@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.85.0] - 2026-08-22
+
+### Added
+- `quant_ic_decay` tool: IC decay analysis across horizons — per-horizon IC,
+  half-life (signal shelf-life), best horizon, signal type (short/medium/long)
+- `quant_portfolio_optimize` tool: weight optimizer — maxSharpe (mean-variance),
+  minVar, riskParity (equal risk contribution), with portfolio stats and
+  concentration (48 → 50 tools)
+- `tests/decay-optimizer.spec.ts`: 7 hand-computed baselines (short/long decay
+  via alternating & AR(1) constructions, minVar/maxSharpe/riskParity weights,
+  preconditions) — unit suite 186 → 193
+
 ## [0.84.0] - 2026-08-22
 
 ### Added
