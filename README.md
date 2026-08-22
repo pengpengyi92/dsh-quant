@@ -71,7 +71,7 @@ A common question: a quant project without `.py` files? **Answer: 0 Python files
 
 One goal: **build the most usable AI-native quant repo** 🐋
 
-**46 `quant_*` tools · 6 domains · 174 unit tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
+**46 `quant_*` tools · 6 domains · 179 unit tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
 
 ## 🤖 For visiting agents
 
@@ -383,7 +383,7 @@ frameworks, indicators, factor evaluation, UI and demos. See pinned [Issue #9](h
 ## Quick start (after fork/pull)
 
 ```sh
-npm ci && npm run build && npm test    # offline full tests (174 unit + 4 Loader)
+npm ci && npm run build && npm test    # offline full tests (179 unit + 4 Loader)
 npm run test:verify                    # live market integration (needs network)
 npm run gen:tools                      # regenerate mcp/tools.json
 ```
@@ -402,7 +402,7 @@ cd quant-indicators && tsc -p tsconfig.json
 ## Verification
 
 ```sh
-# pure-function numeric correctness + market parsing + backtests (174 cases, node:test, zero deps)
+# pure-function numeric correctness + market parsing + backtests (179 cases, node:test, zero deps)
 cd deepseek-harness && pnpm exec tsx --test ../quant-indicators/tests/*.spec.ts
 
 # REAL-composition: cordis.yml booted through the real Loader (registration visible / pipeline / isError / HMR-safety)

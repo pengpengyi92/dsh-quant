@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.83.0] - 2026-08-22
+
+### Fixed
+- `quant_factor_neutralize`: repaired broken import wiring — the tool was
+  registered (46-tool set) but its `factorNeutralize` import was missing,
+  so execution could never resolve. Now imported, re-exported and fully
+  tested end-to-end (group z-score / OLS residual / zscore control).
+
+### Added
+- `tests/factor-neutralize.spec.ts`: 5 hand-computed baselines (zscore
+  standardization, within-group z-score, OLS residual with R², residual
+  direction retention, precondition errors) — unit suite 174 → 179.
+
 ## [0.82.0] - 2026-08-22
 
 ### Added
