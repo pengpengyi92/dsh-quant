@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.87.0] - 2026-08-22
+
+### Added
+- `quant_factor_correlation`: pairwise factor correlation matrix, high-correlation
+  pairs, effective independent factor count (Participating Ratio)
+- `quant_deflated_sharpe`: Bailey & López de Prado overfitting-adjusted Sharpe —
+  min-significant Sharpe from trial count, p-value, significant flag (gold
+  standard after any tuning)
+- `quant_stress_test`: portfolio loss under market scenarios (crash, liquidity
+  crisis, vol spike) given weights/betas/vols
+- `quant_parameter_sensitivity`: grid robustness scan — plateau vs needle-sharp
+  detection (53 → 57 tools)
+- `tests/validation-tools.spec.ts`: 10 hand-computed baselines —
+  unit suite 200 → 210
+
 ## [0.86.0] - 2026-08-22
 
 ### Added

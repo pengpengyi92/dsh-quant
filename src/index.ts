@@ -19,6 +19,9 @@ import { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortf
 import { portfolioOptimize } from './dsh-ml/optimizer.js'
 import { layeredBacktest } from './dsh-ml/layered.js'
 import { attribution } from './dsh-ml/attribution.js'
+import { factorCorrelation } from './dsh-ml/factor-corr.js'
+import { deflatedSharpe } from './dsh-ml/deflated-sharpe.js'
+import { parameterSensitivity } from './dsh-ml/sensitivity.js'
 import { INTERVALS, MARKET_PROVIDERS, fetchKlines } from './dsh-data/market.js'
 import { accessReadiness, adviseChannels, channelAccessGuide, compareChannels, findChannel, searchChannels } from './dsh-data/data-guide.js'
 import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './dsh-data/stats.js'
@@ -26,6 +29,7 @@ import { dataQualityReport } from './dsh-data/quality.js'
 import { combineFactors, factorEvaluate } from './dsh-alpha/factor.js'
 import { icDecayAnalysis } from './dsh-alpha/decay.js'
 import { tradeQuality } from './dsh-execution/trade-quality.js'
+import { stressTest } from './dsh-risk/stress.js'
 import { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './dsh-execution/chart.js'
 import { equityMetrics, tradeMetrics } from './dsh-ml/metrics.js'
 import { kupiecTest, riskMetrics } from './dsh-risk/risk.js'
@@ -53,6 +57,9 @@ export { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortf
 export { portfolioOptimize } from './dsh-ml/optimizer.js'
 export { layeredBacktest } from './dsh-ml/layered.js'
 export { attribution } from './dsh-ml/attribution.js'
+export { factorCorrelation } from './dsh-ml/factor-corr.js'
+export { deflatedSharpe } from './dsh-ml/deflated-sharpe.js'
+export { parameterSensitivity } from './dsh-ml/sensitivity.js'
 export { fetchKlines, parseKlines, parseOkxKlines, parseBybitKlines, parseSinaKlines, parseTencentKlines, parseYahooChart, INTERVALS, MARKET_PROVIDERS } from './dsh-data/market.js'
 export { DATA_CHANNELS, accessReadiness, adviseChannels, channelAccessGuide, compareChannels, findChannel, searchChannels } from './dsh-data/data-guide.js'
 export { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './dsh-data/stats.js'
@@ -60,6 +67,7 @@ export { channelReliability, dataQualityReport, pitCheck, survivorshipCheck } fr
 export { combineFactors, factorEvaluate, factorNeutralize } from './dsh-alpha/factor.js'
 export { icDecayAnalysis } from './dsh-alpha/decay.js'
 export { tradeQuality } from './dsh-execution/trade-quality.js'
+export { stressTest } from './dsh-risk/stress.js'
 export { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './dsh-execution/chart.js'
 export { equityMetrics, tradeMetrics, METRIC_CATALOG } from './dsh-ml/metrics.js'
 export { kupiecTest, riskMetrics } from './dsh-risk/risk.js'
@@ -1633,6 +1641,153 @@ export function apply(ctx: Context) {
   }))
 
   ctx.tools.register(defineTool({
+    name: 'quant_factor_correlation',
+    description:
+      'Factor correlation analysis: pairwise Pearson matrix, high-correlation pairs (|ρ|>threshold), mean |ρ|, ' +
+      'and effective independent factor count (eigenvalue-based). Answers "are my factors redundant". ' +
+      'Feed factor series of equal length; use to deduplicate before combining.',
+    parameters: {
+      factors: {
+        type: 'array', items: { type: 'array', items: { type: 'number' } },
+        required: true,
+        description: 'Factor series of equal length, e.g. [[momentum...], [value...]]',
+      },
+      factorNames: { type: 'array', items: { type: 'string' }, description: 'Optional factor names' },
+      threshold: { type: 'number', description: 'High-correlation threshold (default 0.7)' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          factorNames: { type: 'array', items: { type: 'string' }, required: true },
+          correlationMatrix: { type: 'array', items: { type: 'array', items: { type: 'number' } }, required: true },
+          highCorrelationPairs: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                i: { type: 'integer', required: true },
+                j: { type: 'integer', required: true },
+                correlation: { type: 'number', required: true },
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+          meanAbsCorrelation: { type: 'number', required: true },
+          effectiveFactorCount: { type: 'number', required: true },
+          notes: { type: 'array', items: { type: 'string' }, required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `factor correlation: ${value.factorNames.length} factors, mean |ρ| ${value.meanAbsCorrelation.toFixed(2)}, ` +
+          `effective ${value.effectiveFactorCount.toFixed(1)}, ${value.highCorrelationPairs.length} high pairs`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return factorCorrelation(args.factors, args.factorNames, args.threshold)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_deflated_sharpe',
+    description:
+      'Deflated Sharpe Ratio (Bailey & López de Prado): correct an observed Sharpe for the number of trials ' +
+      '(parameter searches, factor counts, strategy counts) and series length. Returns the minimum significant ' +
+      'Sharpe, deflated Sharpe, p-value, and a significant flag. Use after any backtest that involved tuning — ' +
+      'the gold standard against overfitting.',
+    parameters: {
+      observedSharpe: { type: 'number', required: true, description: 'Observed annualized Sharpe from the backtest' },
+      numPeriods: { type: 'integer', required: true, description: 'Number of return periods (e.g. trading days)' },
+      numTrials: { type: 'integer', description: 'Number of trials/parameter-combinations tried (default 1)' },
+      skewness: { type: 'number', description: 'Return skewness (default 0)' },
+      kurtosis: { type: 'number', description: 'Excess kurtosis (default 0)' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          observedSharpe: { type: 'number', required: true },
+          minSignificantSharpe: { type: 'number', required: true },
+          deflatedSharpe: { type: 'number', required: true },
+          significant: { type: 'boolean', required: true },
+          pValue: { type: 'number', required: true },
+          notes: { type: 'array', items: { type: 'string' }, required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `deflated Sharpe: observed ${value.observedSharpe.toFixed(2)} vs min-significant ${value.minSignificantSharpe.toFixed(2)} — ` +
+          `${value.significant ? 'SIGNIFICANT (passes)' : 'NOT significant (overfit risk)'} (p=${value.pValue.toFixed(3)})`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return deflatedSharpe(args.observedSharpe, args.numPeriods, args.numTrials, args.skewness, args.kurtosis)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_parameter_sensitivity',
+    description:
+      'Parameter sensitivity analysis: scan a strategy parameter across [base×(1±range)] grid, evaluate a metric ' +
+      'function at each point, and report robustness (0 = needle-sharp optimal, 1 = flat plateau). ' +
+      'Pass a callback via the metricFn identifier — in dsh, provide the backtest metric values directly ' +
+      'as an array, or use the tool with a small grid to detect overfitting.',
+    parameters: {
+      baseValue: { type: 'number', required: true, description: 'Base parameter value' },
+      range: { type: 'number', description: 'Scan range ratio, e.g. 0.2 = ±20% (default 0.2)' },
+      steps: { type: 'integer', description: 'Grid steps including base (default 9)' },
+      metricValues: {
+        type: 'array', items: { type: 'number' },
+        description: 'Pre-computed metric at each grid point (alternative to metricFn)',
+      },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          paramName: { type: 'string', required: true },
+          values: { type: 'array', items: { type: 'number' }, required: true },
+          metricValues: { type: 'array', items: { type: 'number' }, required: true },
+          baseValue: { type: 'number', required: true },
+          robustness: { type: 'number', required: true },
+          bestValue: { type: 'number', required: true },
+          bestMetric: { type: 'number', required: true },
+          worstMetric: { type: 'number', required: true },
+          notes: { type: 'array', items: { type: 'string' }, required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `sensitivity: base ${value.baseValue} → best ${value.bestValue.toFixed(3)} (${value.bestMetric.toFixed(3)}), ` +
+          `robustness ${value.robustness.toFixed(2)}`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      const steps = args.steps ?? 9
+      const range = args.range ?? 0.2
+      // 用传入的 metricValues 直接构造（避免回调序列化问题）
+      const values: number[] = []
+      for (let s = 0; s < steps; s++) {
+        const frac = s / (steps - 1)
+        values.push(args.baseValue * (1 - range + 2 * range * frac))
+      }
+      const metricValues = args.metricValues ?? values.map(() => 0)
+      return parameterSensitivity(args.baseValue, range, steps, (v) => {
+        const idx = values.indexOf(v)
+        return idx >= 0 ? metricValues[idx]! : 0
+      })
+    },
+  }))
+
+  ctx.tools.register(defineTool({
     name: 'quant_chart',
     description:
       'Build structured chart data (dsh-chart protocol) for a frontend renderer: ' +
@@ -1898,6 +2053,54 @@ export function apply(ctx: Context) {
     isConcurrencySafe: () => true,
     async execute(args) {
       return riskMetrics(args.returns, { benchmarkReturns: args.benchmarkReturns, confidence: args.confidence })
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_stress_test',
+    description:
+      'Portfolio stress test: estimate loss under common market scenarios (mild drop, crash, liquidity crisis, ' +
+      'vol spike, correlation rise) given asset weights, betas and annual volatilities. Returns per-scenario ' +
+      'loss %, worst scenario, portfolio vol, and beta-based risk notes. The "how much do I lose in a crash" answer.',
+    parameters: {
+      weights: { type: 'array', items: { type: 'number' }, required: true, description: 'Asset weights (sum to 1)' },
+      betas: { type: 'array', items: { type: 'number' }, required: true, description: 'Per-asset market beta' },
+      assetVolsPct: { type: 'array', items: { type: 'number' }, required: true, description: 'Per-asset annualized vol %' },
+      correlation: { type: 'number', description: 'Asset-market average correlation (default 0.6)' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          weights: { type: 'array', items: { type: 'number' }, required: true },
+          scenarioLossesPct: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                scenario: { type: 'string', required: true },
+                lossPct: { type: 'number', required: true },
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+          worstScenario: { type: 'string', required: true },
+          maxLossPct: { type: 'number', required: true },
+          portfolioVolPct: { type: 'number', required: true },
+          notes: { type: 'array', items: { type: 'string' }, required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `stress test: worst "${value.worstScenario}" → -${value.maxLossPct.toFixed(1)}%, ` +
+          `port vol ${value.portfolioVolPct.toFixed(1)}%`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return stressTest(args.weights, args.betas, args.assetVolsPct, args.correlation)
     },
   }))
   ctx.tools.register(defineTool({
