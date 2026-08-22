@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.81.0] - 2026-08-20
+
+### Added
+- CHI_QUANT.md — the Chicago market-making city census:
+  ~14 firms (7 HQs: Citadel/Jump/DRW/CTC/Wolverine/Balyasny/
+  Akuna), the exchange-gene (CME/CBOT/CBOE + Black-Scholes 1973
+  + trading-pit heritage), the UChicago MSFM talent pipeline,
+  the crypto second curve (Jump/Cumberland), the Citadel 2022
+  exit narrative, and the Chicago/NY/London three-city division
+
 ## [0.80.0] - 2026-08-20
 
 ### Added

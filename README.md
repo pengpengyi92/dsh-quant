@@ -262,6 +262,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.81.0 | 2026-08-20 | CHI_QUANT — Chicago market-making city census (~14 firms, exchange-gene, UChicago pipeline, Citadel exit), 47 reports total |
 | 0.80.0 | 2026-08-20 | QUANT_PEOPLE_CN + QUANT_PEOPLE_GLOBAL — 101st-release quant headcount estimates (CN ~30-50k, 4-city ~25-38k, global ~80-120k), 46 reports total |
 | 0.79.0 | 2026-08-20 | QUANT_WORLD_MAP — 100th-release special: global quant world map (5-city axis, 9 paths, talent trees, 4-city census synthesis), 44 reports total |
 | 0.78.0 | 2026-08-20 | NYC_FOREIGN_QUANT — New York hedge-fund-universe census (~28 firms, 12 HQs, CT suburb dark core, NY-LDN twin), 43 reports total |

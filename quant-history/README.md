@@ -168,6 +168,7 @@
 - 新加坡外资量化全景（~20 家 · 加密/做市/家办三张牌 · Wintermute 亚太总部 · 与香港「亚洲双子」对照）见 [SG_FOREIGN_QUANT.md](SG_FOREIGN_QUANT.md)
 - 伦敦外资量化全景（~30 家全球第一城 · **12 家总部** · 固收宏观CTA母港 · 四城对照）见 [LDN_FOREIGN_QUANT.md](LDN_FOREIGN_QUANT.md)
 - 纽约外资量化全景（~28 家对冲基金腹地 · **12 家总部** · 康州郊区暗核 · 与伦敦双核分工）见 [NYC_FOREIGN_QUANT.md](NYC_FOREIGN_QUANT.md)
+- 芝加哥外资量化全景（~14 家做市单城帮 · 交易所基因 · UChicago 人才管道 · Citadel 离城叙事 · 加密第二曲线）见 [CHI_QUANT.md](CHI_QUANT.md)
 
 **总集篇（100 期特刊）**：
 - 量化世界地图（五城轴心 + 九条成功路径 + 全球人才树 + 四城普查收官总表 + 地图五规律）见 [QUANT_WORLD_MAP.md](QUANT_WORLD_MAP.md)
