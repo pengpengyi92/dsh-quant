@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.86.0] - 2026-08-22
+
+### Added
+- `quant_layered_backtest`: quantile-layer backtest — top/bottom/long-short
+  equity curves, per-layer mean returns, rebalance with fees (research →
+  strategy sketch bridge)
+- `quant_trade_quality`: execution quality on fills — fill rate, slippage bps,
+  holding bars, buy/sell counts (simulation → live expectations bridge)
+- `quant_attribution`: portfolio attribution — per-asset contribution,
+  optional factor-exposure regression with R² and residual alpha
+- `tests/layered-attribution.spec.ts`: 7 hand-computed baselines —
+  unit suite 193 → 200 (50 → 53 tools)
+
 ## [0.85.0] - 2026-08-22
 
 ### Added

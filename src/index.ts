@@ -17,12 +17,15 @@ import { defineTool } from '@deepseek-ai/dsh-tools'
 import { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './dsh-alpha/indicators.js'
 import { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './dsh-ml/backtest.js'
 import { portfolioOptimize } from './dsh-ml/optimizer.js'
+import { layeredBacktest } from './dsh-ml/layered.js'
+import { attribution } from './dsh-ml/attribution.js'
 import { INTERVALS, MARKET_PROVIDERS, fetchKlines } from './dsh-data/market.js'
 import { accessReadiness, adviseChannels, channelAccessGuide, compareChannels, findChannel, searchChannels } from './dsh-data/data-guide.js'
 import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './dsh-data/stats.js'
 import { dataQualityReport } from './dsh-data/quality.js'
 import { combineFactors, factorEvaluate } from './dsh-alpha/factor.js'
 import { icDecayAnalysis } from './dsh-alpha/decay.js'
+import { tradeQuality } from './dsh-execution/trade-quality.js'
 import { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './dsh-execution/chart.js'
 import { equityMetrics, tradeMetrics } from './dsh-ml/metrics.js'
 import { kupiecTest, riskMetrics } from './dsh-risk/risk.js'
@@ -48,12 +51,15 @@ import { assertAShareSymbol, assertYahooSymbol } from './dsh-data/market.js'
 export { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './dsh-alpha/indicators.js'
 export { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './dsh-ml/backtest.js'
 export { portfolioOptimize } from './dsh-ml/optimizer.js'
+export { layeredBacktest } from './dsh-ml/layered.js'
+export { attribution } from './dsh-ml/attribution.js'
 export { fetchKlines, parseKlines, parseOkxKlines, parseBybitKlines, parseSinaKlines, parseTencentKlines, parseYahooChart, INTERVALS, MARKET_PROVIDERS } from './dsh-data/market.js'
 export { DATA_CHANNELS, accessReadiness, adviseChannels, channelAccessGuide, compareChannels, findChannel, searchChannels } from './dsh-data/data-guide.js'
 export { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './dsh-data/stats.js'
 export { channelReliability, dataQualityReport, pitCheck, survivorshipCheck } from './dsh-data/quality.js'
 export { combineFactors, factorEvaluate, factorNeutralize } from './dsh-alpha/factor.js'
 export { icDecayAnalysis } from './dsh-alpha/decay.js'
+export { tradeQuality } from './dsh-execution/trade-quality.js'
 export { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './dsh-execution/chart.js'
 export { equityMetrics, tradeMetrics, METRIC_CATALOG } from './dsh-ml/metrics.js'
 export { kupiecTest, riskMetrics } from './dsh-risk/risk.js'
@@ -1524,6 +1530,108 @@ export function apply(ctx: Context) {
       return combineFactors(args.factors, args.weights)
     },
   }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_layered_backtest',
+    description:
+      'Layered backtest: split assets into quantile layers each period by factor, hold the top layer (long) ' +
+      'and bottom layer (short), rebalance every `horizon` bars with fees. Returns top/bottom/long-short equity ' +
+      'curves, returns, and per-layer mean returns. Bridge from factor evaluation to a strategy sketch. ' +
+      'Feed quant_factor_evaluate-style factor + return matrices.',
+    parameters: {
+      factor: {
+        type: 'array', items: { type: 'array', items: { type: 'number' } },
+        required: true,
+        description: 'Factor matrix [time][asset]',
+      },
+      returns: {
+        type: 'array', items: { type: 'array', items: { type: 'number' } },
+        required: true,
+        description: 'Return matrix [time][asset], same shape as factor',
+      },
+      layers: { type: 'integer', description: 'Number of layers (default 5)' },
+      horizon: { type: 'integer', description: 'Rebalance period in bars (default 5)' },
+      feeRate: { type: 'number', description: 'One-way fee (default 0.001)' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          layers: { type: 'integer', required: true },
+          topEquity: { type: 'array', items: { type: 'number' }, required: true },
+          bottomEquity: { type: 'array', items: { type: 'number' }, required: true },
+          longShortEquity: { type: 'array', items: { type: 'number' }, required: true },
+          topReturnPct: { type: 'number', required: true },
+          bottomReturnPct: { type: 'number', required: true },
+          longShortReturnPct: { type: 'number', required: true },
+          rebalances: { type: 'integer', required: true },
+          layerMeanReturnPct: { type: 'array', items: { type: 'number' }, required: true },
+          notes: { type: 'array', items: { type: 'string' }, required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `layered backtest (${value.layers} layers): long-short ${value.longShortReturnPct.toFixed(2)}%, ` +
+          `top ${value.topReturnPct.toFixed(2)}%, bottom ${value.bottomReturnPct.toFixed(2)}%, ${value.rebalances} rebalances`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return layeredBacktest(args.factor, args.returns, args.layers, args.horizon, args.feeRate)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_attribution',
+    description:
+      'Portfolio attribution: per-asset contribution (weight × return), optional factor-exposure contribution ' +
+      'via regression (with R² and residual alpha). Input return matrix [time][asset], weights (sum 1), ' +
+      'and optional factor exposures [time][asset][factor]. Answers "where did the return come from".',
+    parameters: {
+      returns: {
+        type: 'array', items: { type: 'array', items: { type: 'number' } },
+        required: true,
+        description: 'Return matrix [time][asset]',
+      },
+      weights: {
+        type: 'array', items: { type: 'number' },
+        required: true,
+        description: 'Asset weights (sum to 1)',
+      },
+      factorExposures: {
+        type: 'array', items: { type: 'array', items: { type: 'array', items: { type: 'number' } } },
+        description: 'Optional factor exposures [time][asset][factor]',
+      },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          totalReturnPct: { type: 'number', required: true },
+          assetContributionsPct: { type: 'array', items: { type: 'number' }, required: true },
+          assetContribShares: { type: 'array', items: { type: 'number' }, required: true },
+          factorContributionsPct: { type: 'array', items: { type: 'number' }, required: true },
+          residualPct: { type: 'number', required: true },
+          factorR2: { type: 'number', required: true },
+          notes: { type: 'array', items: { type: 'string' }, required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `attribution: total ${value.totalReturnPct.toFixed(2)}%` +
+          (value.factorContributionsPct.length > 0
+            ? `, factor R² ${value.factorR2.toFixed(2)}, residual alpha ${value.residualPct.toFixed(2)}%`
+            : '' ),
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return attribution(args.returns, args.weights, args.factorExposures)
+    },
+  }))
+
   ctx.tools.register(defineTool({
     name: 'quant_chart',
     description:
@@ -2324,6 +2432,72 @@ export function apply(ctx: Context) {
         slippageBps: args.slippageBps,
         latencyBars: args.latencyBars,
       })
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_trade_quality',
+    description:
+      'Trade quality analysis on execution fills (from quant_execute_sim): fill rate, total/average slippage (bps), ' +
+      'buy/sell counts, average fill value, and optional holding-period bars. Answers "did the execution behave " + ' +
+      'realistically" — the bridge from simulation to live expectations.',
+    parameters: {
+      fills: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            orderIndex: { type: 'integer', required: true },
+            side: { type: 'string', enum: ['buy', 'sell'], required: true },
+            fillIndex: { type: 'integer', required: true },
+            fillPrice: { type: 'number', required: true },
+            quantity: { type: 'number', required: true },
+            value: { type: 'number', required: true },
+            fee: { type: 'number', required: true },
+            slippageCost: { type: 'number', required: true },
+            cashAfter: { type: 'number', required: true },
+            positionAfter: { type: 'number', required: true },
+            equityAfter: { type: 'number', required: true },
+          },
+          additionalProperties: false,
+        },
+        required: true,
+        description: 'Fills from quant_execute_sim result',
+      },
+      unfilledOrders: { type: 'integer', description: 'Count of unfilled orders (default 0)' },
+      holdingPeriodBars: {
+        type: 'array', items: { type: 'integer' },
+        description: 'Optional per-trade holding periods in bars',
+      },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          orders: { type: 'integer', required: true },
+          fills: { type: 'integer', required: true },
+          fillRate: { type: 'number', required: true },
+          totalSlippageCost: { type: 'number', required: true },
+          avgSlippageBps: { type: 'number', required: true },
+          avgHoldingBars: { type: 'number', required: true },
+          buys: { type: 'integer', required: true },
+          sells: { type: 'integer', required: true },
+          avgFillValue: { type: 'number', required: true },
+          notes: { type: 'array', items: { type: 'string' }, required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `trade quality: ${value.fills}/${value.orders} fills (${(value.fillRate * 100).toFixed(0)}%), ` +
+          `slippage ${value.avgSlippageBps.toFixed(0)} bps, ` +
+          (value.avgHoldingBars > 0 ? `hold ${value.avgHoldingBars.toFixed(0)} bars, ` : '') +
+          `${value.buys} buys / ${value.sells} sells`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return tradeQuality(args.fills, args.unfilledOrders, args.holdingPeriodBars)
     },
   }))
 
