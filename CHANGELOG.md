@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.82.0] - 2026-08-22
+
+### Added
+- TYO_QUANT.md — the Tokyo yen-rates-center census: ~9 firms
+  (Capula stronghold / Two Sigma / Balyasny / Millennium /
+  Squarepoint / ExodusPoint / Dimensional / Jump / AQR), the
+  2025 $30M yen-rates talent war (Ron Choy → Balyasny, Harimoto
+  → Modular, Capula/Dymon bank hires), the structural analysis
+  (why only ~9 firms but deep positioning), the Asia-three-city
+  division (HK China / SG crypto / TYO yen-rates), and the
+  depth-over-breadth lesson
+
 ## [0.81.0] - 2026-08-20
 
 ### Added
