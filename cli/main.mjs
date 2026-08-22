@@ -20,6 +20,8 @@ import { fileURLToPath } from 'node:url'
 
 import { fetchKlines } from '../lib/dsh-data/market.js'
 import { seriesStats } from '../lib/dsh-data/stats.js'
+import { dataQualityReport } from '../lib/dsh-data/quality.js'
+import { channelAccessGuide, accessReadiness } from '../lib/dsh-data/data-guide.js'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const HISTORY_DIR = join(ROOT, 'quant-history')
@@ -322,6 +324,63 @@ async function cmdKline(argv) {
   }
 }
 
+// ---------- quality 命令 ----------
+function cmdQuality(argv) {
+  // 用法: dsh-quant quality 1,2,3,4,5 --channels binance,okx
+  const raw = argv[0]
+  const channelsArg = argv.find((a) => a.startsWith('--channels='))
+  const channels = channelsArg ? channelsArg.split('=')[1].split(',').map((s) => s.trim()).filter(Boolean) : []
+  if (!raw) {
+    console.error(paint('red', '用法: dsh-quant quality <csv数值> [--channels=binance,okx]'))
+    return
+  }
+  const values = raw.split(',').map((s) => {
+    const t = s.trim()
+    if (t === 'null' || t === '') return null
+    const n = Number(t)
+    return Number.isFinite(n) ? n : null
+  })
+  const report = dataQualityReport(values, channels)
+  console.log(`${paint('bold', paint('cyan', '数据质量报告'))}`)
+  console.log(` ${paint('bold', '健康度')}   ${(report.healthScore * 100).toFixed(0)}/100`)
+  console.log(` ${paint('bold', 'PIT')}      ${report.pit.pass ? paint('green', '通过') : paint('yellow', `注意(${report.pit.lookAheadIndices.length} 个断点)`) }`)
+  console.log(` ${paint('bold', '连续性')}  ${report.survivorship.continuous ? paint('green', '连续') : paint('yellow', `缺失 ${report.survivorship.gaps.length} 段`) }`)
+  if (report.survivorship.tailTruncated) console.log(`            ${paint('yellow', '⚠ 尾部缺失（疑似幸存者偏差）')}`)
+  if (report.channels.length > 0) {
+    console.log(` ${paint('bold', '渠道')}     `)
+    for (const c of report.channels) {
+      console.log(`           ${c.channel} 可靠度 ${(c.reliability * 100).toFixed(0)}% ${c.cost}`)
+    }
+  }
+  console.log('')
+}
+
+// ---------- channel 命令 ----------
+function cmdChannel(argv) {
+  // 用法: dsh-quant channel akshare   /   dsh-quant channel akshare --check
+  const name = argv[0]
+  if (!name) {
+    console.error(paint('red', '用法: dsh-quant channel <名称> [--check]'))
+    return
+  }
+  const guide = channelAccessGuide(name)
+  const check = argv.includes('--check')
+  console.log(`${paint('bold', paint('cyan', `渠道接入指南 · ${guide.displayName}`))}`)
+  console.log(` ${paint('bold', '步骤')}`)
+  guide.steps.forEach((s, i) => console.log(`   ${i + 1}. ${s}`))
+  if (guide.prerequisites.length > 0) {
+    console.log(` ${paint('bold', '前置')}  ${guide.prerequisites.join('；')}`)
+  }
+  if (guide.example) console.log(` ${paint('bold', '示例')}  ${paint('dim', guide.example)}`)
+  if (guide.fallback) console.log(` ${paint('bold', '备用')}  ${guide.fallback}`)
+  if (check) {
+    const r = accessReadiness(name)
+    console.log(` ${paint('bold', '就绪')}  ${r.ready ? paint('green', '可直接使用') : paint('yellow', r.blockers.join('；'))}`)
+    r.actions.forEach((a) => console.log(`           → ${a}`))
+  }
+  console.log('')
+}
+
 // ---------- 入口 ----------
 const [, , command, ...rest] = process.argv
 
@@ -337,6 +396,8 @@ function usage() {
   console.log(`  ${paint('cyan', 'browse [history|upstream]')}    ${paint('dim', '交互式 TUI：方向键浏览档案（↑↓ / Enter 查看 / / 搜索 / q 退出）')}`)
   console.log(`  ${paint('cyan', 'upstream [<firm>]')}           ${paint('dim', '产业链上游：数据服务供给商对比（Wind/Bloomberg...）')}`)
   console.log(`  ${paint('cyan', 'kline <symbol>')}              ${paint('dim', '行情 OHLC（彩色）+ 统计')}`)
+  console.log(`  ${paint('cyan', 'quality <csv>')}               ${paint('dim', '数据质量报告（PIT/连续性/渠道）')}`)
+  console.log(`  ${paint('cyan', 'channel <name>')}              ${paint('dim', '数据渠道接入指南（--check 就绪检查）')}`)
   console.log('')
   console.log(paint('dim', ' 示例: dsh-quant history citadel'))
   console.log(paint('dim', '       dsh-quant history --search 高频'))
@@ -366,6 +427,12 @@ async function main() {
     case 'kline':
     case 'market':
       await cmdKline(rest)
+      return
+    case 'quality':
+      cmdQuality(rest)
+      return
+    case 'channel':
+      cmdChannel(rest)
       return
     case 'version':
     case '--version':

@@ -17,8 +17,9 @@ import { defineTool } from '@deepseek-ai/dsh-tools'
 import { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './dsh-alpha/indicators.js'
 import { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './dsh-ml/backtest.js'
 import { INTERVALS, MARKET_PROVIDERS, fetchKlines } from './dsh-data/market.js'
-import { adviseChannels, compareChannels, findChannel, searchChannels } from './dsh-data/data-guide.js'
+import { accessReadiness, adviseChannels, channelAccessGuide, compareChannels, findChannel, searchChannels } from './dsh-data/data-guide.js'
 import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './dsh-data/stats.js'
+import { dataQualityReport } from './dsh-data/quality.js'
 import { combineFactors, factorEvaluate } from './dsh-alpha/factor.js'
 import { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './dsh-execution/chart.js'
 import { equityMetrics, tradeMetrics } from './dsh-ml/metrics.js'
@@ -45,8 +46,9 @@ import { assertAShareSymbol, assertYahooSymbol } from './dsh-data/market.js'
 export { adx, atr, bollinger, cci, ema, kdj, macd, obv, roc, rsi, sma, williamsR } from './dsh-alpha/indicators.js'
 export { backtestBollingerBreakout, backtestGrid, backtestMaCross, backtestPortfolio, backtestRsiReversion } from './dsh-ml/backtest.js'
 export { fetchKlines, parseKlines, parseOkxKlines, parseBybitKlines, parseSinaKlines, parseTencentKlines, parseYahooChart, INTERVALS, MARKET_PROVIDERS } from './dsh-data/market.js'
-export { DATA_CHANNELS, adviseChannels, compareChannels, findChannel, searchChannels } from './dsh-data/data-guide.js'
+export { DATA_CHANNELS, accessReadiness, adviseChannels, channelAccessGuide, compareChannels, findChannel, searchChannels } from './dsh-data/data-guide.js'
 export { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './dsh-data/stats.js'
+export { channelReliability, dataQualityReport, pitCheck, survivorshipCheck } from './dsh-data/quality.js'
 export { combineFactors, factorEvaluate, factorNeutralize } from './dsh-alpha/factor.js'
 export { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './dsh-execution/chart.js'
 export { equityMetrics, tradeMetrics, METRIC_CATALOG } from './dsh-ml/metrics.js'
@@ -1182,6 +1184,148 @@ export function apply(ctx: Context) {
       return annotateSeries(args.values, args.jumpThreshold)
     },
   }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_data_pit',
+    description:
+      'AI-infra level data quality report on a value series: point-in-time check (look-ahead step detection), ' +
+      'survivorship check (silent missing segments, tail truncation), and channel reliability ranking. ' +
+      'Returns a health score 0-1 and per-check notes. Feed any price/return series (null = missing).',
+    parameters: {
+      values: {
+        type: 'array', items: { oneOf: [{ type: 'number' }, { type: 'null' }] },
+        required: true,
+        description: 'Time-ordered series; null marks missing points',
+      },
+      channels: {
+        type: 'array', items: { type: 'string' },
+        description: 'Optional data channel names (e.g. binance, akshare, wind) for reliability ranking',
+      },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          healthScore: { type: 'number', required: true },
+          pit: {
+            type: 'object',
+            properties: {
+              pass: { type: 'boolean', required: true },
+              lookAheadIndices: { type: 'array', items: { type: 'integer' }, required: true },
+              notes: { type: 'array', items: { type: 'string' }, required: true },
+            },
+            additionalProperties: false,
+            required: true,
+          },
+          survivorship: {
+            type: 'object',
+            properties: {
+              continuous: { type: 'boolean', required: true },
+              gaps: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    start: { type: 'integer', required: true },
+                    end: { type: 'integer', required: true },
+                  },
+                  additionalProperties: false,
+                },
+                required: true,
+              },
+              tailTruncated: { type: 'boolean', required: true },
+              notes: { type: 'array', items: { type: 'string' }, required: true },
+            },
+            additionalProperties: false,
+            required: true,
+          },
+          channels: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                channel: { type: 'string', required: true },
+                reliability: { type: 'number', required: true },
+                cost: { type: 'string', enum: ['free', 'paid', 'freemium'], required: true },
+                risks: { type: 'array', items: { type: 'string' }, required: true },
+              },
+              additionalProperties: false,
+            },
+            required: true,
+          },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `data PIT: health ${(value.healthScore * 100).toFixed(0)}/100 — ` +
+          `PIT ${value.pit.pass ? 'pass' : value.pit.lookAheadIndices.length + ' steps'}, ` +
+          `survivorship ${value.survivorship.continuous ? 'continuous' : value.survivorship.gaps.length + ' gaps'}` +
+          (value.channels.length > 0 ? `, top channel ${value.channels[0].channel}` : ''),
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return dataQualityReport(args.values, args.channels)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_channel_guide',
+    description:
+      'Data channel access guide for agents: copy-paste setup steps, prerequisites, example call, and fallback ' +
+      'for a named channel (akshare/tushare/baostock/binance/okx/bybit/yahoo/sina/tencent/wind/ifind). ' +
+      'With --check it also reports access readiness (paid? needs credentials?).',
+    parameters: {
+      channel: { type: 'string', required: true, description: 'Channel name, e.g. akshare' },
+      check: { type: 'boolean', description: 'Also return access readiness assessment' },
+      hasCredentials: { type: 'boolean', description: 'Whether credentials are already available (for readiness)' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          channel: { type: 'string', required: true },
+          displayName: { type: 'string', required: true },
+          steps: { type: 'array', items: { type: 'string' }, required: true },
+          prerequisites: { type: 'array', items: { type: 'string' }, required: true },
+          example: { type: 'string', required: true },
+          fallback: { type: 'string', required: true },
+          readiness: {
+            oneOf: [
+              {
+                type: 'object',
+                properties: {
+                  ready: { type: 'boolean', required: true },
+                  blockers: { type: 'array', items: { type: 'string' }, required: true },
+                  actions: { type: 'array', items: { type: 'string' }, required: true },
+                },
+                additionalProperties: false,
+              },
+              { type: 'null' },
+            ],
+          },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `${value.displayName}: ${value.steps.length} steps` +
+          (value.prerequisites.length > 0 ? `, needs ${value.prerequisites.join('; ')}` : '') +
+          (value.readiness ? `, ready=${value.readiness.ready}` : ''),
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      const guide = channelAccessGuide(args.channel)
+      if (args.check) {
+        const readiness = accessReadiness(args.channel, args.hasCredentials)
+        return { ...guide, readiness }
+      }
+      return { ...guide, readiness: null }
+    },
+  }))
+
   ctx.tools.register(defineTool({
     name: 'quant_factor_evaluate',
     description:

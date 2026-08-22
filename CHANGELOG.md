@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.84.0] - 2026-08-22
+
+### Added
+- `quant_data_pit` tool: AI-infra level data quality report — point-in-time
+  look-ahead step detection, survivorship (silent gaps + tail truncation),
+  channel reliability ranking, composite health score (46 → 48 tools)
+- `quant_channel_guide` tool: agent-ready channel access guide (setup steps,
+  prerequisites, example call, fallback) + optional access readiness check
+- CLI: `dsh-quant quality <csv>` (quality report) and `dsh-quant channel
+  <name> [--check]` (access guide) commands
+- `tests/quality.spec.ts`: 7 hand-computed baselines (PIT steps, survivorship
+  gaps/tail, channel ranking, health score) — unit suite 179 → 186
+- quant-upstream README: industry-chain loop section (P-Research: we are
+  both data consumers and producers, closed loop)
+
 ## [0.83.0] - 2026-08-22
 
 ### Fixed

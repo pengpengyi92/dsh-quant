@@ -10,7 +10,7 @@
 [![ci](https://github.com/pengpengyi92/dsh-quant/actions/workflows/ci.yml/badge.svg)](https://github.com/pengpengyi92/dsh-quant/actions)
 [![dsh-plugin](https://img.shields.io/badge/dsh-plugin-blue)](https://github.com/topics/dsh-plugin)
 
-> **AI-native & DSH-native quant toolkit for every quant aspect** — 46 tools · 6 domains
+> **AI-native & DSH-native quant toolkit for every quant aspect** — 48 tools · 6 domains
 > (data / alpha / ML / risk / execution / ecosystem) · one end-to-end PDAT→PET
 > research pipeline. **Methods open, secrets internal.**
 
@@ -49,7 +49,7 @@ deliberate choice from day one:
   positions are `null`, so the model aligns by index and never pads
 - **Canonical JSON + render separation** — machines read structure, humans read prose
 - **All isConcurrencySafe** — pure functions, no shared state; agents can call all
-  46 tools in parallel without interference
+  48 tools in parallel without interference
 - **Skill layer** — `skill/quant-research` lets the model load the workflow itself
 
 Full statement: [Issue #14](https://github.com/pengpengyi92/dsh-quant/issues/14) "AI-native is deliberate".
@@ -71,7 +71,7 @@ A common question: a quant project without `.py` files? **Answer: 0 Python files
 
 One goal: **build the most usable AI-native quant repo** 🐋
 
-**46 `quant_*` tools · 6 domains · 179 unit tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
+**48 `quant_*` tools · 6 domains · 186 unit tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
 
 ## 🤖 For visiting agents
 
@@ -92,7 +92,7 @@ Add one line to your cordis.yml:
 - name: 'dsh-quant'
 ```
 
-46 tools auto-register — indicators / backtests / factors / risk / fund simulation /
+48 tools auto-register — indicators / backtests / factors / risk / fund simulation /
 ecosystem metrics out of the box. One `quant_research_pipeline` runs the whole
 PDAT→PET chain. ML/DL knowledge: [docs/ML_GUIDE.md](docs/ML_GUIDE.md);
 executable demo: `npx tsx demos/ml-workflow.ts`.
@@ -135,7 +135,7 @@ P-Research CLI). Browse the research columns and live market data without a
 browser:
 
 ```bash
-node cli/main.mjs repo                      # 46 tools · 6 domains
+node cli/main.mjs repo                      # 48 tools · 6 domains
 node cli/main.mjs history                   # 53 firm archives index
 node cli/main.mjs history citadel           # one firm's archive (rendered)
 node cli/main.mjs history --reports         # ANALYSIS / TIMELINE / LINEAGE / BANK_LINEAGE
@@ -178,6 +178,8 @@ After `npm install -g .`, the commands shorten to `dsh-quant repo`,
 | `quant_series_quality` | `values: number[]`, `jumpThreshold=0.2` | `{ count, missingCount, zOutliers, jumps, longestConstantRun, healthy }` | — (series-level quality) |
 | `quant_data_annotate` | `values: number[]`, `jumpThreshold=0.2` | `{ count, annotations: [{index, label, severity, detail}], summary }` | — (point-level labeling, a tribute to Scale AI) |
 | `quant_data_quality` | `candles` (quant_market_fetch output) | `{ count, highBelowLow, nonPositive, timeNotIncreasing, timeGaps, extremeMoves, healthy }` | — (pre-analysis health check) |
+| `quant_data_pit` | `values: (number\|null)[]` + `channels?` | `{ healthScore, pit{pass, lookAheadIndices, notes}, survivorship{continuous, gaps, tailTruncated}, channels[] }` | — (AI-infra quality: point-in-time / survivorship / channel reliability) |
+| `quant_channel_guide` | `channel` (e.g. "akshare") + `check?` + `hasCredentials?` | `{ channel, displayName, steps[], prerequisites[], example, fallback, readiness? }` | — (agent-ready channel access guide + readiness check) |
 | `quant_data_guide` | `query` (channel name/data type, e.g. "tushare"/"financials") or `channel` (exact name) | `{ query, results: [{ name, url, cost, dataTypes, setup, tutorialUrls, bestFor, … }] }` | — (built-in 15-channel data knowledge base: A-shares/US/bonds + dsh ecosystem data plugins) |
 | `quant_market_fetch` | `symbol: string` (e.g. BTCUSDT / sh600000 / AAPL), `interval: 1m…1M`, `limit: 1-1000`, `provider: binance/okx/bybit/sina/tencent/yahoo` | `{ symbol, interval, provider, candles: [{openTime, open, high, low, close, volume}] }` | — |
 | `quant_sma` | `values: number[]`, `window: integer` | `{ values: (number\|null)[], window }` | index `window-1` |
@@ -383,7 +385,7 @@ frameworks, indicators, factor evaluation, UI and demos. See pinned [Issue #9](h
 ## Quick start (after fork/pull)
 
 ```sh
-npm ci && npm run build && npm test    # offline full tests (179 unit + 4 Loader)
+npm ci && npm run build && npm test    # offline full tests (186 unit + 4 Loader)
 npm run test:verify                    # live market integration (needs network)
 npm run gen:tools                      # regenerate mcp/tools.json
 ```
@@ -402,7 +404,7 @@ cd quant-indicators && tsc -p tsconfig.json
 ## Verification
 
 ```sh
-# pure-function numeric correctness + market parsing + backtests (179 cases, node:test, zero deps)
+# pure-function numeric correctness + market parsing + backtests (186 cases, node:test, zero deps)
 cd deepseek-harness && pnpm exec tsx --test ../quant-indicators/tests/*.spec.ts
 
 # REAL-composition: cordis.yml booted through the real Loader (registration visible / pipeline / isError / HMR-safety)

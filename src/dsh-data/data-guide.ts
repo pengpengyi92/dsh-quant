@@ -327,3 +327,142 @@ export function adviseChannels(requirements: AdviceRequirements): AdviceEntry[] 
   }
   return entries
 }
+
+// ---------------------------------------------------------------------------
+// AI-infra 接入视角：把渠道知识库转成 agent 可直接执行的指令。
+// ---------------------------------------------------------------------------
+
+/** 渠道接入指令（agent 可执行）。 */
+export interface ChannelAccessGuide {
+  channel: string
+  displayName: string
+  /** 接入步骤（copy-paste 级别） */
+  steps: string[]
+  /** 前置条件（账号/积分/依赖） */
+  prerequisites: string[]
+  /** 典型调用示例（伪代码） */
+  example: string
+  /** 失败时的 fallback */
+  fallback: string
+}
+
+/** 根据渠道名生成 agent 可执行的接入指南（知识库 + 启发式）。 */
+export function channelAccessGuide(channel: string): ChannelAccessGuide {
+  const c = DATA_CHANNELS.find(x => x.name === channel)
+  const name = channel.toLowerCase()
+  const base: ChannelAccessGuide = {
+    channel,
+    displayName: c?.displayName ?? channel,
+    steps: c?.setup ?? ['查阅官方文档确认接入方式'],
+    prerequisites: [],
+    example: '',
+    fallback: '',
+  }
+  const known: Record<string, Partial<ChannelAccessGuide>> = {
+    akshare: {
+      steps: ['pip install akshare', 'import akshare as ak', 'ak.stock_zh_a_hist(symbol="000001", period="daily")'],
+      prerequisites: ['Python 3.7+'],
+      example: 'ak.stock_zh_a_hist(symbol="000001", start_date="20240101", adjust="qfq")',
+      fallback: '网络受限时换 baostock 或 tushare',
+    },
+    tushare: {
+      steps: ['pip install tushare', 'import tushare as ts', 'pro = ts.pro_api("你的token")'],
+      prerequisites: ['注册 tushare 账号，获取 token（120 积分起）'],
+      example: 'pro.daily(ts_code="000001.SZ", start_date="20240101")',
+      fallback: '积分不足时用 akshare 免费接口',
+    },
+    baostock: {
+      steps: ['pip install baostock', 'import baostock as bs', 'bs.login()'],
+      prerequisites: ['免费注册'],
+      example: 'bs.query_history_k_data_plus("sz.000001", "date,close", start_date="2024-01-01")',
+      fallback: '实时性不足时用 sina/tencent',
+    },
+    binance: {
+      steps: ['无需账号（公开 API）', 'GET /api/v3/klines'],
+      prerequisites: ['无'],
+      example: 'fetch("https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1h&limit=100")',
+      fallback: '地区封锁时换 OKX/Bybit（dsh-quant 自动 fallback）',
+    },
+    okx: {
+      steps: ['无需账号（公开 API）', 'GET /api/v5/market/candles'],
+      prerequisites: ['无'],
+      example: 'fetch("https://www.okx.com/api/v5/market/candles?instId=BTC-USDT&bar=1H")',
+      fallback: '换 binance/bybit',
+    },
+    bybit: {
+      steps: ['无需账号（公开 API）', 'GET /v5/market/kline'],
+      prerequisites: ['无'],
+      example: 'fetch("https://api.bybit.com/v5/market/kline?category=spot&symbol=BTCUSDT&interval=60")',
+      fallback: '换 binance/okx',
+    },
+    yahoo: {
+      steps: ['无需账号（公开 API）', 'GET /v8/finance/chart/{symbol}'],
+      prerequisites: ['无'],
+      example: 'fetch("https://query1.finance.yahoo.com/v8/finance/chart/AAPL?interval=1d&range=1y")',
+      fallback: 'A 股数据换 sina/tencent',
+    },
+    sina: {
+      steps: ['无需账号（公开接口）', 'GET 新浪行情'],
+      prerequisites: ['无'],
+      example: '实时行情接口（dsh-quant quant_market_fetch provider=sina）',
+      fallback: '换 tencent',
+    },
+    tencent: {
+      steps: ['无需账号（公开接口）', 'GET 腾讯行情'],
+      prerequisites: ['无'],
+      example: '实时行情接口（dsh-quant quant_market_fetch provider=tencent）',
+      fallback: '换 sina',
+    },
+    wind: {
+      steps: ['安装 WindPy', 'from WindPy import w', 'w.start()'],
+      prerequisites: ['Wind 商业账号'],
+      example: 'w.wsd("000001.SH", "close", "2024-01-01", "2024-12-31")',
+      fallback: '无免费替代（如需免费先 akshare）',
+    },
+  }
+  const k = known[name]
+  if (k) {
+    if (k.steps) base.steps = k.steps
+    if (k.prerequisites) base.prerequisites = k.prerequisites
+    if (k.example) base.example = k.example
+    if (k.fallback) base.fallback = k.fallback
+  }
+  return base
+}
+
+/** 渠道接入就绪检查：给定渠道名与用户声称的环境，返回可执行结论。 */
+export interface AccessReadiness {
+  channel: string
+  /** 是否就绪 */
+  ready: boolean
+  /** 阻塞项 */
+  blockers: string[]
+  /** 建议动作 */
+  actions: string[]
+}
+
+/**
+ * 接入就绪检查（启发式）：渠道是否有门槛、是否需要凭据、是否有依赖。
+ * 用于 agent 决定"这个渠道我现在能不能直接用"。
+ */
+export function accessReadiness(channel: string, hasCredentials = false): AccessReadiness {
+  const g = channelAccessGuide(channel)
+  const paid = ['wind', 'ifind'].includes(channel.toLowerCase())
+  const cred = g.prerequisites.some(p => /token|账号|积分|商业/.test(p))
+  const blockers: string[] = []
+  const actions: string[] = []
+  if (paid) {
+    blockers.push('商业终端，需付费订阅')
+    actions.push('换免费渠道（akshare/baostock）或确认已有订阅')
+  }
+  if (cred && !hasCredentials) {
+    blockers.push('需要凭据（token/账号/积分）')
+    actions.push('注册并获取凭据后重试')
+  }
+  return {
+    channel,
+    ready: blockers.length === 0,
+    blockers,
+    actions: actions.length > 0 ? actions : ['渠道可直接使用'],
+  }
+}
