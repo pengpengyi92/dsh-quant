@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.89.0] - 2026-08-23
+
+### Added
+- UBIQUANT_SPECIAL.md — China AI-transform deep-dive: the "North
+  Jiukun" (北九坤) story — WorldQuant-lineage founders (Wang Chen /
+  Yao Qicong), the ~800亿 AUM and active capsizing paradigm (2018 /
+  2021 freezes, 3y lockups, self-purchase), the AI pivot (Beiming
+  supercomputer, "AI in 80% of strategies"), the 2026 open-source
+  IQuest-Coder-V1 (40B code model, streaming training, beats GPT-5.1),
+  the Zhizhi Innovation Institute + SJTU lab, the 2022 -39% leverage
+  lesson, and the "second DeepSeek moment" thesis (49 reports total)
+
 ## [0.88.0] - 2026-08-22
 
 ### Added

@@ -171,6 +171,9 @@
 - 芝加哥外资量化全景（~14 家做市单城帮 · 交易所基因 · UChicago 人才管道 · Citadel 离城叙事 · 加密第二曲线）见 [CHI_QUANT.md](CHI_QUANT.md)
 - 东京外资量化全景（~9 家日元利率中心 · $3000 万人才战 · Capula 重镇 · 专业深度 > 数量广度）见 [TYO_QUANT.md](TYO_QUANT.md)
 
+**中国机构深挖（2026-08-23）**：
+- 九坤投资超级深挖专刊（北九坤 AI 转型：WorldQuant 系最强样本 + 北溟超算 + IQuest-Coder 40B 开源 + 主动封盘范式 + 第二个 DeepSeek 时刻）见 [UBIQUANT_SPECIAL.md](UBIQUANT_SPECIAL.md)
+
 **总集篇（100 期特刊）**：
 - 量化世界地图（五城轴心 + 九条成功路径 + 全球人才树 + 四城普查收官总表 + 地图五规律）见 [QUANT_WORLD_MAP.md](QUANT_WORLD_MAP.md)
 

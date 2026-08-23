@@ -275,6 +275,13 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.89.0 | 2026-08-23 | UBIQUANT_SPECIAL — China AI-transform deep-dive (WorldQuant lineage, IQuest-Coder 40B open source, capsizing paradigm), 49 reports total |
+| 0.88.0 | 2026-08-22 | quant_trading_cost + quant_rebalance_schedule — cost gate + drift/cost optimizer (59 tools, 215 unit) |
+| 0.87.0 | 2026-08-22 | Validation tools ×4 — factor_correlation / deflated_sharpe / stress_test / parameter_sensitivity (57 tools, 210 unit) |
+| 0.86.0 | 2026-08-22 | Bridges ×3 — quant_layered_backtest / quant_trade_quality / quant_attribution (53 tools, 200 unit) |
+| 0.85.0 | 2026-08-22 | quant_ic_decay + quant_portfolio_optimize (50 tools, 193 unit) |
+| 0.84.0 | 2026-08-22 | AI-infra data modules ×4 — quant_data_pit / quant_channel_guide / CLI quality / chain-loop (48 tools, 186 unit) |
+| 0.83.0 | 2026-08-22 | quant_factor_neutralize repaired + 5 baselines (46 tools, 179 unit) |
 | 0.82.0 | 2026-08-22 | TYO_QUANT — Tokyo yen-rates-center census (~9 firms, $30M talent war, Capula stronghold), 48 reports total |
 | 0.81.0 | 2026-08-20 | CHI_QUANT — Chicago market-making city census (~14 firms, exchange-gene, UChicago pipeline, Citadel exit), 47 reports total |
 | 0.80.0 | 2026-08-20 | QUANT_PEOPLE_CN + QUANT_PEOPLE_GLOBAL — 101st-release quant headcount estimates (CN ~30-50k, 4-city ~25-38k, global ~80-120k), 46 reports total |
