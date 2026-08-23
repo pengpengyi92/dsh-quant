@@ -10,7 +10,7 @@
 [![ci](https://github.com/pengpengyi92/dsh-quant/actions/workflows/ci.yml/badge.svg)](https://github.com/pengpengyi92/dsh-quant/actions)
 [![dsh-plugin](https://img.shields.io/badge/dsh-plugin-blue)](https://github.com/topics/dsh-plugin)
 
-> **AI-native & DSH-native quant toolkit for every quant aspect** — 57 tools · 6 domains
+> **AI-native & DSH-native quant toolkit for every quant aspect** — 59 tools · 6 domains
 > (data / alpha / ML / risk / execution / ecosystem) · one end-to-end PDAT→PET
 > research pipeline. **Methods open, secrets internal.**
 
@@ -49,7 +49,7 @@ deliberate choice from day one:
   positions are `null`, so the model aligns by index and never pads
 - **Canonical JSON + render separation** — machines read structure, humans read prose
 - **All isConcurrencySafe** — pure functions, no shared state; agents can call all
-  57 tools in parallel without interference
+  59 tools in parallel without interference
 - **Skill layer** — `skill/quant-research` lets the model load the workflow itself
 
 Full statement: [Issue #14](https://github.com/pengpengyi92/dsh-quant/issues/14) "AI-native is deliberate".
@@ -71,7 +71,7 @@ A common question: a quant project without `.py` files? **Answer: 0 Python files
 
 One goal: **build the most usable AI-native quant repo** 🐋
 
-**57 `quant_*` tools · 6 domains · 210 unit tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
+**59 `quant_*` tools · 6 domains · 215 unit tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
 
 ## 🤖 For visiting agents
 
@@ -92,7 +92,7 @@ Add one line to your cordis.yml:
 - name: 'dsh-quant'
 ```
 
-57 tools auto-register — indicators / backtests / factors / risk / fund simulation /
+59 tools auto-register — indicators / backtests / factors / risk / fund simulation /
 ecosystem metrics out of the box. One `quant_research_pipeline` runs the whole
 PDAT→PET chain. ML/DL knowledge: [docs/ML_GUIDE.md](docs/ML_GUIDE.md);
 executable demo: `npx tsx demos/ml-workflow.ts`.
@@ -135,7 +135,7 @@ P-Research CLI). Browse the research columns and live market data without a
 browser:
 
 ```bash
-node cli/main.mjs repo                      # 57 tools · 6 domains
+node cli/main.mjs repo                      # 59 tools · 6 domains
 node cli/main.mjs history                   # 53 firm archives index
 node cli/main.mjs history citadel           # one firm's archive (rendered)
 node cli/main.mjs history --reports         # ANALYSIS / TIMELINE / LINEAGE / BANK_LINEAGE
@@ -170,11 +170,13 @@ After `npm install -g .`, the commands shorten to `dsh-quant repo`,
 | `quant_metrics` | `equityCurve` + `trades?` | `{ totalReturnPct, maxDrawdownPct, sharpe, annualizedVol, calmar, sortino, winRate, profitFactor, avgPeriodReturnPct, tradeMetrics }` (required trio: return/drawdown/sharpe) | — (METRIC_CATALOG for UI pickers) |
 | `quant_chart` | `kind` (candles/series/annotations) + matching data | structured chart data (dsh-chart protocol: candles+overlays+markers / multi-series / annotation views) | — (UI-route data plane) |
 | `quant_execute_sim` | `close` + `orders[{index, side, quantity?/valueFraction?}]` + `initialCash?` + `feeRate?` + `slippageBps?` + `latencyBars?` | `{ fills, equityCurve, finalEquity, totalReturnPct, totalFee, totalSlippageCost, tradeCount, unfilledCount, cash, position }` | — (execution framework, no live trading) |
+| `quant_trading_cost` | `quantity` + `price` + `commissionRate=0.001` + `spreadBps=5` + `annualVolPct=30` + `dailyAdv?` + `participationRate=0.01` | `{ totalCostBps, commissionBps, slippageBps, impactBps, notional, notes }` | — (commission + slippage + market impact) |
 | `quant_trade_quality` | `fills` (from quant_execute_sim) + `unfilledOrders?` + `holdingPeriodBars?` | `{ orders, fills, fillRate, totalSlippageCost, avgSlippageBps, avgHoldingBars, buys, sells, avgFillValue, notes }` | — (execution quality: sim → live expectations) |
 | `quant_research_pipeline` | `symbol?` + `interval?` + `limit?` + `provider?` + `candles?` + strategy/fund params | `{ candles, quality, stats, metrics, risk, drawdown, fund, factor, report, charts }` | — (one-call PDAT→PET research) |
 | `quant_factor_evaluate` | `factorValues` + `forwardReturns` (factor[i] predicts ret[i+1]) + `quantiles=5` + `window=20` + `decayHorizons=5` | `{ ic, rankIc, icDecay, icir, icSeries, quantileReturns, longShort, turnover, autocorr1, n }` (alphalens set + RankIC/IC decay) | — |
 | `quant_factor_neutralize` | `factorValues` + `groups?` + `styleFactors?` + `method?` | `{ values(standardized), method, groupCount, styleCount, rSquared }` | — (group z-score / OLS residual neutralization) |
 | `quant_walk_forward` | `returns` + `features[][]` + `trainWindow` + `testWindow` + `step?` | `{ predictions(null-aligned), oosIc, oosRankIc, oosCount, windows, trainR2Mean }` | — (rolling train / out-of-sample, no look-ahead) |
+| `quant_rebalance_schedule` | `driftPerPeriod` + `costPerRebalance` + `maxFrequency=60` | `{ frequencies, totalCosts, bestFrequency, bestCost, costBreakdown, notes }` | — (drift vs cost: optimal rebalance frequency) |
 | `quant_parameter_sensitivity` | `baseValue` + `range=0.2` + `steps=9` + `metricValues?` | `{ paramName, values, metricValues, baseValue, robustness, bestValue, bestMetric, worstMetric, notes }` | — (grid robustness: plateau vs needle-sharp) |
 | `quant_linear_model` | `X(samples×features)` + `y` + `lambda?` + `predictX?` + `yTest?` | `{ intercept, weights, lambda, trainR2, n, predictions?, testR2?, testIc? }` | — (standalone OLS/Ridge fit & predict) |
 | `quant_factor_correlation` | `factors` (equal length) + `factorNames?` + `threshold=0.7` | `{ factorNames, correlationMatrix, highCorrelationPairs, meanAbsCorrelation, effectiveFactorCount, notes }` | — (factor redundancy: dedupe before combine) |
@@ -394,7 +396,7 @@ frameworks, indicators, factor evaluation, UI and demos. See pinned [Issue #9](h
 ## Quick start (after fork/pull)
 
 ```sh
-npm ci && npm run build && npm test    # offline full tests (210 unit + 4 Loader)
+npm ci && npm run build && npm test    # offline full tests (215 unit + 4 Loader)
 npm run test:verify                    # live market integration (needs network)
 npm run gen:tools                      # regenerate mcp/tools.json
 ```
@@ -413,7 +415,7 @@ cd quant-indicators && tsc -p tsconfig.json
 ## Verification
 
 ```sh
-# pure-function numeric correctness + market parsing + backtests (210 cases, node:test, zero deps)
+# pure-function numeric correctness + market parsing + backtests (215 cases, node:test, zero deps)
 cd deepseek-harness && pnpm exec tsx --test ../quant-indicators/tests/*.spec.ts
 
 # REAL-composition: cordis.yml booted through the real Loader (registration visible / pipeline / isError / HMR-safety)

@@ -22,6 +22,7 @@ import { attribution } from './dsh-ml/attribution.js'
 import { factorCorrelation } from './dsh-ml/factor-corr.js'
 import { deflatedSharpe } from './dsh-ml/deflated-sharpe.js'
 import { parameterSensitivity } from './dsh-ml/sensitivity.js'
+import { rebalanceSchedule } from './dsh-ml/rebalance.js'
 import { INTERVALS, MARKET_PROVIDERS, fetchKlines } from './dsh-data/market.js'
 import { accessReadiness, adviseChannels, channelAccessGuide, compareChannels, findChannel, searchChannels } from './dsh-data/data-guide.js'
 import { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './dsh-data/stats.js'
@@ -30,6 +31,7 @@ import { combineFactors, factorEvaluate } from './dsh-alpha/factor.js'
 import { icDecayAnalysis } from './dsh-alpha/decay.js'
 import { tradeQuality } from './dsh-execution/trade-quality.js'
 import { stressTest } from './dsh-risk/stress.js'
+import { tradingCost } from './dsh-execution/trading-cost.js'
 import { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './dsh-execution/chart.js'
 import { equityMetrics, tradeMetrics } from './dsh-ml/metrics.js'
 import { kupiecTest, riskMetrics } from './dsh-risk/risk.js'
@@ -60,6 +62,7 @@ export { attribution } from './dsh-ml/attribution.js'
 export { factorCorrelation } from './dsh-ml/factor-corr.js'
 export { deflatedSharpe } from './dsh-ml/deflated-sharpe.js'
 export { parameterSensitivity } from './dsh-ml/sensitivity.js'
+export { rebalanceSchedule } from './dsh-ml/rebalance.js'
 export { fetchKlines, parseKlines, parseOkxKlines, parseBybitKlines, parseSinaKlines, parseTencentKlines, parseYahooChart, INTERVALS, MARKET_PROVIDERS } from './dsh-data/market.js'
 export { DATA_CHANNELS, accessReadiness, adviseChannels, channelAccessGuide, compareChannels, findChannel, searchChannels } from './dsh-data/data-guide.js'
 export { annotateSeries, candlesCheck, seriesQuality, seriesStats } from './dsh-data/stats.js'
@@ -68,6 +71,7 @@ export { combineFactors, factorEvaluate, factorNeutralize } from './dsh-alpha/fa
 export { icDecayAnalysis } from './dsh-alpha/decay.js'
 export { tradeQuality } from './dsh-execution/trade-quality.js'
 export { stressTest } from './dsh-risk/stress.js'
+export { tradingCost } from './dsh-execution/trading-cost.js'
 export { chartAnnotate, chartBacktest, chartCandles, chartSeries } from './dsh-execution/chart.js'
 export { equityMetrics, tradeMetrics, METRIC_CATALOG } from './dsh-ml/metrics.js'
 export { kupiecTest, riskMetrics } from './dsh-risk/risk.js'
@@ -2701,6 +2705,89 @@ export function apply(ctx: Context) {
     isConcurrencySafe: () => true,
     async execute(args) {
       return tradeQuality(args.fills, args.unfilledOrders, args.holdingPeriodBars)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_trading_cost',
+    description:
+      'Trading cost model: commission + slippage (half-spread) + market impact ' +
+      '(Almgren-Chriss style: ∝ σ × sqrt(participation)). Input quantity/price, commission rate, spread bps, ' +
+      'annual vol, optional daily ADV. Answers "what does this order really cost" — the cost gate before backtests.',
+    parameters: {
+      quantity: { type: 'number', required: true, description: 'Order quantity' },
+      price: { type: 'number', required: true, description: 'Reference price' },
+      commissionRate: { type: 'number', description: 'Commission rate (default 0.001 = 10bps)' },
+      spreadBps: { type: 'number', description: 'Bid-ask spread bps (default 5)' },
+      annualVolPct: { type: 'number', description: 'Annualized vol % (default 30)' },
+      dailyAdv: { type: 'number', description: 'Daily average dollar volume (for impact; omit to skip)' },
+      participationRate: { type: 'number', description: 'Participation rate (default 0.01)' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          totalCostBps: { type: 'number', required: true },
+          commissionBps: { type: 'number', required: true },
+          slippageBps: { type: 'number', required: true },
+          impactBps: { type: 'number', required: true },
+          notional: { type: 'number', required: true },
+          notes: { type: 'array', items: { type: 'string' }, required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `trading cost: ${value.totalCostBps.toFixed(1)}bps (comm ${value.commissionBps.toFixed(1)} + slip ${value.slippageBps.toFixed(1)}` +
+          (value.impactBps > 0 ? ` + impact ${value.impactBps.toFixed(1)})` : ')'),
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return tradingCost(args.quantity, args.price, args.commissionRate, args.spreadBps, args.annualVolPct, args.dailyAdv, args.participationRate)
+    },
+  }))
+
+  ctx.tools.register(defineTool({
+    name: 'quant_rebalance_schedule',
+    description:
+      'Rebalance schedule optimizer: trade off tracking drift vs trading cost across frequencies ' +
+      '(1..maxFrequency). Input per-period drift ratio and per-rebalance cost; returns the optimal frequency ' +
+      'and a cost breakdown. Answers "how often should I rebalance" — pairs with quant_portfolio_optimize.',
+    parameters: {
+      driftPerPeriod: { type: 'number', required: true, description: 'Per-period weight drift ratio (e.g. 0.01 = 1%)' },
+      costPerRebalance: { type: 'number', required: true, description: 'Cost per rebalance ratio (e.g. 0.002 = 20bps)' },
+      maxFrequency: { type: 'integer', description: 'Max frequency to evaluate (default 60)' },
+    },
+    output: {
+      schema: {
+        type: 'object',
+        properties: {
+          frequencies: { type: 'array', items: { type: 'integer' }, required: true },
+          totalCosts: { type: 'array', items: { type: 'number' }, required: true },
+          bestFrequency: { type: 'integer', required: true },
+          bestCost: { type: 'number', required: true },
+          costBreakdown: {
+            type: 'object',
+            properties: {
+              tradingCost: { type: 'number', required: true },
+              driftCost: { type: 'number', required: true },
+            },
+            additionalProperties: false,
+            required: true,
+          },
+          notes: { type: 'array', items: { type: 'string' }, required: true },
+        },
+        additionalProperties: false,
+      },
+      render: (args, value) => [{
+        type: 'text',
+        text: `rebalance schedule: optimal every ${value.bestFrequency} periods (cost ${value.bestCost.toFixed(4)})`,
+      }],
+    },
+    isConcurrencySafe: () => true,
+    async execute(args) {
+      return rebalanceSchedule(args.driftPerPeriod, args.costPerRebalance, args.maxFrequency)
     },
   }))
 

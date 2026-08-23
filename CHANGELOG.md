@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.88.0] - 2026-08-22
+
+### Added
+- `quant_trading_cost`: cost model — commission + slippage (half-spread) +
+  Almgren-Chriss market impact (∝ σ × √participation)
+- `quant_rebalance_schedule`: optimal rebalance frequency — drift vs cost
+  trade-off scan (57 → 59 tools)
+- `tests/trading-cost-rebalance.spec.ts`: 5 hand-computed baselines —
+  unit suite 210 → 215
+
 ## [0.87.0] - 2026-08-22
 
 ### Added
