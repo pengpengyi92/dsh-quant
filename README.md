@@ -453,3 +453,18 @@ Ecosystem infrastructure: [quant ecosystem directory](docs/QUANT_ECOSYSTEM.md) �
 Research columns: [quant-history (firm archives)](quant-history/) · [quant-repo (open-source special)](quant-repo/)
 
 Plugin library (five slots × external repos & MCPs): [plugin/](plugin/)
+
+---
+
+## 👤 About the author
+
+**Pengyi Peng** — AI-native builder with a mathematics & quant-research
+background, building this project as an open research sandbox.
+
+- **WorldQuant MAPC 2024 · Global 11 / 850 · UK 1** — [official Credly badge](https://www.credly.com/badges/058c73fd-7e31-4eb8-9246-5f068d39ec41)
+- **WorldQuant IQC 2024 · Global 232 / 34,142 · UK 5** (finalist)
+- dsh-quant: 59 tools · 6 domains · 215 unit tests · 110+ automated releases
+- Quant-industry research: 94 firm archives + 50 research reports (in `quant-history/`)
+- [GitHub](https://github.com/pengpengyi92) · [LinkedIn](https://www.linkedin.com/in/pengyi-peng-625511253/)
+
+*Methods open, secrets internal — the author's research is public, the strategies are not.* 🐳
