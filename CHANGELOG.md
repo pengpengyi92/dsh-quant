@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.90.0] - 2026-08-23
+
+### Added
+- HIGHFLYER_SPECIAL.md — the dual-engine-king deep-dive: how
+  Liang Wenfeng's quant firm funded AGI (quant engine: 700亿+
+  closed-source, 2025 +56.6%; AGI engine: DeepSeek, $45B pre-money
+  with Big Fund lead, >500亿 raised from Ma Huateng/Zeng Yuqun/
+  Ding Lei/Liu Qiangdong), the Firefly-supercomputer lineage
+  (3FS open-sourced), the mother-silent-descendant-open pattern
+  (High-Flyer → DeepSeek → dsh → dsh-quant), the world-AI-richest
+  founder (360亿美元), the 2026-08 hedge-fund drawdown, and the
+  twin-open-source contrast with UBIQUANT_SPECIAL (50 reports total)
+
 ## [0.89.0] - 2026-08-23
 
 ### Added

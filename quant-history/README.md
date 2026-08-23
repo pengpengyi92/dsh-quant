@@ -172,6 +172,7 @@
 - 东京外资量化全景（~9 家日元利率中心 · $3000 万人才战 · Capula 重镇 · 专业深度 > 数量广度）见 [TYO_QUANT.md](TYO_QUANT.md)
 
 **中国机构深挖（2026-08-23）**：
+- 幻方量化超级深挖专刊（双引擎之王：量化养 AI + DeepSeek 450 亿美元估值 + 梁文锋全球 AI 首富 + 萤火超算血缘闭环）见 [HIGHFLYER_SPECIAL.md](HIGHFLYER_SPECIAL.md)
 - 九坤投资超级深挖专刊（北九坤 AI 转型：WorldQuant 系最强样本 + 北溟超算 + IQuest-Coder 40B 开源 + 主动封盘范式 + 第二个 DeepSeek 时刻）见 [UBIQUANT_SPECIAL.md](UBIQUANT_SPECIAL.md)
 
 **总集篇（100 期特刊）**：

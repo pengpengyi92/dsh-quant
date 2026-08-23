@@ -275,6 +275,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.90.0 | 2026-08-23 | HIGHFLYER_SPECIAL — dual-engine king (quant funds AGI, DeepSeek $45B, Wenfeng world AI-richest), 50 reports total |
 | 0.89.0 | 2026-08-23 | UBIQUANT_SPECIAL — China AI-transform deep-dive (WorldQuant lineage, IQuest-Coder 40B open source, capsizing paradigm), 49 reports total |
 | 0.88.0 | 2026-08-22 | quant_trading_cost + quant_rebalance_schedule — cost gate + drift/cost optimizer (59 tools, 215 unit) |
 | 0.87.0 | 2026-08-22 | Validation tools ×4 — factor_correlation / deflated_sharpe / stress_test / parameter_sensitivity (57 tools, 210 unit) |
