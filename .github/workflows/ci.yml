@@ -20,3 +20,18 @@ jobs:
         run: npx tsc --noEmit
       - name: Benchmark smoke
         run: npm run bench
+      - name: Coverage gate
+        run: |
+          npm run test:cov 2>&1 | tee /tmp/cov.txt
+          LINE_COV=$(grep -E "^# all files" /tmp/cov.txt | awk '{print $5}' | tr -d ' ')
+          echo "line coverage: ${LINE_COV}%"
+          THRESHOLD=85
+          python3 - "$LINE_COV" "$THRESHOLD" <<'PY'
+import sys
+cov = float(sys.argv[1].rstrip('%'))
+threshold = float(sys.argv[2])
+if cov < threshold:
+    print(f"COVERAGE FAIL: {cov}% < {threshold}%")
+    sys.exit(1)
+print(f"coverage OK: {cov}% >= {threshold}%")
+PY

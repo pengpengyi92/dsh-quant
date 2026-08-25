@@ -62,7 +62,8 @@
     "prepublishOnly": "npm run build && npm test",
     "gen:tools": "tsx scripts/gen-tools-json.ts",
     "typecheck": "tsc --noEmit",
-    "bench": "tsx benchmark/smoke.ts"
+    "bench": "tsx benchmark/smoke.ts",
+    "test:cov": "node --experimental-test-coverage --import tsx --test tests/*.spec.ts"
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.0",
