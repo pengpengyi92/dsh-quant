@@ -35,3 +35,5 @@ if cov < threshold:
     sys.exit(1)
 print(f"coverage OK: {cov}% >= {threshold}%")
 PY
+      - name: Consumer test (packed package)
+        run: bash scripts/consumer-test.sh
