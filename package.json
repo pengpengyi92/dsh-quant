@@ -58,9 +58,11 @@
     "test:unit": "tsx --test tests/*.spec.ts",
     "test:loader": "tsx --test tests/loader-composition.spec.ts",
     "test:verify": "tsx verify.ts",
-    "test": "npm run test:unit",
+    "test": "npm run build && npm run typecheck && npm run test:unit",
     "prepublishOnly": "npm run build && npm test",
-    "gen:tools": "tsx scripts/gen-tools-json.ts"
+    "gen:tools": "tsx scripts/gen-tools-json.ts",
+    "typecheck": "tsc --noEmit",
+    "bench": "tsx benchmark/smoke.ts"
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.0",

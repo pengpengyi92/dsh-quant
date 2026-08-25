@@ -18,3 +18,5 @@ jobs:
       - run: npm test
       - name: Type check gate
         run: npx tsc --noEmit
+      - name: Benchmark smoke
+        run: npm run bench
