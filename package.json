@@ -55,10 +55,10 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test:unit": "tsx --test tests/indicators.spec.ts tests/indicators-extra.spec.ts tests/market.spec.ts tests/backtest.spec.ts tests/strategies.spec.ts tests/data-guide.spec.ts tests/quality.spec.ts tests/stats.spec.ts tests/factor.spec.ts tests/factor-neutralize.spec.ts tests/decay-optimizer.spec.ts tests/layered-attribution.spec.ts tests/validation-tools.spec.ts tests/trading-cost-rebalance.spec.ts tests/chart.spec.ts tests/metrics.spec.ts tests/risk.spec.ts tests/risk-kupiec.spec.ts tests/transform.spec.ts tests/community.spec.ts tests/factor-extra.spec.ts tests/walkforward.spec.ts tests/drawdown.spec.ts tests/execute.spec.ts tests/market-sina.spec.ts tests/pipeline.spec.ts tests/linear.spec.ts tests/market-yahoo.spec.ts tests/bond.spec.ts tests/options.spec.ts",
+    "test:unit": "tsx --test tests/*.spec.ts",
     "test:loader": "tsx --test tests/loader-composition.spec.ts",
     "test:verify": "tsx verify.ts",
-    "test": "npm run test:unit && npm run test:loader",
+    "test": "npm run test:unit",
     "prepublishOnly": "npm run build && npm test",
     "gen:tools": "tsx scripts/gen-tools-json.ts"
   },
