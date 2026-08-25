@@ -23,7 +23,7 @@ jobs:
       - name: Coverage gate
         run: |
           npm run test:cov 2>&1 | tee /tmp/cov.txt
-          LINE_COV=$(grep -E "^# all files" /tmp/cov.txt | awk '{print $5}' | tr -d ' ')
+          LINE_COV=$(grep "all files" /tmp/cov.txt | awk '{print $5}' | tr -d ' ')
           echo "line coverage: ${LINE_COV}%"
           python3 -c "import sys; cov=float('${LINE_COV}'.rstrip('%')); print('coverage OK' if cov >= 85 else f'COVERAGE FAIL: {cov}% < 85%'); sys.exit(0 if cov >= 85 else 1)"
       - name: Consumer test (packed package)
