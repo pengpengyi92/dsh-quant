@@ -456,6 +456,17 @@ Plugin library (five slots × external repos & MCPs): [plugin/](plugin/)
 
 ---
 
+## 🤝 Contribute & maintain
+
+- **Want to add a plugin / data source / learning material?** → [Issue #109（插件征集）](https://github.com/pengpengyi92/dsh-quant/issues/109) — data / risk / execution plugins, ML-DL & alpha learning resources all welcome
+- **Filing a bug / feature / help-wanted issue?** → [ISSUE_GUIDE.md](ISSUE_GUIDE.md) (agent-friendly rules)
+- **Sending a PR?** → [CONTRIBUTING.md](CONTRIBUTING.md) (dev loop + design contract)
+- **Maintainer view (how we review & merge):** [MAINTAINING.md](MAINTAINING.md)
+
+Every issue is a future PR; every contributor is a future maintainer. We review fast and merge small PRs quickly — credit goes into release notes + the author section. 🐳
+
+---
+
 ## 👤 About the author
 
 **Pengyi Peng** — AI-native builder with a mathematics & quant-research
