@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: GitHub Discussions (Q&A / ideas / R&D collaboration)
+    url: https://github.com/pengpengyi92/dsh-quant/discussions
+    about: Questions, research workflows, and collaboration ideas belong in Discussions, not issues.
+  - name: dsh-quant docs (README / DESIGN / CONTRIBUTING)
+    url: https://github.com/pengpengyi92/dsh-quant/blob/master/README.md
+    about: Read the docs first — most usage questions are answered there.
