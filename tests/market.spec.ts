@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { INTERVALS, MARKET_PROVIDERS, parseBybitKlines, parseKlines, parseOkxKlines } from '../src/dsh-data/market.ts'
+import { INTERVALS, MARKET_PROVIDERS, assertAShareSymbol, assertYahooSymbol, parseBybitKlines, parseKlines, parseOkxKlines, parseSinaKlines, parseTencentKlines } from '../src/dsh-data/market.ts'
 
 // 2026-08-16 从 api.binance.com/api/v3/klines 抓取的真实两行样本
 const SAMPLE = [
@@ -71,4 +71,88 @@ test('parseBybitKlines: 倒序反转为正序 + 字段映射', () => {
 test('parseOkx/Bybit: 非法行抛错', () => {
   assert.throws(() => parseOkxKlines([[1, 'x']]), /expected >= 6 fields/)
   assert.throws(() => parseBybitKlines([[1, 'a', '2', '3', '4', '5']]), /open is not a finite number/)
+})
+
+// ===== #106: 覆盖率补齐（assert + sina + tencent 纯函数）=====
+
+test('assertAShareSymbol: 合法 sh/sz/bj + 6 位通过', () => {
+  assert.doesNotThrow(() => assertAShareSymbol('sh600000'))
+  assert.doesNotThrow(() => assertAShareSymbol('sz000001'))
+  assert.doesNotThrow(() => assertAShareSymbol('bj430047'))
+})
+
+test('assertAShareSymbol: 非法格式抛错', () => {
+  assert.throws(() => assertAShareSymbol('600000'), /invalid A-share symbol/)
+  assert.throws(() => assertAShareSymbol('sh60000'), /invalid A-share symbol/)
+  assert.throws(() => assertAShareSymbol('SH600000'), /invalid A-share symbol/)
+  assert.throws(() => assertAShareSymbol('xx600000'), /invalid A-share symbol/)
+  assert.throws(() => assertAShareSymbol(''), /invalid A-share symbol/)
+})
+
+test('assertYahooSymbol: 合法 ticker/指数/港股通过', () => {
+  assert.doesNotThrow(() => assertYahooSymbol('AAPL'))
+  assert.doesNotThrow(() => assertYahooSymbol('^GSPC'))
+  assert.doesNotThrow(() => assertYahooSymbol('0700.HK'))
+  assert.doesNotThrow(() => assertYahooSymbol('BTC-USD'))
+})
+
+test('assertYahooSymbol: 非法格式抛错', () => {
+  assert.throws(() => assertYahooSymbol('aapl'), /invalid yahoo symbol/)
+  assert.throws(() => assertYahooSymbol('AAPL '), /invalid yahoo symbol/)
+  assert.throws(() => assertYahooSymbol(''), /invalid yahoo symbol/)
+})
+
+test('parseSinaKlines: 对象行解析（含日期格式化）', () => {
+  const candles = parseSinaKlines([
+    { day: '2026-08-20', open: '69334.78', high: '73400', low: '68902.22', close: '73025.15', volume: '35904.79' },
+    { day: '2026-08-21 15:00:00', open: '73027.02', high: '79500', low: '73027.02', close: '78338.03', volume: '44339.57' },
+  ])
+  assert.equal(candles.length, 2)
+  // 纯日期 → T00:00:00+08:00；带时间 → T+08:00
+  assert.equal(new Date(candles[0].openTime).toISOString(), '2026-08-19T16:00:00.000Z')
+  assert.equal(candles[0].close, 73025.15)
+  assert.equal(candles[1].volume, 44339.57)
+})
+
+test('parseSinaKlines: 缺 day / 非有限数抛错', () => {
+  assert.throws(() => parseSinaKlines([{ open: '1' }]), /missing day field/)
+  assert.throws(() => parseSinaKlines([{ day: '2026-08-20', open: 'abc' }]), /open is not a finite number/)
+  assert.throws(() => parseSinaKlines([{ day: 'not-a-date', open: '1' }]), /unparsable day/)
+})
+
+test('parseTencentKlines: qfqday 优先 + 字段映射（date,open,close,high,low,volume）', () => {
+  const json = {
+    code: 0,
+    data: {
+      sh600000: {
+        qfqday: [
+          ['2026-08-20', '10.1', '10.5', '10.6', '10.0', '1000'],
+          ['2026-08-21', '10.5', '10.8', '10.9', '10.4', '1200'],
+        ],
+      },
+    },
+  }
+  const candles = parseTencentKlines('sh600000', json)
+  assert.equal(candles.length, 2)
+  assert.equal(candles[0].close, 10.5)  // row[2]
+  assert.equal(candles[0].high, 10.6)   // row[3]
+  assert.equal(candles[0].low, 10.0)    // row[4]
+  assert.equal(candles[0].volume, 1000) // row[5]
+})
+
+test('parseTencentKlines: day 回退 + 错误路径', () => {
+  const json = {
+    code: 0,
+    data: { sh600000: { day: [['2026-08-20', '1', '2', '3', '0.5', '500']] } },
+  }
+  assert.equal(parseTencentKlines('sh600000', json).length, 1)
+  // code != 0
+  assert.throws(() => parseTencentKlines('sh600000', { code: -1 }), /tencent fetch failed/)
+  // 无该 symbol 数据
+  assert.throws(() => parseTencentKlines('sh600000', { code: 0, data: {} }), /no kline data/)
+  // 字段不足
+  assert.throws(
+    () => parseTencentKlines('sh600000', { code: 0, data: { sh600000: { qfqday: [['2026-08-20']] } } }),
+    /expected >= 6 fields/,
+  )
 })
