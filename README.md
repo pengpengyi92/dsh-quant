@@ -1,5 +1,11 @@
 # 🐳 dsh-quant — The Everything-Plugin Quant OS
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/pengpengyi92/dsh-quant/master/assets/dsh-quant-open-source-hero.png" alt="dsh-quant open-source quant research hero" width="100%">
+</p>
+
+📣 **Announcement archive**: [2026-09-01 X open-source launch copy](https://github.com/pengpengyi92/dsh-quant/blob/master/ann/2026-09-01_x_open_source_launch.md)
+
 🌐 **Site**: https://dsh-quant-site.pages.dev · ✅ Listed in [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) (one-click install via dsh-market)
 
 [![npm](https://img.shields.io/npm/v/dsh-quant)](https://www.npmjs.com/package/dsh-quant)
