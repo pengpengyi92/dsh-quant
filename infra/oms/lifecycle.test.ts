@@ -59,5 +59,26 @@ ok(result.status === 'FILLED', 'SimBroker 必成交 → FILLED')
 ok(result.filledQty === 0.5, '成交数量正确')
 ok(broker.audit.some(e => e.to === 'FILLED'), 'broker 审计含 FILLED 事件')
 
+// ---- 7. broker 撤单走 PENDING_CANCEL 中间态 ----
+const b2 = new SimBroker(0)  // 永不成交
+const oc = SimBroker.newOrder('b2', 'BTC', 'buy', 'limit', 0.1, 50000)
+await b2.submit(oc)
+const cancelled = await b2.cancel('b2')
+ok(cancelled.status === 'CANCELLED', 'broker 撤单 → CANCELLED')
+const cancelPath = b2.audit.map(e => e.to)
+ok(cancelPath.join('→') === 'VALIDATED→PENDING→PENDING_CANCEL→CANCELLED',
+  `撤单审计完整（${cancelPath.join('→')}）`)
+let cancelThrew = false
+try { await b2.cancel('b2') } catch { cancelThrew = true }  // 已终态不可再撤
+ok(cancelThrew, 'CANCELLED 终态再撤被拒')
+
+// ---- 8. broker 接受已过外部风控门的 VALIDATED 订单（trading/risk 入口）----
+const b3 = new SimBroker(1.0)
+const ov = SimBroker.newOrder('b3', 'BTC', 'buy', 'market', 0.2)
+const [validated] = transition(ov, 'VALIDATED', 'risk-passed')  // 模拟 trading 风控门
+const viaGate = await b3.submit(validated)
+ok(viaGate.status === 'FILLED', 'VALIDATED 入口 → 直接送单成交')
+ok(b3.audit[0]!.to === 'PENDING', 'VALIDATED 入口不再重复校验（首事件 = PENDING）')
+
 console.log(`\n结果: ${passed} 通过 / ${failed} 失败`)
 if (failed > 0) process.exit(1)
