@@ -281,6 +281,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.91.0 | 2026-09-11 | QRT Deep-mode full due diligence — nine-section rewrite (AUM chain to $50bn, 2025 flagship +30%, QFII+WFOE not QDLP, Dao 98% cumulative since 2022-11, Jaillon premise removed), 5 research dossiers |
 | 0.90.0 | 2026-08-23 | HIGHFLYER_SPECIAL — dual-engine king (quant funds AGI, DeepSeek $45B, Wenfeng world AI-richest), 50 reports total |
 | 0.89.0 | 2026-08-23 | UBIQUANT_SPECIAL — China AI-transform deep-dive (WorldQuant lineage, IQuest-Coder 40B open source, capsizing paradigm), 49 reports total |
 | 0.88.0 | 2026-08-22 | quant_trading_cost + quant_rebalance_schedule — cost gate + drift/cost optimizer (59 tools, 215 unit) |
