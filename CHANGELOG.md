@@ -4,6 +4,29 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [SemVer](https://semver.org/).
 
+## [0.91.0] - 2026-09-11
+
+### Changed
+- qrt.md rewritten as a Deep-mode full due diligence (nine-section
+  DD_STANDARD, five parallel research agents, ~120+ searches,
+  title-level evidence): AUM chain completed ($1bn 2016 spin-out →
+  $16bn 2023-02 → $20bn 2024 → $30bn 2025-07 → $42bn 2026-02 →
+  $50bn 2026-07); 2025 flagship +30% / overall +22% (dual-source);
+  China entry path corrected to QFII ("立方科研资产管理有限公司"
+  CSRC approval) + WFOE PFM (宽立资本) — not QDLP; Dao fund 98%
+  re-baselined as cumulative since Nov-2022 (the 10× is 12-month
+  AUM growth); "Olivier Jaillon = QRT CEO" premise removed (zero
+  co-occurrence, Companies House 09867306 pending); 2026-07 human
+  stockpickers unit adds a qualifier to the "pure quant" label;
+  QRT Labs (Oxford/Cambridge/Imperial) = "talent open, tech
+  closed"; clean regulatory record with three re-classified events
+  (Japan impersonation = victim, DJT SEC complaint = no action,
+  HSBC short-report glitch = technical error); risk list + 13-item
+  to-verify list added
+- FOREIGN_CN_MAP_V2.md, QRT_SPECIAL.md and quant-history README
+  index: same corrections applied (98% re-baseline, non-QDLP path,
+  $500bn milestone, 2016 founding)
+
 ## [0.90.0] - 2026-08-23
 
 ### Added

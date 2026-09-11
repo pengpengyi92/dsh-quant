@@ -32,7 +32,7 @@
 | IMC Trading | 1989（阿姆斯特丹）| 全自动做市 + Prosperity 竞赛 | [imc.md](imc.md) |
 | XTX Markets | 2015（Alexander Gerko）| 纯自动化做市，人均产值之王 | [xtx.md](xtx.md) |
 | Five Rings | 纽约 | 神秘精英自营 | [fiverings.md](fiverings.md) |
-| Qube Research (QRT) | 2015（伦敦）| 数据驱动系统化新王 | [qrt.md](qrt.md) |
+| Qube Research (QRT) | 2016（伦敦，2015 注册）| 数据驱动系统化新王（Deep 全量尽调 2026-09）| [qrt.md](qrt.md) |
 | Capula | 2005（伦敦）| 利率/固收相对价值 | [capula.md](capula.md) |
 | Winton | 1997（David Harding）| 科学研究型 CTA | [winton.md](winton.md) |
 | DRW | 1992（Don Wilson）| 芝加哥自营 + 加密（Cumberland）| [drw.md](drw.md) |
@@ -161,7 +161,7 @@
 - Renaissance 超级深挖专刊（黑箱之王 + Simons 老爷子：数学家三次转身 + 大奖章 30 年 66% + $1000 亿累计利润 + 慈善遗产）见 [RENAISSANCE_SPECIAL.md](RENAISSANCE_SPECIAL.md)
 - DE Shaw 超级深挖专刊（计算金融鼻祖 + Mafia 摇篮：Bezos/Two Sigma 孵化器 + Anton 超算科学家底色 + 制度化治理典范）见 [DESHAW_SPECIAL.md](DESHAW_SPECIAL.md)
 - Two Sigma 超级深挖专刊（ML 先驱：DE Shaw 分蘖旗舰 + 数据先行 + 开源 BeakerX/Flint + 双头共治的成与败）见 [TWOSIGMA_SPECIAL.md](TWOSIGMA_SPECIAL.md)
-- QRT 超级深挖专刊（数据驱动新王：瑞信 MBO 分蘖 + 10 年 $420 亿 + Dao 中国基金 1 年 10 倍/98% + 平台化研究）见 [QRT_SPECIAL.md](QRT_SPECIAL.md)
+- QRT 超级深挖专刊（数据驱动新王：瑞信 MBO 分蘖 + 10 年 $500 亿 + Dao 中国基金 12 个月 10 倍/成立以来累计 98% + 平台化研究）见 [QRT_SPECIAL.md](QRT_SPECIAL.md)；档案 Deep 全量尽调（九段 + 待核清单，2026-09）见 [qrt.md](qrt.md)
 
 **城市专题（2026-08-20）**：
 - 香港外资量化全景（~26 家 · 多策略/系统化/做市/宏观/加密五类 · hub-vs-分支 · 2025-26 扩张潮 · GSR/QRT 总部样本）见 [HK_FOREIGN_QUANT.md](HK_FOREIGN_QUANT.md)
