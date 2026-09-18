@@ -3,7 +3,8 @@
 - Captured at: 2026-09-18T21:40:00+08:00
 - Channel: X / GitHub
 - Campaign: quant-history deep-mode re-diligence (QRT nine-section full upgrade)
-- Publication status: **posted** — GitHub Discussions #132 (2026-09-18); release v0.91.0 published
+- Publication status: **posted** — GitHub Discussions #132 (2026-09-18); GitHub release v0.91.0 published
+- npm publish: **attempted, FAILED** — release workflow run 35351425247 → `E404 Not Found - PUT https://registry.npmjs.org/dsh-quant` (token/permission; npm latest still 0.90.0). Repo-level credential issue, unrelated to this content change.
 - Discussion: https://github.com/pengpengyi92/dsh-quant/discussions/132
 - Release: https://github.com/pengpengyi92/dsh-quant/releases/tag/v0.91.0
 - GitHub: https://github.com/pengpengyi92/dsh-quant

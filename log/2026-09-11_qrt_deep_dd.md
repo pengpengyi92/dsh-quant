@@ -26,8 +26,12 @@
 - 交叉引用：QRT_SPECIAL（保留并修正口径）· FOREIGN_CN_MAP_V2 ·
   README 索引 · 工作稿 5 份（QRT_*.md，标题级证据+待核清单）
 - 发布：**已完成 2026-09-18**——push master（`3c3f7e2..613a863`，先
-  rebase 到远端 Verition 专刊之后）+ tag **v0.91.0** + npm 自动发布
-  （第 112 次）+ GitHub Release v0.91.0 + **Announcement #132**
+  rebase 到远端 Verition 专刊之后）+ tag **v0.91.0** + GitHub Release
+  v0.91.0 + **Announcement #132**
   （https://github.com/pengpengyi92/dsh-quant/discussions/132）
   + ann 快照归档 `ann/2026-09-18_qrt_deep_dd_launch.md`
   （内容 09-11 完成，09-18 网络恢复后发布）
+- ⚠️ npm 自动发布**失败**：release 流水线 run 35351425247 报
+  `E404 PUT registry.npmjs.org/dsh-quant`（token/权限问题，npm latest
+  仍为 0.90.0；0.90.0 及此前各版本均成功）——属仓库级 NPM_TOKEN
+  凭证问题，与本次内容无关；换新 token 后重跑该 run 即可补发 0.91.0
