@@ -141,6 +141,7 @@
 
 **QUANT MAP 城市深挖（2026-09-18 新增系列，风土人情 + 选址逻辑）**：
 - 格林尼治 Greenwich, CT（1640 建制 · 刺猬理论 · 税收战 · 双城记 · 为什么是对冲基金之都）见 [QUANT_MAP_GREENWICH.md](QUANT_MAP_GREENWICH.md)
+- 伦敦 London（两千年城邦 · 1986 Big Bang · 三层地理 · non-dom 废除与 Rokos 迁希腊 · 为什么是全球量化第一城）见 [QUANT_MAP_LONDON.md](QUANT_MAP_LONDON.md)
 
 **上海与外资料专题（2026-08-19）**：
 - 上海量化虹吸效应（五大引擎：交易所/资本/人才/路径/政策）见 [SHANGHAI_GRAVITY.md](SHANGHAI_GRAVITY.md)
