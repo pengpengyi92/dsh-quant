@@ -1,9 +1,14 @@
 # Verition —— 多策略中生代的低调扩张
 
+> 🔍 **深度专刊**：[VERITION_SPECIAL.md](VERITION_SPECIAL.md)（Amaranth 起源 · pod 平台解剖 · AMG 入股 · 量化补课 · 雅典地理套利）
+
 ## 起源（2008）
 
 2008 年成立于康涅狄格州格林尼治（对冲基金之都），正值金融危机
 ——Verition 是危机中成立并穿越周期的多策略中生代代表。
+
+创始人 **Nick Maounis** 是 **Amaranth Advisors** 创始人（2006 年因天然气巨亏约 66
+亿美元清盘，当时史上最大对冲基金崩盘）——Verition 因此带着「创伤驱动的风控基因」。
 
 ## 业务
 

@@ -46,7 +46,7 @@
 | ExodusPoint | 2018（Gelband）| 史上最大首募的 pod 分店 | [exoduspoint.md](exoduspoint.md) |
 | Schonfeld | 1988（Steven Schonfeld）| 平台制老将 + 人才母校 | [schonfeld.md](schonfeld.md) |
 | Aspect Capital | 1997（Lueck/Adam）| 伦敦 CTA 双雄科学派 | [aspect.md](aspect.md) |
-| Verition | 2008（格林尼治）| 多策略中生代低调扩张 | [verition.md](verition.md) |
+| Verition | 2008（格林尼治）| 多策略中生代低调扩张（Amaranth 重生）| [verition.md](verition.md) · [深挖专刊](VERITION_SPECIAL.md) |
 | Tudor | 1980（Paul Tudor Jones）| 宏观交易活化石（1987 预言）| [tudor.md](tudor.md) |
 | Brevan Howard | 2002（Alan Howard）| 宏观对冲基金之王 | [brevanhoward.md](brevanhoward.md) |
 | Rokos | 2015（Chris Rokos）| 一人宏观机器 | [rokos.md](rokos.md) |
