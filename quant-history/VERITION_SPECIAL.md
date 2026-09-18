@@ -189,7 +189,7 @@ Verition 近两年的动作显示它正在补这一课：
 - **Hedgeweek**：Verition takes up new Piccadilly Circus office space；
   Verition hires ex-Millennium trader to launch European energy desk
 - Asia Asset Management：Verition to open first Asia office in Singapore
-- 行业招聘信息（Quantitative Research Analyst 等岗位，地点含 Hong Kong）
+- 公司公开信息（业务范围与策略线的公开描述）
 
 ---
 
