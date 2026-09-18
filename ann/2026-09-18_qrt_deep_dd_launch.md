@@ -3,7 +3,9 @@
 - Captured at: 2026-09-18T21:40:00+08:00
 - Channel: X / GitHub
 - Campaign: quant-history deep-mode re-diligence (QRT nine-section full upgrade)
-- Publication status: copy archived; external post receipt not recorded
+- Publication status: **posted** — GitHub Discussions #132 (2026-09-18); release v0.91.0 published
+- Discussion: https://github.com/pengpengyi92/dsh-quant/discussions/132
+- Release: https://github.com/pengpengyi92/dsh-quant/releases/tag/v0.91.0
 - GitHub: https://github.com/pengpengyi92/dsh-quant
 - Archive: https://github.com/pengpengyi92/dsh-quant/blob/master/quant-history/qrt.md
 - Special: https://github.com/pengpengyi92/dsh-quant/blob/master/quant-history/QRT_SPECIAL.md

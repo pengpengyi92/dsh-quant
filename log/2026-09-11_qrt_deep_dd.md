@@ -25,9 +25,9 @@
   2023-10 伦敦人均薪酬翻倍至 £697k
 - 交叉引用：QRT_SPECIAL（保留并修正口径）· FOREIGN_CN_MAP_V2 ·
   README 索引 · 工作稿 5 份（QRT_*.md，标题级证据+待核清单）
-- 发布：push master + tag v0.91.0 + npm 自动发布（第 112 次）
-  + GitHub Release 手动建 + Announcement #105（草稿已备：
-  PRDT/knowledge/industry-track/announcements/Announcement_QRT_全面
-  深度尽调_九段_Deep_全量重尽调.md）——外部发布为 Human Gate
-  手动步骤（本机 github.com 网络被拦截 + gh 认证失效，本地
-  commit 已就绪）
+- 发布：**已完成 2026-09-18**——push master（`3c3f7e2..613a863`，先
+  rebase 到远端 Verition 专刊之后）+ tag **v0.91.0** + npm 自动发布
+  （第 112 次）+ GitHub Release v0.91.0 + **Announcement #132**
+  （https://github.com/pengpengyi92/dsh-quant/discussions/132）
+  + ann 快照归档 `ann/2026-09-18_qrt_deep_dd_launch.md`
+  （内容 09-11 完成，09-18 网络恢复后发布）
