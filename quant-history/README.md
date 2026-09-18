@@ -139,7 +139,7 @@
 - 国外城市版（伦敦/纽约/芝加哥/香港/新加坡…每城全名单）见 [QUANT_MAP_GLOBAL.md](QUANT_MAP_GLOBAL.md)
 - 国内城市版（上海/深圳/北京/杭州/宁波…每城全名单）见 [QUANT_MAP_CN.md](QUANT_MAP_CN.md)
 
-**QUANT MAP 城市深挖（2026-09-11 新增系列，风土人情 + 选址逻辑）**：
+**QUANT MAP 城市深挖（2026-09-18 新增系列，风土人情 + 选址逻辑）**：
 - 格林尼治 Greenwich, CT（1640 建制 · 刺猬理论 · 税收战 · 双城记 · 为什么是对冲基金之都）见 [QUANT_MAP_GREENWICH.md](QUANT_MAP_GREENWICH.md)
 
 **上海与外资料专题（2026-08-19）**：
