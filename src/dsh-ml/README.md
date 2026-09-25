@@ -1,6 +1,28 @@
 # dsh-ml（PCPT 映射：组合与建模域）
 
-策略回测、组合构建、指标库与 ML 框架（DL/RL 为知识层，生产策略在内部 PCPT）。
+策略回测、组合构建、指标库与 ML 框架。PCPT 的长期目标不是“模型清单”，而是一个能够大规模利用数据与计算资源、持续做实验并把研究转化为生产候选的 AI-native research system。
+
+## PCPT Six-Layer Research System
+
+PCPT 按以下六层持续升级，顺序本身就是研究闭环：
+
+1. **Data** — 大规模时序 / LOB / alternative data / text / multimodal 数据；数据质量、PIT、版本化、列式存储、batch + streaming；目标是能够利用大量数据并为分布式训练与实验稳定供数。
+2. **Model** — 线性 / Logistic / GBDT 作为 baseline；向 Transformer、sequence models、representation learning、multimodal、LLM、RL/IRL 等高容量模型扩展。模型必须建立在可复现 baseline 之上，而不是只追求复杂度。
+3. **Experiment** — config-driven experiments、seed/version control、ablation、HPO、distributed training、compute scheduling 与资源分配。没有 experiment 就没有可验证的研究经验；每个重要 idea 都必须形成可重复实验。
+4. **Evaluation** — 从 loss/MSE/AUC 扩展到 IC/RankIC、decay、turnover、PnL、Sharpe、drawdown、cost-adjusted performance、OOS robustness、regime stability。通过 benchmark matrix 持续比较 data × model × regime × metric。
+5. **AI Agent Research Pipeline** — Agent 用于 literature review → hypothesis → dataset → experiment → evaluation → failure analysis → artifact；自动化建立在对前四层的深刻理解之上，不替代研究判断。
+6. **Research → Production** — 把成熟的 research artifact 接到 P-Trading / PWL / PTFT / PMMT 等生产链路：signal candidate → backtest → risk/cost gate → paper/live candidate。公开仓保留方法与框架，生产策略与参数继续留在内部。
+
+### Priority
+
+**Core first:** Data → Model → Experiment → Evaluation。
+
+前四层是 PCPT 的研究能力本体，也是最优先强化的部分。第五层 Agent 是效率放大器；第六层 Research-to-Production 是最终价值转化。当前重点尤其是：
+
+- 扩展 Data scale / quality / alternative-data capability；
+- 建立从 baseline 到 Transformer / sequence / representation / multimodal / LLM / RL 的模型阶梯；
+- 形成真正的实验经验与可重复 experiment registry；
+- 用 PBenchmark / benchmark matrix 做跨模型、跨数据、跨 regime 的系统评价。
 
 ## 模块
 
@@ -23,5 +45,5 @@ RL 问题形式化。
 
 ## 边界
 
-- 公开：方法、框架、demo、知识（本域全部内容）。
-- 内部（PCPT）：生产策略、特征库、模型参数、RL 实现。
+- 公开：方法、框架、demo、benchmark、知识（本域全部内容）。
+- 内部（PCPT）：生产数据、生产特征库、模型参数、策略、RL/agent production 实现。
