@@ -238,3 +238,28 @@ identify the middle-layer builders and owners behind the public business leaders
 ```
 
 The highest-value next step is to resolve the hidden technical layer.
+
+---
+
+## Candidate hidden-layer people — discovery pass 2026-09-29
+
+These names are **not yet confirmed as TenPay Global / FX team members**. They are retained as research candidates because public Tencent profiles overlap strongly with the hidden layer.
+
+| Person | Public signal | Why relevant | Status |
+|---|---|---|---|
+| **Qiang Li / 李强** | Tencent, Shenzhen; public specialties include Quantitative Trading, Financial Risk Management, Machine Learning; HKU research background includes commodity-futures hedging | Very strong skill overlap with FX quant / risk / hedging / ML | **Candidate only — Tencent confirmed, TenPay/FIT/FX affiliation not established** |
+| **Xiang You** | Tencent, Shenzhen; HKU Business School profile emphasizes FinTech, Financial Markets, ML, Payment Systems, Risk Analytics, Data Analytics, Quantitative Finance | Strong fit to payment-risk-quant analytics layer | **Candidate only — exact Tencent role/team hidden** |
+| **Yuyao Zhou** | Tencent, Shenzhen; economics/econometrics/financial-economics/programming background; public profile emphasizes technology, data and product thinking | Possible product/data/financial-analytics node | **Candidate only — exact role/team hidden** |
+
+### Important negative identification
+
+- A public **Victor, Jinze Du** profile is an FX trader at **Bank of Communications**, focused on CNH/CNY, HKD, spot/swaps/options. This is a useful external FX-market comparator / possible industry connection, but public evidence does **not** establish TenPay Global employment.
+- Searches for **Ian Xu** returned multiple unrelated profiles; no reliable public TenPay/Tencent-FIT match has yet been established.
+
+### Evidence rule
+
+Do not promote a candidate into the confirmed People Matrix until at least one of the following is found:
+1. explicit Tencent Financial Technology / TenPay / TenPay Global team attribution;
+2. explicit FX / treasury / pricing / payment role within Tencent;
+3. conference / official post / credible public source linking the person to that function;
+4. independent corroboration across multiple public sources.
