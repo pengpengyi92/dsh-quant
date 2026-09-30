@@ -18,8 +18,9 @@
 
 通过 Internship / Graduate / MT / apprenticeship / rotation / conversion 等早期人才机制，反推公司的 **organizational orientation / culture / talent model**。
 
-首个正式 bank case：
+正式 bank cases：
 - [BOCHK — Cross-border Institutional Banker Pipeline](./ecb/bochk.md)
+- [HSBC — Global Specialist Banker Pipeline](./ecb/hsbc.md)
 
 ECB 与 JMatrix 互补：
 - **JMatrix** 回答“这个岗位是什么、谁在做、怎么切入”；
