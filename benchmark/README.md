@@ -6,6 +6,27 @@
 - 内部联动：对应 PAT（PENGYI AGENT TEAM，private）的 benchmark 维度。
 - PCPT 联动：这里是 PBenchmark / benchmark-matrix 的公开方法层，用于把 **Data × Model × Experiment × Evaluation** 固化成可重复证据，而不是只记录单次最好结果。
 
+## Benchmark Frameworks
+
+### JMatrix — Job × People
+见 [jmatrix/](./jmatrix/)。
+
+用于还原岗位、人物、组织位置与切入路径。
+
+### ECB — Early Career Benchmark
+见 [ecb/](./ecb/)。
+
+通过 Internship / Graduate / MT / apprenticeship / rotation / conversion 等早期人才机制，反推公司的 **organizational orientation / culture / talent model**。
+
+首个正式 bank case：
+- [BOCHK — Cross-border Institutional Banker Pipeline](./ecb/bochk.md)
+
+ECB 与 JMatrix 互补：
+- **JMatrix** 回答“这个岗位是什么、谁在做、怎么切入”；
+- **ECB** 回答“这家公司从最早期开始想培养什么样的人”。
+
+---
+
 ## PCPT Benchmark Matrix
 
 建议每个重要实验至少登记：
