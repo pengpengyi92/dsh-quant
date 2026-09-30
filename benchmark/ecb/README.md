@@ -34,6 +34,7 @@ ECB 不是“哪个公司更好”的排行，而是一个 **company-culture rev
 ## Cases
 
 - [BOCHK — Cross-border Institutional Banker Pipeline](./bochk.md)
+- [HSBC — Global Specialist Banker Pipeline](./hsbc.md)
 
 ## Comparative archetypes
 
@@ -47,5 +48,12 @@ ECB 不是“哪个公司更好”的排行，而是一个 **company-culture rev
 - Tencent — product-tech-business
 - Ping An Bank — commercial banking / organization-map / client-operation lens
 - BOCHK — institutional banking / rotation / cross-border leadership
+- HSBC — function-first / global-platform / specialist development
 
-后续优先补充：HSBC / JPMorgan / Goldman Sachs / CICC / China Merchants Bank。
+### Bank ECB spectrum
+
+- **Ping An Bank** — Organization-first × Commercial-first → Commercial Banking Operator School
+- **BOCHK** — Institution-first × Rotation-first × Cross-border → Cross-border Institutional Banker School
+- **HSBC** — Function-first × Global-platform-first → Global Specialist Banker School
+
+后续优先补充：JPMorgan / Goldman Sachs / CICC / China Merchants Bank。
