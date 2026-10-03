@@ -13,6 +13,16 @@
 
 用于还原岗位、人物、组织位置与切入路径。
 
+### JMatrix5 — Real Estate
+见 [jmatrix5-real-estate/](./jmatrix5-real-estate/)。
+
+用于把 **Property × Location × Income × Organization × Mobility × Culture × Time** 固化成可重复的房地产 / 住房 / 员工住宿分析协议。
+
+首个正式 case：
+- [Wan Chai Station Real Estate](./jmatrix5-real-estate/cases/2026-10-04_wan-chai-station.md)
+
+可同时服务 PACT / PBCT / PCCT / PMap，以及个人租房、买房、公司宿舍、housing allowance、投资与 relocation DD。
+
 ### ECB — Early Career Benchmark
 见 [ecb/](./ecb/)。
 
