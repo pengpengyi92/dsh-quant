@@ -59,3 +59,62 @@ Every JMatrix5 case should produce:
 ## Principle
 
 **Do not analyze a property as an isolated unit. Analyze Property × Location × Income × Organization × Mobility × Culture × Time.**
+
+## v1.1 Mandatory Housing-Affordability Metrics (2026-10-04)
+
+Every residential JMatrix5 case must now calculate the following **mandatory outputs** for each representative rent tier:
+
+1. **Monthly Rent** — HK$/month
+2. **Annual Rent** — 12 × monthly rent
+3. **Housing Burden Target** — default **30% of disposable net salary**
+4. **Required Net Monthly Salary** — monthly rent / 30%
+5. **Required Net Annual Salary** — annual rent / 30%
+6. **Required Gross Monthly Salary** — back-solved under the case tax model
+7. **Required Gross Annual Salary** — back-solved under the case tax model
+8. **Representative Buy Price** — building / unit-type purchase-price range
+9. **Income-to-Rent Interpretation** — who can plausibly carry the housing cost
+10. **Rent-vs-Buy / Ownership Layer** — where data are available
+
+### Default Hong Kong salary model — 2026/27
+
+For Hong Kong cases, default **disposable net salary** is defined as:
+
+```text
+Gross cash salary
+- Hong Kong salaries tax
+- employee mandatory MPF contribution
+= disposable net salary
+```
+
+Default assumptions for a standardized comparable case:
+- single taxpayer;
+- no dependants;
+- no special deductions beyond mandatory MPF;
+- 2026/27 basic allowance: **HK$145,000**;
+- progressive salaries-tax bands: first HK$50k @2%, next @6%, next @10%, next @14%, remainder @17%;
+- compare against two-tier standard rates where applicable: first HK$5m @15%, remainder @16%;
+- employee mandatory MPF: 5% of relevant income, capped at **HK$1,500/month / HK$18,000/year** for income above the statutory ceiling.
+
+This is a **benchmark assumption**, not individual tax advice. Actual tax varies with deductions, housing benefits, bonuses, marital / dependant status and other circumstances.
+
+### Why 30%
+
+JMatrix5 fixes the default housing-budget benchmark at **30% of disposable net salary** so cases remain comparable across stations and cities.
+
+Optional stress bands may be added later, but **30% is the primary reported benchmark**.
+
+### Required Case Table
+
+Each case should include:
+
+| Unit / Rent Tier | Monthly Rent | Annual Rent | Required Net Monthly | Required Net Annual | Required Gross Monthly | Required Gross Annual | Buy Price |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| ... | ... | ... | ... | ... | ... | ... | ... |
+
+## Interpretation Rule
+
+JMatrix5 should answer not just “what does this apartment cost?” but:
+
+> **What income profile, employer housing package, or household structure makes this housing product economically plausible?**
+
+That makes Real Estate directly reusable by PACT, PBCT, PCCT, PMap and personal relocation decisions.
