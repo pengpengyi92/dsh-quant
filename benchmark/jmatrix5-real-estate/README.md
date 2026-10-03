@@ -118,3 +118,8 @@ JMatrix5 should answer not just “what does this apartment cost?” but:
 > **What income profile, employer housing package, or household structure makes this housing product economically plausible?**
 
 That makes Real Estate directly reusable by PACT, PBCT, PCCT, PMap and personal relocation decisions.
+
+## Formal Cases
+
+- Case 001 — Wan Chai Station
+- Case 002 — Lan Kwai Fong / Central–SoHo Fringe
