@@ -123,3 +123,5 @@ That makes Real Estate directly reusable by PACT, PBCT, PCCT, PMap and personal 
 
 - Case 001 — Wan Chai Station
 - Case 002 — Lan Kwai Fong / Central–SoHo Fringe
+
+- Case 003 — Mid-Levels West / 半山西部
