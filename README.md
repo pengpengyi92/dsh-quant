@@ -96,6 +96,13 @@ The **0.91.1 release candidate** includes DSH 0.2.1-rc.2 compatibility, with
 Original compatibility contribution: **@hufeide (#136)**; user reports:
 **@ziladan (#139 / #140)**.
 
+The `v0.91.1` tag is fixed to the reviewed source. Its first authenticated
+publisher attempt failed with npm E404, so the tag is **not** evidence of npm
+availability. See [delivery attempt](release/0.91.1/DELIVERY-ATTEMPT.md).
+Maintainers can manually run `release acceptance` with `source=candidate`
+to reproduce the Linux package, or `source=registry` after publication to
+verify four clean real-Loader consumers. The workflow never publishes.
+
 ## Quick Install (dsh users)
 
 ```sh
