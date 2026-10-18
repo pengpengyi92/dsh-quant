@@ -14,3 +14,6 @@ lib/
 
 # Downloaded immutable CI tarball and its unpacked receipt files
 /release/0.91.1/linux-candidate/
+
+# Local PR #144 probes; sanitized evidence is archived under reviews/
+/.review-144/

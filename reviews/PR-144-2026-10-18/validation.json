@@ -1,0 +1,70 @@
+{
+  "checked_at": "2026-10-18T11:49:35.249Z",
+  "pr": 144,
+  "issue": 106,
+  "contributor": "Yuren0312",
+  "head": "0cbf0899fbd78bc8dfbd77a39bcf289c84edb8d6",
+  "current_master": "6f571f8c9e8fe15a4eaedc2b287a3e6ec8c925bd",
+  "local_merge": "41f5585cfd73eec40c4e7603ed1c5fc8194467bb",
+  "local_merge_pushed": false,
+  "environment": {
+    "os": "Windows",
+    "node": "24.18.0",
+    "npm": "11.16.0",
+    "typescript": "5.9.3"
+  },
+  "reported_by_contributor": {
+    "new_tests": 16,
+    "market_tests": 41,
+    "native_market_line_pct": 98.74
+  },
+  "independently_verified": {
+    "new_tests": 16,
+    "market_tests": 41,
+    "full_tests_head": 314,
+    "full_tests_merge": 314,
+    "native_market_line_pct": 98.74,
+    "native_baseline_market_line_pct": 60.55,
+    "npm_market_line_pct": 98.99,
+    "npm_baseline_market_line_pct": 69.85,
+    "npm_overall_line_pct": 95.37,
+    "npm_baseline_overall_line_pct": 94.27,
+    "source_build_types": "PASS",
+    "new_file_node_only_types": "FAIL_TS2552",
+    "minimal_type_fix_types_exit_code": 0,
+    "minimal_type_fix_tests": 16,
+    "isolation": {
+      "fetch_restored_after_each": 16,
+      "unmocked_fetch_attempts": 0
+    },
+    "mutations": {
+      "binance_truncation_removed": {
+        "surviving_tests": 41
+      },
+      "safe_fetch_error_context_removed": {
+        "surviving_tests": 41
+      },
+      "all_temporary_source_changes_reverted": true
+    }
+  },
+  "review": {
+    "id": 5562818677,
+    "state": "CHANGES_REQUESTED"
+  },
+  "ci": {
+    "run": 39112195592,
+    "initial": "action_required",
+    "maintainer_approved": true,
+    "final": "success",
+    "expected_jobs": 5
+  },
+  "pr_merged": false,
+  "issue_closed": false,
+  "release_action": false,
+  "limits": [
+    "No live provider certification",
+    "No concurrency:true global-mock safety claim",
+    "Optional fault-path assertions remain absent",
+    "New test file requires Node-only type correction"
+  ]
+}

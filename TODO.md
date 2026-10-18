@@ -10,3 +10,12 @@
 - [ ] P0: Pass four registry-consumer acceptance jobs and archive their receipts.
 - [ ] P0: Publish accurate install instructions, GitHub Release and Issue replies.
 - [ ] P1: Verify three network tools and full desktop/model sessions separately.
+
+## PR #144 market test review (separate from release delivery)
+
+- [x] P0: Reproduce 16 new, 41 market and 314 full tests; verify both coverage protocols.
+- [x] P0: Approve the external-contributor CI run and verify all five jobs pass.
+- [x] P0: Submit the reproducible RequestInfo type error and verified one-line fix.
+- [x] P1: Verify fetch restoration/offline isolation and record assertion-strength gaps.
+- [ ] P0: Recheck the contributor's corrected head/types/CI before merging #144.
+- [ ] P0: Preserve original authorship/history and close #106 only after acceptance.

@@ -507,3 +507,11 @@ background, building this project as an open research sandbox.
 ### Compatibility contributors
 
 Thanks to **@hufeide** for the DSH 0.2.x adaptation in [#136](https://github.com/pengpengyi92/dsh-quant/pull/136), and **@ziladan** for requesting 0.2.1-rc.2 verification in [#139](https://github.com/pengpengyi92/dsh-quant/issues/139) / [#140](https://github.com/pengpengyi92/dsh-quant/issues/140). The [compatibility audit](docs/maintenance/DSH-0.2.1-RC.2-2026-10-18.md) records tested versions and release boundaries.
+
+### Test contribution under review
+
+**@Yuren0312** contributed offline market-provider tests in
+[#144](https://github.com/pengpengyi92/dsh-quant/pull/144) for #106. The
+[independent audit](docs/maintenance/PR-144-2026-10-18.md) confirms the coverage
+gain and records one requested Node-type correction. This contribution is
+under review, not yet merged or shipped.
