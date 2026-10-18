@@ -2,6 +2,10 @@
 
 Status: **locally verified release candidate; npm publication blocked**.
 
+Update: the new `v0.91.1` tag now exists. Its real publishing attempt failed
+with npm E404; see [DELIVERY-ATTEMPT.md](DELIVERY-ATTEMPT.md). The earlier
+validation below remains candidate evidence, not registry acceptance.
+
 - `audit.json`: registry/tag/release/CI inspection and original contribution lineage.
 - `validation.json`: one candidate package hash, build/types, 298 tests and four consumer results.
 - `pack.json`: complete npm package file manifest and integrity.

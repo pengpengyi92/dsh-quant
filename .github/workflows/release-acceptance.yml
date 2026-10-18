@@ -1,0 +1,103 @@
+name: release acceptance
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact stable package version and existing v-prefixed tag
+        required: true
+        default: '0.91.1'
+        type: string
+      source:
+        description: Candidate tarball or actual published registry package
+        required: true
+        default: registry
+        type: choice
+        options:
+          - candidate
+          - registry
+
+permissions:
+  contents: read
+
+jobs:
+  consumer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        dsh: ['0.1.0-rc.6', '0.2.0-rc.2', '0.2.1-alpha.3', '0.2.1-rc.2']
+    env:
+      PACKAGE_VERSION: ${{ inputs.version }}
+      PACKAGE_SOURCE: ${{ inputs.source }}
+      DSH_COHORT: ${{ matrix.dsh }}
+    steps:
+      - name: Validate exact version
+        run: |
+          [[ "$PACKAGE_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          [[ "$PACKAGE_SOURCE" == candidate || "$PACKAGE_SOURCE" == registry ]]
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ inputs.version }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: Verify tagged manifest and record source
+        run: |
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const pkg = JSON.parse(readFileSync("package.json"));
+            if (pkg.version !== process.env.PACKAGE_VERSION) throw new Error("Tag/version mismatch");
+          '
+          mkdir -p acceptance
+          git rev-parse HEAD > acceptance/source-commit.txt
+          node --version > acceptance/node-version.txt
+          npm --version > acceptance/npm-version.txt
+      - name: Build and pack immutable candidate
+        if: inputs.source == 'candidate'
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+          npm pack --ignore-scripts --json --pack-destination acceptance > acceptance/pack.json
+          sha256sum "acceptance/dsh-quant-$PACKAGE_VERSION.tgz" > acceptance/tarball.sha256
+          node --input-type=module -e '
+            import { existsSync, readFileSync } from "node:fs";
+            const prior = `release/${process.env.PACKAGE_VERSION}/pack.json`;
+            if (existsSync(prior)) {
+              const expected = JSON.parse(readFileSync(prior));
+              const [actual] = JSON.parse(readFileSync("acceptance/pack.json"));
+              if (actual.integrity !== expected.integrity) throw new Error("Candidate integrity differs from reviewed evidence");
+            }
+          '
+      - name: Inspect actual registry release
+        if: inputs.source == 'registry'
+        run: |
+          npm view "dsh-quant@$PACKAGE_VERSION" --json --registry=https://registry.npmjs.org > acceptance/registry.json
+          node --input-type=module -e '
+            import { existsSync, readFileSync } from "node:fs";
+            const actual = JSON.parse(readFileSync("acceptance/registry.json"));
+            if (actual.version !== process.env.PACKAGE_VERSION) throw new Error("Wrong registry version");
+            const prior = `release/${process.env.PACKAGE_VERSION}/pack.json`;
+            if (existsSync(prior) && actual.dist.integrity !== JSON.parse(readFileSync(prior)).integrity) {
+              throw new Error("Registry integrity differs from reviewed candidate");
+            }
+          '
+      - name: Clean install, shared peers, real Loader and deterministic calls
+        run: |
+          set -o pipefail
+          if [[ "$PACKAGE_SOURCE" == candidate ]]; then
+            TARGET="acceptance/dsh-quant-$PACKAGE_VERSION.tgz"
+          else
+            TARGET="dsh-quant@$PACKAGE_VERSION"
+          fi
+          node scripts/consumer-runtime.mjs "$DSH_COHORT" "$TARGET" 2>&1 | tee acceptance/consumer.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dsh-quant-${{ inputs.version }}-${{ inputs.source }}-${{ matrix.dsh }}
+          path: acceptance/
+          if-no-files-found: error
+          retention-days: 30

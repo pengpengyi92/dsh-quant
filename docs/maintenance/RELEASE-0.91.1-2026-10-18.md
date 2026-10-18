@@ -1,7 +1,9 @@
 # dsh-quant 0.91.1 release delivery
 
 Prepared 2026-10-18 (Asia/Shanghai). **Candidate prepared; npm publication is
-blocked in this execution environment.** This is not a published-version claim.
+blocked.** The [authenticated delivery attempt](../../release/0.91.1/DELIVERY-ATTEMPT.md)
+records the new tag, actual publisher E404 and maintainer login handoff.
+This is not a published-version claim.
 
 ## Three separate acceptance states
 
@@ -81,7 +83,10 @@ The existing tag-triggered workflow uses `secrets.NPM_TOKEN`; its current
 validity has not been established. The connected GitHub interface supports
 source/PR/Issue updates, but does not expose release-tag creation.
 
-No new tag, GitHub Release or npm publication has been claimed or created.
+The later authenticated delivery attempt created `v0.91.1` at the reviewed
+merge commit. Its publisher failed with E404; no new GitHub Release or npm
+publication has been claimed. The older local-access observations above are
+the preparation-time snapshot, not the current GitHub tag state.
 Keep #139 and linked #140 open until registry delivery is actually verified.
 
 ## Completion procedure for an authenticated maintainer
@@ -92,14 +97,15 @@ Keep #139 and linked #140 open until registry delivery is actually verified.
    instead of publishing again.
 2. Confirm the release PR's five CI jobs pass and merge it while retaining the
    original #136 ancestry. Check that package.json and package-lock.json both
-   say 0.91.1 and the release tag is absent.
+   say 0.91.1 and the existing release tag points to the reviewed commit.
 3. Establish publishing access on the maintainer's machine or restore the
    existing repository publisher credential through GitHub's secret settings.
    Do not put a token in an Issue, commit or chat. The old E404 alone does not
    identify which current credential/account setting needs repair.
-4. From the reviewed release commit, create and push **v0.91.1** using the
-   existing tag workflow, or publish from that exact checkout with an authorized
-   npm identity. Avoid two concurrent publishing paths. The existing workflow
+4. After restoring authentication, rerun the failed **v0.91.1** publisher,
+   or publish its verified Linux candidate with an authorized npm identity.
+   Do not move/recreate the existing tag. Avoid two concurrent publishing paths.
+   The existing workflow
    validates tag/version equality and runs build/tests before publication.
 5. Verify registry metadata and install the registry package into clean pinned
    consumers. The commands below must succeed before announcing availability.
