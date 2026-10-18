@@ -11,3 +11,6 @@ lib/
 # misc
 .DS_Store
 *.log
+
+# Downloaded immutable CI tarball and its unpacked receipt files
+/release/0.91.1/linux-candidate/

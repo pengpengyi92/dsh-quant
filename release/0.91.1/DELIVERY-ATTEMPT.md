@@ -67,6 +67,23 @@ gate; static checks are not reported as a successful consumer run.
   against candidate evidence, and performs the same real-Loader and 56-call
   checks. Missing versions and integrity mismatches fail closed.
 
+Actual candidate execution completed successfully:
+[39113283541](https://github.com/pengpengyi92/dsh-quant/actions/runs/39113283541).
+All four consumers passed clean installation, shared-peer resolution, real
+Loader/SMA and 59 registrations / 56 deterministic calls. Node 24.21.0 and
+npm 11.19.0 recreated exactly the earlier Node 24.19.0 / npm 11.9.0 tarball:
+1,421,888 bytes, 480 entries, SHA-256
+`6d1e6c47d74de4bc2a1b93af41d39c6feaebb9e437e109dd6b16a7abb51f9354`.
+The SHA-512 integrity and SHA-1 also match the earlier evidence.
+
+The rc.2 artifact was downloaded and independently checked with
+`node release/0.91.1/verify-reproduction.mjs`. Machine-readable evidence is
+in `candidate-reproduction.json` and `candidate-acceptance-jobs.json`;
+`candidate-receipts.zip` retains the rc.2 raw consumer log and manifests.
+The local tarball is ignored by Git. These are **candidate** results, not
+registry results; the registry-specific workflow was not run against a
+version known to be absent.
+
 No GitHub Release success announcement or Issue closure is justified until
 the registry workflow passes. Keep #139 and #140 open while publication is
 blocked. Do not move the tag or invent another version merely to retry auth.

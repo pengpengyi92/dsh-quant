@@ -1,0 +1,13 @@
+{
+  "checked_at": "2026-10-18T08:58:20.290Z",
+  "source": "candidate-not-registry",
+  "source_commit": "ca4dd35df6b06e87ba3ff40e1a90a6e2ca2106e4",
+  "tag": "v0.91.1",
+  "workflow": "https://github.com/pengpengyi92/dsh-quant/actions/runs/39113283541",
+  "sha256": "6d1e6c47d74de4bc2a1b93af41d39c6feaebb9e437e109dd6b16a7abb51f9354",
+  "integrity": "sha512-5HEfDDuI3nOnRHrqEc2u8xWtsLsWfjPfcodEXC0dM9/Ibjc7pV+BITSR2usxPInmceqFGxic/mtokC9PS+ppWg==",
+  "bytes": 1421888,
+  "entries": 480,
+  "original_evidence_matches": true,
+  "registry_acceptance": "NOT_EVALUATED_BY_THIS_CANDIDATE_CHECK"
+}

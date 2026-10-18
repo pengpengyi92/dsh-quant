@@ -24,6 +24,8 @@ requires the reviewed tarball integrity, not just the source version string.
 Candidate four-cohort checks and five CI jobs passed (linked in release
 evidence). Independent Windows standard npm test: 298/298; script types and
 56 calls pass. The v0.91.1 publisher passed tests but npm PUT returned E404.
+Independent exact-tag candidate workflow 39113283541 passed all four clean
+consumers and reproduced the original tarball byte-for-byte (480 entries).
 Actual registry-consumer result: **UNMEASURED, publication blocked**.
 
 ## Trade-off

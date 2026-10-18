@@ -10,6 +10,10 @@ validation below remains candidate evidence, not registry acceptance.
 - `validation.json`: one candidate package hash, build/types, 298 tests and four consumer results.
 - `pack.json`: complete npm package file manifest and integrity.
 - `logs.zip`: command output, with temporary workspace paths normalized (no credentials).
+- `DELIVERY-ATTEMPT.md` / `delivery-logs.zip`: real publisher E404 and Windows test results.
+- `candidate-reproduction.json` / `candidate-acceptance-jobs.json`: successful exact-tag CI reproduction and four clean consumers.
+- `candidate-receipts.zip`: downloaded rc.2 consumer receipt (tarball omitted).
+- `verify-reproduction.mjs`: compare the downloaded candidate to the original hashes and Loader/call results.
 
 | Pinned DSH cohort | Install / peers / real Loader / SMA | Registrations | Deterministic calls |
 | --- | --- | --- | --- |

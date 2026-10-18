@@ -4,6 +4,7 @@
 - [x] P0: Preserve hufeide's original ancestry and credit ziladan's reports.
 - [x] P0: Retest standard npm test (298 pass), script types and 56 tool calls.
 - [x] P0: Push immutable v0.91.1 and attempt the existing publisher; record E404.
+- [x] P0: Reproduce the identical Linux tarball in CI and pass four clean candidate consumers.
 - [ ] P0: Obtain accepted npm publishing authentication without sharing secrets.
 - [ ] P0: Publish the reviewed Linux candidate exactly once; verify metadata.
 - [ ] P0: Pass four registry-consumer acceptance jobs and archive their receipts.
