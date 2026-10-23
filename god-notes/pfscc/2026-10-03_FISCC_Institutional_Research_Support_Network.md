@@ -11,7 +11,7 @@ PFSCC / FISCC should become a priority domain because it has an unusually strong
 - technical PBCT capability;
 - cross-asset transferability.
 
-The immediate high-quality reference is State Street for FX / currency research. The user knows Xianming, a Foreign Currency Quant Researcher there. This creates an opportunity to study institutional FX research with a real feedback loop rather than treating FX as a purely public-data or textbook subject.
+A useful external benchmark is institutional FX / currency research at major global financial institutions. Practitioner feedback should be sought only through appropriate professional channels and should not be documented publicly as named personal relationships. The research itself should remain reproducible from public or appropriately licensed data.
 
 ## Domain map
 
@@ -27,7 +27,7 @@ Start with:
 
 **Public baseline -> institutional workflow map -> model / experiment -> practitioner critique -> revised artifact**
 
-The goal is not to ask contacts for answers. The goal is to arrive with a serious hypothesis, data, model and limitations, then use practitioner feedback to identify missing assumptions and real-world constraints.
+The goal is not to ask contacts for answers. The goal is to arrive with a serious hypothesis, data, model and limitations, then use appropriately obtained practitioner feedback to identify missing assumptions and real-world constraints.
 
 ## PACT × PBCT
 
