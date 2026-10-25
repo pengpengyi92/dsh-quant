@@ -18,6 +18,8 @@ jobs:
       - run: npm test
       - name: Type check gate
         run: npx tsc --noEmit
+      - name: Typecheck market tests without DOM globals
+        run: npm run typecheck:market-tests
       - name: Benchmark smoke
         run: npm run bench
       - name: Coverage gate
@@ -46,6 +48,8 @@ jobs:
       - run: npm run typecheck
       - name: Typecheck compatibility scripts and Loader test
         run: npm run typecheck:scripts
+      - name: Typecheck market tests without DOM globals
+        run: npm run typecheck:market-tests
       - name: Unit and real-runtime regressions
         run: node --import tsx --test tests/*.spec.ts
       - name: 59 registrations and 56 deterministic calls

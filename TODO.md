@@ -17,5 +17,16 @@
 - [x] P0: Approve the external-contributor CI run and verify all five jobs pass.
 - [x] P0: Submit the reproducible RequestInfo type error and verified one-line fix.
 - [x] P1: Verify fetch restoration/offline isolation and record assertion-strength gaps.
-- [ ] P0: Recheck the contributor's corrected head/types/CI before merging #144.
-- [ ] P0: Preserve original authorship/history and close #106 only after acceptance.
+- [x] P0: Recheck corrected head 744d99c; 317 tests and five CI jobs pass (2026-10-26).
+- [x] P0: Merge #144 as f9f761a, retain Yuren0312's commit; #106 closed after acceptance.
+- [x] P1: Add an explicit Node-only market-test typecheck script and CI gate.
+
+## Current maintenance triage (2026-10-26)
+
+- [ ] P0: #139/#140 - npm latest remains 0.90.0; local whoami returns ENEEDAUTH.
+- [ ] P1: #105 - obtain redacted desktop installer reproduction; CLI/Loader CI is not desktop evidence.
+- [ ] P2: #107 - extend performance smoke to backtest/factor/risk; not implemented in this pass.
+- [ ] P2: #108 - review provider retry/failure contract and applicable restrictions before scoped changes.
+- [ ] P2: Keep roadmap/community threads open; no blanket or stale-only closures.
+
+See docs/maintenance/MAINTENANCE-2026-10-26.md for exact evidence and scope.

@@ -62,6 +62,7 @@
     "prepublishOnly": "npm run build && npm test",
     "gen:tools": "tsx scripts/gen-tools-json.ts",
     "typecheck": "tsc --noEmit",
+    "typecheck:market-tests": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --strict --skipLibCheck --allowImportingTsExtensions --lib ES2022 --types node tests/market.spec.ts tests/market-sina.spec.ts tests/market-yahoo.spec.ts tests/market-fetch.spec.ts",
     "bench": "tsx benchmark/smoke.ts",
     "test:cov": "node --experimental-test-coverage --import tsx --test tests/*.spec.ts",
     "typecheck:scripts": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --strict --skipLibCheck --allowImportingTsExtensions verify.ts demos/rd-workflow.ts demos/gen-ui-demo-data.ts consumer-test/boot.ts tests/loader-composition.spec.ts scripts/review-136-smoke.ts",

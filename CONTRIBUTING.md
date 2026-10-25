@@ -9,6 +9,7 @@ internal. We welcome issues, PRs, discussions, and data-provider partnerships.
 ```sh
 npm install          # real npm deps (no workspace symlinks needed)
 npm run build        # tsc → lib/
+npm run typecheck:market-tests # Node-only market test types, no DOM globals
 npm test             # 174 unit cases + 4 real-Loader composition cases
 npm run test:verify  # live integration (public market/GitHub/npm APIs — needs network)
 npm run gen:tools    # regenerate mcp/tools.json after tool changes
@@ -39,7 +40,9 @@ npm run gen:tools    # regenerate mcp/tools.json after tool changes
   the tool row to the README table — four places, always together.
 - Numerical changes MUST add hand-computed unit cases.
 - Run `npm run build && npm test` before pushing; CI runs the same. For
-  network-layer changes also run `npm run test:verify`. See the
+  market test changes also run `npm run typecheck:market-tests`; source-only
+  typechecking does not compile test files. Keep test types Node-native.
+  For network-layer changes also run `npm run test:verify`. See the
   `quant-release-cycle` skill (`skill/quant-release-cycle/SKILL.md`) for the
   full pre-push checklist.
 - Releases are automatic: a `vX.Y.Z` tag triggers CI → npm publish. Maintainers
