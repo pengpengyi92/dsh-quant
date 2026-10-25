@@ -39,3 +39,23 @@ No performance or live-profitability improvement is claimed or measured.
 
 Complete official maintainer npm authentication, publish the immutable
 reviewed candidate once, then pass registry acceptance before closing Issues.
+
+## Market network-test maintenance (2026-10-26)
+
+- Baseline: PR144 original head 0cbf089; explicit Node-only test types fail
+  TS2552 (`RequestInfo`). Historical October 18 measurements are not new runs.
+- Change: maintainer follow-up 744d99c preserves Yuren0312's original commit;
+  runtime-derived fetch input type, exact truncation assertion, three shared
+  network/HTTP/body-error cases. No production code changed. Explicit test
+  typecheck added to the standard and four-cohort CI paths.
+- Measure: fixed offline fixtures; Node 24.18.0 / TS 5.9.3; latest-master
+  integration tree 77a0757b5daf2f1b06452cfb6a367fa6b2e77bd6; npm test and
+  npm coverage protocol, separately native Node market-only coverage.
+- Result: 317/317 full, 44/44 market tests; Node-only types PASS; npm protocol
+  market lines 99.25%, overall 95.39%; native market-only lines 100.00%.
+  All five PR CI jobs pass in run 40219495782. Merged tree equals tested tree.
+- Trade-off: more fixture assertions and one fast compiler invocation per
+  CI cohort; coverage protocols differ and are not pooled. Live endpoints,
+  desktop UI, runtime speed improvement and registry delivery: UNMEASURED.
+- Next Action: authenticate the npm maintainer through the official flow,
+  then validate the immutable published candidate; no tag was changed here.
