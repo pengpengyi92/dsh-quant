@@ -86,3 +86,28 @@ Then use the response to define the next iteration.
 
 **Evidence boundary:** User's discussion and assistant-generated synthetic model. No actual rates, loan, strategy performance, production technology, independent interview answer or executed institutional capital decision evidenced.
 <!-- /FOOTBALL-ROLE-CAPITAL-20261026-1525 -->
+
+
+---
+
+## 2026-10-26 15:39 CST · J-Matrix Analogy 001 — Fundamentals / Attack / Midfield / Defense / Match Performance
+<!-- JMX-ANALOGY-001-20261026-1539 -->
+
+**Canonical benchmark:** [PBenchmark JMATRIX-ANALOGY-001](https://github.com/pengpengyi92/PBenchmark/blob/main/benchmarks/jmatrix/cases/JMATRIX_ANALOGY_001_FOOTBALL_QUANT_HEDGEFUND_CORPORATE_BANKING_2026-10-26.md); [P-Narrative — Everyone Attacks, Everyone Defends](https://github.com/pengpengyi92/P-Narrative/blob/main/Narratives/2026-10-26_1539_EVERYONE_ATTACKS_EVERYONE_DEFENDS_FOOTBALL_BANK_QUANT.md); **v1.51.3 PATCH**, unscored career-inference analogy, existing J1–J4 framework.
+
+| Football dimension | Quant / Hedge Fund | Corporate Banking | Must verify |
+|---|---|---|---|
+| Fundamentals | Python, SQL, statistics, PIT data, research/engineering | Financials, cash flows, credit underwriting, products | Reproducible research or auditable credit model |
+| Attack | Alpha signal, OOS, strategy, execution | Client origination, financing design, deal closing | Net-of-cost value, not activity count |
+| Midfield | Strategy & Product, PM/Treasury/Risk/Tech interfaces | RM trust, resources, product/approval coordination | Accountable cross-team deliverables |
+| Defense | Leverage, model/market risk, collateral/funding liquidity, limits | PD/LGD, credit limits, collateral, covenants, monitoring | Downside stress and independent controls |
+| Match performance | Robust OOS vs *evidenced real* net P&L, risk-adjusted return, capacity | Risk-adjusted profit after funding/expected losses, deal quality, durable client value | Time series with denominators, assumptions and audit trail |
+
+**Transferable insight:** Technical competence, commercial judgment, teamwork, measurable contribution and risk boundaries all matter. Connections open passing lanes, but cannot substitute for a banker's cash-flow/credit judgment. Coding provides ball control, but cannot substitute for alpha validation. Quant Researcher, Quant Developer, SP and Corporate Banker each face **different minimum skills**. Football/篮球比喻只是思维模型，绝不等于真实岗位录用门槛或绩效证明。
+
+**Capital allocation echo:** In the previously defined *synthetic* 100bp SOFR +50bp PB margin spread shock, annual total funding expense rises $407.5k under invented balances/betas. Funding economics must be attributed to actual contractual facilities. A costly position is not necessarily cut: reassess marginal net performance, risks, liquidity, portfolio diversification and alternative uses of capital. Banking FTP/credit risk and hedge fund trading P&L have different contracts and legal controls.
+
+**PFSCC application:** Build public-source institutional research questions and a practitioner's source ledger before networking; connections are opportunities to exchange evidence, not substitutes for model validation or credit-risk authority.
+
+**Next proof:** One OOS-and-cost Quant artifact, one anonymized/synthetic corporate-credit and FTP memo, one English cross-team case presentation; not scored until independently inspected. No employer data, actual strategy P&L, bank loan, approval or staff claim.
+<!-- /JMX-ANALOGY-001-20261026-1539 -->
