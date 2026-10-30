@@ -1,6 +1,7 @@
 # HSBC ECB — Global Specialist Banker Pipeline
 
-**Snapshot:** 2026-09-30  
+**Research snapshot:** 2026-09-30  
+**Eligibility correction:** 2026-10-30 (Asia/Shanghai)  
 **Institution:** HSBC  
 **Framework:** PBenchmark / ECB
 
@@ -346,27 +347,42 @@ General potential
 
 ---
 
-## 11. Eligibility signal
+## 11. Eligibility: programme design versus individual eligibility
 
-很多 2027 Hong Kong Graduate Programme 当前采用：
+**Eligibility update: 2026-10-30 (Asia/Shanghai).** The organisational study remains a 2026-09-30 snapshot; this update corrects the personal entry-route conclusion.
 
-> **recent graduate with less than 2 years of full-time work experience, or graduate by July 2027**
+### Programme-level observation
 
-这比 BOCHK 2027 flagship MT 的 “no full-time work experience after graduation” 更宽。
+The public Hong Kong Markets page still describes recent graduates with less than two years of full-time experience, or graduation by July 2027. That wording does not by itself establish eligibility. The earlier comparison with BOCHK concerned work-experience wording, not an unrestricted graduation window.
 
-因此 ECB 上可以区分：
+HSBC Emerging Talent HK clarified on **2026-10-28** that the 2027 Graduate Programme requires:
 
-- **BOCHK MT**：fresh-graduate-oriented flagship pipeline
-- **HSBC Graduate**：broader early-career pipeline
+- an eligible graduation date between **May 2025 and July 2027**;
+- less than **24 months of full-time work experience by July 2027**;
+- the applicable academic and other programme requirements.
 
-但不同 programme 对工作权、签证支持等要求并不完全相同，必须以具体 vacancy 为准。
+The team confirmed that the UK undergraduate First-Class Honours meets the academic threshold. This does not override the separate graduation-date requirement. The exact experience calculation need not be resolved to decide this case because the graduation-date condition independently fails.
 
-例如：
+### Pengyi: direct recruitment-team determination
 
-- 2027 Markets Graduate 当前页面写明会考虑需要 visa sponsorship 的候选人；
-- 2027 Engineering / some Relationship Management programmes 当前页面则要求无需 HSBC visa sponsorship。
+At **2026-10-30 09:22:59 Beijing time**, HSBC Emerging Talent HK replied to the 28 October follow-up: the official KCL MSc graduation date, **2024-11-01**, falls outside the eligible window, so Pengyi does not meet the programme's eligibility criteria. This is a directly verified recruitment-team response, not an inference from the public advert.
 
-所以不要把某一个 track 的 immigration requirement 泛化到全行。
+| Separate state | Current conclusion |
+|---|---|
+| Eligibility enquiry | Answered; graduation-date requirement not met |
+| 2027 Hong Kong Markets S&T Graduate, vacancy 1365763657 | **INELIGIBLE_CONFIRMED** for the personal facts supplied |
+| Formal application | **NOT_APPLIED**; this was a pre-application enquiry |
+| Application rejection | **NOT_APPLICABLE**; no submitted-application rejection is recorded |
+| Experienced-hire / direct-entry vacancies | **ASSESS_ROLE_BY_ROLE**; not covered by this programme's exclusion |
+| Other countries, cohorts or programmes | Independent criteria; no blanket HSBC exclusion inferred |
+
+The latest relevant email and the HSBC-related mailbox search were checked again on **2026-10-30**. No subsequent recruitment correction was found within that search. Original email evidence is retained in the private application record; no full email body or contact details are reproduced here.
+
+**Decision:** remove this specific Graduate route from Pengyi's active application options. Retain HSBC **Function-first**, **Global Graduate Induction**, Markets desk rotation and specialist development as organisational research. Assess direct-entry roles against their own experience, technical, language, licence and work-authorisation requirements.
+
+### Immigration requirements remain track-specific
+
+The Markets Graduate public advert says sponsorship may be considered. The original Engineering / Relationship Management comparisons described different requirements. Those historical comparisons must not be applied to a new vacancy without checking its own wording. Graduate sponsorship cannot be assumed for experienced-hire roles.
 
 ---
 
@@ -432,7 +448,11 @@ Keywords:
 
 ## 15. Sources
 
-Official HSBC sources checked 2026-09-30:
+Original organisational sources checked 2026-09-30. Markets Graduate page rechecked 2026-10-30; its desk rotation and Global Graduate Induction descriptions remain present. Other programme descriptions remain historical snapshots.
+
+Eligibility evidence: HSBC Emerging Talent HK replies dated 2026-10-28 and 2026-10-30, verified from the user's mailbox; private provenance retained in PCT. The personal conclusion follows the direct reply even though the public Markets advert does not spell out the May 2025 boundary.
+
+Official sources:
 
 - University students and graduates:  
   https://www.hsbc.com/careers/students-and-graduates/university-students-and-graduates
