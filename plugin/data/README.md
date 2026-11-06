@@ -8,7 +8,11 @@
 | [Realyujie/dsh-us-stocks](https://github.com/Realyujie/dsh-us-stocks) | MCP | 美股行情/财报/分析师一致预期 | dsh 内挂载；美股深度数据（dsh-quant 内置 yahoo 免费行情打底）|
 
 **内置对照**：`quant_market_fetch`（加密三所/A股/美股免费行情）+
-`quant_data_guide`（15 渠道知识库）+ `quant_data_quality`（体检）。
+`quant_data_guide`（16 渠道知识库）+ `quant_data_quality`（体检）。
+
+**商业渠道目录**：[SiftingIO 审核记录](../../docs/data-sources/SIFTINGIO.md)
+（由 @aprsn 投稿，附条件收录）。公开 API/SDK/MCP 已作静态审阅；未执行有效凭据
+API 测试，未验证 dsh 插件兼容性。SDK 的 MIT 许可不授予行情数据使用权。
 
 **典型组合**：BTC 实验用内置免费行情；A股深度数据挂 capital-generation；
 美股财报挂 dsh-us-stocks——三个插槽各司其职。

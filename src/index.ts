@@ -1391,7 +1391,8 @@ export function apply(ctx: Context) {
     async execute(args) {
       const guide = channelAccessGuide(args.channel)
       if (args.check) {
-        const readiness = accessReadiness(args.channel, args.hasCredentials)
+        const { ready, blockers, actions } = accessReadiness(args.channel, args.hasCredentials)
+        const readiness = { ready, blockers, actions }
         return { ...guide, readiness }
       }
       return { ...guide, readiness: null }

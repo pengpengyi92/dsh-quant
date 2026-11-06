@@ -69,7 +69,7 @@ A common question: a quant project without `.py` files? **Answer: 0 Python files
   process as the agent, composable by the Loader, reversible registration (HMR-safe)
   — TypeScript is the only natural choice
 - Where Python is needed (akshare / tushare / baostock), use the **channel knowledge
-  base** (`quant_data_guide`, 15 channels): dsh ships shell / subprocess capabilities,
+  base** (`quant_data_guide`, 16 channels): dsh ships shell / subprocess capabilities,
   so the agent decides whether to spawn Python — dsh-quant carries no runtime
 - All numerical methods (indicators / backtests / options / bonds) are **pure
   functions with hand-computed baselines**: zero deps, offline-verifiable,
@@ -212,7 +212,7 @@ After `npm install -g .`, the commands shorten to `dsh-quant repo`,
 | `quant_deflated_sharpe` | `observedSharpe` + `numPeriods` + `numTrials=1` + `skewness?` + `kurtosis?` | `{ observedSharpe, minSignificantSharpe, deflatedSharpe, significant, pValue, notes }` | — (Bailey & López de Prado overfitting-adjusted Sharpe) |
 | `quant_data_pit` | `values: (number\|null)[]` + `channels?` | `{ healthScore, pit{pass, lookAheadIndices, notes}, survivorship{continuous, gaps, tailTruncated}, channels[] }` | — (AI-infra quality: point-in-time / survivorship / channel reliability) |
 | `quant_channel_guide` | `channel` (e.g. "akshare") + `check?` + `hasCredentials?` | `{ channel, displayName, steps[], prerequisites[], example, fallback, readiness? }` | — (agent-ready channel access guide + readiness check) |
-| `quant_data_guide` | `query` (channel name/data type, e.g. "tushare"/"financials") or `channel` (exact name) | `{ query, results: [{ name, url, cost, dataTypes, setup, tutorialUrls, bestFor, … }] }` | — (built-in 15-channel data knowledge base: A-shares/US/bonds + dsh ecosystem data plugins) |
+| `quant_data_guide` | `query` (channel name/data type, e.g. "tushare"/"financials") or `channel` (exact name) | `{ query, results: [{ name, url, cost, dataTypes, setup, tutorialUrls, bestFor, … }] }` | — (built-in 16-channel data knowledge base: A-shares/US/bonds + dsh ecosystem data plugins; [SiftingIO conditional listing](docs/data-sources/SIFTINGIO.md)) |
 | `quant_market_fetch` | `symbol: string` (e.g. BTCUSDT / sh600000 / AAPL), `interval: 1m…1M`, `limit: 1-1000`, `provider: binance/okx/bybit/sina/tencent/yahoo` | `{ symbol, interval, provider, candles: [{openTime, open, high, low, close, volume}] }` | — |
 | `quant_sma` | `values: number[]`, `window: integer` | `{ values: (number\|null)[], window }` | index `window-1` |
 | `quant_ema` | `values: number[]`, `window: integer` | `{ values: (number\|null)[], window }` | index `window-1` (seed = first-window mean, alpha = 2/(w+1)) |
@@ -507,6 +507,11 @@ background, building this project as an open research sandbox.
 ### Compatibility contributors
 
 Thanks to **@hufeide** for the DSH 0.2.x adaptation in [#136](https://github.com/pengpengyi92/dsh-quant/pull/136), and **@ziladan** for requesting 0.2.1-rc.2 verification in [#139](https://github.com/pengpengyi92/dsh-quant/issues/139) / [#140](https://github.com/pengpengyi92/dsh-quant/issues/140). The [compatibility audit](docs/maintenance/DSH-0.2.1-RC.2-2026-10-18.md) records tested versions and release boundaries.
+
+### Data-channel contributors
+
+Thanks to **@aprsn** for suggesting SiftingIO in [Issue #2](https://github.com/pengpengyi92/dsh-quant/issues/2#issuecomment-6659567979).
+The [conditional catalog review](docs/data-sources/SIFTINGIO.md) credits the submission and records the API-test and dsh-compatibility boundaries.
 
 ### Test contribution under review
 
