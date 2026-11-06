@@ -3,7 +3,7 @@
 市场数据接入、渠道导航、数据质量与标注。
 
 - market.ts：行情（Binance/OKX/Bybit 公共 API）+ 解析
-- data-guide.ts：A 股 8 渠道知识库（查询/对比/决策建议）
+- data-guide.ts：A 股与跨市场 16 渠道知识库（查询/对比/决策建议）；[SiftingIO 审核与限制](../../docs/data-sources/SIFTINGIO.md)
 - stats.ts：描述统计、序列质量、点级标注（Scale AI 哲学）
 - resample.ts：周期聚合（周/月线）
 

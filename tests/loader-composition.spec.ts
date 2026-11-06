@@ -106,6 +106,30 @@ test('real Loader composition: invalid args fail through the isError path', asyn
   assert.match(String(result.error?.message), /positive integer/)
 })
 
+test('real Loader composition: SiftingIO catalog and credential check obey output schemas without fetching data', async () => {
+  const ctx = await boot()
+  const call = (name: string, args: Record<string, string | boolean>) => ctx.tools.execute({
+    signal: new AbortController().signal,
+    callId: 'loader-siftingio-catalog' as Parameters<typeof ctx.tools.execute>[0]['callId'],
+    name,
+    arguments: args,
+  })
+  const guide = await call('quant_data_guide', { channel: 'siftingio' })
+  assert.equal(guide.isError, false, guide.error?.message)
+  const value = guide.value as unknown as { results: { category: string; notes: string }[] }
+  assert.equal(value.results[0]!.category, 'api-platform')
+  assert.match(value.results[0]!.notes, /@aprsn/)
+  assert.match(value.results[0]!.notes, /未执行有效凭据 API 测试/)
+  for (const hasCredentials of [false, true]) {
+    const result = await call('quant_channel_guide', { channel: 'siftingio', check: true, hasCredentials })
+    assert.equal(result.isError, false, result.error?.message)
+    const value = result.value as unknown as { readiness: { ready: boolean; blockers: string[]; actions: string[] } }
+    assert.equal(value.readiness.ready, hasCredentials)
+    assert.deepEqual(Object.keys(value.readiness).sort(), ['actions', 'blockers', 'ready'])
+    if (!hasCredentials) assert.ok(value.readiness.blockers.some(x => x.includes('凭据')))
+  }
+})
+
 test('real Loader composition: disposal removes the registered tools (HMR-safety)', async () => {
   const ctx = await boot()
   assert.equal(ctx.tools.schemas().length, 59)

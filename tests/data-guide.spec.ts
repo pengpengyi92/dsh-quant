@@ -4,17 +4,18 @@
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { DATA_CHANNELS, adviseChannels, compareChannels, findChannel, searchChannels } from '../src/dsh-data/data-guide.ts'
+import { DATA_CHANNELS, accessReadiness, adviseChannels, channelAccessGuide, compareChannels, findChannel, searchChannels } from '../src/dsh-data/data-guide.ts'
+import { channelReliability } from '../src/dsh-data/quality.ts'
 
-test('知识库：15 个渠道齐全且字段完整', () => {
-  assert.equal(DATA_CHANNELS.length, 15)
+test('知识库：16 个渠道齐全且字段完整', () => {
+  assert.equal(DATA_CHANNELS.length, 16)
   for (const c of DATA_CHANNELS) {
     assert.ok(c.name && c.displayName && c.url && c.cost)
     assert.ok(c.dataTypes.length > 0 && c.setup.length > 0 && c.tutorialUrls.length > 0)
     assert.ok(c.bestFor.length > 0)
   }
   const names = DATA_CHANNELS.map(c => c.name)
-  assert.deepEqual(names, ['akshare', 'baostock', 'tushare', 'wind', 'ifind', 'sse', 'szse', 'csindex', 'tencent', 'yahoo', 'capital-generation', 'dsh-us-stocks', 'data-mcp', 'chinabond', 'cfets'])
+  assert.deepEqual(names, ['akshare', 'baostock', 'tushare', 'wind', 'ifind', 'sse', 'szse', 'csindex', 'tencent', 'yahoo', 'capital-generation', 'dsh-us-stocks', 'data-mcp', 'chinabond', 'cfets', 'siftingio'])
 })
 
 test('findChannel：按名字/展示名查找', () => {
@@ -43,12 +44,12 @@ test('searchChannels：免费渠道查询', () => {
 })
 
 test('searchChannels：空查询返回全部', () => {
-  assert.equal(searchChannels('').length, 15)
+  assert.equal(searchChannels('').length, 16)
 })
 
 test('compareChannels: 覆盖类型排前 + 覆盖标记', () => {
   const out = compareChannels('财务')
-  assert.equal(out.channels.length, 15)
+  assert.equal(out.channels.length, 16)
   assert.equal(out.channels[0]!.covers, true)
   assert.ok(out.channels.filter(c => c.covers).length >= 4)
   const tushare = out.channels.find(c => c.name === 'tushare')!
@@ -77,4 +78,39 @@ test('adviseChannels: official 用途 → 交易所官网优先', () => {
   const r = adviseChannels({ dataType: '指数', budget: 'free', purpose: 'official' })
   assert.ok(r.some(x => x.name === 'csindex'))
   assert.ok(r.every(x => x.rank === r.indexOf(x) + 1)) // 连续排名
+})
+
+test('SiftingIO：可查询的商业渠道保留贡献来源与验证边界', () => {
+  const c = findChannel('SiftingIO')!
+  assert.equal(c.category, 'api-platform')
+  assert.equal(searchChannels('siftingio')[0]!.channel.name, c.name)
+  for (const type of ['ETF', '外汇', '大宗商品', '加密货币']) {
+    assert.ok(compareChannels(type).channels.some(x => x.name === c.name && x.covers))
+  }
+  assert.match(c.cost, /API Key/)
+  assert.match(c.cost, /内部非商业/)
+  assert.match(c.notes!, /2026-11-06/)
+  assert.match(c.notes!, /@aprsn/)
+  assert.match(c.notes!, /issuecomment-6659567979/)
+  assert.match(c.notes!, /未执行有效凭据 API 测试/)
+  assert.match(c.notes!, /未做正式 dsh 插件兼容性验证/)
+  assert.match(c.notes!, /MIT 许可不授予行情数据使用权/)
+  assert.ok(c.tutorialUrls.includes('https://sifting.io/legal/terms-of-use'))
+})
+
+test('SiftingIO：免费计划仍须凭据，接入提示不等于测试通过', () => {
+  const missing = accessReadiness('siftingio')
+  assert.equal(missing.ready, false)
+  assert.ok(missing.blockers.some(x => x.includes('凭据')))
+  assert.equal(accessReadiness('siftingio', true).ready, true) // only the local credential heuristic
+  const g = channelAccessGuide('siftingio')
+  assert.ok(g.prerequisites.some(x => x.includes('用途许可')))
+  assert.ok(g.steps.some(x => x.includes('X-API-Key')))
+  assert.match(g.fallback, /不代表 API 实测/)
+})
+
+test('SiftingIO：目录收录不提升为官方来源或已测质量', () => {
+  assert.ok(!adviseChannels({ dataType: '外汇', purpose: 'official' }).some(x => x.name === 'siftingio'))
+  assert.deepEqual(channelReliability(['siftingio']), channelReliability(['unreviewed-provider']).map(x => ({ ...x, channel: 'siftingio' })))
+  assert.ok(channelReliability(['siftingio'])[0]!.risks.some(x => x.includes('需实测')))
 })

@@ -6,6 +6,19 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+- Conditionally list SiftingIO in `quant_data_guide`, suggested by **@aprsn**
+  (self-identified as Alper San, SiftingIO founder) in [Issue #2](https://github.com/pengpengyi92/dsh-quant/issues/2#issuecomment-6659567979).
+  Record public-spec/SDK evidence, free-tier and data-license restrictions, and
+  unresolved documentation differences in [the review](docs/data-sources/SIFTINGIO.md).
+  Credential readiness remains a heuristic; no authenticated API test, quality
+  certification, market-data redistribution, or dsh-plugin compatibility claim.
+
+### Fixed
+- Make `quant_channel_guide(check=true)` return only the declared nested
+  readiness fields; the extra `channel` field previously failed runtime schema
+  validation. Add a real Loader regression using the SiftingIO catalog record.
+
 ## [0.91.1] - 2026-10-18
 
 Release candidate; npm publication remains pending. See

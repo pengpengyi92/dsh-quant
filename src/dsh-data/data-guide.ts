@@ -1,11 +1,11 @@
 /**
- * A 股 / 中国金融数据渠道知识库（零依赖、零网络，随包分发）。
+ * A 股 / 跨市场金融数据渠道知识库（零依赖、零网络，随包分发）。
  *
  * 定位（DeepQuant Harness 原则）：本插件不提供数据 API、不为数据付费；
  * 提供的是渠道导航——哪里有什么数据、费用与门槛、怎么接入、教程在哪里，
  * 把数据成本决策权交给用户。
  *
- * 内容来源：官方文档与社区教程调研（2026-08）。
+ * 内容来源：官方文档与社区教程调研；渠道的复核日期与限制见 notes。
  */
 
 export interface DataChannel {
@@ -214,6 +214,32 @@ export const DATA_CHANNELS: DataChannel[] = [
     bestFor: '银行间市场成交与资金利率（FICC 联动数据）',
     notes: '与 PFIC（内部 FICC）同数据源语言；公开侧只引用公开数据',
   },
+  {
+    name: 'siftingio',
+    displayName: 'SiftingIO Market Data API',
+    category: 'api-platform',
+    url: 'https://sifting.io/docs',
+    cost: '需注册及自有 API Key；各市场 Free：10,000 REST 次/月、60 次/分钟、1 个 WebSocket 连接/5 个标的订阅、1 个 key/1 人；仅内部非商业使用，付费及商用权限按市场、套餐和协议确认',
+    dataTypes: ['美股行情', 'ETF', '外汇', '大宗商品', '加密货币', '历史 OHLCV', '实时参考行情', 'agent-native 数据接口'],
+    setup: [
+      '在 sifting.io 注册，自行确认市场权限、配额与用途许可；API Key 仅从环境变量/秘密管理注入，不提交到仓库',
+      'REST：https://api.sifting.io；使用 X-API-Key 请求头；历史 bars 使用 Accept-Encoding: gzip 与 cursor 分页，规范差异澄清前每页不超过 1000 条',
+      'WebSocket：wss://stream.sifting.io/ws/v1；文档使用 key 查询参数，须遮蔽连接 URL 日志；认证模式说明有差异，接入前确认',
+      '可选官方 SDK：pip install siftingio / go get github.com/siftingio/sdk-go / npm install @siftingio/sdk；官方 MCP 见文档，但未做 dsh 兼容验证',
+    ],
+    tutorialUrls: [
+      'https://sifting.io/docs/quickstart',
+      'https://sifting.io/openapi.yaml',
+      'https://sifting.io/asyncapi.yaml',
+      'https://sifting.io/sdks',
+      'https://sifting.io/pricing',
+      'https://sifting.io/legal/terms-of-use',
+      'https://sifting.io/disclaimer',
+      'https://github.com/pengpengyi92/dsh-quant/blob/master/docs/data-sources/SIFTINGIO.md',
+    ],
+    bestFor: '自行评估跨市场 REST/JSON、WebSocket 与官方 MCP 的研究流程（附条件目录收录；未验证数据质量）',
+    notes: '复核日期：2026-11-06；社区投稿：@aprsn（自述 Alper San、SiftingIO 创始人），来源：https://github.com/pengpengyi92/dsh-quant/issues/2#issuecomment-6659567979。仅核验公开文档、规范及 SDK 源码，未执行有效凭据 API 测试，未做正式 dsh 插件兼容性验证。历史深度为供应商声明：支持的股票/外汇 25+ 年、大宗商品 20+ 年、加密货币 10+ 年，依标的/粒度而异。聚合衍生参考值，非交易所原始行情；股票 bars 按规范未作拆股/分红复权。SDK/规范的 MIT 许可不授予行情数据使用权；展示、再分发、历史存储及 AI/ML 用途须按服务和上游许可确认，不代理或分发商业行情。',
+  },
 ]
 
 /** 按渠道名精确查找。 */
@@ -418,6 +444,11 @@ export function channelAccessGuide(channel: string): ChannelAccessGuide {
       prerequisites: ['Wind 商业账号'],
       example: 'w.wsd("000001.SH", "close", "2024-01-01", "2024-12-31")',
       fallback: '无免费替代（如需免费先 akshare）',
+    },
+    siftingio: {
+      prerequisites: ['SiftingIO 账号与自有 API Key（通过环境变量/秘密管理注入）', '确认市场权限、套餐配额及数据用途许可'],
+      example: 'GET https://api.sifting.io/v1/symbols（X-API-Key 请求头由用户环境注入；仅为文档示意，未实测）',
+      fallback: '429 时按 Retry-After 退避或等待配额恢复；覆盖/许可不符时重新选择渠道。凭据就绪不代表 API 实测、数据质量或 dsh 兼容验证通过',
     },
   }
   const k = known[name]
