@@ -7,7 +7,7 @@
 - [x] P0: Classify six pinned partner/community repositories; retain license and NOT_RUN boundaries.
 - [x] P1: Add both DD/engineering columns, indexes, source snapshot and research proposal.
 - [x] P0: Five documentation checks, standard npm test 329/329 and source-script syntax check pass.
-- [ ] P1: Push a scoped branch/PR and publish in the existing Announcements DD category.
+- [x] P1: Push research branch/PR #156; publish/read back Announcements DD #157.
 - [ ] P2: Recheck undated official-org claims, missing licenses and current job eligibility before reuse/applying.
 - [ ] P2: Design a separately approved structural-break experiment; quality remains UNMEASURED.
 

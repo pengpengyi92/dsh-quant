@@ -15,6 +15,8 @@
 2026-11-12 更新：以 2025 Review 为最新年度基线，核实官方招聘入口、
 六个合作方/社区仓库及实时赛截止状态。未确认自有官方投资代码仓库，
 不是断言“零开源”；未公开 AUM、内部策略和待遇不补造。
+社区交流：[Announcements #157](https://github.com/pengpengyi92/dsh-quant/discussions/157)；
+内容整合：[PR #156](https://github.com/pengpengyi92/dsh-quant/pull/156)。
 
 ## 首批档案
 

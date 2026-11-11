@@ -11,7 +11,8 @@
 - [代码专刊](https://github.com/pengpengyi92/dsh-quant/blob/codex/adia-dd-20261112/quant-repo/adia.md)：六个合作方/社区仓库，commit、许可、用途和复现限制。
 - [冻结元数据](https://github.com/pengpengyi92/dsh-quant/blob/codex/adia-dd-20261112/quant-repo/evidence/2026-11-12-adia-github.json)：记录时间、owner、license、root license/NOTICE 与 NOT_RUN。
 
-内容先通过独立 PR 审阅；上面的分支链接可直接阅读，不表示已合入 master。
+内容在 [PR #156](https://github.com/pengpengyi92/dsh-quant/pull/156) 独立审阅；
+上面的分支链接可直接阅读，不表示已合入 master。
 
 ## 几个关键发现
 

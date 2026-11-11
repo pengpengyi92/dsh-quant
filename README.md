@@ -92,6 +92,7 @@ Research update (2026-11-12): [ADIA institutional DD](quant-history/adia.md)
 and [ADIA / ADIA Lab public-code map](quant-repo/adia.md) join the existing
 research columns. ADIA, its independent Lab, partner code and community
 solutions are distinguished; source links are not executed plugin integrations.
+Community reading/discussion: [ADIA DD #157](https://github.com/pengpengyi92/dsh-quant/discussions/157).
 
 New [FICC directory](ficc/README.md): **45 repository references** across
 rates/credit, FX, commodities/futures, macro data, derivatives and learning

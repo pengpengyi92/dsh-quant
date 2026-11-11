@@ -47,4 +47,20 @@ Verified 2026-11-12T00:46:31+08:00:
 
 These are documentation consistency and existing runtime regressions, not
 fact-proof tests or independent ADIA-model validation. External model quality
-remains UNMEASURED. Public PR/Discussion delivery is still pending here.
+remains UNMEASURED.
+
+## Public Delivery
+
+Verified 2026-11-12T00:49:16+08:00:
+
+- Content commit `29176732483d8f4dfca900e406114b39d9b772c9` pushed to the scoped branch.
+- [PR #156](https://github.com/pengpengyi92/dsh-quant/pull/156) is OPEN, not a main-branch merge.
+- All five CI jobs on that content commit passed: test and four compatibility cohorts.
+- [Discussion #157](https://github.com/pengpengyi92/dsh-quant/discussions/157)
+  is in the existing **Announcements** category, matching previous DD publications.
+- Remote body read back and matched `ann/2026-11-12_adia_deep_dd.md` after CRLF
+  normalization; branch links and PR reference present. No duplicate discussion.
+- Initial commit attempt lacked an author identity. Reused the repository's
+  existing public noreply author per command; no global Git configuration changed.
+- Final receipt/index update follows this content commit; no auto-merge,
+  package-version bump, release, deployment or external-model execution.
