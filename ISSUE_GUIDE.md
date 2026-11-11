@@ -23,6 +23,13 @@ questions, it's a good issue.
 
 ## 2. Issue types we welcome (all of them)
 
+FICC repo recommendations have a dedicated [submission template](.github/ISSUE_TEMPLATE/ficc_resource.yml)
+and [intake #152](https://github.com/pengpengyi92/dsh-quant/issues/152).
+Track admission in Issues; keep replies, comparison, ratings and reproduction
+notes in [Discussion #151](https://github.com/pengpengyi92/dsh-quant/discussions/151).
+Mature, teaching, naive and early-stage projects are welcome. A reviewed PR
+merges a directory entry; an Issue itself is closed with a linked receipt.
+
 | Type | Label | Use when... | What a good one contains |
 |---|---|---|---|
 | **Bug** | `bug` | something works incorrectly | repro (tool+args+expected+actual), environment, minimal case |

@@ -1,4 +1,25 @@
-# 0.91.1 compatibility release delivery
+# dsh-quant release verification
+
+## 0.92.0 FICC community milestone — 2026-11-11
+
+- **Baseline**: master d3cfb158, package source 0.91.1, GitHub Release 0.91.0,
+  npm latest 0.90.0; FICC tools/teaching threads existed but no dedicated repo hub.
+- **Change**: 45 unique repo references + provenance/permission boundaries,
+  generated directory/Discussion, intake Issue Form, ratings and weekly review.
+  Version 0.92.0 also rolls up previously merged contributions without rewriting them.
+- **Measure**: fixed offline suite on Node 24.18.0/npm 11.16.0, script/market types,
+  directory completeness, duplicates, restricted license isolation and primary-URL guards.
+- **Result**: local `npm test` 324/324, source/script/market types and catalog
+  consistency PASS. New PR/merge/publisher evidence is in
+  [delivery record](release/0.92.0/DELIVERY.md). External repo execution,
+  numerical quality, adoption and financial performance remain **UNMEASURED**.
+- **Trade-off**: broad source discovery is useful for navigation but no
+  production certification. Source-available/unknown licenses and legacy tools
+  remain explicitly separated; no fabricated community score.
+- **Next Action**: finish release delivery, then review new submissions weekly;
+  API/data/adapter validation is a separate experiment with fixed conventions.
+
+## Historical 0.91.1 compatibility release delivery
 
 ## Baseline
 

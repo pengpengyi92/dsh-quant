@@ -1,0 +1,74 @@
+name: FICC resource submission / 投稿
+description: Recommend a rates, credit, FX, commodities or macro repo; early ideas welcome.
+title: "[FICC] "
+labels: ["help wanted"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        成熟库、教学 baseline、naive 想法和自己的 repo 都欢迎！Issue 用于投稿与收录状态；
+        长讨论、回复、评分请到 [FICC Discussion #151](https://github.com/pengpengyi92/dsh-quant/discussions/151)。
+        也可以直接提交目录 PR。收录规则：[ficc/CONTRIBUTING.md](https://github.com/pengpengyi92/dsh-quant/blob/master/ficc/CONTRIBUTING.md)。
+  - type: input
+    id: repository
+    attributes:
+      label: Repository / primary URL
+      description: A public repo or primary project page; ideas may link a short public proposal.
+    validations:
+      required: true
+  - type: dropdown
+    id: topic
+    attributes:
+      label: FICC topic
+      multiple: true
+      options:
+        - Rates / fixed income
+        - Credit
+        - FX / currencies
+        - Commodities / futures / energy
+        - Macro / economic data
+        - Cross-asset / infrastructure
+    validations:
+      required: true
+  - type: textarea
+    id: relevance
+    attributes:
+      label: Why relevant / 可用于什么
+      description: Name one concrete FICC workflow, including an early idea if appropriate.
+    validations:
+      required: true
+  - type: dropdown
+    id: maturity
+    attributes:
+      label: Maturity / 项目阶段
+      options:
+        - Idea / not yet implemented
+        - Teaching / naive baseline
+        - Prototype
+        - Library / framework
+        - Legacy / archived
+        - Unknown
+    validations:
+      required: true
+  - type: input
+    id: license
+    attributes:
+      label: Code license and data rights
+      description: Unknown is acceptable; code licensing does not establish data redistribution rights.
+  - type: textarea
+    id: verification
+    attributes:
+      label: What you actually ran / 已验证什么
+      description: Command, commit/version, data, result and limitations; write NOT_RUN if not tested.
+    validations:
+      required: true
+  - type: input
+    id: discussion
+    attributes:
+      label: Discussion comment URL
+      description: Link the repo's top-level comment; replies and scores should stay there.
+  - type: textarea
+    id: disclosure
+    attributes:
+      label: Authorship / affiliation / known limitations
+      description: Self-promotion is welcome; disclose your relationship and counterexamples.

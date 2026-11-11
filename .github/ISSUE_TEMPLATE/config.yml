@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: FICC repos — discussion, ratings and research examples
+    url: https://github.com/pengpengyi92/dsh-quant/discussions/151
+    about: Rates, credit, FX, commodities and macro repos; mature or naive projects welcome. Use the FICC template for intake tracking.
   - name: GitHub Discussions (Q&A / ideas / R&D collaboration)
     url: https://github.com/pengpengyi92/dsh-quant/discussions
     about: Questions, research workflows, and collaboration ideas belong in Discussions, not issues.

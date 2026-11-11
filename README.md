@@ -77,7 +77,7 @@ A common question: a quant project without `.py` files? **Answer: 0 Python files
 
 One goal: **build the most usable AI-native quant repo** 🐋
 
-**59 `quant_*` tools · 6 domains · 298 tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
+**59 `quant_*` tools · 6 domains · 324 tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
 
 ## 🤖 For visiting agents
 
@@ -86,22 +86,30 @@ by Copilot / Claude Code / dsh), then the closed-loop example
 [plugin/CASE_STUDY.md](plugin/CASE_STUDY.md) or [Discussion #38](https://github.com/pengpengyi92/dsh-quant/discussions/38),
 and the one-glance contract [mcp/AGENT_GUIDE.md](mcp/AGENT_GUIDE.md).
 
-## Compatibility release status
+## 0.92.0 — FICC community and consolidated maintenance
 
-The **0.91.1 release candidate** includes DSH 0.2.1-rc.2 compatibility, with
-0.1.0-rc.6 / 0.2.0-rc.2 / 0.2.1-alpha.3 coverage retained. npm was still at
-0.90.0 when this candidate was prepared on 2026-10-18. Check the
-[delivery record](docs/maintenance/RELEASE-0.91.1-2026-10-18.md) and
-`npm view dsh-quant version` before treating the fix as published.
-Original compatibility contribution: **@hufeide (#136)**; user reports:
-**@ziladan (#139 / #140)**.
+New [FICC directory](ficc/README.md): **45 repository references** across
+rates/credit, FX, commodities/futures, macro data, derivatives and learning
+examples. Each entry carries primary sources, license and validation limits.
+These resources have been source-reviewed, not installed or numerically certified.
 
-The `v0.91.1` tag is fixed to the reviewed source. Its first authenticated
-publisher attempt failed with npm E404, so the tag is **not** evidence of npm
-availability. See [delivery attempt](release/0.91.1/DELIVERY-ATTEMPT.md).
-Maintainers can manually run `release acceptance` with `source=candidate`
-to reproduce the Linux package, or `source=registry` after publication to
-verify four clean real-Loader consumers. The workflow never publishes.
+- **Replies / ratings / reproduction exchange** → [Discussion #151](https://github.com/pengpengyi92/dsh-quant/discussions/151).
+- **Submit a repo / track admission** → [Issue #152](https://github.com/pengpengyi92/dsh-quant/issues/152)
+  or the FICC Issue template. Direct PRs welcome.
+- Mature libraries, naive baselines, teaching projects and early ideas all
+  belong here. Review → small PR → merge → contributor credit, in weekly batches.
+- Existing FICC educational threads #124–129 are indexed alongside the new resources.
+
+This milestone also collects previously merged DSH compatibility work,
+JSON/Kupiec fixes, market-provider tests and the conditional SiftingIO listing.
+Thanks **@hufeide, @Yuren0312, @klauschenshu-arch, @ziladan and @aprsn**.
+
+**Source version and npm delivery are separate.** At the 2026-11-11 preflight,
+npm still served 0.90.0. See the [0.92.0 release delivery record](https://github.com/pengpengyi92/dsh-quant/blob/master/release/0.92.0/DELIVERY.md)
+and `npm view dsh-quant version` for the actual publish result. Existing
+`v0.91.0`/`v0.91.1` tags remain unchanged; [0.91.1's historical publisher](release/0.91.1/DELIVERY-ATTEMPT.md)
+failed with E404. Four pinned host cohorts are retained through 0.2.1-rc.2;
+this does not certify newer rc.5 desktop installation (#149).
 
 ## Quick Install (dsh users)
 
@@ -298,6 +306,7 @@ results append after the reusable prefix.
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.92.0 | 2026-11-11 | FICC directory (45 repos) + Discussion #151 / intake #152, ratings and weekly review; consolidated compatibility, JSON/Kupiec, market-test and SiftingIO contributions |
 | 0.91.0 | 2026-09-11 | QRT Deep-mode full due diligence — nine-section rewrite (AUM chain to $50bn, 2025 flagship +30%, QFII+WFOE not QDLP, Dao 98% cumulative since 2022-11, Jaillon premise removed), 5 research dossiers |
 | 0.90.0 | 2026-08-23 | HIGHFLYER_SPECIAL — dual-engine king (quant funds AGI, DeepSeek $45B, Wenfeng world AI-richest), 50 reports total |
 | 0.89.0 | 2026-08-23 | UBIQUANT_SPECIAL — China AI-transform deep-dive (WorldQuant lineage, IQuest-Coder 40B open source, capsizing paradigm), 49 reports total |
@@ -413,7 +422,7 @@ Full records: [NEWS.md](NEWS.md) and [CHANGELOG.md](CHANGELOG.md).
 ## Domain layout (PDAT→PET pipeline mapping)
 
 ```
-src/dsh-data/       data (PDAT): 3 exchanges, 15 channels, quality/annotation, resample
+src/dsh-data/       data (PDAT): exchange providers, 16 channels, quality/annotation, resample
 src/dsh-alpha/      alpha (PAAT): 12 indicators + factor eval/combine (alphalens methodology)
 src/dsh-ml/         portfolio (PCPT): strategy backtests + portfolio + metric catalog
 src/dsh-risk/       risk (PRT): VaR/CVaR/Beta/Alpha/IR + Kupiec test + options + bonds
@@ -428,7 +437,7 @@ frameworks, indicators, factor evaluation, UI and demos. See pinned [Issue #9](h
 ## Quick start (after fork/pull)
 
 ```sh
-npm ci && npm run build && npm test    # offline full tests (215 unit + 4 Loader)
+npm ci && npm run build && npm test    # offline full suite, including real Loader cases
 npm run test:verify                    # live market integration (needs network)
 npm run gen:tools                      # regenerate mcp/tools.json
 ```
@@ -447,7 +456,7 @@ cd quant-indicators && tsc -p tsconfig.json
 ## Verification
 
 ```sh
-# pure-function numeric correctness + market parsing + backtests (215 cases, node:test, zero deps)
+# pure-function numeric correctness + market parsing + backtests (node:test)
 cd deepseek-harness && pnpm exec tsx --test ../quant-indicators/tests/*.spec.ts
 
 # REAL-composition: cordis.yml booted through the real Loader (registration visible / pipeline / isError / HMR-safety)
@@ -476,6 +485,9 @@ Ecosystem infrastructure: [quant ecosystem directory](docs/QUANT_ECOSYSTEM.md) �
 
 Research columns: [quant-history (firm archives)](quant-history/) · [quant-repo (open-source special)](quant-repo/)
 
+FICC: [resource directory](ficc/README.md) · [discussion / ratings #151](https://github.com/pengpengyi92/dsh-quant/discussions/151)
+· [submission tracking #152](https://github.com/pengpengyi92/dsh-quant/issues/152)
+
 Plugin library (five slots × external repos & MCPs): [plugin/](plugin/)
 
 ---
@@ -498,7 +510,7 @@ background, building this project as an open research sandbox.
 
 - **WorldQuant MAPC 2024 · Global 11 / 850 · UK 1** — [official Credly badge](https://www.credly.com/badges/058c73fd-7e31-4eb8-9246-5f068d39ec41)
 - **WorldQuant IQC 2024 · Global 232 / 34,142 · UK 5** (finalist)
-- dsh-quant: 59 tools · 6 domains · 215 unit tests · 110+ automated releases
+- dsh-quant: 59 tools · 6 domains · 324 offline checks; release receipts distinguish GitHub source and npm delivery
 - Quant-industry research: 95 firm archives + 53 research reports (in `quant-history/`)
 - [GitHub](https://github.com/pengpengyi92) · [LinkedIn](https://www.linkedin.com/in/pengyi-peng-625511253/)
 
@@ -513,10 +525,17 @@ Thanks to **@hufeide** for the DSH 0.2.x adaptation in [#136](https://github.com
 Thanks to **@aprsn** for suggesting SiftingIO in [Issue #2](https://github.com/pengpengyi92/dsh-quant/issues/2#issuecomment-6659567979).
 The [conditional catalog review](docs/data-sources/SIFTINGIO.md) credits the submission and records the API-test and dsh-compatibility boundaries.
 
-### Test contribution under review
+### Merged test contributions
 
 **@Yuren0312** contributed offline market-provider tests in
 [#144](https://github.com/pengpengyi92/dsh-quant/pull/144) for #106. The
-[independent audit](docs/maintenance/PR-144-2026-10-18.md) confirms the coverage
-gain and records one requested Node-type correction. This contribution is
-under review, not yet merged or shipped.
+[October 26 acceptance record](docs/maintenance/MAINTENANCE-2026-10-26.md)
+records the corrected Node types, independent validation and verified merge.
+[#146](https://github.com/pengpengyi92/dsh-quant/pull/146) enforces that type
+gate in CI. Both are included in the 0.92.0 source release.
+
+### Reproducible bug reports
+
+Thanks **@klauschenshu-arch** for the optional-trade-metrics report
+[#135](https://github.com/pengpengyi92/dsh-quant/issues/135), fixed by
+[#138](https://github.com/pengpengyi92/dsh-quant/pull/138).
