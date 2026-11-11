@@ -80,6 +80,9 @@ export function renderDirectory(catalog, community) {
   }
   md += `## 已有 FICC 讨论与本仓库工具\n\n这些是历史教学/研究讨论，独立于这次 repo 目录收录，不把旧帖内容当作新的数值验收。\n\n${history}\n`
   md += `本仓库已有 [quant_bond](../src/dsh-risk/bond.ts) 的债券价格/YTM、久期、凸性、DV01 教学方法，\n以及数据渠道知识库中的 ChinaBond、CFETS 等引用。本次没有新增 FICC 定价工具或自动交易功能。\n\n`
+  if (community.scheduler === 'CODEX_WEEKLY_HEARTBEAT_ACTIVE') {
+    md += `投稿巡检已安排每周一 09:30（Asia/Shanghai）的 Codex 线程跟进；运行依赖客户端与连接可用。\n巡检发现新内容后仍需 review/CI 通过再合入，未配置无人值守自动 merge。\n\n`
+  }
   md += `## 收录与验证边界\n\n- 原仓库/官方文档是来源；收录不代表作者背书、dsh 插件兼容、模型验证或已完成集成。\n- source-available、许可未知、历史/archived 项目都有明确标签；请按具体代码版本核对许可。\n- SDK 开源不代表市场数据免费；商业 API、交易所授权、凭据、服务条款和再分发权单独确认。\n- 学习实验也欢迎。定价比较至少固定曲线、日计数、日历、复利、结算、clean/dirty、单位及已知答案；\n  回测须核对无未来函数、数据修订、换月、bid/ask、费用和风险。\n- 每个 repo 在 Discussion 留一个顶层评论，回复、评分和争议都放在它的回复下。\n  投稿 Issue 只跟踪 submitted → needs-info/reviewed → PR → merged → credited。\n- 每周批量检查、review 后合入；无人值守 merge 尚未配置。未运行的数值可靠性评分填 N/A。\n\n目录由 \`resources.json\` 生成。修改数据后运行 \`node scripts/ficc-catalog.mjs --write\`，\n再运行 \`npm run test:ficc\`；生成器离线运行，不访问或修改 GitHub。\n`
   return md
 }

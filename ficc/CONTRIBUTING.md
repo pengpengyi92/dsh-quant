@@ -59,7 +59,9 @@ source-available、非商业或商业双许可项目独立标识，不混称 OSI
 
 ## 每周批量收录纪律
 
-维护者每周查看待投稿 Issue 和新 Discussion 评论；这是维护节奏约定，尚无
+维护者每周查看待投稿 Issue 和新 Discussion 评论；已安排每周一 09:30
+（Asia/Shanghai）的 Codex 线程跟进巡检，依赖客户端与连接可用。
+巡检负责发现新投稿和准备可 review 的变更；合入仍遵守 review/CI 门，尚无
 无人值守自动 merge。每批执行：
 
 `submitted → needs-info / reviewed → PR → merged → credited`

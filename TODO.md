@@ -8,8 +8,10 @@
 - [x] P0: Add the Issue Form, JSON-backed catalog, generation and meaningful negative checks.
 - [x] P0: Bump package + lock to 0.92.0; update CHANGELOG/NEWS/README and contributor credit.
 - [x] P0: Local build, 324 tests, script/market types and catalog checks pass.
-- [ ] P0: Pass release PR CI, merge, tag v0.92.0, publish GitHub Release and announcement.
-- [ ] P0: Inspect the tag publisher and exact npm version; report auth failure separately if still blocked.
+- [x] P0: Pass release PR CI, merge #153, tag v0.92.0, publish GitHub Release and thanks #154.
+- [x] P0: Inspect the tag publisher and exact npm version: npm PUT E404, exact version absent, latest 0.90.0.
+- [ ] P0: Restore accepted npm publishing authentication, publish reviewed 0.92.0 and pass exact registry acceptance.
+- [x] P1: Schedule Monday 09:30 Asia/Shanghai FICC submission follow-up; review/CI merge gates retained.
 - [ ] P1: Review FICC submissions weekly; merge reviewed small catalog PRs and credit authors.
 
 The older checklist below is historical 0.91.1 delivery work; do not move that

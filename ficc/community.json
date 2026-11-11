@@ -2,6 +2,8 @@
   "discussion_url": "https://github.com/pengpengyi92/dsh-quant/discussions/151",
   "intake_issue_url": "https://github.com/pengpengyi92/dsh-quant/issues/152",
   "cadence": "WEEKLY_REVIEW_THEN_MERGE",
-  "scheduler": "NOT_CONFIGURED",
+  "scheduler": "CODEX_WEEKLY_HEARTBEAT_ACTIVE",
+  "schedule": "Monday 09:30 Asia/Shanghai",
+  "automation_id": "dsh-quant-ficc",
   "automatic_merge": false
 }

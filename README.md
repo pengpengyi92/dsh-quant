@@ -104,9 +104,10 @@ This milestone also collects previously merged DSH compatibility work,
 JSON/Kupiec fixes, market-provider tests and the conditional SiftingIO listing.
 Thanks **@hufeide, @Yuren0312, @klauschenshu-arch, @ziladan and @aprsn**.
 
-**Source version and npm delivery are separate.** At the 2026-11-11 preflight,
-npm still served 0.90.0. See the [0.92.0 release delivery record](https://github.com/pengpengyi92/dsh-quant/blob/master/release/0.92.0/DELIVERY.md)
-and `npm view dsh-quant version` for the actual publish result. Existing
+**[GitHub v0.92.0](https://github.com/pengpengyi92/dsh-quant/releases/tag/v0.92.0) is published; npm remains 0.90.0.**
+The November 11 publisher passed build/tests but npm PUT returned E404;
+exact 0.92.0 is absent from the registry. See the [delivery record](https://github.com/pengpengyi92/dsh-quant/blob/master/release/0.92.0/DELIVERY.md).
+Existing
 `v0.91.0`/`v0.91.1` tags remain unchanged; [0.91.1's historical publisher](release/0.91.1/DELIVERY-ATTEMPT.md)
 failed with E404. Four pinned host cohorts are retained through 0.2.1-rc.2;
 this does not certify newer rc.5 desktop installation (#149).

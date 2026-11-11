@@ -1,5 +1,10 @@
 # v0.92.0 — FICC community, resource directory and contributor roll-up
 
+**发布边界：这是 GitHub source Release。npm 0.92.0 尚未发布。**
+本次 [publisher 43025403748](https://github.com/pengpengyi92/dsh-quant/actions/runs/43025403748)
+通过安装、构建、324 项测试和 tag/version 校验，最后 npm publish 失败；精确 registry
+查询返回版本不存在。既有 npm 安装问题继续保持开放，等待维护者恢复 npm 发布认证。
+
 FICC 资源与共建入口上线：**45 个去重仓库引用**，覆盖利率/信用、衍生品、FX、
 商品期货、能源基本面、宏观数据和教学/naive/历史项目。
 
