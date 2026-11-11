@@ -6,7 +6,27 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.92.0] - 2026-11-11
+
+FICC community and resource-directory milestone; additive minor release, no
+new pricing tool or breaking API. GitHub source release and npm publication are
+tracked separately in [the delivery record](https://github.com/pengpengyi92/dsh-quant/blob/master/release/0.92.0/DELIVERY.md).
+
 ### Added
+- A dedicated `ficc/` directory with 45 unique primary-source repository
+  references covering rates/credit, derivatives, FX, commodities/futures,
+  energy fundamentals, macro data, teaching and legacy examples. Record code
+  license, data-rights limits, observation date and `NOT_EXECUTED` validation;
+  source-available and unresolved-license references stay separately labeled.
+- [FICC Discussion #151](https://github.com/pengpengyi92/dsh-quant/discussions/151)
+  for threaded replies, evidence-backed ratings and reproduction exchange;
+  [intake Issue #152](https://github.com/pengpengyi92/dsh-quant/issues/152)
+  and an Issue Form for submissions. Mature projects and naive ideas welcome.
+- JSON-backed directory/Discussion generation with offline validation, duplicate
+  and primary-source guards; weekly review → PR → merge → credit convention.
+  No unattended merge scheduler is introduced.
+- Publish the catalog in the npm package; link existing FICC Discussions #124–129
+  rather than representing their historical material as new research.
 - Conditionally list SiftingIO in `quant_data_guide`, suggested by **@aprsn**
   (self-identified as Alper San, SiftingIO founder) in [Issue #2](https://github.com/pengpengyi92/dsh-quant/issues/2#issuecomment-6659567979).
   Record public-spec/SDK evidence, free-tier and data-license restrictions, and
@@ -18,6 +38,23 @@ All notable changes to this project are documented here. The format follows
 - Make `quant_channel_guide(check=true)` return only the declared nested
   readiness fields; the extra `channel` field previously failed runtime schema
   validation. Add a real Loader regression using the SiftingIO catalog record.
+
+### Included since the last formal GitHub release (0.91.0)
+- DSH compatibility contributions #136/#142 by **@hufeide**, completed and
+  independently verified across four host cohorts; thanks **@ziladan** for
+  #139/#140. This does not establish DSH 0.2.1-rc.5 desktop compatibility (#149).
+- JSON-safe optional trade metrics #138 (report **@klauschenshu-arch**, #135)
+  and stable finite Kupiec POF boundary/p-value fixes #141 (#137).
+- Offline market-provider tests #144 by **@Yuren0312** and the Node-only test
+  typechecking gate #146; contributor history retained. These are merged, not
+  still “under review.”
+- Exact-package/four-cohort acceptance and publishing-failure receipts #143/#145;
+  previously committed research/benchmark documentation remains in history.
+
+### Credits
+Thanks **@hufeide, @Yuren0312, @klauschenshu-arch, @ziladan and @aprsn** for
+code, tests, reproducible reports and resource submissions. Listing an external
+FICC repo credits its authors without implying endorsement or new integration.
 
 ## [0.91.1] - 2026-10-18
 

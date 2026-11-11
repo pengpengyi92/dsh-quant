@@ -4,6 +4,13 @@ Thanks for your interest! dsh-quant is an agent-native quantitative R&D toolkit
 for DeepSeek Harness — 46 tools across 6 domains, methods open, secrets
 internal. We welcome issues, PRs, discussions, and data-provider partnerships.
 
+FICC repos and research examples: [directory](ficc/README.md),
+[submission/rating rules](ficc/CONTRIBUTING.md),
+[Discussion #151](https://github.com/pengpengyi92/dsh-quant/discussions/151) and
+[intake #152](https://github.com/pengpengyi92/dsh-quant/issues/152).
+Update `ficc/resources.json`, regenerate with `node scripts/ficc-catalog.mjs --write`,
+then run `npm run test:ficc`. Directory references do not require a new tool.
+
 ## Development loop
 
 ```sh

@@ -4,6 +4,14 @@ dsh 生态里与量化/金融数据相关的项目目录（awesome 风格：一�
 社区讨论见 [Discussion #11](https://github.com/pengpengyi92/dsh-quant/discussions/11)。
 欢迎 PR 增补条目。
 
+## FICC 专区
+
+[FICC 资源目录](../ficc/README.md) 汇总利率、信用、FX、商品期货、能源基本面、
+宏观数据及教学实验。首批 45 个去重 repo 均附 primary source、许可与验证边界。
+[Discussion #151](https://github.com/pengpengyi92/dsh-quant/discussions/151)
+集中回复、评分和复现交流；[Issue #152](https://github.com/pengpengyi92/dsh-quant/issues/152)
+负责投稿和收录跟踪，也可直接 PR。按周 review 后分批合入目录，贡献者记入更新日志。
+
 ## 目录
 
 | 项目 | 类型 | 一句话 | 状态 |

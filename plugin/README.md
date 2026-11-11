@@ -29,6 +29,10 @@ plugin/
 
 ## 案例与候选
 
+- FICC 专区：[45 个首批资源](../ficc/README.md) ·
+  [集中讨论 / 评分 #151](https://github.com/pengpengyi92/dsh-quant/discussions/151) ·
+  [投稿 / 跟踪 #152](https://github.com/pengpengyi92/dsh-quant/issues/152)。
+  成熟库、naive baseline、教学项目都欢迎；收录不表示已集成为 dsh 插件。
 - 完整闭环案例（五槽组合，从数据到执行）：[CASE_STUDY.md](CASE_STUDY.md)
 - 我们自己可供给的插件候选：[ROADMAP.md](ROADMAP.md)
 

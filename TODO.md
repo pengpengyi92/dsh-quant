@@ -1,5 +1,20 @@
 # Release delivery TODO
 
+## 0.92.0 FICC milestone — 2026-11-11
+
+- [x] P0: Refresh master/release/merge/npm state; preserve old tags and authorship.
+- [x] P0: Add 45 primary-source FICC repo records with license/data-rights/NOT_RUN boundaries.
+- [x] P0: Publish Discussion #151 and intake Issue #152 with threaded ratings and cross-links.
+- [x] P0: Add the Issue Form, JSON-backed catalog, generation and meaningful negative checks.
+- [x] P0: Bump package + lock to 0.92.0; update CHANGELOG/NEWS/README and contributor credit.
+- [x] P0: Local build, 324 tests, script/market types and catalog checks pass.
+- [ ] P0: Pass release PR CI, merge, tag v0.92.0, publish GitHub Release and announcement.
+- [ ] P0: Inspect the tag publisher and exact npm version; report auth failure separately if still blocked.
+- [ ] P1: Review FICC submissions weekly; merge reviewed small catalog PRs and credit authors.
+
+The older checklist below is historical 0.91.1 delivery work; do not move that
+tag or treat the new FICC source release as proof of npm publication.
+
 - [x] P0: Check npm versions/dist-tags, old tags/Releases and current CI.
 - [x] P0: Preserve hufeide's original ancestry and credit ziladan's reports.
 - [x] P0: Retest standard npm test (298 pass), script types and 56 tool calls.

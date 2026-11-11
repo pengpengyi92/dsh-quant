@@ -1,6 +1,6 @@
 {
   "name": "dsh-quant",
-  "version": "0.91.1",
+  "version": "0.92.0",
   "description": "🐳 The Everything-Plugin Quant OS — AI-native & DSH-native: 59 tools, 6 pluggable domains (data/alpha/ML/risk/execution), one end-to-end PDAT→PET pipeline. Methods open, secrets internal.",
   "license": "MIT",
   "type": "module",
@@ -12,7 +12,11 @@
     "trading",
     "technical-analysis",
     "indicators",
-    "backtest"
+    "backtest",
+    "ficc",
+    "fixed-income",
+    "foreign-exchange",
+    "commodities"
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -49,6 +53,8 @@
     "quant-history",
     "quant-repo",
     "plugin",
+    "ficc",
+    "scripts/ficc-catalog.mjs",
     "AGENTS.md",
     "CLAUDE.md",
     "cli"
@@ -57,6 +63,7 @@
     "build": "tsc -p tsconfig.json",
     "test:unit": "tsx --test tests/*.spec.ts",
     "test:loader": "tsx --test tests/loader-composition.spec.ts",
+    "test:ficc": "node --import tsx --test tests/ficc-catalog.spec.ts && node scripts/ficc-catalog.mjs",
     "test:verify": "tsx verify.ts",
     "test": "npm run build && npm run typecheck && npm run test:unit",
     "prepublishOnly": "npm run build && npm test",

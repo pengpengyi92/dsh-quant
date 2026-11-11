@@ -1,5 +1,18 @@
 # News
 
+## 0.92.0 — 2026-11-11
+
+**FICC 资源与社区入口上线**：首批 45 个去重仓库，利率/信用、FX、商品期货、
+宏观数据、能源基本面、教学/naive/历史项目；每条附来源、许可与验证边界。
+[FICC 目录](ficc/README.md) · [集中讨论/评分 #151](https://github.com/pengpengyi92/dsh-quant/discussions/151)
+· [投稿跟踪 #152](https://github.com/pengpengyi92/dsh-quant/issues/152)。
+定期 review 后以 PR 分批合入，感谢每位投稿人。
+
+本次同时汇总正式 0.91.0 之后已 merge 的 DSH 兼容性、JSON/Kupiec 修复、
+行情离线测试、Node-only 测试类型门及 SiftingIO 条件收录。
+感谢 @hufeide、@Yuren0312、@klauschenshu-arch、@ziladan、@aprsn。
+GitHub Release 与 npm 实际可安装版本分别核验：[发布记录](https://github.com/pengpengyi92/dsh-quant/blob/master/release/0.92.0/DELIVERY.md)。
+
 ## 0.91.1 candidate — 2026-10-18
 
 DSH 0.2.1-rc.2 compatibility, preserving three historical host cohorts.
