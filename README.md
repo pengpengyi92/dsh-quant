@@ -88,6 +88,11 @@ and the one-glance contract [mcp/AGENT_GUIDE.md](mcp/AGENT_GUIDE.md).
 
 ## 0.92.0 — FICC community and consolidated maintenance
 
+Research update (2026-11-12): [ADIA institutional DD](quant-history/adia.md)
+and [ADIA / ADIA Lab public-code map](quant-repo/adia.md) join the existing
+research columns. ADIA, its independent Lab, partner code and community
+solutions are distinguished; source links are not executed plugin integrations.
+
 New [FICC directory](ficc/README.md): **45 repository references** across
 rates/credit, FX, commodities/futures, macro data, derivatives and learning
 examples. Each entry carries primary sources, license and validation limits.

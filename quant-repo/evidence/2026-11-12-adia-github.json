@@ -1,0 +1,126 @@
+{
+  "title": "ADIA public-code ecosystem source snapshot",
+  "retrieved_at_utc": "2026-11-11T16:41:58.845Z",
+  "retrieved_at_shanghai": "2026-11-12T00:41:58.845+08:00",
+  "institution_repository_status": "NOT_VERIFIED_IN_BOUNDED_SEARCH",
+  "search_scope": [
+    "ADIA and ADIA Lab official sites and source links",
+    "GitHub search/repositories: exact phrase ADIA Lab, first 30 results",
+    "GitHub search/users: ADIA type:org, first 30 results; not exhaustive",
+    "All current public crunchdao org repositories via paginated API"
+  ],
+  "absence_is_not_proof": true,
+  "records": [
+    {
+      "repo": "crunchdao/competitions",
+      "relationship": "PARTNER",
+      "url": "https://github.com/crunchdao/competitions",
+      "default_branch": "master",
+      "commit": "25d8b4e2f76f122c8fe21b82e9556308ba8d8988",
+      "commit_url": "https://github.com/crunchdao/competitions/commit/25d8b4e2f76f122c8fe21b82e9556308ba8d8988",
+      "pushed_at": "2026-11-11T15:15:36Z",
+      "stars": 34,
+      "archived": false,
+      "license_spdx": null,
+      "license_files": [],
+      "readme_blob_sha": null,
+      "reuse_gate": "REVIEW_REQUIRED_NOT_INTEGRATED",
+      "runtime_execution": "NOT_RUN",
+      "incorporation": "LINK_ONLY"
+    },
+    {
+      "repo": "crunchdao/quickstarters-adialab",
+      "relationship": "PARTNER",
+      "url": "https://github.com/crunchdao/quickstarters-adialab",
+      "default_branch": "main",
+      "commit": "66fb5508ed461b90c89c79843c43580f803edcbd",
+      "commit_url": "https://github.com/crunchdao/quickstarters-adialab/commit/66fb5508ed461b90c89c79843c43580f803edcbd",
+      "pushed_at": "2023-08-01T07:16:00Z",
+      "stars": 51,
+      "archived": false,
+      "license_spdx": null,
+      "license_files": [],
+      "readme_blob_sha": "0976c3bbe1cf65a55acf02e39e58d106e84f1f07",
+      "reuse_gate": "REVIEW_REQUIRED_NOT_INTEGRATED",
+      "runtime_execution": "NOT_RUN",
+      "incorporation": "LINK_ONLY"
+    },
+    {
+      "repo": "crunchdao/crunch-cli",
+      "relationship": "PARTNER",
+      "url": "https://github.com/crunchdao/crunch-cli",
+      "default_branch": "master",
+      "commit": "c6ae069dba771acad65fe8d3c7ad334c803ab39b",
+      "commit_url": "https://github.com/crunchdao/crunch-cli/commit/c6ae069dba771acad65fe8d3c7ad334c803ab39b",
+      "pushed_at": "2026-11-05T14:33:38Z",
+      "stars": 9,
+      "archived": false,
+      "license_spdx": null,
+      "license_files": [],
+      "readme_blob_sha": "0132d1e14e979278c6773564d403c66a32c28509",
+      "reuse_gate": "REVIEW_REQUIRED_NOT_INTEGRATED",
+      "runtime_execution": "NOT_RUN",
+      "incorporation": "LINK_ONLY"
+    },
+    {
+      "repo": "Ori-Replication/ADIA-Lab-Causal-Discovery",
+      "relationship": "COMMUNITY",
+      "url": "https://github.com/Ori-Replication/ADIA-Lab-Causal-Discovery",
+      "default_branch": "master",
+      "commit": "7fd401dff92e7093724963fcdf06528107439ffb",
+      "commit_url": "https://github.com/Ori-Replication/ADIA-Lab-Causal-Discovery/commit/7fd401dff92e7093724963fcdf06528107439ffb",
+      "pushed_at": "2025-02-15T05:01:00Z",
+      "stars": 6,
+      "archived": false,
+      "license_spdx": null,
+      "license_files": [],
+      "readme_blob_sha": "0eec0d83d269e23ffa2df15c9d16a6bc0f2e7ece",
+      "reuse_gate": "REVIEW_REQUIRED_NOT_INTEGRATED",
+      "runtime_execution": "NOT_RUN",
+      "incorporation": "LINK_ONLY"
+    },
+    {
+      "repo": "BoNing-Gu/ADIA-Lab-Structural-Break",
+      "relationship": "COMMUNITY",
+      "url": "https://github.com/BoNing-Gu/ADIA-Lab-Structural-Break",
+      "default_branch": "main",
+      "commit": "726879ff1738221bdbdf39a1faec51c8646fce94",
+      "commit_url": "https://github.com/BoNing-Gu/ADIA-Lab-Structural-Break/commit/726879ff1738221bdbdf39a1faec51c8646fce94",
+      "pushed_at": "2025-10-28T13:19:11Z",
+      "stars": 12,
+      "archived": false,
+      "license_spdx": null,
+      "license_files": [],
+      "readme_blob_sha": "9e62c1092acc5da9ba002d22a92112373c369a43",
+      "reuse_gate": "REVIEW_REQUIRED_NOT_INTEGRATED",
+      "runtime_execution": "NOT_RUN",
+      "incorporation": "LINK_ONLY"
+    },
+    {
+      "repo": "szukiyu40/adia-structural-break-realtime",
+      "relationship": "COMMUNITY",
+      "url": "https://github.com/szukiyu40/adia-structural-break-realtime",
+      "default_branch": "main",
+      "commit": "343265af66da726ae29c58738f68f3b66a2ffb6a",
+      "commit_url": "https://github.com/szukiyu40/adia-structural-break-realtime/commit/343265af66da726ae29c58738f68f3b66a2ffb6a",
+      "pushed_at": "2026-10-07T02:39:39Z",
+      "stars": 2,
+      "archived": false,
+      "license_spdx": "Apache-2.0",
+      "license_files": [
+        {
+          "name": "LICENSE",
+          "blob_sha": "67db8588217f266eb561f75fae738656325deac9"
+        },
+        {
+          "name": "NOTICE",
+          "blob_sha": "c074c2805a76db2063ae91ed4bc91620007dd879"
+        }
+      ],
+      "readme_blob_sha": "39b2537a82e8b135d7dde28bb9108f69ce96b9af",
+      "reuse_gate": "LICENSE_IDENTIFIED_NOT_INTEGRATED",
+      "runtime_execution": "NOT_RUN",
+      "incorporation": "LINK_ONLY"
+    }
+  ]
+}

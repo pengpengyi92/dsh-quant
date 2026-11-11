@@ -1,5 +1,16 @@
 # Release delivery TODO
 
+## ADIA research columns — 2026-11-12
+
+- [x] P0: Read the existing Deep DD standard, research columns and Discussions.
+- [x] P0: Verify latest annual-review baseline, Lab legal independence and official QRD/AI JDs.
+- [x] P0: Classify six pinned partner/community repositories; retain license and NOT_RUN boundaries.
+- [x] P1: Add both DD/engineering columns, indexes, source snapshot and research proposal.
+- [x] P0: Five documentation checks, standard npm test 329/329 and source-script syntax check pass.
+- [ ] P1: Push a scoped branch/PR and publish in the existing Announcements DD category.
+- [ ] P2: Recheck undated official-org claims, missing licenses and current job eligibility before reuse/applying.
+- [ ] P2: Design a separately approved structural-break experiment; quality remains UNMEASURED.
+
 ## 0.92.0 FICC milestone — 2026-11-11
 
 - [x] P0: Refresh master/release/merge/npm state; preserve old tags and authorship.

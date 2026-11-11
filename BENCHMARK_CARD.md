@@ -1,5 +1,24 @@
 # dsh-quant release verification
 
+## ADIA public research addition — 2026-11-12
+
+- **Baseline**: master `1257d9b`; existing quant-history/quant-repo columns and
+  Announcements DD posts; no dedicated ADIA dossier in the local archive.
+- **Change**: nine-part Deep DD, independent Lab/QRD distinction, six pinned
+  partner/community references, official job requirements and a proposed
+  offline/online structural-break research protocol. No runtime/model change.
+- **Measure**: source ownership/license metadata, commit pins, local links,
+  document/evidence consistency and existing regression tests. Public-source
+  reading is not an external-model reproduction or exhaustive legal audit.
+- **Result**: source snapshot recorded; five documentation checks, standard
+  `npm test` (build + typecheck + 329 tests), script syntax and diff checks pass. All external
+  code execution is NOT_RUN; numerical quality, alpha, adoption, performance,
+  and proposed detector implementation are **UNMEASURED**.
+- **Trade-off**: useful navigation, but missing licenses, weights and current
+  internal facts prevent direct code adoption or production claims.
+- **Next Action**: finish scoped tests and delivery; review rights/data and
+  freeze an independent experiment before adding a detector/tool.
+
 ## 0.92.0 FICC community milestone — 2026-11-11
 
 - **Baseline**: master d3cfb158, package source 0.91.1, GitHub Release 0.91.0,
