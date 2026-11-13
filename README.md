@@ -77,7 +77,7 @@ A common question: a quant project without `.py` files? **Answer: 0 Python files
 
 One goal: **build the most usable AI-native quant repo** 🐋
 
-**59 `quant_*` tools · 6 domains · 324 tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
+**59 `quant_*` tools · 6 domains · 337 source tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
 
 ## 🤖 For visiting agents
 
@@ -110,18 +110,28 @@ This milestone also collects previously merged DSH compatibility work,
 JSON/Kupiec fixes, market-provider tests and the conditional SiftingIO listing.
 Thanks **@hufeide, @Yuren0312, @klauschenshu-arch, @ziladan and @aprsn**.
 
-**[GitHub v0.92.0](https://github.com/pengpengyi92/dsh-quant/releases/tag/v0.92.0) is published; npm remains 0.90.0.**
-The November 11 publisher passed build/tests but npm PUT returned E404;
-exact 0.92.0 is absent from the registry. See the [delivery record](https://github.com/pengpengyi92/dsh-quant/blob/master/release/0.92.0/DELIVERY.md).
-Existing
-`v0.91.0`/`v0.91.1` tags remain unchanged; [0.91.1's historical publisher](release/0.91.1/DELIVERY-ATTEMPT.md)
-failed with E404. Four pinned host cohorts are retained through 0.2.1-rc.2;
-this does not certify newer rc.5 desktop installation (#149).
+**[npm 0.92.0](https://www.npmjs.com/package/dsh-quant/v/0.92.0) is published and `latest=0.92.0` (2026-11-14).**
+The exact reviewed Linux artifact passed [five clean registry consumers](https://github.com/pengpengyi92/dsh-quant/actions/runs/43503675329):
+DSH 0.1.0-rc.6 / 0.2.0-rc.2 / 0.2.1-alpha.3 / 0.2.1-rc.2 / 0.2.1-rc.5,
+with shared peers, real Loader, 59 registrations and 56 deterministic calls each.
+Official rc.5 CLI installation was also tested in an isolated Windows profile.
+This is not full Desktop/Hub/model-session certification; three live APIs remain unverified.
+The November 11 automated publisher failed; delivery completed through official
+maintainer authorization. Future automated publishing credentials are still a separate task.
+Existing tags are unchanged. See the [delivery record](release/0.92.0/DELIVERY.md).
 
 ## Quick Install (dsh users)
 
+For the rc.5 CLI's `web` profile (use your actual profile name):
+
 ```sh
-npm i dsh-quant
+dsh plugin --profile web add dsh-quant@0.92.0
+```
+
+For an existing project with the DSH host dependencies already available:
+
+```sh
+npm i dsh-quant@0.92.0
 ```
 
 Add one line to your cordis.yml:

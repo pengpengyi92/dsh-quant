@@ -1,5 +1,19 @@
 # Release delivery TODO
 
+## Current checkpoint - 2026-11-14
+
+- [x] P0: Reply #149 and reproduce the exact rc.5 CLI rejection of published 0.90.0 without bypasses.
+- [x] P0: Official maintainer authorization; publish the accepted immutable Linux 0.92.0 tarball.
+- [x] P0: Verify npm latest/exact integrity and five real registry consumers; official rc.5 CLI add passes.
+- [x] P0: Repair registry spec/Windows subprocess/selected-release harness bugs; 337 combined source tests pass.
+- [x] P0: Correct and merge PR148 (public privacy) and PR156 (dated/pinned evidence), each after five green CI jobs.
+- [ ] P0: Merge release-harness/evidence PR158 after independent re-review and six green current-head CI jobs.
+- [ ] P1: Configure future unattended publishing through an explicitly authorized credential/trusted-publisher setup; local login did not repair the old GitHub secret.
+- [ ] P1: Verify complete Desktop/Hub/model sessions (#105) and three live APIs separately.
+
+Historical 0.91.1 delivery tasks below are superseded by the verified 0.92.0
+registry release, not evidence that 0.91.1 was published.
+
 ## ADIA provenance review fixes — 2026-11-14
 
 - [x] P0: Separate the dated manual discovery report from known-repository refresh metadata; retain historical facts.
@@ -29,7 +43,7 @@
 - [x] P0: Local build, 324 tests, script/market types and catalog checks pass.
 - [x] P0: Pass release PR CI, merge #153, tag v0.92.0, publish GitHub Release and thanks #154.
 - [x] P0: Inspect the tag publisher and exact npm version: npm PUT E404, exact version absent, latest 0.90.0.
-- [ ] P0: Restore accepted npm publishing authentication, publish reviewed 0.92.0 and pass exact registry acceptance.
+- [x] P0: Restore accepted npm publishing authentication, publish reviewed 0.92.0 and pass exact registry acceptance (2026-11-14).
 - [x] P1: Schedule Monday 09:30 Asia/Shanghai FICC submission follow-up; review/CI merge gates retained.
 - [ ] P1: Review FICC submissions weekly; merge reviewed small catalog PRs and credit authors.
 

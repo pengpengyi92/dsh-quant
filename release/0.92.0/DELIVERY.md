@@ -1,5 +1,9 @@
 # 0.92.0 delivery record — 2026-11-11
 
+**Current update (2026-11-14): npm 0.92.0 is published, latest is 0.92.0, and
+five exact registry consumers pass.** See the appended delivery completion
+below; the November 11 failures are preserved as historical evidence.
+
 ## Baseline
 
 - Inspected master: `d3cfb15895bafd83d39abd722cfd552c14d9c586`.
@@ -83,3 +87,23 @@ A maintainer must restore accepted npm publishing authentication through the
 official login/token flow, then publish the existing reviewed 0.92.0 source
 and run exact registry-consumer acceptance. No token should be shared in chat.
 Continue weekly FICC submission review and merge reviewed catalog PRs with credit.
+
+## Delivery completion - 2026-11-14
+
+Official maintainer login and a separate browser publish confirmation completed.
+The exact Linux artifact from [candidate run 43501409148](https://github.com/pengpengyi92/dsh-quant/actions/runs/43501409148)
+was published once using `npm publish <tarball> --ignore-scripts --access public`.
+No secret or authorization URL was copied into the repository. No old tag moved.
+
+- Source SHA: `556092969e7d1b4095f1872445d41321b743a8f3`.
+- Artifact: 1,477,591 bytes, 490 files, SHA256 `90a840dc02cb576f7390f5fb4fa183eb00b6cbc0257031f447a98e165b06f9e6`.
+- Exact npm 0.92.0 and latest confirmed. Dist integrity matches [pack.json](pack.json).
+- [Candidate run 43503610272](https://github.com/pengpengyi92/dsh-quant/actions/runs/43503610272) and [actual registry run 43503675329](https://github.com/pengpengyi92/dsh-quant/actions/runs/43503675329): five Linux cohorts each PASS, including rc.5; shared peers, real Loader, SMA, 59 registrations and 56 deterministic calls.
+- Official rc.5 CLI on Windows/Node24: `dsh plugin --profile web add dsh-quant@0.90.0` rejected; identical command targeting 0.92.0 exited0. Isolated profile only, no allow-version/force/legacy-peer-deps. Its standalone peer check warns that host peers are not in the profile directory; real Loader consumers separately validate shared host dependencies.
+- First lookup/install immediately after publish still failed while npm processed the package. Later exact/latest/integrity and install checks passed. Failed attempts remain in the maintenance log, not counted as passes.
+- Current combined maintenance source tests: 337/337; those source-only maintenance changes do not alter the immutable published tarball.
+
+Three live APIs, full Desktop/Hub/model sessions and the reporter's exact
+Node26/Linux combination remain unverified. Future automated publishing is
+not repaired by this local login; the old GitHub publisher credential was not
+read, copied or changed. Detailed [maintenance log](../../log/2026-11-14_maintenance-149-release-and-pr-review.md).

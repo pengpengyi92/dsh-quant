@@ -1,5 +1,17 @@
 # dsh-quant release verification
 
+## Registry delivery and rc.5 - 2026-11-14
+
+- **Baseline**: npm latest 0.90.0; official rc.5 CLI rejects its old peer ranges. Source release alone was not installable delivery.
+- **Change**: publish accepted Linux 0.92.0 with official authorization; add rc.5 pins, shell-free Windows npm launch, valid registry dependency specs and selected-release-aware acceptance. Fix PR148 privacy and PR156 provenance/license boundaries separately.
+- **Measure**: immutable source `5560929`, 490-file tarball receipt in `release/0.92.0/pack.json`; five pinned Linux cohorts, clean actual npm install -> shared peers -> real Loader -> SMA known answer -> 59 registrations -> 56 deterministic calls. Independent old0.90 negative controls and exact rc.5 CLI install.
+- **Result**: npm exact/latest 0.92.0, SHA512 equals the accepted candidate; registry run [43503675329](https://github.com/pengpengyi92/dsh-quant/actions/runs/43503675329) and candidate run [43503610272](https://github.com/pengpengyi92/dsh-quant/actions/runs/43503610272) passed all five jobs. Local combined source suite 337/337. Old0.90 is rejected as expected; actual0.92 CLI add exits0.
+- **Trade-off**: separate consumers avoid conflating manifest compatibility with package loading. Isolated CLI profile alone reports missing host peers on `pnpm peers check`; installed-package Loader consumers explicitly provide and validate one shared host. No force/exemption used. Desktop/Hub/model sessions and three live APIs remain UNVERIFIED; performance/financial outcomes UNMEASURED.
+- **Next Action**: merge reviewed harness/evidence maintenance; separately verify Desktop and live services, and explicitly configure future automated publishing. Existing tags and contributor ancestry remain intact.
+
+The records below retain historical failures and their original dates; they
+are not the current npm status.
+
 ## ADIA provenance review fixes — 2026-11-14
 
 - **Baseline**: PR head `a1bc4c5`; refresh relabelled historical manual search

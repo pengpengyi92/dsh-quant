@@ -45,3 +45,33 @@ Official maintainer login succeeded. Publishing the accepted tarball requested a
 - PR148 current-head CI run 43502990801: all five jobs passed; merged at `cf140fb405da9703ff42822469e72aa18d065c86`, 2026-11-13T20:37:58Z.
 - PR156 current-head CI run 43502996320: all five jobs passed; normal merge command succeeded. Exact merge receipt will be recorded after read-back.
 - Maintainer review comments were posted on both PRs; no self-approval was submitted.
+
+## Verified release and combined source checkpoint
+
+- npm propagation completed: exact version 0.92.0 and latest0.92.0; dist SHA1 and SHA512 match the accepted Linux artifact.
+- Actual official rc.5 CLI `plugin --profile web add dsh-quant@0.92.0`: exit0, downloaded and added one dependency. Isolated profile only. Its `peers check` exits1 for three missing host peers in that profile directory; no complete profile boot is claimed. A separate clean consumer explicitly installs and validates one coherent shared host and loads the actual registry package successfully.
+- [Registry run 43503675329](https://github.com/pengpengyi92/dsh-quant/actions/runs/43503675329): all five Linux cohorts passed. [Candidate run 43503610272](https://github.com/pengpengyi92/dsh-quant/actions/runs/43503610272): all five passed, same immutable artifact.
+- Local `node scripts/consumer-runtime.mjs 0.2.1-rc.5 dsh-quant@0.92.0 0.92.0`: PASS; 59 registered, 56 deterministic passes, zero failures, three live APIs UNVERIFIED. Installed lock integrity equals the accepted SHA512.
+- Independent maintenance review found that historical candidate acceptance compared against the current harness version. Corrected in `6b31440`: explicit selected version, mismatch rejection and a 0.91.1-candidate/0.92.0-harness regression. This was a reusable-harness defect, not failure of the already-tested 0.92.0 package.
+- Merged master into the maintenance branch without rewriting any history. Actual combined `npm test`: 337/337 passed, no failures/skips; build/typecheck included.
+- PR156 confirmed merged at `3890f98c216645d9b0a586118f46f044ce72fc7a`, 2026-11-13T20:38:34Z.
+- PR158 tracks release-harness/evidence changes, not a new npm artifact. Source-only post-release changes are not claimed to exist in the frozen package.
+- Added requested post-merge thanks to @Yuren0312: https://github.com/pengpengyi92/dsh-quant/pull/144#issuecomment-6864345968. Other community replies and final maintenance merge receipts follow after remote read-back.
+
+## Public resolution receipts
+
+- Issue149 final evidence/install reply: https://github.com/pengpengyi92/dsh-quant/issues/149#issuecomment-6864464714.
+- Issue139 final reply: https://github.com/pengpengyi92/dsh-quant/issues/139#issuecomment-6864466512.
+- Duplicate Issue140 final reply: https://github.com/pengpengyi92/dsh-quant/issues/140#issuecomment-6864468263.
+- All three closed with reason COMPLETED only after actual registry acceptance passed. Issue105 remains open; no blanket or stale-only issue closure.
+- New factual post-merge npm delivery thanks to @hufeide: https://github.com/pengpengyi92/dsh-quant/pull/136#issuecomment-6864470601. Original ancestry preserved.
+- Existing GitHub v0.92.0 release notes updated from source-only/blocked to actual verified npm status; no tag or release target was changed.
+- Independent re-review found no remaining blocker at `5c4575ff1affdc8fc8d1f280ad2e5736cceca44e`; 13 focused checks passed. Registry/candidate runs above used harness `83cddbe`, not this combined head. Final-head CI and a repeated registry run remain separate gates for PR158.
+- Actual `npm run typecheck:market-tests` and final scoped `git diff --check`: PASS.
+
+## Remaining work and limits
+
+- PR158: merge only after current-head six-job CI and final harness acceptance.
+- Future automated npm authentication requires explicit configuration; no local token was copied to GitHub secrets.
+- #105 complete Desktop/Hub/model sessions and three live API calls remain unverified. No financial-performance or production-readiness claim.
+- Directory invitation #40 and listing notice #51 are community correspondence, not proof of an independently verified listing or market-data certification. Do not create an external submission or subscribe the user as part of an acknowledgement.
