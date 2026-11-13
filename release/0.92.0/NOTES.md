@@ -1,9 +1,18 @@
 # v0.92.0 — FICC community, resource directory and contributor roll-up
 
-**发布边界：这是 GitHub source Release。npm 0.92.0 尚未发布。**
-本次 [publisher 43025403748](https://github.com/pengpengyi92/dsh-quant/actions/runs/43025403748)
-通过安装、构建、324 项测试和 tag/version 校验，最后 npm publish 失败；精确 registry
-查询返回版本不存在。既有 npm 安装问题继续保持开放，等待维护者恢复 npm 发布认证。
+**2026-11-14 交付更新：npm 0.92.0 已发布，latest=0.92.0。**
+经官方维护者登录和网页确认，发布了固定标签对应、已验收的同一份 Linux tarball；
+registry integrity 一致。[五宿主实际 npm 包验收](https://github.com/pengpengyi92/dsh-quant/actions/runs/43503675329)
+全部通过，包括 DSH 0.2.1-rc.5；每套均为真实 Loader、59 工具注册和 56 项确定性调用。
+官方 rc.5 CLI 的隔离 web profile 安装也通过：
+
+```sh
+dsh plugin --profile web add dsh-quant@0.92.0
+```
+
+此前 [publisher 43025403748](https://github.com/pengpengyi92/dsh-quant/actions/runs/43025403748)
+的 E404 保留为历史失败，不再代表当前 npm 状态。旧 GitHub 自动发布凭据未更改；
+未来自动发布认证仍需单独配置。没有移动任何既有标签。
 
 FICC 资源与共建入口上线：**45 个去重仓库引用**，覆盖利率/信用、衍生品、FX、
 商品期货、能源基本面、宏观数据和教学/naive/历史项目。
@@ -43,4 +52,6 @@ FICC 生成目录、去重、来源和许可边界校验通过。GitHub CI 与 n
 库或实盘功能。GitHub source Release 与 npm 可安装版本分别记录；不要仅凭 tag 推定
 registry 已更新。既有 `v0.91.0` / `v0.91.1` tag 保持不变。
 
-DSH 0.2.1-rc.5 desktop 安装（#149）、三个 live API 和外部库数值复现仍未验证。
+完整 Desktop/Hub/模型会话、三个 live API 和外部库数值复现仍未验证。
+隔离 CLI profile 的独立 peer 检查提示目录未含宿主 peers；五套 Loader 消费者则已显式
+验证共享宿主依赖。通过安装与 Loader 验收，不代表这些额外边界已完成。
