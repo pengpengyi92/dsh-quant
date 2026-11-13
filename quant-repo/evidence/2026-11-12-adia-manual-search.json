@@ -1,0 +1,16 @@
+{
+  "title": "ADIA historical bounded manual discovery search record",
+  "recorded_at_shanghai": "2026-11-12T00:42:04+08:00",
+  "method": "MANUAL_RESEARCH_REPORTED_IN_DD",
+  "source_report": "../../log/2026-11-12_adia_deep_dd.md",
+  "institution_repository_status": "NOT_VERIFIED_IN_BOUNDED_SEARCH",
+  "search_scope": [
+    "ADIA and ADIA Lab official sites and source links",
+    "GitHub search/repositories: exact phrase ADIA Lab, first 30 results",
+    "GitHub search/users: ADIA type:org, first 30 results; not exhaustive",
+    "All current public crunchdao org repositories via paginated API"
+  ],
+  "absence_is_not_proof": true,
+  "automatically_replayed": false,
+  "limitations": "Historical research scope reported in the DD, not a machine-replayable query log. The recording time is not a per-query timestamp. Individual query results were not retained. Refreshing the six known repositories does not repeat discovery or renew this record."
+}

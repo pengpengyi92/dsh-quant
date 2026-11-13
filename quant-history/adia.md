@@ -215,7 +215,7 @@ AED 数字作为官方待遇。UAE National 专项实习/奖学金不得泛化�
 | Lab 法律关系 | [Relationship with ADIA](https://www.adialab.ae/relationship-with-adia) | 独立法律实体、独立预算/治理 |
 | 研究输出 | [Research Series](https://www.adialab.ae/research-series) | 因果投资、风险平价、Sortino 统计推断等；未逐篇复现 |
 | 招聘 | [官方 careers](https://jobs.adia.ae/) → [机器可读入口](https://jobs.adia.ae/_/llms.txt) → [完整列表](https://apply.workable.com/adia/jobs.md) | 完整 JD 已读取；岗位和资格仍会变化 |
-| 开源归属与活动 | [冻结快照](../quant-repo/evidence/2026-11-12-adia-github.json) | 六仓库，commit/root license 元数据；不代表穷尽全球仓库 |
+| 开源归属与活动 | [历史人工检索](../quant-repo/evidence/2026-11-12-adia-manual-search.json) / [冻结快照](../quant-repo/evidence/2026-11-12-adia-github.json) | 人工检索日期与六库采集分开；逐查询结果未留存，元数据刷新不重做检索；许可识别需固定 commit 证据 |
 | 比赛状态 | [2026 实时赛](https://www.adialab.ae/adia-lab-x-crunch-the-structural-break-challenge-2026) / [Open Benchmark](https://docs.crunchdao.com/competitions/competitions/structural-break-open-benchmark) | 两种赛制、不同评价与有效期 |
 
 待核：准确设立法律与月日、最新总 AUM、2026 QRD 人数、各负责人具体

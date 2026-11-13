@@ -1,5 +1,25 @@
 # dsh-quant release verification
 
+## ADIA provenance review fixes — 2026-11-14
+
+- **Baseline**: PR head `a1bc4c5`; refresh relabelled historical manual search
+  scope with a fresh timestamp and used a live repository license label for a
+  separately pinned commit. The committed six-record snapshot matched upstream.
+- **Change**: separate dated manual discovery evidence; known-repository-only
+  refresh; identify a license only when the commit-specific API path/blob matches
+  a pinned root license file. Keep repository-level SPDX as a separate observation.
+- **Measure**: fixed offline API fixtures for discovery scope, absent license
+  files, mismatched evidence, unidentified SPDX and differing live/pinned labels;
+  compare every original historical record field with the reviewed head.
+- **Result**: 9/9 scoped tests, actual `npm test` (build + typecheck + 333/333
+  tests), script syntax, diff checks and historical-field comparison PASS.
+  No live snapshot regeneration or upstream model/data execution. Model quality
+  and performance remain **UNMEASURED**.
+- **Trade-off**: one additional pinned license API read when a root license file
+  exists; API errors stop generation. Identification is not a rights/legal audit.
+- **Next Action**: finish local regression verification and commit for re-review;
+  no remote publication or merge in this task.
+
 ## ADIA public research addition — 2026-11-12
 
 - **Baseline**: master `1257d9b`; existing quant-history/quant-repo columns and

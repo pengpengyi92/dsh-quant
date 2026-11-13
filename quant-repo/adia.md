@@ -3,6 +3,7 @@
 > Title: ADIA Public-Code Ecosystem, Not a Proprietary Alpha Release.
 > 时间：2026-11-12T00:42:04+08:00，Asia/Shanghai。
 > [机构 Deep DD](../quant-history/adia.md) · [冻结元数据](evidence/2026-11-12-adia-github.json)。
+> 溯源修订：2026-11-14；[历史人工检索记录](evidence/2026-11-12-adia-manual-search.json)。
 
 ## 先回答“ADIA 有开源 repo 吗”
 
@@ -14,14 +15,19 @@
 法律实体、治理与预算。本专刊例外登记合作方/社区**链接参考**，不把它们
 计入本栏目“机构官方 org”数量，不宣称官方背书。
 
-有界检索包含官方站点、GitHub `"ADIA Lab"` repository 搜索首 30 条、
+2026-11-12 的人工有界检索记载包含官方站点、GitHub `"ADIA Lab"` repository 搜索首 30 条、
 `ADIA type:org` 首 30 条及 CrunchDAO 全部公开仓库分页。尚未确认官方
-归属，不等于证明“绝对零开源”。快照记录检索范围，而不是机构资产清单。
+归属，不等于证明“绝对零开源”。检索范围另存为带原日期的人工记录；
+原始逐查询结果未留存，不是机器可重放或穷尽检索的证据。后续六库元数据
+刷新不重复这些搜索，也不更新机构仓库归属结论。
 
 ## 六个入口
 
 stars 和最近 push 均为 2026-11-12 快照，不是质量评分。SHA 完整值、
 README blob、根目录 license/NOTICE 证据在 JSON 中；本次外部执行均为 **NOT_RUN**。
+`repository_license_spdx` 保留采集时 GitHub 仓库级标签；`license_spdx` 的
+识别须有匹配固定 commit 的 `license_evidence`。原快照的 Apache 许可证
+正文已人工复核并记录原 blob；未重抓 stars、push 时间或仓库 commit。
 
 | 仓库 | 归属 / 技术与用途 | 活动快照 | 许可与使用边界 |
 |---|---|---|---|
@@ -100,6 +106,19 @@ BoNing-Gu 的时间戳特征/模型输出、OOF、失败实验记录方式，对
 node scripts/adia-source-snapshot.mjs
 ```
 
+脚本只刷新六个预设仓库，输出 `metadata_scope=SIX_KNOWN_REPOSITORIES_ONLY`
+和 `discovery_search_performed=false`；仅链接原日期的人工检索记录，不把
+新的采集时间当作重新检索或重新认证 ADIA 官方归属的时间。
+
+仓库级许可标签仅供观察。存在固定版本的根目录 LICENSE/COPYING 文件时，
+脚本使用 [GitHub license API 的 ref 参数](https://docs.github.com/en/rest/licenses/licenses#get-the-license-for-a-repository)
+查询相同 commit，且返回路径与 blob SHA 必须与该版本的根目录文件匹配。
+缺少文件、只存在 NOTICE、返回不匹配或未识别 SPDX 时，`license_spdx=null`、
+`license_evidence=null`，继续保留 `REVIEW_REQUIRED_NOT_INTEGRATED`。
+识别成功也仅为 `LICENSE_IDENTIFIED_NOT_INTEGRATED`，不授予集成或数据使用许可。
+API 请求出错会中止采集，不写入不完整快照。
+
 脚本按上海日期输出 snapshot；同日重跑会更新当日文件，应审阅差异并同步
-本文。跨日应保留旧快照，而不是静默覆盖历史事实。
+本文。跨日应保留旧快照，而不是静默覆盖历史事实。本次修订只使用离线
+fixture 测试刷新逻辑，未联网重跑采集脚本。
 模型质量和复现状态需要独立实验，不能由 metadata 检查“自动升格”。

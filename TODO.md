@@ -1,5 +1,13 @@
 # Release delivery TODO
 
+## ADIA provenance review fixes — 2026-11-14
+
+- [x] P0: Separate the dated manual discovery report from known-repository refresh metadata; retain historical facts.
+- [x] P0: Require pinned root license path/blob agreement before identifying SPDX; never promote live labels alone.
+- [x] P0: Offline regression tests cover no new searches, absent files, mismatches and differing live/pinned labels (9/9 scoped tests).
+- [x] P0: Actual npm test 333/333 (build + typecheck), syntax/diff checks and historical-record comparison PASS; limitations recorded in the ADIA log.
+- [x] P1: Prepare the validated ADIA-only patch for a local commit and re-review; no push, merge or remote comments.
+
 ## ADIA research columns — 2026-11-12
 
 - [x] P0: Read the existing Deep DD standard, research columns and Discussions.
