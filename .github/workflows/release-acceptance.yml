@@ -6,7 +6,7 @@ on:
       version:
         description: Exact stable package version and existing v-prefixed tag
         required: true
-        default: '0.91.1'
+        default: '0.92.0'
         type: string
       source:
         description: Candidate tarball or actual published registry package
@@ -27,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dsh: ['0.1.0-rc.6', '0.2.0-rc.2', '0.2.1-alpha.3', '0.2.1-rc.2']
+        dsh: ['0.1.0-rc.6', '0.2.0-rc.2', '0.2.1-alpha.3', '0.2.1-rc.2', '0.2.1-rc.5']
     env:
       PACKAGE_VERSION: ${{ inputs.version }}
       PACKAGE_SOURCE: ${{ inputs.source }}
@@ -39,7 +39,12 @@ jobs:
           [[ "$PACKAGE_SOURCE" == candidate || "$PACKAGE_SOURCE" == registry ]]
       - uses: actions/checkout@v4
         with:
+          persist-credentials: false
+      # Keep the repaired harness separate from the immutable release source.
+      - uses: actions/checkout@v4
+        with:
           ref: v${{ inputs.version }}
+          path: release-source
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
@@ -49,19 +54,24 @@ jobs:
         run: |
           node --input-type=module -e '
             import { readFileSync } from "node:fs";
-            const pkg = JSON.parse(readFileSync("package.json"));
+            const pkg = JSON.parse(readFileSync("release-source/package.json"));
             if (pkg.version !== process.env.PACKAGE_VERSION) throw new Error("Tag/version mismatch");
           '
           mkdir -p acceptance
-          git rev-parse HEAD > acceptance/source-commit.txt
+          git rev-parse HEAD > acceptance/harness-commit.txt
+          git -C release-source rev-parse HEAD > acceptance/source-commit.txt
           node --version > acceptance/node-version.txt
           npm --version > acceptance/npm-version.txt
       - name: Build and pack immutable candidate
         if: inputs.source == 'candidate'
+        working-directory: release-source
         run: |
           npm ci --no-audit --no-fund
           npm run build
-          npm pack --ignore-scripts --json --pack-destination acceptance > acceptance/pack.json
+          npm pack --ignore-scripts --json --pack-destination ../acceptance > ../acceptance/pack.json
+      - name: Verify candidate integrity
+        if: inputs.source == 'candidate'
+        run: |
           sha256sum "acceptance/dsh-quant-$PACKAGE_VERSION.tgz" > acceptance/tarball.sha256
           node --input-type=module -e '
             import { existsSync, readFileSync } from "node:fs";

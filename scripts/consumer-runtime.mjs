@@ -2,31 +2,33 @@
 // existing real-Loader consumer fixture using Node's normal package resolution.
 import { mkdtempSync, readFileSync, writeFileSync, copyFileSync, rmSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join, resolve } from 'node:path'
+import { basename, dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
+import { registryDependencyVersion, runNpm } from './npm-process.mjs'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const version = process.argv[2]
 // Optional exact registry version or local release tarball. With no argument,
 // retain the existing CI behavior of packing the current checkout.
 const target = process.argv[3]
-const registryTarget = target?.match(/^dsh-quant@(\d+\.\d+\.\d+)$/)
+const registryTarget = registryDependencyVersion(target)
 if (target && !registryTarget && !(target.endsWith('.tgz') && existsSync(target))) {
   throw new Error('Use dsh-quant@<exact stable version> or an existing .tgz path')
 }
-const expectedVersion = registryTarget?.[1] ?? JSON.parse(readFileSync(join(root, 'package.json'))).version
-const supported = ['0.1.0-rc.6', '0.2.0-rc.2', '0.2.1-alpha.3', '0.2.1-rc.2']
+const expectedVersion = registryTarget ?? JSON.parse(readFileSync(join(root, 'package.json'))).version
+const supported = ['0.1.0-rc.6', '0.2.0-rc.2', '0.2.1-alpha.3', '0.2.1-rc.2', '0.2.1-rc.5']
 if (!supported.includes(version)) throw new Error(`Unknown DSH cohort: ${version}`)
 const pins = JSON.parse(readFileSync(new URL(`../tests/fixtures/dsh-cohorts/${version}.json`, import.meta.url)))
 const temp = mkdtempSync(join(tmpdir(), 'dsh-quant-consumer-'))
 function run(command, args, cwd, capture = false) {
-  const result = spawnSync(command, args, { cwd, encoding: 'utf8', stdio: capture ? 'pipe' : 'inherit' })
+  const options = { cwd, encoding: 'utf8', stdio: capture ? 'pipe' : 'inherit' }
+  const result = command === 'npm' ? runNpm(args, options) : spawnSync(command, args, options)
   if (result.status !== 0) throw new Error(`${command} failed (${result.status}): ${result.stderr ?? ''}`)
   return result.stdout
 }
 try {
-  let spec = registryTarget ? target : target ? `file:${resolve(target)}` : undefined
+  let spec = registryTarget || (target ? `file:${resolve(target)}` : undefined)
   if (!spec) {
     const packed = JSON.parse(run('npm', ['pack', '--json', '--ignore-scripts', '--pack-destination', temp], root, true))[0]
     spec = `file:${resolve(temp, packed.filename)}`
@@ -55,5 +57,8 @@ try {
   writeFileSync(join(temp, 'package-smoke.ts'), smoke.replace(sourceImport, "from 'dsh-quant'"))
   run(process.execPath, ['--import', 'tsx', 'package-smoke.ts'], temp)
 } finally {
+  if (dirname(resolve(temp)) !== resolve(tmpdir()) || !basename(temp).startsWith('dsh-quant-consumer-')) {
+    throw new Error('Refusing cleanup outside the generated consumer directory')
+  }
   rmSync(temp, { recursive: true, force: true })
 }

@@ -1,0 +1,12 @@
+{
+  "name": "dsh-quant",
+  "version": "0.92.0",
+  "sourceCommit": "556092969e7d1b4095f1872445d41321b743a8f3",
+  "acceptanceRun": "https://github.com/pengpengyi92/dsh-quant/actions/runs/43501409148",
+  "size": 1477591,
+  "unpackedSize": 2797105,
+  "entryCount": 490,
+  "shasum": "fd99c6647eb0884d1e01045230aa93f53e6f4dae",
+  "sha256": "90a840dc02cb576f7390f5fb4fa183eb00b6cbc0257031f447a98e165b06f9e6",
+  "integrity": "sha512-g8Pw51hGRNcT9m3MqbLDPzKLkqb5fJi5afs1qKxlCMzzxaCghDkERi4OCBkF0ELwnL5655VEpO0uG1AZUruYyA=="
+}
