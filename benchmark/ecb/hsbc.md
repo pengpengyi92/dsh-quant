@@ -1,7 +1,7 @@
 # HSBC ECB — Global Specialist Banker Pipeline
 
 **Research snapshot:** 2026-09-30  
-**Eligibility correction:** 2026-10-30 (Asia/Shanghai)  
+**Eligibility documentation review:** 2026-11-14
 **Institution:** HSBC  
 **Framework:** PBenchmark / ECB
 
@@ -347,42 +347,27 @@ General potential
 
 ---
 
-## 11. Eligibility: programme design versus individual eligibility
+## 11. Eligibility: programme-specific caution
 
-**Eligibility update: 2026-10-30 (Asia/Shanghai).** The organisational study remains a 2026-09-30 snapshot; this update corrects the personal entry-route conclusion.
+This organisational study does not determine any individual's eligibility for the **2027 Hong Kong Markets - Sales & Trading Graduate** vacancy. Do not treat a broad early-career description as an unrestricted entry route. Check graduation timing, full-time work experience, academic requirements and work authorisation against the official requirements for that specific vacancy and cohort.
 
-### Programme-level observation
+No exact graduation-date window is asserted here: the cited primary public sources do not currently establish one. A clarification obtained for an individual case must not be presented as a general HSBC admissions policy.
 
-The public Hong Kong Markets page still describes recent graduates with less than two years of full-time experience, or graduation by July 2027. That wording does not by itself establish eligibility. The earlier comparison with BOCHK concerned work-experience wording, not an unrestricted graduation window.
+### Enquiry, application and rejection are separate states
 
-HSBC Emerging Talent HK clarified on **2026-10-28** that the 2027 Graduate Programme requires:
-
-- an eligible graduation date between **May 2025 and July 2027**;
-- less than **24 months of full-time work experience by July 2027**;
-- the applicable academic and other programme requirements.
-
-The team confirmed that the UK undergraduate First-Class Honours meets the academic threshold. This does not override the separate graduation-date requirement. The exact experience calculation need not be resolved to decide this case because the graduation-date condition independently fails.
-
-### Pengyi: direct recruitment-team determination
-
-At **2026-10-30 09:22:59 Beijing time**, HSBC Emerging Talent HK replied to the 28 October follow-up: the official KCL MSc graduation date, **2024-11-01**, falls outside the eligible window, so Pengyi does not meet the programme's eligibility criteria. This is a directly verified recruitment-team response, not an inference from the public advert.
-
-| Separate state | Current conclusion |
+| Concept | Meaning |
 |---|---|
-| Eligibility enquiry | Answered; graduation-date requirement not met |
-| 2027 Hong Kong Markets S&T Graduate, vacancy 1365763657 | **INELIGIBLE_CONFIRMED** for the personal facts supplied |
-| Formal application | **NOT_APPLIED**; this was a pre-application enquiry |
-| Application rejection | **NOT_APPLICABLE**; no submitted-application rejection is recorded |
-| Experienced-hire / direct-entry vacancies | **ASSESS_ROLE_BY_ROLE**; not covered by this programme's exclusion |
-| Other countries, cohorts or programmes | Independent criteria; no blanket HSBC exclusion inferred |
+| Eligibility enquiry | A request for clarification; not a submitted application |
+| Formal application | A separate submission through the official application process |
+| Application rejection | An outcome of a submitted application; an eligibility enquiry alone does not establish a rejection |
 
-The latest relevant email and the HSBC-related mailbox search were checked again on **2026-10-30**. No subsequent recruitment correction was found within that search. Original email evidence is retained in the private application record; no full email body or contact details are reproduced here.
+No individual applicant's eligibility or application outcome is recorded in this public case.
 
-**Decision:** remove this specific Graduate route from Pengyi's active application options. Retain HSBC **Function-first**, **Global Graduate Induction**, Markets desk rotation and specialist development as organisational research. Assess direct-entry roles against their own experience, technical, language, licence and work-authorisation requirements.
+### Other routes and immigration requirements
 
-### Immigration requirements remain track-specific
+An exclusion from a specific graduate programme does not establish ineligibility for **experienced-hire / direct-entry** vacancies. Assess each role's experience, technical, language, licence and work-authorisation requirements separately. Other countries, cohorts and programmes have independent criteria; no blanket HSBC exclusion follows.
 
-The Markets Graduate public advert says sponsorship may be considered. The original Engineering / Relationship Management comparisons described different requirements. Those historical comparisons must not be applied to a new vacancy without checking its own wording. Graduate sponsorship cannot be assumed for experienced-hire roles.
+Visa sponsorship and work-authorisation requirements are vacancy-specific. Sponsorship arrangements for a graduate track, where available, must not be assumed to apply to another track or to an experienced-hire role.
 
 ---
 
@@ -448,9 +433,9 @@ Keywords:
 
 ## 15. Sources
 
-Original organisational sources checked 2026-09-30. Markets Graduate page rechecked 2026-10-30; its desk rotation and Global Graduate Induction descriptions remain present. Other programme descriptions remain historical snapshots.
+Original organisational sources checked 2026-09-30. The other organisational sections remain historical snapshots, not current admissions guidance.
 
-Eligibility evidence: HSBC Emerging Talent HK replies dated 2026-10-28 and 2026-10-30, verified from the user's mailbox; private provenance retained in PCT. The personal conclusion follows the direct reply even though the public Markets advert does not spell out the May 2025 boundary.
+Public-source check on 2026-11-14: the original Hong Kong Markets Graduate vacancy link now reports that the position has been filled. Its historical eligibility wording cannot be independently rechecked from that live page. No exact graduate eligibility window is asserted without a supporting primary public source. For a live application, use the official requirements for the relevant vacancy, market and cohort.
 
 Official sources:
 
