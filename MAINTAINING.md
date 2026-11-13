@@ -99,3 +99,20 @@ issue 进来
 - "方法公开、秘密内部"：公开的我们全开源，私密的我们不说
 
 > 🐳 **提 issue 的人我们欢迎来修，我们来审、来 merge——这就是生态。**
+
+## 7. Good first issue is a reviewed scope, not a recruitment slogan
+
+Before applying the label, verify a current gap, one independently reviewable
+change, concrete file boundaries, deterministic acceptance commands and a
+meaningful counterexample. Check assignees and competing PRs. Do not require
+paid data, API keys, private material or unresolved architecture/domain decisions.
+
+Keep broad intake hubs open with `help wanted` where appropriate, but remove
+`good first issue` until a bounded child task is specified. Do not invent
+duplicate work, deadline estimates or a target number of starter issues.
+The [dated starter map](docs/GOOD_FIRST_ISSUES.md) records this audit's choices.
+
+A newcomer label does not relax design/privacy/source-rights rules or CI.
+Maintain claim status on GitHub; no automatic assignments or merges. Close
+only the accepted scoped task, preserve the parent intake, and give specific
+thanks during review and after merge with contributor credit.
