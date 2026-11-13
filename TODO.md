@@ -1,5 +1,10 @@
 # Release delivery TODO
 
+## Community intake - 2026-11-14
+
+- [ ] P1: Continue reviewing submissions through #109/#152 and discussion151; preserve reproduction, license and contributor credit.
+- [ ] P2: Reassess an optional chat group once repeat participation, live-exchange demand and moderator capacity are evidenced. Record a maintainer decision before launch; no group currently claimed. See docs/COMMUNITY.md.
+
 ## Current checkpoint - 2026-11-14
 
 - [x] P0: Reply #149 and reproduce the exact rc.5 CLI rejection of published 0.90.0 without bypasses.

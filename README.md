@@ -515,6 +515,7 @@ Plugin library (five slots × external repos & MCPs): [plugin/](plugin/)
 - **Filing a bug / feature / help-wanted issue?** → [ISSUE_GUIDE.md](ISSUE_GUIDE.md) (agent-friendly rules)
 - **Sending a PR?** → [CONTRIBUTING.md](CONTRIBUTING.md) (dev loop + design contract)
 - **Maintainer view (how we review & merge):** [MAINTAINING.md](MAINTAINING.md)
+- **Keep contributing; a chat group comes later:** [Community plan](docs/COMMUNITY.md). GitHub stays the source of truth; a future group is optional, not required for help or contribution.
 
 Every issue is a future PR; every contributor is a future maintainer. We review fast and merge small PRs quickly — credit goes into release notes + the author section. 🐳
 
