@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 // @ts-expect-error maintenance runner is plain ESM JavaScript
-import { npmCommand, registryDependencyVersion } from '../scripts/npm-process.mjs'
+import { consumerExpectedVersion, npmCommand, registryDependencyVersion } from '../scripts/npm-process.mjs'
 
 test('Windows npm uses a JS entry and preserves paths/arguments without a shell', () => {
   const cli = 'C:/Program Files/nodejs/node_modules/npm/bin/npm-cli.js'
@@ -23,4 +23,12 @@ test('Registry dependency values are versions, not a repeated package name', () 
   for (const value of ['dsh-quant@latest', 'dsh-quant@^0.92.0', 'other@0.92.0', undefined]) {
     assert.equal(registryDependencyVersion(value), undefined)
   }
+})
+
+test('A selected tagged candidate may differ from the current acceptance harness version', () => {
+  assert.equal(consumerExpectedVersion('candidate.tgz', '0.91.1', '0.92.0'), '0.91.1')
+  assert.equal(consumerExpectedVersion(undefined, undefined, '0.92.0'), '0.92.0')
+  assert.equal(consumerExpectedVersion('dsh-quant@0.91.1', undefined, '0.92.0'), '0.91.1')
+  assert.throws(() => consumerExpectedVersion('dsh-quant@0.91.1', '0.92.0', '0.92.0'), /disagree/)
+  assert.throws(() => consumerExpectedVersion('candidate.tgz', 'latest', '0.92.0'), /exact stable/)
 })

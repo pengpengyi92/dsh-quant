@@ -103,7 +103,7 @@ jobs:
           else
             TARGET="dsh-quant@$PACKAGE_VERSION"
           fi
-          node scripts/consumer-runtime.mjs "$DSH_COHORT" "$TARGET" 2>&1 | tee acceptance/consumer.log
+          node scripts/consumer-runtime.mjs "$DSH_COHORT" "$TARGET" "$PACKAGE_VERSION" 2>&1 | tee acceptance/consumer.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
