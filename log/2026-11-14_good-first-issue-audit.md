@@ -117,3 +117,17 @@ Documentation validation, final metadata and commit/CI receipts follow after exe
 - `git diff --check`: PASS.
 - Changes will be pushed through a focused documentation PR; CI must pass
   before merge. Do not use task-closing keywords for this triage PR.
+
+## Merge Receipt - 2026-11-14T05:05:21+08:00
+
+- Task-curation [PR161](https://github.com/pengpengyi92/dsh-quant/pull/161)
+  merged normally as `83594d92c8c41c76c0dd7b98788b2f827878fde3`.
+- Tested head: `fb4a2b65a551646000007a326fe7792b9b24d23d`.
+- [CI43507290702](https://github.com/pengpengyi92/dsh-quant/actions/runs/43507290702):
+  all six jobs PASS (test plus five compatibility cohorts).
+- Maintainer scope review was recorded as a comment, not a self-approval or
+  a claim of independent review. No admin bypass or tag change.
+- GitHub `closingIssuesReferences` was empty before and after merge; no
+  newcomer task or ongoing parent intake was completed by the documentation PR.
+- This final receipt is documentation-only; runtime, tasks and package version
+  remain unchanged. Remote commit state is authoritative for the receipt itself.
