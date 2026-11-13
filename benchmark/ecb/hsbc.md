@@ -1,6 +1,7 @@
 # HSBC ECB — Global Specialist Banker Pipeline
 
-**Snapshot:** 2026-09-30  
+**Research snapshot:** 2026-09-30  
+**Eligibility documentation review:** 2026-11-14
 **Institution:** HSBC  
 **Framework:** PBenchmark / ECB
 
@@ -346,27 +347,27 @@ General potential
 
 ---
 
-## 11. Eligibility signal
+## 11. Eligibility: programme-specific caution
 
-很多 2027 Hong Kong Graduate Programme 当前采用：
+This organisational study does not determine any individual's eligibility for the **2027 Hong Kong Markets - Sales & Trading Graduate** vacancy. Do not treat a broad early-career description as an unrestricted entry route. Check graduation timing, full-time work experience, academic requirements and work authorisation against the official requirements for that specific vacancy and cohort.
 
-> **recent graduate with less than 2 years of full-time work experience, or graduate by July 2027**
+No exact graduation-date window is asserted here: the cited primary public sources do not currently establish one. A clarification obtained for an individual case must not be presented as a general HSBC admissions policy.
 
-这比 BOCHK 2027 flagship MT 的 “no full-time work experience after graduation” 更宽。
+### Enquiry, application and rejection are separate states
 
-因此 ECB 上可以区分：
+| Concept | Meaning |
+|---|---|
+| Eligibility enquiry | A request for clarification; not a submitted application |
+| Formal application | A separate submission through the official application process |
+| Application rejection | An outcome of a submitted application; an eligibility enquiry alone does not establish a rejection |
 
-- **BOCHK MT**：fresh-graduate-oriented flagship pipeline
-- **HSBC Graduate**：broader early-career pipeline
+No individual applicant's eligibility or application outcome is recorded in this public case.
 
-但不同 programme 对工作权、签证支持等要求并不完全相同，必须以具体 vacancy 为准。
+### Other routes and immigration requirements
 
-例如：
+An exclusion from a specific graduate programme does not establish ineligibility for **experienced-hire / direct-entry** vacancies. Assess each role's experience, technical, language, licence and work-authorisation requirements separately. Other countries, cohorts and programmes have independent criteria; no blanket HSBC exclusion follows.
 
-- 2027 Markets Graduate 当前页面写明会考虑需要 visa sponsorship 的候选人；
-- 2027 Engineering / some Relationship Management programmes 当前页面则要求无需 HSBC visa sponsorship。
-
-所以不要把某一个 track 的 immigration requirement 泛化到全行。
+Visa sponsorship and work-authorisation requirements are vacancy-specific. Sponsorship arrangements for a graduate track, where available, must not be assumed to apply to another track or to an experienced-hire role.
 
 ---
 
@@ -432,7 +433,11 @@ Keywords:
 
 ## 15. Sources
 
-Official HSBC sources checked 2026-09-30:
+Original organisational sources checked 2026-09-30. The other organisational sections remain historical snapshots, not current admissions guidance.
+
+Public-source check on 2026-11-14: the original Hong Kong Markets Graduate vacancy link now reports that the position has been filled. Its historical eligibility wording cannot be independently rechecked from that live page. No exact graduate eligibility window is asserted without a supporting primary public source. For a live application, use the official requirements for the relevant vacancy, market and cohort.
+
+Official sources:
 
 - University students and graduates:  
   https://www.hsbc.com/careers/students-and-graduates/university-students-and-graduates

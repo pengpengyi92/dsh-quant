@@ -34,7 +34,7 @@ ECB 不是“哪个公司更好”的排行，而是一个 **company-culture rev
 ## Cases
 
 - [BOCHK — Cross-border Institutional Banker Pipeline](./bochk.md)
-- [HSBC — Global Specialist Banker Pipeline](./hsbc.md)
+- [HSBC — Global Specialist Banker Pipeline](./hsbc.md) — programme-specific eligibility caution; experienced-hire routes assessed separately.
 
 ## Comparative archetypes
 
