@@ -1,5 +1,13 @@
 # Release delivery TODO
 
+## Audited newcomer work - 2026-11-14
+
+- [x] P1: Audit 20 open issues, remove 7 broad newcomer labels, and publish 3 bounded tasks with evidence/acceptance: #107/#159/#160. See docs/GOOD_FIRST_ISSUES.md.
+- [ ] P1: Review/merge a claimed #107 benchmark PR with deterministic inputs and actual measurements; current compute-path coverage is not implemented.
+- [ ] P1: Review/merge #159 parser fix after missing-value regressions fail-before/pass-after and legitimate zero-volume controls pass.
+- [ ] P2: Review/merge #160 newcomer-doc corrections against current scripts/runtime/release evidence; retain historical receipts.
+- [ ] P1: Keep #105 environment reproduction and #108 routing/cancellation/provider-policy design outside newcomer labels until scoped independently.
+
 ## Community intake - 2026-11-14
 
 - [ ] P1: Continue reviewing submissions through #109/#152 and discussion151; preserve reproduction, license and contributor credit.

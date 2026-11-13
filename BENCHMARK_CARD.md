@@ -1,5 +1,14 @@
 # dsh-quant release verification
 
+## Newcomer task readiness audit - 2026-11-14
+
+- **Baseline**: 20 open/unassigned issues, 8 good-first labels, no open PRs; 7 labels describe broad intakes rather than one accepted scope. Five indicator-only smoke cases; parser missing values coerce to 0; three newcomer docs stale.
+- **Change**: retain/refine #107, scope #159 from #1 and #160 from #109, remove 7 broad labels without closing discussions. Add prerequisites, files, counterexamples, acceptance commands and unchanged review/CI gates.
+- **Measure**: GitHub full open-issue/PR/label read-back; inspect current source at c323eb7; synthetic parser probe plus failing assert.throws and valid zero-volume control; actual npm test and bench.
+- **Result**: 337/337 existing tests pass; baseline bench passes five cases, local slowest 0.339ms with unseeded inputs (not a stable comparison). Parser regression probe deliberately fails as expected; no fix delivered. Read-back confirms exactly 3 open/unassigned starter issues, all help wanted. Source/runtime changes: none.
+- **Trade-off**: fewer labels and only 2 new scoped issues reduce ambiguity; task specs are not implementations or independent proof of financial quality. Contributor uptake, review latency, PR success and performance improvement remain UNMEASURED.
+- **Next Action**: maintain claim state on GitHub, review each actual contribution with counterexamples/full CI, credit accepted work, and re-triage stale scopes rather than adding tasks to meet a quota.
+
 ## Registry delivery and rc.5 - 2026-11-14
 
 - **Baseline**: npm latest 0.90.0; official rc.5 CLI rejects its old peer ranges. Source release alone was not installable delivery.

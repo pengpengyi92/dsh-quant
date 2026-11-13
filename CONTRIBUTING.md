@@ -4,6 +4,9 @@ Thanks for your interest! dsh-quant is an agent-native quantitative R&D toolkit
 for DeepSeek Harness — 46 tools across 6 domains, methods open, secrets
 internal. We welcome issues, PRs, discussions, and data-provider partnerships.
 
+For a bounded first PR, see the [audited newcomer tasks](docs/GOOD_FIRST_ISSUES.md).
+Broad roadmap/intake issues are not automatically suitable first assignments.
+
 FICC repos and research examples: [directory](ficc/README.md),
 [submission/rating rules](ficc/CONTRIBUTING.md),
 [Discussion #151](https://github.com/pengpengyi92/dsh-quant/discussions/151) and
