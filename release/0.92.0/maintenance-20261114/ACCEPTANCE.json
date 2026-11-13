@@ -1,0 +1,20 @@
+{
+  "title": "npm 0.92.0 delivery and maintenance acceptance",
+  "recorded_at": "2026-11-14T04:47:37+08:00",
+  "package": "dsh-quant@0.92.0",
+  "npm_latest": "0.92.0",
+  "release_source_commit": "556092969e7d1b4095f1872445d41321b743a8f3",
+  "tested_maintenance_head": "e57750daad0bdf80e751e574072d8fb634c8991f",
+  "maintenance_merge": "439aa313ccb4923ae34d124613cd01c66bb9c3e1",
+  "integrity": "sha512-g8Pw51hGRNcT9m3MqbLDPzKLkqb5fJi5afs1qKxlCMzzxaCghDkERi4OCBkF0ELwnL5655VEpO0uG1AZUruYyA==",
+  "registry_acceptance_run": "https://github.com/pengpengyi92/dsh-quant/actions/runs/43504578095",
+  "ci_run": "https://github.com/pengpengyi92/dsh-quant/actions/runs/43504562462",
+  "ci_jobs_passed": 6,
+  "registry_cohorts_passed": ["0.1.0-rc.6", "0.2.0-rc.2", "0.2.1-alpha.3", "0.2.1-rc.2", "0.2.1-rc.5"],
+  "per_registry_cohort": {"registered": 59, "deterministic_passed": 56, "failed": 0, "live_apis_unverified": 3},
+  "combined_source_tests": {"passed": 337, "failed": 0, "skipped": 0},
+  "official_rc5_cli": {"platform": "Windows", "node": "24.18.0", "old_090": "REJECTED_EXPECTED", "registry_092_add": "PASS", "standalone_profile_peers_check": "MISSING_HOST_PEERS", "full_profile_boot": "NOT_RUN"},
+  "merged_prs": {"148": "cf140fb405da9703ff42822469e72aa18d065c86", "156": "3890f98c216645d9b0a586118f46f044ce72fc7a", "158": "439aa313ccb4923ae34d124613cd01c66bb9c3e1"},
+  "completed_issues": [149, 139, 140],
+  "remaining": ["Desktop/Hub/model sessions, including Issue105", "Three live API tools", "Exact reporter Linux/Node26 environment", "Future automated publishing authentication"]
+}

@@ -7,7 +7,7 @@
 - [x] P0: Verify npm latest/exact integrity and five real registry consumers; official rc.5 CLI add passes.
 - [x] P0: Repair registry spec/Windows subprocess/selected-release harness bugs; 337 combined source tests pass.
 - [x] P0: Correct and merge PR148 (public privacy) and PR156 (dated/pinned evidence), each after five green CI jobs.
-- [ ] P0: Merge release-harness/evidence PR158 after independent re-review and six green current-head CI jobs.
+- [x] P0: Merge release-harness/evidence PR158 after independent re-review and six green current-head CI jobs (439aa31; final five-cohort registry run43504578095 PASS).
 - [ ] P1: Configure future unattended publishing through an explicitly authorized credential/trusted-publisher setup; local login did not repair the old GitHub secret.
 - [ ] P1: Verify complete Desktop/Hub/model sessions (#105) and three live APIs separately.
 

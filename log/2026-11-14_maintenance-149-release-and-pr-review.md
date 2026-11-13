@@ -71,7 +71,18 @@ Official maintainer login succeeded. Publishing the accepted tarball requested a
 
 ## Remaining work and limits
 
-- PR158: merge only after current-head six-job CI and final harness acceptance.
+- PR158 merged only after current-head six-job CI and final harness acceptance; receipt below.
 - Future automated npm authentication requires explicit configuration; no local token was copied to GitHub secrets.
 - #105 complete Desktop/Hub/model sessions and three live API calls remain unverified. No financial-performance or production-readiness claim.
 - Directory invitation #40 and listing notice #51 are community correspondence, not proof of an independently verified listing or market-data certification. Do not create an external submission or subscribe the user as part of an acknowledgement.
+
+## Final merge receipt - 2026-11-14T04:47:37+08:00
+
+- Reviewed content head: `e57750daad0bdf80e751e574072d8fb634c8991f`.
+- All six final-head CI jobs passed: https://github.com/pengpengyi92/dsh-quant/actions/runs/43504562462.
+- Repeated actual registry acceptance on that same final head passed all five cohorts: https://github.com/pengpengyi92/dsh-quant/actions/runs/43504578095. This supersedes reliance on the earlier harness run, while preserving its receipt.
+- PR158 normal merge confirmed: `439aa313ccb4923ae34d124613cd01c66bb9c3e1`, merged 2026-11-13T20:47:37Z. No admin bypass or self-approval.
+- #40 acknowledgement: https://github.com/pengpengyi92/dsh-quant/issues/40#issuecomment-6864503647. No external submission made; community invitation remains open.
+- #51 acknowledgement: https://github.com/pengpengyi92/dsh-quant/issues/51#issuecomment-6864505425. Thanks for the notice, not a claim of independently verified listing/completeness; community thread remains open.
+- Current completion: PR148, PR156 and maintenance PR158 merged; #149/#139/#140 closed after actual delivery; #105 remains open. Scoped receipts, failed attempts, package hashes, source/harness distinctions and limitations are committed in this repository.
+- Subsequent receipt-only documentation does not change the tested runtime implementation or the immutable npm artifact. GitHub remote state is canonical for this log's own final commit.
