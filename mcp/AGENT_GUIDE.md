@@ -6,7 +6,7 @@
 ## 一句话
 
 **dsh-quant = 量化版 everything-is-a-plugin**：AI-native & DSH-native
-的量化工具箱，46 个工具、6 个域，一条 pipeline 跑通 PDAT→PET 全链路。
+的量化工具箱，59 个工具、6 个域，一条 pipeline 跑通 PDAT→PET 全链路。
 Methods open, secrets internal。
 
 ## 六域模块（每个都是插槽）
@@ -20,7 +20,8 @@ Methods open, secrets internal。
 | dsh-execution | 执行/交付 | quant_execute_sim · quant_fund · quant_report |
 | dsh-community | 生态度量 | quant_oss_pulse · quant_repo_stats |
 
-工具 schema 全量清单：`mcp/tools.json`（运行时生成，与代码一致）。
+工具 schema 全量清单：`mcp/tools.json`（运行时生成；工具变更后
+运行 `npm run gen:tools` 重新生成）。
 
 ## 契约（调用前必读）
 
@@ -53,7 +54,7 @@ Methods open, secrets internal。
 src/dsh-{data,alpha,ml,risk,execution,community}/   六域实现（纯函数）
 docs/ONBOARDING.md · ML_GUIDE.md · QUANT_ECOSYSTEM.md
 quant-history/   42 家机构档案 + TIMELINE/ANALYSIS/LINEAGE 三报告
-mcp/tools.json   46 工具 schema（模型可见）
+mcp/tools.json   工具 schema（模型可见；npm run gen:tools 生成）
 tests/           手算基准单测（契约的证明）
 skill/           quant-research / quant-release-cycle 两个可加载 skill
 ```

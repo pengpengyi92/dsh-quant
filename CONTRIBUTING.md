@@ -1,7 +1,7 @@
 # Contributing to dsh-quant
 
 Thanks for your interest! dsh-quant is an agent-native quantitative R&D toolkit
-for DeepSeek Harness — 46 tools across 6 domains, methods open, secrets
+for DeepSeek Harness — 59 tools across 6 domains, methods open, secrets
 internal. We welcome issues, PRs, discussions, and data-provider partnerships.
 
 For a bounded first PR, see the [audited newcomer tasks](docs/GOOD_FIRST_ISSUES.md).
@@ -20,7 +20,7 @@ then run `npm run test:ficc`. Directory references do not require a new tool.
 npm install          # real npm deps (no workspace symlinks needed)
 npm run build        # tsc → lib/
 npm run typecheck:market-tests # Node-only market test types, no DOM globals
-npm test             # 174 unit cases + 4 real-Loader composition cases
+npm test             # 338 unit cases (including 5 real-Loader composition cases)
 npm run test:verify  # live integration (public market/GitHub/npm APIs — needs network)
 npm run gen:tools    # regenerate mcp/tools.json after tool changes
 ```
@@ -55,8 +55,9 @@ npm run gen:tools    # regenerate mcp/tools.json after tool changes
   For network-layer changes also run `npm run test:verify`. See the
   `quant-release-cycle` skill (`skill/quant-release-cycle/SKILL.md`) for the
   full pre-push checklist.
-- Releases are automatic: a `vX.Y.Z` tag triggers CI → npm publish. Maintainers
-  cut tags after merge.
+- Publishing is currently manual: automated publish authentication is broken,
+  so a maintainer runs the release manually after merge. Maintainers cut tags
+  after merge.
 
 ## Ecosystem conventions (learned from the dsh ecosystem)
 
