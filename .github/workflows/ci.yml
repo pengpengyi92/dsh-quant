@@ -18,6 +18,10 @@ jobs:
       - run: npm test
       - name: Type check gate
         run: npx tsc --noEmit
+      - name: Visualization example and public-reference contracts
+        run: |
+          npx tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --strict --skipLibCheck --allowImportingTsExtensions demos/data-visualization.ts tests/data-visualization.spec.ts
+          python3 -m unittest discover -s tests -p test_visualization_catalog.py -v
       - name: Typecheck market tests without DOM globals
         run: npm run typecheck:market-tests
       - name: Benchmark smoke

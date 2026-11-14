@@ -1,0 +1,37 @@
+{
+  "reviewed_at": "2026-11-14T16:09:00+08:00",
+  "method": "Read pinned public license/NOTICE text and primary README; not legal advice, reuse approval or runtime validation",
+  "records": [
+    {
+      "repo": "matplotlib/matplotlib",
+      "commit": "0e56caa4c321f137bc526c2715453a55181f9cfa",
+      "path": "LICENSE/LICENSE",
+      "blob_sha": "ec51537db27dd4d9c9ed3cd39fd96485f3cfddea",
+      "url": "https://github.com/matplotlib/matplotlib/blob/0e56caa4c321f137bc526c2715453a55181f9cfa/LICENSE/LICENSE",
+      "observation": "Matplotlib-specific license agreement grants royalty-free use subject to retaining terms/copyright and summarizing derivative changes; other LICENSE/ component/font notices also exist. Automatic SPDX remains null, not replaced with a guessed BSD/MIT label."
+    },
+    {
+      "repo": "matplotlib/mplfinance",
+      "commit": "493811dac9a203de7ec148fb95504e7d3f400ba5",
+      "path": "LICENSE",
+      "blob_sha": "2c1d88e27f829739bb9c32ef20c4ee26484e117d",
+      "url": "https://github.com/matplotlib/mplfinance/blob/493811dac9a203de7ec148fb95504e7d3f400ba5/LICENSE",
+      "observation": "Matplotlib-style agreement headed mplfinance, with retained Matplotlib wording. Automatic NOASSERTION remains separate; not relabelled BSD. Reuse needs exact notice/compatibility review."
+    },
+    {
+      "repo": "tradingview/lightweight-charts",
+      "commit": "aebdfc8f0d85b95e43467ae79516753158d60e61",
+      "path": "NOTICE",
+      "blob_sha": "37971d0b7b5ec7110b759e73301c8fede45db174",
+      "url": "https://github.com/tradingview/lightweight-charts/blob/aebdfc8f0d85b95e43467ae79516753158d60e61/NOTICE",
+      "observation": "Apache-2.0 code plus upstream README attribution/NOTICE and TradingView link requirements; not the separate proprietary Advanced Charts product."
+    },
+    {
+      "repo": "kernc/backtesting.py",
+      "commit": "ca2e2611621e472542ba90f7243a1fa06a7d7108",
+      "observation": "AGPL-3.0 reference-only engine, not merely a chart library. No code copied, linked into the MIT runtime or granted private/commercial compatibility by catalog inclusion."
+    }
+  ],
+  "code_copied": false,
+  "market_or_private_data_copied": false
+}

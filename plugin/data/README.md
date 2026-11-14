@@ -1,5 +1,9 @@
 # plugin/data —— 数据插件（插槽：dsh-data）
 
+**可视化方法**：[12个固定源码/许可入口](../../docs/data-visualization/README.md) ·
+[离线合成画图示例](../../demos/data-visualization/README.md)。行情/缺失/覆盖图属于Data
+观察，回测计算属于研究/策略模块；净值、回撤、成交点是结果视图，不混为数据源。
+
 **2026-11-14 数据来源共建**：[首批11个数据/工程仓库与接入报告](../../docs/data-sources/DATA-SOURCING-2026-11-14.md)
 · [LLMQuant 注册/credit/验证边界](../../docs/data-sources/LLMQUANT.md)
 · [PDAT proprietary/private 来源的精选公开契约与合成样例](source-contract/README.md)。
