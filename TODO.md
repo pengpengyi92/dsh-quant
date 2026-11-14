@@ -6,7 +6,8 @@
 - [x] P1: Review/pin11 data/MCP/SDK/infrastructure repositories; separate software/data rights and NOT_RUN state.
 - [x] P1: Read private PDAT current governance; publish only independently written generic contract/new synthetic fixture, not proprietary implementation or data.
 - [x] P1: Correct the existing LLMQuant channel and missing-credential readiness; fail-before/pass-after tests and user-controlled verification workflow retained.
-- [ ] P1: Publish the prepared data Discussion after report/CI merge; cross-link existing Issue2 rather than duplicate intake.
+- [x] P1: Publish data Discussion164 after report PR163 merged with six green CI jobs; exact body/category read-back PASS.
+- [x] P1: Cross-link data Discussion164/report in existing Issue2; exact posted comment read-back PASS. Record actual posts/CI/merge in the delivery log.
 - [ ] P1: With Human approval, verify live signup/credits/current pricing and one bounded, permitted non-personal data call. Current cash amounts and authenticated API remain unverified.
 - [ ] P2: Re-review future data/plugin proposals for scope, rights, timestamps, synthetic counterexamples and actual executed evidence before integration.
 

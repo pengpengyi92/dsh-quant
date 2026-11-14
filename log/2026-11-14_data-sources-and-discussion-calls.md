@@ -99,3 +99,33 @@ Public-post read-back, privacy/link scans, CI and merge receipts follow once run
   PDAT worktree status remains clean. No broad private-directory copying.
 - `git diff --exit-code 5ba1ba5 -- src/dsh-data/market.ts benchmark/smoke.ts AGENTS.md mcp/AGENT_GUIDE.md CONTRIBUTING.md package.json package-lock.json .github/workflows`: PASS. Existing newcomer tasks, dependency/runtime registration and publishing workflow were not silently replaced.
 - `node --check scripts/data-source-snapshot.mjs`: PASS.
+
+## Public Delivery Receipt
+
+Timestamp: 2026-11-14T15:35:25+08:00 (Asia/Shanghai).
+
+- Source/report commit: `9c1ee62b7b1319f45ab911bba49148026bff7511`.
+- [PR163](https://github.com/pengpengyi92/dsh-quant/pull/163) merged at
+  2026-11-14T15:32:38+08:00 as
+  `0b8c9d7fbc9e364d4f8ca54452f5a8289994ca2f`. Normal merge matched the
+  tested head; no admin bypass, self-approval or invented independent review.
+- [CI43571202585](https://github.com/pengpengyi92/dsh-quant/actions/runs/43571202585):
+  six SUCCESS jobs (test plus five compatibility cohorts), checked before merge.
+- [Newcomer Discussion162](https://github.com/pengpengyi92/dsh-quant/discussions/162),
+  Announcements: exact versioned body/category read-back PASS.
+- [Data Discussion164](https://github.com/pengpengyi92/dsh-quant/discussions/164),
+  General: published only after the linked reports existed on master; exact
+  versioned body/category read-back PASS. Includes upstream attribution,
+  source/access limits, PDAT private boundary, contribution template and thanks.
+- [Issue2 follow-up](https://github.com/pengpengyi92/dsh-quant/issues/2#issuecomment-6873901707):
+  posted at15:34:59+08:00, exact versioned body read-back PASS. Existing issue
+  remains OPEN; no duplicate data intake issue created.
+- #107/#159/#160 remain OPEN with zero assignees at this receipt. Recruitment
+  did not implement/close them. PDAT worktree remains clean.
+- README links both Discussions; this follow-up changes navigation/logs only.
+  No new package release, paid call, credential collection or group creation.
+
+Remaining gaps: current LLMQuant cash pricing, real account/credit/API flow;
+upstream installation/compatibility and permitted data quality/PIT benchmarks;
+actual contributor adoption and future separately reviewed code extraction.
+These remain UNVERIFIED/NOT_RUN, not implied by repository metadata or343 tests.

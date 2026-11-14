@@ -511,8 +511,8 @@ Plugin library (five slots × external repos & MCPs): [plugin/](plugin/)
 
 ## 🤝 Contribute & maintain
 
-- **Interested in data sources / plugins?** See the [source/access review](docs/data-sources/DATA-SOURCING-2026-11-14.md), [LLMQuant flow](docs/data-sources/LLMQUANT.md) and [selected public PDAT abstraction](plugin/data/source-contract/README.md). SDK/MCP code licenses do not grant data rights; PDAT remains proprietary/private.
-- **Looking for a first PR?** Start with [audited, scoped tasks](docs/GOOD_FIRST_ISSUES.md); each includes evidence, file boundaries, counterexamples and acceptance commands.
+- **Interested in data sources / plugins?** Join [Data collaboration #164](https://github.com/pengpengyi92/dsh-quant/discussions/164); see the [source/access review](docs/data-sources/DATA-SOURCING-2026-11-14.md), [LLMQuant flow](docs/data-sources/LLMQUANT.md) and [selected public PDAT abstraction](plugin/data/source-contract/README.md). SDK/MCP code licenses do not grant data rights; PDAT remains proprietary/private.
+- **Looking for a first PR?** Join [Newcomer call #162](https://github.com/pengpengyi92/dsh-quant/discussions/162) and start with [audited, scoped tasks](docs/GOOD_FIRST_ISSUES.md); each includes evidence, file boundaries, counterexamples and acceptance commands.
 - **Want to add a plugin / data source / learning material?** → [Issue #109（插件征集）](https://github.com/pengpengyi92/dsh-quant/issues/109) — data / risk / execution plugins, ML-DL & alpha learning resources all welcome
 - **Filing a bug / feature / help-wanted issue?** → [ISSUE_GUIDE.md](ISSUE_GUIDE.md) (agent-friendly rules)
 - **Sending a PR?** → [CONTRIBUTING.md](CONTRIBUTING.md) (dev loop + design contract)
