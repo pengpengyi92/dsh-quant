@@ -31,6 +31,27 @@ jobs:
       - name: Consumer test (packed package)
         run: bash scripts/consumer-test.sh
 
+  ccxt-example:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - name: Install optional CCXT lock without lifecycle scripts
+        run: npm ci --prefix demos/ccxt-public --ignore-scripts --no-fund
+      - name: Audit optional data example
+        run: npm audit --prefix demos/ccxt-public --omit=dev --audit-level=moderate
+      - name: Typecheck example, bridge and synthetic tests
+        run: node node_modules/typescript/bin/tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --strict --skipLibCheck --allowImportingTsExtensions --allowJs --lib ES2022 --types node demos/ccxt-public/run.ts tests/ccxt.spec.ts tests/ccxt-transport.spec.ts tests/ccxt-evidence.spec.ts benchmark/ccxt-offline.ts
+      - name: Fixed offline benchmark (no provider requests in CI)
+        run: node --import tsx benchmark/ccxt-offline.ts
+      - run: npm run build
+      - name: Exclude optional dependencies and local raw data from npm pack
+        run: node scripts/check-ccxt-pack.mjs
+
   compatibility:
     runs-on: ubuntu-latest
     strategy:

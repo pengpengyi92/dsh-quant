@@ -3,7 +3,10 @@
 **2026-11-14 数据来源共建**：[首批11个数据/工程仓库与接入报告](../../docs/data-sources/DATA-SOURCING-2026-11-14.md)
 · [LLMQuant 注册/credit/验证边界](../../docs/data-sources/LLMQUANT.md)
 · [PDAT proprietary/private 来源的精选公开契约与合成样例](source-contract/README.md)。
-新候选均为引用/未集成状态；Python 库、MCP 与原生 Cordis 插件分别对待。
+首轮报告中的候选状态为引用/未集成；Python 库、MCP 与原生 Cordis 插件分别对待。
+后续已跑通 [CCXT + Kraken 可选实例](../../demos/ccxt-public/README.md)：真实SDK取数
+接入Candle和已注册quality/SMA工具，[协议/实测](../../docs/data-sources/CCXT-KRAKEN-2026-11-14.md)。
+这不改变quant_market_fetch的内置provider，也不授予商业数据使用/再分发权。
 下表其它历史条目未在本轮重新验证，不从目录推断权限、安装或兼容性已通过。
 
 | 插件 | 类型 | 一句话 | 对接方式 |

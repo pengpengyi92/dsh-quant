@@ -1,5 +1,15 @@
 # Release delivery TODO
 
+## First live data integration - 2026-11-14
+
+- [x] P1: Select one no-key/no-payment SDK path; document MIT client versus Kraken personal-use/data redistribution limits.
+- [x] P1: Run actual CCXT4.5.92 -> strict Candle bridge -> registered quality/SMA against same-window REST baseline, three rounds/path,60 bars/path.
+- [x] P0: Fix optional undici dependency advisories and explicitly use patched7.30.1 fetch for both paths; retain earlier diagnostic receipts.
+- [x] P1: Keep raw data ignored/local, separate optional dependencies, add synthetic rejection tests and fixed offline benchmark.
+- [x] P1: Final local358/358 tests, scoped15/15, strict types and package exclusion PASS; record checks and failure history.
+- [ ] P1: Pass current-head seven-job CI and merge/push source, report and timestamped log without a new npm release.
+- [ ] P2: Scope a permitted second-source or persistence/recovery experiment; do not treat closed bars as historical PIT proof or commercial authorization.
+
 ## Data-source collaboration - 2026-11-14
 
 - [x] P1: Publish scoped newcomer Discussion162 with claim steps, acceptance and thanks/review standards; leave #107/#159/#160 for contributors.

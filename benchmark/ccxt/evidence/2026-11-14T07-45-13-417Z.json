@@ -1,0 +1,213 @@
+{
+  "status": "PASS",
+  "started_at_utc": "2026-11-14T07:45:13.417Z",
+  "started_at_shanghai": "2026-11-14 15:45:13",
+  "finished_at_utc": "2026-11-14T07:45:23.991Z",
+  "source_commit": "369e6a21571af787d082e9daa37a36770cc5b41c",
+  "source_worktree": "DIRTY; use file hashes",
+  "source_sha256": {
+    "src/dsh-data/ccxt.ts": "9c0e1877e44b3d8ba2f03657094b47acb030513bc065f6d6cee7ccd94376160f",
+    "src/index.ts": "240030808fe04f1326bf385204e0272f72de32038a69920b2f35a7ecb991be00",
+    "demos/ccxt-public/run.ts": "721815aa401f6a42a99d8f0ec9ff6bf630248d68fd3ec0888d962ea04ad1f4f9",
+    "demos/ccxt-public/support.mjs": "3a5fb41d4449a8e9d03148b95be0b98b58285bf5e90611320c29f12a6e910d89",
+    "demos/ccxt-public/package-lock.json": "7e5039ddfe6a6aebc96cc532d9ca1034f3e712430004f4864687130ba2e14fae",
+    "benchmark/ccxt-offline.ts": "e12b3b07ac46c960611a0047097ae5c9575cca76c869ccabf08296105ab7347a"
+  },
+  "environment": {
+    "node": "v24.18.0",
+    "platform": "win32",
+    "arch": "x64",
+    "ccxt_npm": "4.5.92",
+    "ccxt_exported_version": "4.5.91",
+    "undici": "7.30.1",
+    "transport": "guarded Node native fetch; no custom TLS/proxy"
+  },
+  "scope": {
+    "exchange": "kraken",
+    "symbol": "BTC/USD",
+    "timeframe": "1h",
+    "since_ms": 1794420000000,
+    "until_ms_exclusive": 1794636000000,
+    "required_closed_bars": 60
+  },
+  "protocol": {
+    "rounds_per_path": 3,
+    "order": [
+      "rest,ccxt-cold",
+      "ccxt-warm,rest",
+      "rest,ccxt-warm"
+    ],
+    "request_budget": 12,
+    "request_gap_ms": 1100,
+    "per_request_timeout_ms": 10000,
+    "retries": 0,
+    "latency": "fetch path includes response hashing, rate limiting and cold market metadata where applicable; excludes SDK import, tool processing, installation",
+    "acceptance": "all rounds >=60 closed valid consecutive bars, same-window exact REST/CCXT parity, registered quality+SMA match pure oracle",
+    "statistical_limit": "n=3, descriptive samples only; no p95/SLA/speedup conclusion"
+  },
+  "rights": {
+    "sdk": "CCXT 4.5.92 MIT; source e6fd82900c9f2b71fa0fa7524d95dd788e2803fc",
+    "data": "Kraken terms, personal non-commercial research only; commercial/non-personal use requires separate permission",
+    "raw_data_published": false,
+    "keys_accounts_payment_orders": "NOT_USED",
+    "local_outputs": ".data-local/ccxt/<run-id>/ (git-ignored, excluded from package)"
+  },
+  "observations": [
+    {
+      "path": "rest",
+      "round": 0,
+      "latency_ms": 731.759,
+      "bars": 60,
+      "outside_window": 2,
+      "candle_sha256": "9cea053a31188403086d51cabb1677590dcce1349f1a8b7d18446618d6760a2a",
+      "runtime_calls": [
+        "quant_data_quality:PASS",
+        "quant_sma:PASS"
+      ]
+    },
+    {
+      "path": "ccxt",
+      "round": 0,
+      "latency_ms": 4395.2204,
+      "bars": 60,
+      "outside_window": 2,
+      "candle_sha256": "9cea053a31188403086d51cabb1677590dcce1349f1a8b7d18446618d6760a2a",
+      "runtime_calls": [
+        "quant_data_quality:PASS",
+        "quant_sma:PASS"
+      ]
+    },
+    {
+      "path": "ccxt",
+      "round": 1,
+      "latency_ms": 1582.9079000000002,
+      "bars": 60,
+      "outside_window": 2,
+      "candle_sha256": "9cea053a31188403086d51cabb1677590dcce1349f1a8b7d18446618d6760a2a",
+      "runtime_calls": [
+        "quant_data_quality:PASS",
+        "quant_sma:PASS"
+      ]
+    },
+    {
+      "path": "rest",
+      "round": 1,
+      "latency_ms": 1248.5630999999994,
+      "bars": 60,
+      "outside_window": 2,
+      "candle_sha256": "9cea053a31188403086d51cabb1677590dcce1349f1a8b7d18446618d6760a2a",
+      "runtime_calls": [
+        "quant_data_quality:PASS",
+        "quant_sma:PASS"
+      ]
+    },
+    {
+      "path": "rest",
+      "round": 2,
+      "latency_ms": 763.7068999999992,
+      "bars": 60,
+      "outside_window": 2,
+      "candle_sha256": "9cea053a31188403086d51cabb1677590dcce1349f1a8b7d18446618d6760a2a",
+      "runtime_calls": [
+        "quant_data_quality:PASS",
+        "quant_sma:PASS"
+      ]
+    },
+    {
+      "path": "ccxt",
+      "round": 2,
+      "latency_ms": 1571.764799999999,
+      "bars": 60,
+      "outside_window": 2,
+      "candle_sha256": "9cea053a31188403086d51cabb1677590dcce1349f1a8b7d18446618d6760a2a",
+      "runtime_calls": [
+        "quant_data_quality:PASS",
+        "quant_sma:PASS"
+      ]
+    }
+  ],
+  "network": [
+    {
+      "path": "/0/public/OHLC",
+      "status": 200,
+      "elapsed_ms": 719.2539000000002,
+      "bytes": 5193,
+      "sha256": "1fb09748de26811d4554a667673a685aef356a16dcb48e67721f858ac1bded9d"
+    },
+    {
+      "path": "/0/public/Assets",
+      "status": 200,
+      "elapsed_ms": 417.2425999999996,
+      "bytes": 99163,
+      "sha256": "40e95f4ab79007f03e457bb4ee0442642af59c043347f516a8d1646f51d20d33"
+    },
+    {
+      "path": "/0/public/AssetPairs",
+      "status": 200,
+      "elapsed_ms": 1129.3574999999996,
+      "bytes": 666266,
+      "sha256": "464a5cc5c5c8ed0ec37e969c181b5029aa9a4f63d6c893ee7afbb604cfa42010"
+    },
+    {
+      "path": "/0/public/OHLC",
+      "status": 200,
+      "elapsed_ms": 355.33799999999974,
+      "bytes": 5276,
+      "sha256": "c7373579cac1c6faab3f5011a2157896814a95d6974d6f0c6a0a38cfeaf48c08"
+    },
+    {
+      "path": "/0/public/OHLC",
+      "status": 200,
+      "elapsed_ms": 370.83640000000014,
+      "bytes": 5276,
+      "sha256": "c7373579cac1c6faab3f5011a2157896814a95d6974d6f0c6a0a38cfeaf48c08"
+    },
+    {
+      "path": "/0/public/OHLC",
+      "status": 200,
+      "elapsed_ms": 527.5409999999993,
+      "bytes": 5193,
+      "sha256": "92fbf1e8b5e7fb97cb8f7fc6ba1b169f63f55252dd9520af7a9ab4aa7323a1ef"
+    },
+    {
+      "path": "/0/public/OHLC",
+      "status": 200,
+      "elapsed_ms": 199.53789999999935,
+      "bytes": 5193,
+      "sha256": "92fbf1e8b5e7fb97cb8f7fc6ba1b169f63f55252dd9520af7a9ab4aa7323a1ef"
+    },
+    {
+      "path": "/0/public/OHLC",
+      "status": 200,
+      "elapsed_ms": 354.0738000000001,
+      "bytes": 5276,
+      "sha256": "5f728fbc522e450e6ea722ba0057c311a4814a884e66e17b655565e41db2d138"
+    }
+  ],
+  "offline": {
+    "fixture": "240 independently synthetic hourly candles; fixed UTC start; no RNG",
+    "protocol": "50 warmups, 1000 samples per path; assertions outside timing; same valid input; single process",
+    "unsafe_mapping_baseline": {
+      "iterations": 1000,
+      "median_ms": 0.012400000000070577,
+      "max_ms": 4.110300000000052,
+      "total_ms": 19.444099999996524
+    },
+    "checked_mapping": {
+      "iterations": 1000,
+      "median_ms": 0.03019999999992251,
+      "max_ms": 3.9163999999998396,
+      "total_ms": 50.47949999999787
+    },
+    "checked_quality_sma_pipeline": {
+      "iterations": 1000,
+      "median_ms": 0.017800000000079308,
+      "max_ms": 0.5204000000001088,
+      "total_ms": 21.233999999998787
+    },
+    "negative_control": "unsafe baseline accepts null volume as zero; checked bridge rejects it",
+    "caveat": "Safety adds work; not an equivalent-work speed contest, latency SLA, OOS/alpha or production benchmark"
+  },
+  "failure": null,
+  "caveats": "No historical publication/observation vintages, multi-source price validation, survivorship proof, trading return or production-readiness claim."
+}

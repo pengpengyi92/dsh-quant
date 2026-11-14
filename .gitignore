@@ -21,4 +21,5 @@ lib/
 # Local source-check scratch; reviewed FICC records live in ficc/.
 /.ficc-work/
 /.issue-149-host/
+/.data-local/
 /release/0.92.0/maintenance-20261114/linux-candidate/
