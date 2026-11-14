@@ -1,5 +1,14 @@
 # dsh-quant release verification
 
+## First actual public-data integration - 2026-11-14
+
+- **Baseline**:11 sources LINK_ONLY/NOT_RUN; native REST for the same Kraken window plus an intentionally unsafe Number-mapping control. No private PDAT code used.
+- **Change**: optional CCXT4.5.92 / patched undici7.30.1; pure strict hourly Candle bridge and real registered quality/SMA calls. Ordinary runtime gains no external dependency/provider/tool. Raw market data stays local.
+- **Measure**: fixed60-hour BTC/USD window,3 rounds/path,12-request budget/run; accepted run uses8 HTTP200 requests. Synthetic240 bars,50 warmups/1000 samples per path, rejection/transport/evidence tests. Machine evidence: benchmark/ccxt/evidence/2026-11-14T07-47-34-088Z.json.
+- **Result**: all6 paths return identical60 closed bars;12 actual quality/SMA calls pass. REST latency543/1117/886ms; CCXT4128ms cold,1572/1865ms warm (includes scheduling, metadata and hashing). Offline median0.0112ms unsafe mapping,0.0153ms strict,0.0167ms strict+quality+SMA. Missing-value control rejected instead of becoming0. Final optional npm audit reports0 known vulnerabilities.
+- **Trade-off**: approximately70.5MB optional SDK, startup/metadata/validation overhead; n=3 is not a latency SLA/speedup comparison. Initial version-string mismatch, advisory finding and native-fetch-versus-override correction are retained with three run receipts,24 total public requests. Personal research limits remain; SDK MIT is not a data redistribution license.
+- **Next Action**: pass full verification/current-head CI and push; then separately design permitted persistence/cross-source/PIT work. No production-readiness, commercial-use or investment-performance claim.
+
 ## Data access and public-reference review - 2026-11-14
 
 - **Baseline**: existing16-channel guide already lists LLMQuant but labels it free/native-plugin and marks missing credentials ready. Private PDAT contains useful governance patterns but cannot be mirrored publicly.
