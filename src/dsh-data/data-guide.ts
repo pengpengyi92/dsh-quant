@@ -180,15 +180,15 @@ export const DATA_CHANNELS: DataChannel[] = [
   },
   {
     name: 'data-mcp',
-    displayName: 'llmquant data-mcp（dsh 生态）',
-    category: 'dsh-plugin',
+    displayName: 'LLMQuant Data MCP（MCP 连接器）',
+    category: 'api-platform',
     url: 'https://github.com/LLMQuant/data-mcp',
-    cost: '免费（开源项目）',
+    cost: 'MCP 客户端代码 MIT；数据服务需账号和自有凭据，beta 试用 credits 不等于无限免费；当前付费金额需在官方 pricing/账号中确认',
     dataTypes: ['金融数据', 'agent-native 数据接口', '行情'],
-    setup: ['在 dsh 中安装 data-mcp', '以 MCP 协议向 agent 暴露金融数据'],
-    tutorialUrls: ['https://github.com/LLMQuant/data-mcp'],
+    setup: ['在 llmquantdata.com 注册/登录并确认 credits 与使用条款', '本地 stdio 模式由用户环境安全注入 LLMQUANT_API_KEY，再由 MCP client 启动 @llmquant/data-mcp', '或在 Dashboard 的 Connect 页面生成可撤销托管 MCP URL；完整 URL 视作密钥，不粘贴到 Issue/日志', '通过 Harness/MCP client 的 MCP 配置接入，不把该包当成原生 Cordis 插件直接安装'],
+    tutorialUrls: ['https://github.com/LLMQuant/data-mcp', 'https://docs.llmquantdata.com', 'https://llmquantdata.com/pricing'],
     bestFor: 'agent-native 金融数据研究的先行者项目，方法论与接口设计值得学习',
-    notes: 'dsh-quant issue #2 的首个数据接口示例来源',
+    notes: '2026-11-14 复核：Issue #2、生态目录与渠道库已收录；上游 3ecdeaf、npm 0.7.1、Node.js >=20。MIT 代码许可不授予后台数据再分发权。官网/pricing 返回 403，现金价格、实际注册和凭据 API 调用未验证；详见 docs/data-sources/LLMQUANT.md。上游只读镜像不接受 PR，问题按其 Issue 指引反馈。',
   },
   {
     name: 'chinabond',
@@ -449,6 +449,11 @@ export function channelAccessGuide(channel: string): ChannelAccessGuide {
       prerequisites: ['SiftingIO 账号与自有 API Key（通过环境变量/秘密管理注入）', '确认市场权限、套餐配额及数据用途许可'],
       example: 'GET https://api.sifting.io/v1/symbols（X-API-Key 请求头由用户环境注入；仅为文档示意，未实测）',
       fallback: '429 时按 Retry-After 退避或等待配额恢复；覆盖/许可不符时重新选择渠道。凭据就绪不代表 API 实测、数据质量或 dsh 兼容验证通过',
+    },
+    'data-mcp': {
+      prerequisites: ['LLMQuant Data 账号与自有凭据（stdio: LLMQUANT_API_KEY；或用户自行生成的托管 MCP URL）', '本地 stdio 模式需要 Node.js >=20 与已确认的 MCP client 配置', '核对 credits、当前套餐与数据使用/再分发许可'],
+      example: 'npx -y @llmquant/data-mcp@0.7.1（由 MCP client 启动，凭据从用户环境注入；不是原生 dsh plugin add 示例）',
+      fallback: '未授权、credits 不足或 403 时停止并核对官方条款/账号；本轮 pricing 页面返回 403，未核实现金价格。凭据标记不代表 API 实测、额度、数据质量或完整 Harness 会话已通过；不要公开完整托管 MCP URL。',
     },
   }
   const k = known[name]
