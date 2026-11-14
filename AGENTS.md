@@ -1,7 +1,7 @@
 # AGENTS.md — dsh-quant guide for visiting agents
 
 **dsh-quant** is the Everything-Plugin Quant OS for DeepSeek Harness:
-46 tools, 6 domains, one end-to-end PDAT→PET pipeline.
+59 tools, 6 domains, one end-to-end PDAT→PET pipeline.
 Methods open, secrets internal. (Brand line: 🐳 Dsh-Quant: The
 Everything-Plugin Ai native Quant OS.)
 
@@ -81,7 +81,7 @@ src/dsh-{data,alpha,ml,risk,execution,community}/   six domain modules (pure fun
 docs/ONBOARDING.md · docs/ML_GUIDE.md · docs/QUANT_ECOSYSTEM.md
 plugin/         five-slot external plugin library + case study + roadmap
 quant-history/  firm archives + four research reports
-mcp/tools.json  46 model-visible tool schemas
-tests/          hand-computed baselines (174 unit + 4 Loader)
+mcp/tools.json  model-visible tool schemas (`npm run gen:tools` regenerates)
+tests/          hand-computed baselines (338 unit cases incl. 5 Loader)
 skill/          quant-research / quant-release-cycle loadable skills
 ```
