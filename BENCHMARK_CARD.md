@@ -7,7 +7,7 @@
 - **Measure**: fixed60-hour BTC/USD window,3 rounds/path,12-request budget/run; accepted run uses8 HTTP200 requests. Synthetic240 bars,50 warmups/1000 samples per path, rejection/transport/evidence tests. Machine evidence: benchmark/ccxt/evidence/2026-11-14T07-47-34-088Z.json.
 - **Result**: all6 paths return identical60 closed bars;12 actual quality/SMA calls pass. REST latency543/1117/886ms; CCXT4128ms cold,1572/1865ms warm (includes scheduling, metadata and hashing). Offline median0.0112ms unsafe mapping,0.0153ms strict,0.0167ms strict+quality+SMA. Missing-value control rejected instead of becoming0. Final optional npm audit reports0 known vulnerabilities.
 - **Trade-off**: approximately70.5MB optional SDK, startup/metadata/validation overhead; n=3 is not a latency SLA/speedup comparison. Initial version-string mismatch, advisory finding and native-fetch-versus-override correction are retained with three run receipts,24 total public requests. Personal research limits remain; SDK MIT is not a data redistribution license.
-- **Next Action**: pass full verification/current-head CI and push; then separately design permitted persistence/cross-source/PIT work. No production-readiness, commercial-use or investment-performance claim.
+- **Next Action**: source/report/log merged via PR165 asba8b7ce after seven green jobs; separately design permitted persistence/cross-source/PIT work. No production-readiness, commercial-use or investment-performance claim.
 
 ## Data access and public-reference review - 2026-11-14
 

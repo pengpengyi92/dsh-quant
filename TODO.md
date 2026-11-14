@@ -7,7 +7,7 @@
 - [x] P0: Fix optional undici dependency advisories and explicitly use patched7.30.1 fetch for both paths; retain earlier diagnostic receipts.
 - [x] P1: Keep raw data ignored/local, separate optional dependencies, add synthetic rejection tests and fixed offline benchmark.
 - [x] P1: Final local358/358 tests, scoped15/15, strict types and package exclusion PASS; record checks and failure history.
-- [ ] P1: Pass current-head seven-job CI and merge/push source, report and timestamped log without a new npm release.
+- [x] P1: Source/report/log merged via PR165 asba8b7ce after all seven current-head CI jobs passed; normal matched-head merge, no npm release.
 - [ ] P2: Scope a permitted second-source or persistence/recovery experiment; do not treat closed bars as historical PIT proof or commercial authorization.
 
 ## Data-source collaboration - 2026-11-14

@@ -122,3 +122,31 @@ The failed check is retained here; no oversized/private-data package was publish
 The new optional CI job installs/audits the isolated lock, typechecks and runs
 offline benchmark/pack gates, but never invokes the `--live` demo. Remote CI,
 merge commit and final delivery read-back remain pending at this checkpoint.
+
+## Remote delivery receipt
+
+Timestamp:2026-11-14T15:56:30+08:00 (Asia/Shanghai).
+
+- Source/report/evidence commit:e21f8c1b23fd3344e1dd824a7443c31552e1f5a8.
+- [PR165](https://github.com/pengpengyi92/dsh-quant/pull/165) MERGED at
+  2026-11-14T15:56:16+08:00 asba8b7cecc656047b5e2a2c60fcc3beb9cff662ab.
+- [CI43573307935](https://github.com/pengpengyi92/dsh-quant/actions/runs/43573307935):
+  all7 jobs SUCCESS, including optional SDK install/audit/typecheck/offline
+  benchmark/actual pack gate, main unit/coverage/consumer and five host cohorts.
+  Normal merge matched the tested head; no admin bypass or self-approval,
+  and no independent human review was claimed.
+- Full358/358 source tests,15 scoped tests, local line coverage95.80%, real
+  accepted live window/12 runtime calls, final optional audit0 and pack525/0
+  forbidden entries are recorded above. Existing benchmark smoke also PASS;
+  its unseeded five indicator cases are not used to claim CCXT performance gains.
+- Twelve document links/local targets/HTTPS syntax and accepted run code+lock
+  hashes validated; format/bounded secret scan and diff checks PASS. No claim
+  that every remote URL is reachable or that bounded scanning proves no secrets.
+- Synced local branch to actual merged master without resetting user changes.
+  Final follow-up is documentation-only TODO/benchmark/log receipt; source,
+  accepted evidence and private data remain unchanged. No tag/npm publish.
+
+Acceptance:PERSONAL_RESEARCH_DEMO. Further market/provider/native-tool or
+commercial-data changes need a separately scoped review and evidence. Thanks
+to CCXT and Kraken maintainers; corrections and reproducible contributions
+are welcome, with the same source/privacy/CI standards.
