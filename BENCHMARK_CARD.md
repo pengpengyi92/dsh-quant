@@ -1,5 +1,14 @@
 # dsh-quant release verification
 
+## Visualization is also a reconciliation tool - 2026-11-14
+
+- **Baseline**: working CCXT example not yet announced in164;12 rendering/reporting candidates unpinned; existing ChartData available, no dedicated safe synthetic multi-view example.
+- **Change**: publish exact CCXT follow-up; pin12 reference repos/licenses/entry files; independent quant/systems/FICC reading routes. Add own deterministic80-bar SVG/ChartData illustration, manually scripted fills and hand-checkable cash/share fixture.
+- **Measure**:4 new JS example tests,4 Python reference checks; realSVG raster inspected. Own renderer20 warmups/250 iterations mean0.1411ms/27486bytes (file IO/raster/browser excluded). Third-party library performance/integration NOT_RUN / UNMEASURED.
+- **Result**: plotting exposed a real MA-engine accounting counterexample: buy6/sell8 at0.1% each side yields0.998001 reported versus1.330668 expected. Independent assert failed; opened #166. The demo does not publish that engine output as verified strategy equity or silently fix it.
+- **Trade-off**: source catalogs and attractive figures cannot certify math, financial validity or data rights. No external renderer/runtime dependency or private/real-market data added; Matplotlib/mplfinance automatic license remains unknown, AGPL/NOTICE isolated.
+- **Next Action**: validate/ship three scoped public catalogs and the synthetic example, then separately repair #166 with independent winning/losing/multi-trade/fee tests and full runtime CI.
+
 ## First actual public-data integration - 2026-11-14
 
 - **Baseline**:11 sources LINK_ONLY/NOT_RUN; native REST for the same Kraken window plus an intentionally unsafe Number-mapping control. No private PDAT code used.

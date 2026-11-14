@@ -77,7 +77,7 @@ A common question: a quant project without `.py` files? **Answer: 0 Python files
 
 One goal: **build the most usable AI-native quant repo** 🐋
 
-**59 `quant_*` tools · 6 domains · 358 source tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
+**59 `quant_*` tools · 6 domains · 362 source tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
 
 ## 🤖 For visiting agents
 
@@ -511,6 +511,7 @@ Plugin library (five slots × external repos & MCPs): [plugin/](plugin/)
 
 ## 🤝 Contribute & maintain
 
+- **Visualize data and research:** [12 pinned visualization/reporting references](docs/data-visualization/README.md) and [runnable synthetic charts](demos/data-visualization/README.md). Data QA, rendering and backtest accounting are distinct; the observed closed-trade cash bug is tracked in [#166](https://github.com/pengpengyi92/dsh-quant/issues/166), not hidden by a performance plot.
 - **First live data example:** [CCXT + Kraken](demos/ccxt-public/README.md) feeds 60 closed hourly candles into registered quality/SMA tools; [measured protocol and receipts](docs/data-sources/CCXT-KRAKEN-2026-11-14.md). Optional MIT SDK, no key/payment; personal research only, not a new built-in market provider or redistribution grant.
 - **Interested in data sources / plugins?** Join [Data collaboration #164](https://github.com/pengpengyi92/dsh-quant/discussions/164); see the [source/access review](docs/data-sources/DATA-SOURCING-2026-11-14.md), [LLMQuant flow](docs/data-sources/LLMQUANT.md) and [selected public PDAT abstraction](plugin/data/source-contract/README.md). SDK/MCP code licenses do not grant data rights; PDAT remains proprietary/private.
 - **Looking for a first PR?** Join [Newcomer call #162](https://github.com/pengpengyi92/dsh-quant/discussions/162) and start with [audited, scoped tasks](docs/GOOD_FIRST_ISSUES.md); each includes evidence, file boundaries, counterexamples and acceptance commands.

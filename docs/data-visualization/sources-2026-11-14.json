@@ -1,0 +1,306 @@
+{
+  "title": "Visualization and backtest-reporting references",
+  "reviewed_at": "2026-11-14T16:07:00.651+08:00",
+  "scope": "12 selected primary repositories; not exhaustive or a performance ranking",
+  "records": [
+    {
+      "requested_repo": "matplotlib/matplotlib",
+      "repo": "matplotlib/matplotlib",
+      "role": "static-scientific",
+      "commit": "0e56caa4c321f137bc526c2715453a55181f9cfa",
+      "url": "https://github.com/matplotlib/matplotlib",
+      "archived": false,
+      "readme_url": "https://github.com/matplotlib/matplotlib/blob/0e56caa4c321f137bc526c2715453a55181f9cfa/README.md",
+      "entry": {
+        "path": "lib/matplotlib/pyplot.py",
+        "blob_sha": "763bb3a88e141e6c830eb18c7d2d04089ab17bbe",
+        "url": "https://github.com/matplotlib/matplotlib/blob/0e56caa4c321f137bc526c2715453a55181f9cfa/lib/matplotlib/pyplot.py"
+      },
+      "code_license": null,
+      "license_evidence": null,
+      "notice": null,
+      "integration": "REFERENCE_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "plotly/plotly.py",
+      "repo": "plotly/plotly.py",
+      "role": "interactive-statistical",
+      "commit": "3c1aeba0a90ef6f7a32fd35a48338ef7ee349d93",
+      "url": "https://github.com/plotly/plotly.py",
+      "archived": false,
+      "readme_url": "https://github.com/plotly/plotly.py/blob/3c1aeba0a90ef6f7a32fd35a48338ef7ee349d93/README.md",
+      "entry": {
+        "path": "plotly/express/_chart_types.py",
+        "blob_sha": "f78a257cabbe8037a40dd434793b3e8af3162040",
+        "url": "https://github.com/plotly/plotly.py/blob/3c1aeba0a90ef6f7a32fd35a48338ef7ee349d93/plotly/express/_chart_types.py"
+      },
+      "code_license": "MIT",
+      "license_evidence": {
+        "path": "LICENSE.txt",
+        "blob_sha": "67d1088f1baf15cc3d678c1375231549380dce9f",
+        "url": "https://github.com/plotly/plotly.py/blob/3c1aeba0a90ef6f7a32fd35a48338ef7ee349d93/LICENSE.txt",
+        "github_spdx": "MIT"
+      },
+      "notice": null,
+      "integration": "REFERENCE_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "vega/altair",
+      "repo": "vega/altair",
+      "role": "declarative-grammar",
+      "commit": "9029f1f4c32f3054fae314100361a3563801d562",
+      "url": "https://github.com/vega/altair",
+      "archived": false,
+      "readme_url": "https://github.com/vega/altair/blob/9029f1f4c32f3054fae314100361a3563801d562/README.md",
+      "entry": {
+        "path": "altair/vegalite/v6/api.py",
+        "blob_sha": "a3d680c54faa119e818419c9ce661c30cf8bb4d9",
+        "url": "https://github.com/vega/altair/blob/9029f1f4c32f3054fae314100361a3563801d562/altair/vegalite/v6/api.py"
+      },
+      "code_license": "BSD-3-Clause",
+      "license_evidence": {
+        "path": "LICENSE",
+        "blob_sha": "da22983b8c331c6171ab33d79b936c4c0720810d",
+        "url": "https://github.com/vega/altair/blob/9029f1f4c32f3054fae314100361a3563801d562/LICENSE",
+        "github_spdx": "BSD-3-Clause"
+      },
+      "notice": null,
+      "integration": "REFERENCE_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "holoviz/holoviews",
+      "repo": "holoviz/holoviews",
+      "role": "linked-data-views",
+      "commit": "06928baf481fc61d6ab1b4affe0f991857fd445d",
+      "url": "https://github.com/holoviz/holoviews",
+      "archived": false,
+      "readme_url": "https://github.com/holoviz/holoviews/blob/06928baf481fc61d6ab1b4affe0f991857fd445d/README.md",
+      "entry": {
+        "path": "holoviews/plotting/plot.py",
+        "blob_sha": "3228f18e07eff6dcacb5a92c7acfe9818492e3a3",
+        "url": "https://github.com/holoviz/holoviews/blob/06928baf481fc61d6ab1b4affe0f991857fd445d/holoviews/plotting/plot.py"
+      },
+      "code_license": "BSD-3-Clause",
+      "license_evidence": {
+        "path": "LICENSE.txt",
+        "blob_sha": "1d0e65021c96de2de65d8bac5c5a84e0446f1d14",
+        "url": "https://github.com/holoviz/holoviews/blob/06928baf481fc61d6ab1b4affe0f991857fd445d/LICENSE.txt",
+        "github_spdx": "BSD-3-Clause"
+      },
+      "notice": null,
+      "integration": "REFERENCE_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "holoviz/datashader",
+      "repo": "holoviz/datashader",
+      "role": "large-data-rasterization",
+      "commit": "169e4badd28381abc9100e5c1d724134159fd748",
+      "url": "https://github.com/holoviz/datashader",
+      "archived": false,
+      "readme_url": "https://github.com/holoviz/datashader/blob/169e4badd28381abc9100e5c1d724134159fd748/README.md",
+      "entry": {
+        "path": "datashader/core.py",
+        "blob_sha": "1c84e950a20a7a58b1fb4b2bb57d0f7946608dd2",
+        "url": "https://github.com/holoviz/datashader/blob/169e4badd28381abc9100e5c1d724134159fd748/datashader/core.py"
+      },
+      "code_license": "BSD-3-Clause",
+      "license_evidence": {
+        "path": "LICENSE.txt",
+        "blob_sha": "c8f572e0fc3562c3f92232efd120aea55983ad49",
+        "url": "https://github.com/holoviz/datashader/blob/169e4badd28381abc9100e5c1d724134159fd748/LICENSE.txt",
+        "github_spdx": "BSD-3-Clause"
+      },
+      "notice": null,
+      "integration": "REFERENCE_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "finos/perspective",
+      "repo": "perspective-dev/perspective",
+      "role": "streaming-pivot-ui",
+      "commit": "56038acfb5be1ba29d2a325f5f70567a8fa3d290",
+      "url": "https://github.com/perspective-dev/perspective",
+      "archived": false,
+      "readme_url": "https://github.com/perspective-dev/perspective/blob/56038acfb5be1ba29d2a325f5f70567a8fa3d290/README.md",
+      "entry": {
+        "path": "rust/perspective-viewer/src/rust/lib.rs",
+        "blob_sha": "d9df74db79665e1f824cc4e6ff5b31211618c8de",
+        "url": "https://github.com/perspective-dev/perspective/blob/56038acfb5be1ba29d2a325f5f70567a8fa3d290/rust/perspective-viewer/src/rust/lib.rs"
+      },
+      "code_license": "Apache-2.0",
+      "license_evidence": {
+        "path": "LICENSE.md",
+        "blob_sha": "1ffb266a1a85fcec1a520583683928a242366aaa",
+        "url": "https://github.com/perspective-dev/perspective/blob/56038acfb5be1ba29d2a325f5f70567a8fa3d290/LICENSE.md",
+        "github_spdx": "Apache-2.0"
+      },
+      "notice": null,
+      "integration": "REFERENCE_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "tradingview/lightweight-charts",
+      "repo": "tradingview/lightweight-charts",
+      "role": "financial-canvas",
+      "commit": "aebdfc8f0d85b95e43467ae79516753158d60e61",
+      "url": "https://github.com/tradingview/lightweight-charts",
+      "archived": false,
+      "readme_url": "https://github.com/tradingview/lightweight-charts/blob/aebdfc8f0d85b95e43467ae79516753158d60e61/README.md",
+      "entry": {
+        "path": "src/api/create-chart.ts",
+        "blob_sha": "b1080a9fe43754b7150424080be8bfd117d668db",
+        "url": "https://github.com/tradingview/lightweight-charts/blob/aebdfc8f0d85b95e43467ae79516753158d60e61/src/api/create-chart.ts"
+      },
+      "code_license": "Apache-2.0",
+      "license_evidence": {
+        "path": "LICENSE",
+        "blob_sha": "174e92640b47a53b080f369188c83cced8cde52e",
+        "url": "https://github.com/tradingview/lightweight-charts/blob/aebdfc8f0d85b95e43467ae79516753158d60e61/LICENSE",
+        "github_spdx": "Apache-2.0"
+      },
+      "notice": {
+        "path": "NOTICE",
+        "blob_sha": "37971d0b7b5ec7110b759e73301c8fede45db174",
+        "url": "https://github.com/tradingview/lightweight-charts/blob/aebdfc8f0d85b95e43467ae79516753158d60e61/NOTICE"
+      },
+      "integration": "REFERENCE_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "matplotlib/mplfinance",
+      "repo": "matplotlib/mplfinance",
+      "role": "ohlcv-static",
+      "commit": "493811dac9a203de7ec148fb95504e7d3f400ba5",
+      "url": "https://github.com/matplotlib/mplfinance",
+      "archived": false,
+      "readme_url": "https://github.com/matplotlib/mplfinance/blob/493811dac9a203de7ec148fb95504e7d3f400ba5/README.md",
+      "entry": {
+        "path": "src/mplfinance/plotting.py",
+        "blob_sha": "3f5350e8e6fed1acdf04d6348b18a1ff43284f84",
+        "url": "https://github.com/matplotlib/mplfinance/blob/493811dac9a203de7ec148fb95504e7d3f400ba5/src/mplfinance/plotting.py"
+      },
+      "code_license": null,
+      "license_evidence": {
+        "path": "LICENSE",
+        "blob_sha": "2c1d88e27f829739bb9c32ef20c4ee26484e117d",
+        "url": "https://github.com/matplotlib/mplfinance/blob/493811dac9a203de7ec148fb95504e7d3f400ba5/LICENSE",
+        "github_spdx": "NOASSERTION"
+      },
+      "notice": null,
+      "integration": "REFERENCE_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "bokeh/bokeh",
+      "repo": "bokeh/bokeh",
+      "role": "interactive-browser",
+      "commit": "1ad3b4fda2a6c14ded93644ab7adcab9ab458e1c",
+      "url": "https://github.com/bokeh/bokeh",
+      "archived": false,
+      "readme_url": "https://github.com/bokeh/bokeh/blob/1ad3b4fda2a6c14ded93644ab7adcab9ab458e1c/README.md",
+      "entry": {
+        "path": "src/bokeh/plotting/_figure.py",
+        "blob_sha": "d51e784bcd171fbd42a0c96e24f3c42aebaa99bb",
+        "url": "https://github.com/bokeh/bokeh/blob/1ad3b4fda2a6c14ded93644ab7adcab9ab458e1c/src/bokeh/plotting/_figure.py"
+      },
+      "code_license": "BSD-3-Clause",
+      "license_evidence": {
+        "path": "LICENSE.txt",
+        "blob_sha": "fe8ecacb452c764f91dec61635bd74232d09a487",
+        "url": "https://github.com/bokeh/bokeh/blob/1ad3b4fda2a6c14ded93644ab7adcab9ab458e1c/LICENSE.txt",
+        "github_spdx": "BSD-3-Clause"
+      },
+      "notice": null,
+      "integration": "REFERENCE_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "ranaroussi/quantstats",
+      "repo": "ranaroussi/quantstats",
+      "role": "performance-tearsheet",
+      "commit": "d1a214fb906e76f974f45cdccf923b601c67a756",
+      "url": "https://github.com/ranaroussi/quantstats",
+      "archived": false,
+      "readme_url": "https://github.com/ranaroussi/quantstats/blob/d1a214fb906e76f974f45cdccf923b601c67a756/README.md",
+      "entry": {
+        "path": "quantstats/plots.py",
+        "blob_sha": "3c21ac5da35ddd59d6e5f6e52a9f0798ecb92629",
+        "url": "https://github.com/ranaroussi/quantstats/blob/d1a214fb906e76f974f45cdccf923b601c67a756/quantstats/plots.py"
+      },
+      "code_license": "Apache-2.0",
+      "license_evidence": {
+        "path": "LICENSE.txt",
+        "blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+        "url": "https://github.com/ranaroussi/quantstats/blob/d1a214fb906e76f974f45cdccf923b601c67a756/LICENSE.txt",
+        "github_spdx": "Apache-2.0"
+      },
+      "notice": null,
+      "integration": "REFERENCE_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "stefan-jansen/pyfolio-reloaded",
+      "repo": "stefan-jansen/pyfolio-reloaded",
+      "role": "performance-risk-analysis",
+      "commit": "7015d68772f4d16a9ad7e01d6787ab4f993d7eef",
+      "url": "https://github.com/stefan-jansen/pyfolio-reloaded",
+      "archived": false,
+      "readme_url": "https://github.com/stefan-jansen/pyfolio-reloaded/blob/7015d68772f4d16a9ad7e01d6787ab4f993d7eef/README.md",
+      "entry": {
+        "path": "src/pyfolio/tears.py",
+        "blob_sha": "2dae975d8b64901fa49f6523cbb00a4ee63cf027",
+        "url": "https://github.com/stefan-jansen/pyfolio-reloaded/blob/7015d68772f4d16a9ad7e01d6787ab4f993d7eef/src/pyfolio/tears.py"
+      },
+      "code_license": "Apache-2.0",
+      "license_evidence": {
+        "path": "LICENSE",
+        "blob_sha": "99d6c89b3ff1b8d91a14d3167df1ed45dc0268f5",
+        "url": "https://github.com/stefan-jansen/pyfolio-reloaded/blob/7015d68772f4d16a9ad7e01d6787ab4f993d7eef/LICENSE",
+        "github_spdx": "Apache-2.0"
+      },
+      "notice": null,
+      "integration": "REFERENCE_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "kernc/backtesting.py",
+      "repo": "kernc/backtesting.py",
+      "role": "backtest-engine-and-plot",
+      "commit": "ca2e2611621e472542ba90f7243a1fa06a7d7108",
+      "url": "https://github.com/kernc/backtesting.py",
+      "archived": false,
+      "readme_url": "https://github.com/kernc/backtesting.py/blob/ca2e2611621e472542ba90f7243a1fa06a7d7108/README.md",
+      "entry": {
+        "path": "backtesting/backtesting.py",
+        "blob_sha": "d356b21140e55b649104c01e0fe9afaa71dd2e1b",
+        "url": "https://github.com/kernc/backtesting.py/blob/ca2e2611621e472542ba90f7243a1fa06a7d7108/backtesting/backtesting.py"
+      },
+      "code_license": "AGPL-3.0",
+      "license_evidence": {
+        "path": "LICENSE.md",
+        "blob_sha": "cba6f6a15a4cc3ba212e9e9059f7243e2d171090",
+        "url": "https://github.com/kernc/backtesting.py/blob/ca2e2611621e472542ba90f7243a1fa06a7d7108/LICENSE.md",
+        "github_spdx": "AGPL-3.0"
+      },
+      "notice": null,
+      "integration": "REFERENCE_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    }
+  ]
+}
