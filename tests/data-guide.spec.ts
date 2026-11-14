@@ -114,3 +114,34 @@ test('SiftingIO：目录收录不提升为官方来源或已测质量', () => {
   assert.deepEqual(channelReliability(['siftingio']), channelReliability(['unreviewed-provider']).map(x => ({ ...x, channel: 'siftingio' })))
   assert.ok(channelReliability(['siftingio'])[0]!.risks.some(x => x.includes('需实测')))
 })
+
+test('LLMQuant Data: listed MCP client is not an anonymous free native DSH plugin', () => {
+  const c = findChannel('data-mcp')!
+  assert.equal(c.category, 'api-platform')
+  assert.match(c.displayName, /LLMQuant/)
+  assert.match(c.cost, /MIT/)
+  assert.match(c.cost, /账号/)
+  assert.match(c.cost, /credit/i)
+  assert.match(c.notes!, /2026-11-14/)
+  assert.match(c.notes!, /不授予.*数据/)
+  assert.ok(c.tutorialUrls.includes('https://llmquantdata.com/pricing'))
+})
+
+test('LLMQuant Data: missing credentials block readiness; local credential flag is not API validation', () => {
+  const missing = accessReadiness('data-mcp')
+  assert.equal(missing.ready, false)
+  assert.ok(missing.blockers.some(x => /凭据/.test(x)))
+  assert.equal(accessReadiness('DATA-MCP', true).ready, true)
+  const guide = channelAccessGuide('data-mcp')
+  assert.ok(guide.prerequisites.some(x => /Node.js.*20/.test(x)))
+  assert.ok(guide.prerequisites.some(x => /账号/.test(x)))
+  assert.match(guide.example, /@llmquant\/data-mcp@0\.7\.1/)
+  assert.match(guide.fallback, /不代表.*实测/)
+  assert.match(guide.fallback, /403/)
+})
+
+test('LLMQuant Data: listing/credentials do not upgrade data reliability or official-source status', () => {
+  assert.deepEqual(channelReliability(['data-mcp']),
+    channelReliability(['unreviewed-provider']).map(x => ({ ...x, channel: 'data-mcp' })))
+  assert.ok(!adviseChannels({ dataType: '行情', purpose: 'official' }).some(x => x.name === 'data-mcp'))
+})

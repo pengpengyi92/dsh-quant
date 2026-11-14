@@ -1,0 +1,225 @@
+{
+  "title": "Bounded data-source and infrastructure repository discovery",
+  "retrieved_at_utc": "2026-11-14T07:16:00.785Z",
+  "retrieved_at_shanghai": "2026-11-14T15:16:00.785+08:00",
+  "scope": "ELEVEN_KNOWN_REPOSITORIES_AFTER_PRIMARY_SOURCE_DISCOVERY",
+  "exhaustive_internet_search": false,
+  "records": [
+    {
+      "requested_repo": "LLMQuant/data-mcp",
+      "repo": "LLMQuant/data-mcp",
+      "role": "mcp-client",
+      "url": "https://github.com/LLMQuant/data-mcp",
+      "commit": "3ecdeafcd613b2d6634cdd8f3bba932a0cb468a4",
+      "commit_url": "https://github.com/LLMQuant/data-mcp/commit/3ecdeafcd613b2d6634cdd8f3bba932a0cb468a4",
+      "readme_url": "https://github.com/LLMQuant/data-mcp/blob/3ecdeafcd613b2d6634cdd8f3bba932a0cb468a4/README.md",
+      "repository_license_observation": "MIT",
+      "code_license": "MIT",
+      "license_evidence": {
+        "path": "LICENSE",
+        "blob_sha": "3dbcec260bf7e10256bdcb00e2d4d6e1ce4915e0",
+        "url": "https://github.com/LLMQuant/data-mcp/blob/3ecdeafcd613b2d6634cdd8f3bba932a0cb468a4/LICENSE"
+      },
+      "archived": false,
+      "integration": "LINK_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "akfamily/akshare",
+      "repo": "akfamily/akshare",
+      "role": "data-library",
+      "url": "https://github.com/akfamily/akshare",
+      "commit": "ef024d20994db9011e21e6839ee6222e547b03c4",
+      "commit_url": "https://github.com/akfamily/akshare/commit/ef024d20994db9011e21e6839ee6222e547b03c4",
+      "readme_url": "https://github.com/akfamily/akshare/blob/ef024d20994db9011e21e6839ee6222e547b03c4/README.md",
+      "repository_license_observation": "MIT",
+      "code_license": "MIT",
+      "license_evidence": {
+        "path": "LICENSE",
+        "blob_sha": "2cf236b6bb27d23fa6031b8acd20e61b7152083b",
+        "url": "https://github.com/akfamily/akshare/blob/ef024d20994db9011e21e6839ee6222e547b03c4/LICENSE"
+      },
+      "archived": false,
+      "integration": "LINK_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "akfamily/aktools",
+      "repo": "akfamily/aktools",
+      "role": "http-mcp-bridge",
+      "url": "https://github.com/akfamily/aktools",
+      "commit": "168c053e3b1c99531d23c46bbd8d59d420a091ba",
+      "commit_url": "https://github.com/akfamily/aktools/commit/168c053e3b1c99531d23c46bbd8d59d420a091ba",
+      "readme_url": "https://github.com/akfamily/aktools/blob/168c053e3b1c99531d23c46bbd8d59d420a091ba/README.md",
+      "repository_license_observation": "MIT",
+      "code_license": "MIT",
+      "license_evidence": {
+        "path": "LICENSE",
+        "blob_sha": "c5e1052696c2fb38c9eaa88eb43bcc8ef07539bd",
+        "url": "https://github.com/akfamily/aktools/blob/168c053e3b1c99531d23c46bbd8d59d420a091ba/LICENSE"
+      },
+      "archived": false,
+      "integration": "LINK_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "OpenBB-finance/OpenBB",
+      "repo": "openbq-org/OpenBB",
+      "role": "integration-platform",
+      "url": "https://github.com/openbq-org/OpenBB",
+      "commit": "e43353a82815ff9ba56ad1b7ad47c32729dcf314",
+      "commit_url": "https://github.com/openbq-org/OpenBB/commit/e43353a82815ff9ba56ad1b7ad47c32729dcf314",
+      "readme_url": "https://github.com/openbq-org/OpenBB/blob/e43353a82815ff9ba56ad1b7ad47c32729dcf314/README.md",
+      "repository_license_observation": "NOASSERTION",
+      "code_license": null,
+      "license_evidence": null,
+      "archived": false,
+      "integration": "LINK_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "ccxt/ccxt",
+      "repo": "ccxt/ccxt",
+      "role": "exchange-library",
+      "url": "https://github.com/ccxt/ccxt",
+      "commit": "3eef3f52e3310f5a3b74eba8806d6d7f3ad43005",
+      "commit_url": "https://github.com/ccxt/ccxt/commit/3eef3f52e3310f5a3b74eba8806d6d7f3ad43005",
+      "readme_url": "https://github.com/ccxt/ccxt/blob/3eef3f52e3310f5a3b74eba8806d6d7f3ad43005/README.md",
+      "repository_license_observation": "MIT",
+      "code_license": "MIT",
+      "license_evidence": {
+        "path": "LICENSE.txt",
+        "blob_sha": "4cc1253c79b58fa72a3d4626d95aa7fff70f6f84",
+        "url": "https://github.com/ccxt/ccxt/blob/3eef3f52e3310f5a3b74eba8806d6d7f3ad43005/LICENSE.txt"
+      },
+      "archived": false,
+      "integration": "LINK_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "waditu/tushare",
+      "repo": "waditu/tushare",
+      "role": "data-sdk",
+      "url": "https://github.com/waditu/tushare",
+      "commit": "093856995af0811d3ebbe8c179b8febf4ae706f0",
+      "commit_url": "https://github.com/waditu/tushare/commit/093856995af0811d3ebbe8c179b8febf4ae706f0",
+      "readme_url": "https://github.com/waditu/tushare/blob/093856995af0811d3ebbe8c179b8febf4ae706f0/README.md",
+      "repository_license_observation": "BSD-3-Clause",
+      "code_license": "BSD-3-Clause",
+      "license_evidence": {
+        "path": "LICENSE",
+        "blob_sha": "87156732843e2788cf2864abf6dd8ba676ea0660",
+        "url": "https://github.com/waditu/tushare/blob/093856995af0811d3ebbe8c179b8febf4ae706f0/LICENSE"
+      },
+      "archived": false,
+      "integration": "LINK_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "ranaroussi/yfinance",
+      "repo": "ranaroussi/yfinance",
+      "role": "unofficial-data-library",
+      "url": "https://github.com/ranaroussi/yfinance",
+      "commit": "2492a853aee975b4f39f230ad763298f039e37ae",
+      "commit_url": "https://github.com/ranaroussi/yfinance/commit/2492a853aee975b4f39f230ad763298f039e37ae",
+      "readme_url": "https://github.com/ranaroussi/yfinance/blob/2492a853aee975b4f39f230ad763298f039e37ae/README.md",
+      "repository_license_observation": "Apache-2.0",
+      "code_license": "Apache-2.0",
+      "license_evidence": {
+        "path": "LICENSE.txt",
+        "blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+        "url": "https://github.com/ranaroussi/yfinance/blob/2492a853aee975b4f39f230ad763298f039e37ae/LICENSE.txt"
+      },
+      "archived": false,
+      "integration": "LINK_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "mortada/fredapi",
+      "repo": "mortada/fredapi",
+      "role": "macro-vintage-client",
+      "url": "https://github.com/mortada/fredapi",
+      "commit": "d0a0ba3001ebbbceafdcbdd3eb23828f0537cdff",
+      "commit_url": "https://github.com/mortada/fredapi/commit/d0a0ba3001ebbbceafdcbdd3eb23828f0537cdff",
+      "readme_url": "https://github.com/mortada/fredapi/blob/d0a0ba3001ebbbceafdcbdd3eb23828f0537cdff/README.md",
+      "repository_license_observation": "Apache-2.0",
+      "code_license": "Apache-2.0",
+      "license_evidence": {
+        "path": "LICENSE",
+        "blob_sha": "5c304d1a4a7b439f767990bf1360d3283e45d0ee",
+        "url": "https://github.com/mortada/fredapi/blob/d0a0ba3001ebbbceafdcbdd3eb23828f0537cdff/LICENSE"
+      },
+      "archived": false,
+      "integration": "LINK_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "dgunning/edgartools",
+      "repo": "dgunning/edgartools",
+      "role": "filings-library",
+      "url": "https://github.com/dgunning/edgartools",
+      "commit": "194f993c1ef2394d825af3e79125f010d1f060a9",
+      "commit_url": "https://github.com/dgunning/edgartools/commit/194f993c1ef2394d825af3e79125f010d1f060a9",
+      "readme_url": "https://github.com/dgunning/edgartools/blob/194f993c1ef2394d825af3e79125f010d1f060a9/README.md",
+      "repository_license_observation": "MIT",
+      "code_license": "MIT",
+      "license_evidence": {
+        "path": "LICENSE.txt",
+        "blob_sha": "dc9079e0ebc14cc9432b5070a8a23267a399667e",
+        "url": "https://github.com/dgunning/edgartools/blob/194f993c1ef2394d825af3e79125f010d1f060a9/LICENSE.txt"
+      },
+      "archived": false,
+      "integration": "LINK_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "duckdb/duckdb",
+      "repo": "duckdb/duckdb",
+      "role": "storage-query-engine",
+      "url": "https://github.com/duckdb/duckdb",
+      "commit": "b678afa97b529d5856731e115e31542a72d2d978",
+      "commit_url": "https://github.com/duckdb/duckdb/commit/b678afa97b529d5856731e115e31542a72d2d978",
+      "readme_url": "https://github.com/duckdb/duckdb/blob/b678afa97b529d5856731e115e31542a72d2d978/README.md",
+      "repository_license_observation": "MIT",
+      "code_license": "MIT",
+      "license_evidence": {
+        "path": "LICENSE",
+        "blob_sha": "2719c9a23d2a37c1dfb7402e79f03bd615701e53",
+        "url": "https://github.com/duckdb/duckdb/blob/b678afa97b529d5856731e115e31542a72d2d978/LICENSE"
+      },
+      "archived": false,
+      "integration": "LINK_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    },
+    {
+      "requested_repo": "dlt-hub/dlt",
+      "repo": "dlt-hub/dlt",
+      "role": "ingestion-framework",
+      "url": "https://github.com/dlt-hub/dlt",
+      "commit": "9aeab3f73290bc4c000dac662a1dd1dacaf540cc",
+      "commit_url": "https://github.com/dlt-hub/dlt/commit/9aeab3f73290bc4c000dac662a1dd1dacaf540cc",
+      "readme_url": "https://github.com/dlt-hub/dlt/blob/9aeab3f73290bc4c000dac662a1dd1dacaf540cc/README.md",
+      "repository_license_observation": "Apache-2.0",
+      "code_license": "Apache-2.0",
+      "license_evidence": {
+        "path": "LICENSE.txt",
+        "blob_sha": "e386e8c8b30d45577906c70e37d1e896a1af197c",
+        "url": "https://github.com/dlt-hub/dlt/blob/9aeab3f73290bc4c000dac662a1dd1dacaf540cc/LICENSE.txt"
+      },
+      "archived": false,
+      "integration": "LINK_ONLY",
+      "runtime": "NOT_RUN",
+      "data_redistribution": "NOT_GRANTED_BY_CODE_LICENSE"
+    }
+  ]
+}

@@ -20,7 +20,7 @@ dsh 生态里与量化/金融数据相关的项目目录（awesome 风格：一�
 | [pengpengyi92/dsh-quant-ui](https://github.com/pengpengyi92/dsh-quant-ui) | Web 工作台 | Jane Street 风 K线/净值/基金模拟 | 活跃（我们）|
 | [v587d/capital-generation](https://github.com/v587d/capital-generation) | A股数据 MCP | 11 个 fin_data__* 金融数据工具 | 收录于渠道库 |
 | [Realyujie/dsh-us-stocks](https://github.com/Realyujie/dsh-us-stocks) | 美股数据 | 行情/财报/一致预期 | 收录于渠道库 |
-| [LLMQuant/data-mcp](https://github.com/LLMQuant/data-mcp) | 数据 MCP | agent-native 金融数据先行者 | 收录于渠道库 |
+| [LLMQuant/data-mcp](https://github.com/LLMQuant/data-mcp) | 数据 MCP（非原生 Cordis 插件） | 账号/凭据/credit 模式；MIT 客户端不授予后台数据权利 | 已收录；[2026-11-14 接入复核](data-sources/LLMQUANT.md) |
 | [zhang787jun/dsh-finance](https://github.com/zhang787jun/dsh-finance) | 研究工作流 | 金融研究流程 + 组合风险 | 观察 |
 | [dmsobtl/dsh-quant-workbench](https://github.com/dmsobtl/dsh-quant-workbench) | 研究工作台 | A股/美股/加密一站式分析 | 观察 |
 | [AllenCX/dsh-quant-workspace](https://github.com/AllenCX/dsh-quant-workspace) | 引擎桥接 | 桥接本地低频量化引擎 | 观察 |

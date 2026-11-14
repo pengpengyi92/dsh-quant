@@ -1,0 +1,25 @@
+{
+  "reviewed_on": "2026-11-14",
+  "automatic_refresh": false,
+  "openbb": {
+    "repo": "openbq-org/OpenBB",
+    "commit": "e43353a82815ff9ba56ad1b7ad47c32729dcf314",
+    "license_path": "LICENSE",
+    "blob_sha": "8e8cca33304520693be306cad3b55cba0c358676",
+    "github_detected_license": "NOASSERTION",
+    "manual_text_observation": "Pinned root license header explicitly states Apache License 2.0 for all repository files",
+    "scope": "PINNED_HEADER_READ_NOT_LEGAL_OR_DATA_RIGHTS_APPROVAL",
+    "url": "https://github.com/openbq-org/OpenBB/blob/e43353a82815ff9ba56ad1b7ad47c32729dcf314/LICENSE"
+  },
+  "llmquant_access": {
+    "upstream_commit": "3ecdeafcd613b2d6634cdd8f3bba932a0cb468a4",
+    "npm_version": "0.7.1",
+    "node_engine": ">=20",
+    "pricing_page_live_lookup": "HTTP_403_IN_WEB_READER_AND_BROWSER",
+    "docs_live_lookup": "UNAVAILABLE_TO_WEB_READER",
+    "cash_prices": "UNVERIFIED",
+    "account_registration": "NOT_RUN",
+    "authenticated_data_api": "NOT_RUN",
+    "payment": "NOT_RUN"
+  }
+}

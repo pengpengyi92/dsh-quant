@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "origin": "New public fixture; no private PDAT records or vendor data copied",
+  "source_id": "synthetic-demo",
+  "dataset_version": "demo.v1",
+  "unit": "invented-index-points",
+  "observations": [
+    {"revision": 1, "symbol": "DEMO", "event_at": "2026-01-05T00:00:00Z", "published_at": "2026-01-06T09:00:00Z", "observed_at": "2026-01-06T09:01:00Z", "value": 10},
+    {"revision": 2, "symbol": "DEMO", "event_at": "2026-01-05T00:00:00Z", "published_at": "2026-01-08T09:00:00Z", "observed_at": "2026-01-09T09:01:00Z", "value": 11}
+  ],
+  "cutoffs": [
+    {"as_of": "2026-01-05T12:00:00Z", "expected_revision": null},
+    {"as_of": "2026-01-07T12:00:00Z", "expected_revision": 1},
+    {"as_of": "2026-01-08T12:00:00Z", "expected_revision": 1},
+    {"as_of": "2026-01-09T12:00:00Z", "expected_revision": 2}
+  ],
+  "rights_cases": [
+    {"status": "UNKNOWN", "explicit_external_permission": false, "may_redistribute": false},
+    {"status": "RESEARCH_ONLY", "explicit_external_permission": false, "may_redistribute": false},
+    {"status": "SYNTHETIC_OWNED", "explicit_external_permission": false, "may_redistribute": false},
+    {"status": "SYNTHETIC_OWNED", "explicit_external_permission": true, "may_redistribute": true}
+  ]
+}

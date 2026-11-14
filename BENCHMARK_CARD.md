@@ -1,5 +1,14 @@
 # dsh-quant release verification
 
+## Data access and public-reference review - 2026-11-14
+
+- **Baseline**: existing16-channel guide already lists LLMQuant but labels it free/native-plugin and marks missing credentials ready. Private PDAT contains useful governance patterns but cannot be mirrored publicly.
+- **Change**: correct only the existing channel/access instructions; publish a bounded11-repo source map, separate automatic/manual license evidence, and independent generic PDAT-origin contract/synthetic vintage fixture. Announce scoped tasks and data collaboration without relaxing review.
+- **Measure**: primary source/npm metadata, canonical commit/license path+blob checks, PRIVATE visibility verification, synthetic fixed cases; old guide targeted17 tests yields15 pass/2 fail, corrected17/17. Combined focused20/20 and actual full343/343 tests PASS; types and59 registrations/56 deterministic calls PASS.
+- **Result**: missing-key guide now blocks; no invented cash price, anonymous-free promise or data-rights upgrade. Eleven sources LINK_ONLY/NOT_RUN; generic fixture demonstrates both publication/observation cutoffs and unknown-rights denial. Three live APIs and provider authenticated access remain UNVERIFIED.
+- **Trade-off**: source/rights discovery and configuration checks cost time but do not prove vendor availability, completeness, commercial rights or production readiness. No upstream code installed, no private code/data exported, no paid calls. Live latency/cost/coverage/PIT accuracy and contributor uptake are UNMEASURED.
+- **Next Action**: pass current-head CI and publish the report-linked data Discussion; review real community submissions through existing Issue2, then choose a small explicitly authorized connector experiment before adding runtime integrations.
+
 ## Newcomer task readiness audit - 2026-11-14
 
 - **Baseline**: 20 open/unassigned issues, 8 good-first labels, no open PRs; 7 labels describe broad intakes rather than one accepted scope. Five indicator-only smoke cases; parser missing values coerce to 0; three newcomer docs stale.

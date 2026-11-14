@@ -77,7 +77,7 @@ A common question: a quant project without `.py` files? **Answer: 0 Python files
 
 One goal: **build the most usable AI-native quant repo** 🐋
 
-**59 `quant_*` tools · 6 domains · 337 source tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
+**59 `quant_*` tools · 6 domains · 343 source tests · zero runtime deps**. Full positioning: pinned [Issue #9](https://github.com/pengpengyi92/dsh-quant/issues/9).
 
 ## 🤖 For visiting agents
 
@@ -511,6 +511,7 @@ Plugin library (five slots × external repos & MCPs): [plugin/](plugin/)
 
 ## 🤝 Contribute & maintain
 
+- **Interested in data sources / plugins?** See the [source/access review](docs/data-sources/DATA-SOURCING-2026-11-14.md), [LLMQuant flow](docs/data-sources/LLMQUANT.md) and [selected public PDAT abstraction](plugin/data/source-contract/README.md). SDK/MCP code licenses do not grant data rights; PDAT remains proprietary/private.
 - **Looking for a first PR?** Start with [audited, scoped tasks](docs/GOOD_FIRST_ISSUES.md); each includes evidence, file boundaries, counterexamples and acceptance commands.
 - **Want to add a plugin / data source / learning material?** → [Issue #109（插件征集）](https://github.com/pengpengyi92/dsh-quant/issues/109) — data / risk / execution plugins, ML-DL & alpha learning resources all welcome
 - **Filing a bug / feature / help-wanted issue?** → [ISSUE_GUIDE.md](ISSUE_GUIDE.md) (agent-friendly rules)
