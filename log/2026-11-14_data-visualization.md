@@ -91,3 +91,30 @@ in its fresh isolated worktree; one module import failed. Re-run with temporary
 PYTHONPATH=src gave68/68 PASS, synthetic example and publication checker PASS.
 P-CSDSAI existing+new catalog tests14/14 PASS. No app or mathematical core changed.
 Remote CI, commit/push and publication receipts follow after actual delivery.
+
+## Remote delivery — 2026-11-14T16:24+08:00
+
+- dsh-quant source724b90f208eed29990b1ceb7e6d2655e263bc94b pushed;
+  [PR167](https://github.com/pengpengyi92/dsh-quant/pull/167) merged at16:22:40+08
+  as95af67751b8b4903ec606da6eb398c71d6cb3c3a after all7 jobs in
+  [CI43575425913](https://github.com/pengpengyi92/dsh-quant/actions/runs/43575425913)
+  succeeded. Normal matched-head merge, no admin bypass/self-approval or invented
+  independent human review. Tool count/dependencies/npm release unchanged.
+- P-Curve reference source2f605fb03edf5f33139c81cd77b3e0eef17ddfa7;
+  [PR9](https://github.com/pengpengyi92/p-curve/pull/9) merged as
+  f690436c5029e8ae225dea655384460e4e8c394b after six platforms in
+  [CI43575453374](https://github.com/pengpengyi92/p-curve/actions/runs/43575453374)
+  passed installed-package tests, synthetic example and publication checker.
+- P-CSDSAI source53213752f9af448ecc8e386e9d29a51c6da38df9 pushed to
+  [PR3](https://github.com/pengpengyi92/p-csdsai/pull/3).14 catalog checks pass,
+  but app quality [43575438624](https://github.com/pengpengyi92/p-csdsai/actions/runs/43575438624)
+  fails the existing npm audit gate:19 affected entries,11moderate/8high.
+  Current main6fe6ae2 also fails that audit step (run43575364796). This PR
+  does not change package/lock/app code from its base. It remains OPEN, not
+  merged by disabling security checks; dependency remediation is separate work.
+- No new group, paid/model/market requests or hosting deployment. #166 remains
+  OPEN/UNFIXED; the synthetic fixture does not certify the MA backtester.
+
+Final receipt updates are documentation-only; current remote identities and CI
+results are also recorded in Git history/linked PRs. Thanks for continued
+source, visualization and reproducibility contributions; review standards hold.

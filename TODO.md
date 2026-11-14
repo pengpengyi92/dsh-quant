@@ -6,7 +6,7 @@
 - [x] P1: Review12 visualization/reporting sources at fixed commits; preserve unknown SPDX/manual observations, NOTICE and AGPL boundaries; no upstream runtime certification.
 - [x] P1: Create deterministic80-bar synthetic SVG/ChartData example, scripted fixture accounting and null-gap/round-trip tests; no Kraken/private data in public plots.
 - [ ] P0: Fix confirmed closed-trade cash accounting #166 in a separately scoped PR before trusting MA-engine performance reports; current bug is NOT fixed by the catalog/example.
-- [ ] P1: Finish full tests, seven-job CI and push/merge the visualization docs/example/log; retain existing newcomer tasks.
+- [x] P1: Full362 source+4 reference checks and seven-job CI PASS; source/docs/log PR167 merged95af677. Existing newcomer tasks retained.
 
 ## First live data integration - 2026-11-14
 
