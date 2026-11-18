@@ -28,7 +28,10 @@ This inventory is not a proof of safety, integrity of dependencies, or full sour
 
 The wider repository includes research backends. The demo
 [loads and executes Python factor files](https://github.com/GSX-Eis/jq-factor-lab/blob/7e24b714e0b82c7f786b16fd27ad836b08ac9212/backtest_and_analysis/factor_loader.py#L26-L49)
-specified by its configuration; it is not a sandbox. Other paths include pickle-backed caching
+specified by its configuration; it is not a sandbox. The shared factor base can
+[read host data bindings](https://github.com/GSX-Eis/jq-factor-lab/blob/7e24b714e0b82c7f786b16fd27ad836b08ac9212/utils/factor_base.py#L209),
+so the synthetic example is not a guarantee of isolation in an arbitrary environment.
+Other paths include pickle-backed caching
 and JoinQuant integration; [dependencies](https://github.com/GSX-Eis/jq-factor-lab/blob/7e24b714e0b82c7f786b16fd27ad836b08ac9212/pyproject.toml)
 are not fully locked. Do not auto-install or auto-run this entry, load untrusted factors,
 configs or caches, or supply credentials or real data. Nothing is vendored or configured by

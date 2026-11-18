@@ -24,6 +24,8 @@
 - **Next Action:** pass project checks and review before merging. Review the
   separate [parser/docs PR #168](https://github.com/pengpengyi92/dsh-quant/pull/168)
   against [#159](https://github.com/pengpengyi92/dsh-quant/issues/159) /
-  [#160](https://github.com/pengpengyi92/dsh-quant/issues/160) independently.
+  [#160](https://github.com/pengpengyi92/dsh-quant/issues/160) independently;
+  at intake its [CI run](https://github.com/pengpengyi92/dsh-quant/actions/runs/43604999894)
+  was `action_required` with no executed jobs.
   [#166](https://github.com/pengpengyi92/dsh-quant/issues/166) remains an open
   backtest accounting issue; not addressed here.
