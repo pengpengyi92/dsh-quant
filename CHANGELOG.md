@@ -6,6 +6,13 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- List JQ Factor Lab as an external, link-only factor/IC teaching reference
+  at a pinned commit. Thanks **@ft1148137** for the
+  [submission](https://github.com/pengpengyi92/dsh-quant/issues/109#issuecomment-6895809764).
+  Maintainer status: `NOT_RUN`; no dependency, plugin registration or runtime change.
+
 ## [0.92.0] - 2026-11-11
 
 FICC community and resource-directory milestone; additive minor release, no
