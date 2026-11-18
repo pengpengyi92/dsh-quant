@@ -31,6 +31,7 @@ dsh 生态里与量化/金融数据相关的项目目录（awesome 风格：一�
 
 ## 学习对象（非 dsh 插件，方法论迁移）
 
+- [JQ Factor Lab（固定版本）](https://github.com/GSX-Eis/jq-factor-lab/tree/7e24b714e0b82c7f786b16fd27ad836b08ac9212)：用合成日线 CSV 学习单因子、前瞻收益口径、IC 和分位结果。Apache-2.0；外部教学链接，非 dsh 插件，维护方 `NOT_RUN`。[收录审阅和使用边界](alpha-research/JQ_FACTOR_LAB.md)。
 - [yrousset/rtg](https://github.com/yrousset/rtg)：Optiver Ready Trader Go 的 Avellaneda-Stoikov 做市实现
 - [AchilleasDim/market-making-algorithm-optiver](https://github.com/AchilleasDim/market-making-algorithm-optiver)：期权/期货做市 + delta 对冲 + 库存管理
 - backtrader / vectorbt / hummingbot：执行与撮合抽象（PET 域学习清单）
