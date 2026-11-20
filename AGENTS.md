@@ -82,6 +82,6 @@ docs/ONBOARDING.md · docs/ML_GUIDE.md · docs/QUANT_ECOSYSTEM.md
 plugin/         five-slot external plugin library + case study + roadmap
 quant-history/  firm archives + four research reports
 mcp/tools.json  model-visible tool schemas (`npm run gen:tools` regenerates)
-tests/          hand-computed baselines (338 unit cases incl. 5 Loader)
+tests/          hand-computed baselines (363 unit cases incl. 5 Loader; measured 2026-11-20)
 skill/          quant-research / quant-release-cycle loadable skills
 ```

@@ -20,7 +20,7 @@ then run `npm run test:ficc`. Directory references do not require a new tool.
 npm install          # real npm deps (no workspace symlinks needed)
 npm run build        # tsc → lib/
 npm run typecheck:market-tests # Node-only market test types, no DOM globals
-npm test             # 338 unit cases (including 5 real-Loader composition cases)
+npm test             # 363 unit cases incl. 5 real-Loader cases (measured 2026-11-20)
 npm run test:verify  # live integration (public market/GitHub/npm APIs — needs network)
 npm run gen:tools    # regenerate mcp/tools.json after tool changes
 ```
