@@ -73,6 +73,9 @@ export function parseKlines(rows: readonly (readonly unknown[])[]): Candle[] {
   return rows.map((row, i) => {
     if (row.length < 6) throw new Error(`klines row ${i}: expected >= 6 fields, got ${row.length}`)
     const num = (v: unknown, field: string): number => {
+      if (v === null || v === undefined || (typeof v === 'string' && v.trim() === '')) {
+        throw new Error(`klines row ${i}: ${field} is missing`)
+      }
       const n = Number(v)
       if (!Number.isFinite(n)) throw new Error(`klines row ${i}: ${field} is not a finite number (${String(v)})`)
       return n

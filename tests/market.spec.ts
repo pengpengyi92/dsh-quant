@@ -36,6 +36,25 @@ test('parseKlines: 非法行抛错', () => {
   assert.throws(() => parseKlines([[Number.NaN, '2', '3', '4', '5', '6']]), /openTime is not a finite number/)
 })
 
+test('parseKlines: 缺失数值字段抛错而非伪造 0 (#159)', () => {
+  assert.throws(
+    () => parseKlines([[1700000000000, null, '2', '0.5', '1.5', '10']]),
+    /klines row 0: open is missing/,
+  )
+  assert.throws(
+    () => parseKlines([[1700000000000, '1', '2', '0.5', '1.5', '10'], [1700000060000, '1', '', '0.5', '1.5', '10']]),
+    /klines row 1: high is missing/,
+  )
+  assert.throws(
+    () => parseKlines([[1700000000000, '   ', '2', '0.5', '1.5', '10']]),
+    /klines row 0: open is missing/,
+  )
+  assert.throws(
+    () => parseKlines([[1700000000000, '1', '2', '0.5', '1.5', ' \t ']]),
+    /klines row 0: volume is missing/,
+  )
+})
+
 test('INTERVALS: 覆盖主流周期且为 Binance 枚举', () => {
   for (const i of ['1m', '1h', '4h', '1d', '1w', '1M']) assert.ok(INTERVALS.includes(i as never))
 })
